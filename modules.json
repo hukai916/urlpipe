@@ -5,17 +5,21 @@
         "nf-core/modules": {
             "git_url": "https://github.com/nf-core/modules.git",
             "modules": {
+                "cat/fastq": {
+                    "branch": "master",
+                    "git_sha": "b034029b59b1198075da8019074bc02051a6100e"
+                },
                 "custom/dumpsoftwareversions": {
-                    "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d",
-                    "branch": "master"
+                    "branch": "master",
+                    "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
                 },
                 "fastqc": {
-                    "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d",
-                    "branch": "master"
+                    "branch": "master",
+                    "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
                 },
                 "multiqc": {
-                    "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d",
-                    "branch": "master"
+                    "branch": "master",
+                    "git_sha": "e745e167c1020928ef20ea1397b6b4d230681b4d"
                 }
             }
         }

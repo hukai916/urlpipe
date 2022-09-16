@@ -28,7 +28,7 @@ include { URLPIPE } from './workflows/urlpipe'
 //
 // WORKFLOW: Run main test/urlpipe analysis pipeline
 //
-workflow TEST_URLPIPE {
+workflow MAIN_URLPIPE {
     URLPIPE ()
 }
 
@@ -43,7 +43,7 @@ workflow TEST_URLPIPE {
 // See: https://github.com/nf-core/rnaseq/issues/619
 //
 workflow {
-    TEST_URLPIPE ()
+    MAIN_URLPIPE ()
 }
 
 /*
