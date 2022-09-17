@@ -19,7 +19,7 @@ process CAT_STAT {
 
     """
     mkdir -p 1a_map_locus/stat
-    (echo $header && cat *.tsv) > 1a_map_locus/stat/all_sample.tsv
+    (echo $header && cat *.tsv | sort -n) > 1a_map_locus/stat/all_sample.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

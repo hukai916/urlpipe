@@ -125,7 +125,7 @@ workflow URLPIPE {
     //
     CAT_STAT (
       MAP_LOCUS.out.stat.collect(),
-      "sample_name	htt_locus	misprimed_locus	problem_reads" // header to be added
+      "sample_name	locus	misprimed	problem" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT.out.versions)
 
