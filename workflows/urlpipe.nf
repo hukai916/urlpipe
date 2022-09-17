@@ -51,6 +51,7 @@ include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
 include { CUTADAPT                    } from '../modules/nf-core/modules/cutadapt/main'
 include { FASTQC                      } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
+include { CAT_STAT                    } from '../modules/local/cat_stat'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -119,7 +120,17 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(MAP_LOCUS.out.versions)
 
-    // MAP_LOCUS.out.
+    //
+    // MODULE: combine MAP_LOCUS.out.stat into one file
+    //
+    CAT_STAT (
+      MAP_LOCUS.out.stat.collect(),
+      "sample_name	htt_locus	misprimed_locus	problem_reads" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT.out.versions)
+
+
+    // MAP_LOCUS.out.stat.collect()
     //
     // MODULE: umi distribution statistics
     //
