@@ -9,16 +9,14 @@ process CAT_STAT {
     val header
 
     output:
-    path "1a_map_locus/stat/all.tsv",                             emit: stat
-    path  "versions.yml",                                       emit: versions
+    path "1a_map_locus/stat/all_sample.tsv",      emit: stat
+    path  "versions.yml",                         emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
     def args = task.ext.args ?: ''
-    // Add soft-links to original FastQs for consistent naming in pipeline
-    def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
     mkdir -p 1a_map_locus/stat
