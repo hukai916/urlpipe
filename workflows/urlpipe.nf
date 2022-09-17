@@ -46,7 +46,12 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 //
 // MODULE: Installed directly from nf-core/modules
 //
+include { CAT_FASTQ                   } from '../modules/nf-core/modules/cat/fastq/main'
+include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
+include { CUTADAPT                    } from '../modules/nf-core/modules/cutadapt/main'
 include { FASTQC                      } from '../modules/nf-core/modules/fastqc/main'
+include { MAP_LOCUS                   } from '../modules/local/map_locus'
+
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
 
@@ -71,17 +76,69 @@ workflow URLPIPE {
     )
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
+    // INPUT_CHECK.out.reads.view()
+
+    //
+    // MODULE: Cat Fastq
+    //
+    CAT_FASTQ (
+      INPUT_CHECK.out.reads
+      )
+    ch_versions = ch_versions.mix(CAT_FASTQ.out.versions)
+
+    //
+    // MODULE: UMI extract
+    //
+    UMI_EXTRACT (
+      CAT_FASTQ.out.reads
+      )
+    ch_versions = ch_versions.mix(UMI_EXTRACT.out.versions)
+
+    //
+    // MODULE: cutadapt
+    //
+    CUTADAPT (
+      UMI_EXTRACT.out.reads
+      )
+    ch_versions = ch_versions.mix(CUTADAPT.out.versions)
+
+    //
+    // MODULE: FastQC
+    //
+    FASTQC (
+      CUTADAPT.out.reads,
+      "0d_fastqc"
+      )
+    ch_versions = ch_versions.mix(FASTQC.out.versions)
+
+    //
+    // MODULE: map locus
+    //
+    MAP_LOCUS (
+      CUTADAPT.out.reads
+      )
+    ch_versions = ch_versions.mix(MAP_LOCUS.out.versions)
+
+    //
+    // MODULE: umi distribution statistics
+    //
+    // UMI_STAT (
+    //   CUTADAPT.out.reads
+    //   )
+    // ch_versions = ch_versions.mix(UMI_STAT.out.versions)
+
+
     //
     // MODULE: Run FastQC
     //
-    FASTQC (
-        INPUT_CHECK.out.reads
-    )
-    ch_versions = ch_versions.mix(FASTQC.out.versions.first())
-
-    CUSTOM_DUMPSOFTWAREVERSIONS (
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
-    )
+    // FASTQC (
+    //     INPUT_CHECK.out.reads
+    // )
+    // ch_versions = ch_versions.mix(FASTQC.out.versions.first())
+    //
+    // CUSTOM_DUMPSOFTWAREVERSIONS (
+    //     ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    // )
 
     //
     // MODULE: MultiQC
@@ -93,14 +150,14 @@ workflow URLPIPE {
     ch_multiqc_files = ch_multiqc_files.mix(Channel.from(ch_multiqc_config))
     ch_multiqc_files = ch_multiqc_files.mix(ch_multiqc_custom_config.collect().ifEmpty([]))
     ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
-    ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
+    // ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
+    // ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
 
-    MULTIQC (
-        ch_multiqc_files.collect()
-    )
-    multiqc_report = MULTIQC.out.report.toList()
-    ch_versions    = ch_versions.mix(MULTIQC.out.versions)
+    // MULTIQC (
+    //     ch_multiqc_files.collect()
+    // )
+    // multiqc_report = MULTIQC.out.report.toList()
+    // ch_versions    = ch_versions.mix(MULTIQC.out.versions)
 }
 
 /*

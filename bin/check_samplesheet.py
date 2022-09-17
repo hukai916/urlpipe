@@ -127,7 +127,8 @@ class RowChecker:
         for row in self.modified:
             sample = row[self._sample_col]
             seen[sample] += 1
-            row[self._sample_col] = f"{sample}_T{seen[sample]}"
+            # row[self._sample_col] = f"{sample}_T{seen[sample]}"
+            row[self._sample_col] = f"{sample}"
 
 
 def read_head(handle, num_lines=10):
@@ -194,7 +195,7 @@ def check_samplesheet(file_in, file_out):
     required_columns = {"sample", "fastq_1", "fastq_2"}
     # See https://docs.python.org/3.9/library/csv.html#id3 to read up on `newline=""`.
     with file_in.open(newline="") as in_handle:
-        reader = csv.DictReader(in_handle, dialect=sniff_format(in_handle))
+        reader = csv.DictReader(in_handle)
         # Validate the existence of the expected header columns.
         if not required_columns.issubset(reader.fieldnames):
             req_cols = ", ".join(required_columns)

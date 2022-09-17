@@ -2,17 +2,19 @@ process FASTQC {
     tag "$meta.id"
     label 'process_medium'
 
-    conda (params.enable_conda ? "bioconda::fastqc=0.11.9" : null)
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/fastqc:0.11.9--0' :
-        'quay.io/biocontainers/fastqc:0.11.9--0' }"
+    // conda (params.enable_conda ? "bioconda::fastqc=0.11.9" : null)
+    // container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+    //     'https://depot.galaxyproject.org/singularity/fastqc:0.11.9--0' :
+    //     'quay.io/biocontainers/fastqc:0.11.9--0' }"
+    container "hukai916/fastqc_0.11.9:0.1"
 
     input:
     tuple val(meta), path(reads)
+    val outdir
 
     output:
-    tuple val(meta), path("*.html"), emit: html
-    tuple val(meta), path("*.zip") , emit: zip
+    tuple val(meta), path("*/*.html"), emit: html
+    tuple val(meta), path("*/*.zip") , emit: zip
     path  "versions.yml"           , emit: versions
 
     when:
@@ -25,7 +27,9 @@ process FASTQC {
     if (meta.single_end) {
         """
         [ ! -f  ${prefix}.fastq.gz ] && ln -s $reads ${prefix}.fastq.gz
+        mkdir $outdir
         fastqc $args --threads $task.cpus ${prefix}.fastq.gz
+        mv *.html *.zip $outdir/
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
@@ -36,7 +40,9 @@ process FASTQC {
         """
         [ ! -f  ${prefix}_1.fastq.gz ] && ln -s ${reads[0]} ${prefix}_1.fastq.gz
         [ ! -f  ${prefix}_2.fastq.gz ] && ln -s ${reads[1]} ${prefix}_2.fastq.gz
+        mkdir $outdir
         fastqc $args --threads $task.cpus ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz
+        mv *.html *.zip $outdir/
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
