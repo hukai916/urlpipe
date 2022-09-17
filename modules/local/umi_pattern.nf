@@ -24,7 +24,8 @@ process UMI_PATTERN {
 
     zcat ${prefix}_1.fastq.gz | awk 'NR%4==1 {n = split(\$1, array, "_"); print array[n]}' | sort | uniq -c | awk '{print \$1}' | sort | uniq -c | awk '{print \$2, \$1}' | sort -n > tem.txt
 
-    (echo -e "${prefix}\tcount" && cat tem.txt | sort -n) > 2a_umi_pattern/stat/${prefix}_UMI_distribution.txt
+    (echo -e "${prefix}\tcount" && cat tem.txt | sort -n) > 2a_umi_pattern/stat/${prefix}_UMI_distribution.tsv
+    rm tem.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
