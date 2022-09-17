@@ -52,6 +52,7 @@ include { CUTADAPT                    } from '../modules/nf-core/modules/cutadap
 include { FASTQC                      } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT                    } from '../modules/local/cat_stat'
+include { UMI_PATTERN                 } from '../modules/local/umi_pattern'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -132,11 +133,11 @@ workflow URLPIPE {
     //
     // MODULE: UMI pattern
     //
-    // UMI_PATTERN (
-    //   CUTADAPT.out.reads
-    //   )
-    // ch_versions = ch_versions.mix(UMI_PATTERN.out.versions)
-    //
+    UMI_PATTERN (
+      CUTADAPT.out.reads
+      )
+    ch_versions = ch_versions.mix(UMI_PATTERN.out.versions)
+
     // MAP_LOCUS.out.stat.collect()
     //
     // MODULE: umi distribution statistics
