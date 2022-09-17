@@ -51,12 +51,12 @@ for k in r1_match:
     r_match[k] = r1_match[k] + r2_match[k]
 
 # output:
-out_htt_r1 = os.path.join(htt_locus_dir, os.path.basename(r1))
-out_htt_r2 = os.path.join(htt_locus_dir, os.path.basename(r2))
-out_mis_r1 = os.path.join(misprimed_locus_dir, os.path.basename(r1))
-out_mis_r2 = os.path.join(misprimed_locus_dir, os.path.basename(r2))
-out_problem_r1 = os.path.join(problem_reads_dir, os.path.basename(r1))
-out_problem_r2 = os.path.join(problem_reads_dir, os.path.basename(r2))
+out_htt_r1 = os.path.join(htt_locus_dir, os.path.basename(r1).split(".gz")[0])
+out_htt_r2 = os.path.join(htt_locus_dir, os.path.basename(r2).split(".gz")[0])
+out_mis_r1 = os.path.join(misprimed_locus_dir, os.path.basename(r1).split(".gz")[0])
+out_mis_r2 = os.path.join(misprimed_locus_dir, os.path.basename(r2).split(".gz")[0])
+out_problem_r1 = os.path.join(problem_reads_dir, os.path.basename(r1).split(".gz")[0])
+out_problem_r2 = os.path.join(problem_reads_dir, os.path.basename(r2).split(".gz")[0])
 
 os.makedirs(os.path.dirname(out_htt_r1), exist_ok=True)
 os.makedirs(os.path.dirname(out_htt_r2), exist_ok=True)
