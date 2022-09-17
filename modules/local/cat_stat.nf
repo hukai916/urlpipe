@@ -1,5 +1,4 @@
 process CAT_STAT {
-    tag "$meta.id"
     label 'process_low'
 
     container "hukai916/miniconda3_bio:0.3"
