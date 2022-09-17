@@ -125,11 +125,18 @@ workflow URLPIPE {
     //
     CAT_STAT (
       MAP_LOCUS.out.stat.collect(),
-      "sample_name\tlocus\tpercent\tmisprimed\tpercent\tproblem\tpercent" // header to be added
+      "sample_name\\tlocus\\tpercent\\tmisprimed\\tpercent\\tproblem\\tpercent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT.out.versions)
 
-
+    //
+    // MODULE: UMI pattern
+    //
+    // UMI_PATTERN (
+    //   CUTADAPT.out.reads
+    //   )
+    // ch_versions = ch_versions.mix(UMI_PATTERN.out.versions)
+    //
     // MAP_LOCUS.out.stat.collect()
     //
     // MODULE: umi distribution statistics
