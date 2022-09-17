@@ -21,9 +21,8 @@ process CAT_STAT {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p 1a_map_locus/stat && touch 1a_map_locus/stat/all.tsv
-    cat *.tsv > 1a_map_locus/stat/all_sample.tsv
-    (echo $header && cat 1a_map_locus/stat/all_sample.tsv) > filename1 && mv filename1 1a_map_locus/stat/all_sample.tsv
+    mkdir -p 1a_map_locus/stat
+    (echo $header && cat *.tsv) > 1a_map_locus/stat/all_sample.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
