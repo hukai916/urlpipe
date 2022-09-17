@@ -119,6 +119,7 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(MAP_LOCUS.out.versions)
 
+    // MAP_LOCUS.out.
     //
     // MODULE: umi distribution statistics
     //

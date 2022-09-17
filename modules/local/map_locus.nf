@@ -11,7 +11,7 @@ process MAP_LOCUS {
     tuple val(meta), path("1a_map_locus/locus/*.fastq.gz"),     emit: reads_locus
     tuple val(meta), path("1a_map_locus/misprimed/*.fastq.gz"), emit: reads_misprimed
     tuple val(meta), path("1a_map_locus/problem/*.fastq.gz"),   emit: reads_problem
-    path "1a_map_locus/stat/$.tsv",                             emit: stat
+    path "1a_map_locus/stat/*.tsv",                             emit: stat
     path  "versions.yml",                                       emit: versions
 
     when:
