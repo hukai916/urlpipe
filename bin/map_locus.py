@@ -98,7 +98,7 @@ SeqIO.write(r2_problem, out_problem_r2, "fastq")
 
 # print some stats:
 res = Counter(r_match.values())
-with _open("map_locus_stat.tsv", "a") as f:
+with open("map_locus_stat.tsv", "a") as f:
     name = os.path.basename(r1).split("_R1_")[0]
     p2 = str(res[2]/(sum([res[2], res[1], res[0]])))
     p1 = str(res[1]/(sum([res[2], res[1], res[0]])))
