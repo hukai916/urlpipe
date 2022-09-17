@@ -11,7 +11,7 @@ process MAP_LOCUS {
     tuple val(meta), path("1a_map_locus/locus/*.fastq.gz"),     emit: reads_locus
     tuple val(meta), path("1a_map_locus/misprimed/*.fastq.gz"), emit: reads_misprimed
     tuple val(meta), path("1a_map_locus/problem/*.fastq.gz"),   emit: reads_problem
-    path "map_locus_stat.tsv",                                  emit: stat
+    path "1a_map_locus/stat/$.tsv",                             emit: stat
     path  "versions.yml",                                       emit: versions
 
     when:
@@ -23,9 +23,10 @@ process MAP_LOCUS {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p 1a_map_locus/locus 1a_map_locus/misprimed 1a_map_locus/problem
+    mkdir -p 1a_map_locus/locus 1a_map_locus/misprimed 1a_map_locus/problem 1a_map_locus/stat
+    touch 1a_map_locus/stat/${prefix}.tsv
 
-    map_locus.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 1a_map_locus/locus 1a_map_locus/misprimed 1a_map_locus/problem $args
+    map_locus.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 1a_map_locus/locus 1a_map_locus/misprimed 1a_map_locus/problem 1a_map_locus/stat/${prefix}.tsv $args
     gzip 1a_map_locus/locus/*
     gzip 1a_map_locus/misprimed/*
     gzip 1a_map_locus/problem/*

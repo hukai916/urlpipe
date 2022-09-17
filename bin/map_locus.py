@@ -22,9 +22,10 @@ r2 = sys.argv[2]
 htt_locus_dir = sys.argv[3]
 misprimed_locus_dir = sys.argv[4]
 problem_reads_dir = sys.argv[5]
-r1_flanking = sys.argv[6]
-r2_flanking = sys.argv[7]
-error       = sys.argv[8]
+output_stat_file  = sys.argv[6]
+r1_flanking = sys.argv[7]
+r2_flanking = sys.argv[8]
+error       = sys.argv[9]
 
 r1_match = {}
 r2_match = {}
@@ -98,7 +99,7 @@ SeqIO.write(r2_problem, out_problem_r2, "fastq")
 
 # print some stats:
 res = Counter(r_match.values())
-with open("map_locus_stat.tsv", "a") as f:
+with open(output_stat_file, "w") as f:
     name = os.path.basename(r1).split("_R1_")[0]
     p2 = str(res[2]/(sum([res[2], res[1], res[0]])))
     p1 = str(res[1]/(sum([res[2], res[1], res[0]])))
