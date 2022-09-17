@@ -5,7 +5,7 @@ To annotate reads into htt, misprimed, and problem reads:
     if both ends match: htt_locus;
     if no end matches: problem_reads
 Usage:
-    python map_locus.py r1.fastq r2.fastq dir_to_store_htt dir_to_store_misprimed dir_to_store_problem r1_flanking r2_flanking
+    python map_locus.py r1.fastq r2.fastq dir_to_store_htt dir_to_store_misprimed dir_to_store_problem output_stat_file r1_flanking r2_flanking
 """
 
 from Bio import SeqIO
@@ -100,7 +100,7 @@ SeqIO.write(r2_problem, out_problem_r2, "fastq")
 # print some stats:
 res = Counter(r_match.values())
 with open(output_stat_file, "w") as f:
-    name = os.path.basename(r1).split("_R1_")[0]
+    name = os.path.basename(r1).split("_1.fastq.gz")[0]
     p2 = str(res[2]/(sum([res[2], res[1], res[0]])))
     p1 = str(res[1]/(sum([res[2], res[1], res[0]])))
     p0 = str(res[0]/(sum([res[2], res[1], res[0]])))
