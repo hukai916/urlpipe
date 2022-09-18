@@ -5,10 +5,11 @@ process CAT_STAT {
 
     input:
     path stat
+    val outdir
     val header
 
     output:
-    path "1a_map_locus/stat/all_sample.tsv",      emit: stat
+    path "*/stat/all_sample.tsv",      emit: stat
     path  "versions.yml",                         emit: versions
 
     when:
@@ -18,8 +19,9 @@ process CAT_STAT {
     def args = task.ext.args ?: ''
 
     """
-    mkdir -p 1a_map_locus/stat
-    (echo -e "$header" && cat *.tsv | sort -n) > 1a_map_locus/stat/all_sample.tsv
+    mkdir -p $outdir
+
+    (echo -e "$header" && cat *.tsv | sort -n) > $outdir/all_sample.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
