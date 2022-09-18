@@ -53,6 +53,8 @@ include { FASTQC                      } from '../modules/nf-core/modules/fastqc/
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT                    } from '../modules/local/cat_stat'
 include { UMI_PATTERN                 } from '../modules/local/umi_pattern'
+include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
+
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -137,6 +139,15 @@ workflow URLPIPE {
       CUTADAPT.out.reads
       )
     ch_versions = ch_versions.mix(UMI_PATTERN.out.versions)
+
+    //
+    // MODULE: classify INDEL
+    //
+    CLASSIFY_INDEL (
+      MAP_LOCUS.out.reads_locus
+      )
+    ch_versions = ch_versions.mix(CLASSIFY_INDEL.out.versions)
+
 
     // MAP_LOCUS.out.stat.collect()
     //

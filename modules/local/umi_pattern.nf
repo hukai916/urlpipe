@@ -22,10 +22,12 @@ process UMI_PATTERN {
     """
     mkdir -p 2a_umi_pattern/stat 2a_umi_pattern/plot
 
-    zcat ${prefix}_1.fastq.gz | awk 'NR%4==1 {n = split(\$1, array, "_"); print array[n]}' | sort | uniq -c | awk '{print \$1}' | sort | uniq -c | awk '{print \$2, \$1}' | sort -n > tem.txt
+    zcat ${prefix}_1.fastq.gz | awk 'NR%4==1 {n = split(\$1, array, "_"); print array[n]}' | sort | uniq -c | awk '{print \$1}' | sort | uniq -c | awk '{print \$2, "\t", \$1}' | sort -n > tem.txt
 
     (echo -e "${prefix}\tcount" && cat tem.txt | sort -n) > 2a_umi_pattern/stat/${prefix}_UMI_distribution.tsv
     rm tem.txt
+
+    plot_umi_pattern.py 2a_umi_pattern/stat/${prefix}_UMI_distribution.tsv ${prefix} 2a_umi_pattern/plot/${prefix}_UMI_distribution.png
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
