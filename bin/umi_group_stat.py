@@ -36,5 +36,6 @@ with open(output_stat, "w") as f:
             if x[1] == mode_freq:
                 if mode > mode:
                     mode = x[0]
+        print(d_umi[k])
         res = "\t".join([k, str(len(d_umi[k])), str(mean(d_umi[k])), str(mode)]) + "\n"
         f.write(res)
