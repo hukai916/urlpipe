@@ -48,25 +48,29 @@ with open(output_stat, "w") as f:
 
 # save to plot
 df = pd.read_csv(output_stat, sep = "\t", header = None)
-for group_id, group_df in df.groupby(df.iloc[:,0]):
-    span_n = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: str(x).isdigit())].tolist()
-    span_n = [int(x) for x in span_n]
-    span_s = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: not str(x).isdigit())].tolist()
-
-    if not len(span_n) == 0:
-        span = max(span_n) - min(span_n)
-    else:
-        span = 0
-    bins = max(1 + len(span_s), span)
-
-    plt.hist(group_df.iloc[:,1], bins = bins)
-
-    plt.xlabel("repeat length")
-    plt.ylabel("count")
-    plt.title("Repeat Length Distribution within UMI Group: " + group_df.iloc[0,0])
-
-    _output_plot = os.path.join(output_plot, sample_name + "_" + group_id + ".png")
+if len(df) == 0: # if empty, create empty plot
+    _output_plot = os.path.join(output_plot, sample_name + "_empty.png")
     os.makedirs(os.path.dirname(_output_plot), exist_ok=True)
-    plt.savefig(_output_plot, dpi = 300)
+else:
+    for group_id, group_df in df.groupby(df.iloc[:,0]):
+        span_n = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: str(x).isdigit())].tolist()
+        span_n = [int(x) for x in span_n]
+        span_s = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: not str(x).isdigit())].tolist()
 
-    plt.close()
+        if not len(span_n) == 0:
+            span = max(span_n) - min(span_n)
+        else:
+            span = 0
+        bins = max(1 + len(span_s), span)
+
+        plt.hist(group_df.iloc[:,1], bins = bins)
+
+        plt.xlabel("repeat length")
+        plt.ylabel("count")
+        plt.title("Repeat Length Distribution within UMI Group: " + group_df.iloc[0,0])
+
+        _output_plot = os.path.join(output_plot, sample_name + "_" + group_id + ".png")
+        os.makedirs(os.path.dirname(_output_plot), exist_ok=True)
+        plt.savefig(_output_plot, dpi = 300)
+
+        plt.close()
