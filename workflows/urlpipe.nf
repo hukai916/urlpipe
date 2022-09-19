@@ -177,6 +177,15 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(CAT_STAT3.out.versions)
 
+    //
+    // MODULE: BBmerge
+    //
+    // BBMERGE (
+    //   MAP_LOCUS.out.reads_locus
+    //   )
+    // ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
+    //
+
 
     // MAP_LOCUS.out.stat.collect()
     //
