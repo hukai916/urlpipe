@@ -48,10 +48,10 @@ with open(output_stat, "w") as f:
 
 # save to plot
 if os.path.getsize(output_stat) == 0: # create empty png for empty tsv file
-    df = pd.read_csv(output_stat, sep = "\t", header = None)
     _output_plot = os.path.join(output_plot, sample_name + "_empty.png")
     os.makedirs(os.path.dirname(_output_plot), exist_ok=True)
 else:
+    df = pd.read_csv(output_stat, sep = "\t", header = None)
     for group_id, group_df in df.groupby(df.iloc[:,0]):
         span_n = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: str(x).isdigit())].tolist()
         span_n = [int(x) for x in span_n]
