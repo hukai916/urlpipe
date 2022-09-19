@@ -70,7 +70,7 @@ else:
             bins = len(span_s)
 
         _tem = group_df.iloc[:,1].tolist()
-        _tem = [int(x) for x in _tem if str(x).isdigit()]
+        _tem = [int(x) for x in _tem if str(x).isdigit() else x]
 
         plt.hist(sorted(_tem), bins = bins)
         # plt.hist(group_df.iloc[:,1], bins = bins)
