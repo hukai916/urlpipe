@@ -53,6 +53,7 @@ for group_id, group_df in df.groupby(df.iloc[:,0]):
     span_s = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: type(x) != int)].tolist()
 
     print(span_n)
+    print(span_s)
     print(group_df.iloc[:,1])
     span = max(span_n) - min(span_n)
     bins = max(1 + len(span_s), span)
