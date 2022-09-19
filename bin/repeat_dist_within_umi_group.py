@@ -49,7 +49,7 @@ with open(output_stat, "w") as f:
 # save to plot
 df = pd.read_csv(output_stat, sep = "\t", header = None)
 for group_id, group_df in df.groupby(df.iloc[:,0]):
-    plt.hist(group_df.iloc[:,1], bins = max(group_df.iloc[:,1].tolist()) - min(group_df.iloc[:,1].tolist()))
+    plt.hist(group_df.iloc[:,1], bins = max(1, max(group_df.iloc[:,1].tolist()) - min(group_df.iloc[:,1].tolist())))
 
     plt.xlabel("repeat length")
     plt.ylabel("count")
