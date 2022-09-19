@@ -32,7 +32,7 @@ for line in open(tsv):
 
 d_cutoff = {}
 for x in d_umi:
-    if len(d_umi[x]) == cutoff:
+    if len(d_umi[x]) == int(cutoff):
         if not len(d_cutoff) > int(group_num):
             d_cutoff[x] = d_umi[x]
         else:
