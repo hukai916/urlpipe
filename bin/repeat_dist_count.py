@@ -3,6 +3,7 @@ To count the repeat length by measuring distance.
 
 Usage:
     python count_cag.py r1.fastq dir_output
+
 """
 
 from Bio import SeqIO
