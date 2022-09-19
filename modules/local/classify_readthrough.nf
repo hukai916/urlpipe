@@ -27,7 +27,6 @@ process CLASSIFY_READTHROUGH {
 
     gzip 4a_classify_readthrough/readthrough*
     gzip 4a_classify_readthrough/non_readthrough/*
-    gzip 4a_classify_readthrough/stat
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

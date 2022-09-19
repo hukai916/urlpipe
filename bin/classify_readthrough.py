@@ -95,14 +95,14 @@ output_r2_non_readthrough = open(out_non_readthrough_r2, "w")
 
 with _open(r1) as f:
     for record in SeqIO.parse(f, 'fastq'):
-        if record.name in r_readthrough:
+        if record.name in r_readthrough_list:
             output_r1_readthrough.write(record.format("fastq"))
         else:
             output_r1_non_readthrough.write(record.format("fastq"))
 
 with _open(r2) as f:
     for record in SeqIO.parse(f, 'fastq'):
-        if record.name in r_readthrough:
+        if record.name in r_readthrough_list:
             output_r2_readthrough.write(record.format("fastq"))
         else:
             output_r2_non_readthrough.write(record.format("fastq"))
