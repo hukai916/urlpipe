@@ -74,13 +74,13 @@ else:
 
         _output_plot_tem = os.path.join(output_plot, sample_name + "_" + group_id + ".txt")
         with open(_output_plot_tem, "w") as f:
-            f.write(sorted(_tem))
+            f.write(",".join(sorted(_tem)))
             f.write()
             f.write(bins)
 
         plt.hist(sorted(_tem), bins = bins)
 
-        
+
         # plt.hist(group_df.iloc[:,1], bins = bins)
 
         # sparse the x-axis ticks:
