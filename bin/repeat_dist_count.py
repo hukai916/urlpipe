@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 To count the repeat length by measuring distance.
 
