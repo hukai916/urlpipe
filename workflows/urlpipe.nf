@@ -49,14 +49,14 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 include { CAT_FASTQ                   } from '../modules/nf-core/modules/cat/fastq/main'
 include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
 include { CUTADAPT                    } from '../modules/nf-core/modules/cutadapt/main'
-include { FASTQC                      } from '../modules/nf-core/modules/fastqc/main'
+include { FASTQC; FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3; CAT_STAT as CAT_STAT4 } from '../modules/local/cat_stat'
 include { UMI_PATTERN                 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { BBMERGE                     } from '../modules/local/bbmerge'
-
+include { FASTQC_SINGLE               } from '../modules/local/fastqq_single'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -197,6 +197,23 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(CAT_STAT4.out.versions)
 
+    //
+    // MODULE: FastQC
+    //
+    FASTQC1 (
+      CLASSIFY_READTHROUGH.out.reads_through,
+      "4c_r1_r2_fastqc"
+      )
+    ch_versions = ch_versions.mix(FASTQC1.out.versions)
+
+    //
+    // MODULE: FastQC
+    //
+    FASTQC_SINGLE (
+      BBMERGE.out.reads_merge,
+      "4c_merge_fastqc"
+      )
+    ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
 
     // MAP_LOCUS.out.stat.collect()
     //
