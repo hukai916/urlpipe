@@ -8,8 +8,8 @@ process CLASSIFY_READTHROUGH {
     tuple val(meta), path(reads)
 
     output:
-    path "4a_classify_readthrough/readthrough/*.fastq.gz",        emit: reads_through
-    path "4a_classify_readthrough/non_readthrough/*.fastq.gz",    emit: reads_nonethrough
+    tuple val(meta), path("4a_classify_readthrough/readthrough/*.fastq.gz")        emit: reads_through
+    tuple val(meta), path("4a_classify_readthrough/non_readthrough/*.fastq.gz")    emit: reads_nonethrough
     path "4a_classify_readthrough/stat/*.tsv",                    emit: stat
     path  "versions.yml",                                         emit: versions
 

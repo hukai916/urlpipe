@@ -8,10 +8,10 @@ process CLASSIFY_INDEL {
     tuple val(meta), path(reads)
 
     output:
-    path "3a_classify_indel/no_indel/*.fastq.gz",    emit: reads_no_indel
-    path "3a_classify_indel/indel_5p/*.fastq.gz",    emit: reads_indel_5p
-    path "3a_classify_indel/indel_3p/*.fastq.gz",    emit: reads_indel_3p
-    path "3a_classify_indel/indel_5p_3p/*.fastq.gz", emit: reads_indel_5p_3p
+    tuple val(meta), path("3a_classify_indel/no_indel/*.fastq.gz")    emit: reads_no_indel
+    tuple val(meta), path("3a_classify_indel/indel_5p/*.fastq.gz")    emit: reads_indel_5p
+    tuple val(meta), path("3a_classify_indel/indel_3p/*.fastq.gz")    emit: reads_indel_3p
+    tuple val(meta), path("3a_classify_indel/indel_5p_3p/*.fastq.gz") emit: reads_indel_5p_3p
     path "3a_classify_indel/stat/*.tsv",             emit: stat
     path  "versions.yml",                            emit: versions
 
