@@ -76,7 +76,7 @@ else:
         with open(_output_plot_tem, "w") as f:
             f.write(",".join([str(x) for x in sorted(_tem)]))
             f.write("\n")
-            f.write(bins)
+            f.write(str(bins))
 
         plt.hist(sorted(_tem), bins = bins)
 
