@@ -31,7 +31,7 @@ r1_flanking = sys.argv[4]
 r2_flanking = sys.argv[5]
 mismatch = sys.argv[6]
 
-encoding = guess_type(r1)[1]  # uses file extension
+encoding = guess_type(r)[1]  # uses file extension
 _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
 
 r1_dna = Seq(r1_flanking)
