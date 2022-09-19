@@ -8,7 +8,7 @@ To annotate reads into no_indel, indel_5p, indel_3p, and indel_5p_3p (flanking)
     # implementation: instead of perform mapping, simple search sub_string with python regex:
     regex.search("(xxgyy){s<=1}", "xxggyy") # https://stackoverflow.com/questions/2420412/search-for-string-allowing-for-one-mismatch-in-any-location-of-the-string, note, regex.search("xxgyy{s<=1}", "xxggyy") does not work.
 Usage:
-    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_1.fastq.gz 3a_classify_indel/no_indel 3a_classify_indel/indel_5p 3a_classify_indel/indel_3p 3a_classify_indel/indel_5p_3p 3a_classify_indel/stat sample_name $args
+    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2s.fastq.gz 3a_classify_indel/no_indel 3a_classify_indel/indel_5p 3a_classify_indel/indel_3p 3a_classify_indel/indel_5p_3p 3a_classify_indel/stat sample_name $args
 
 """
 
@@ -76,6 +76,7 @@ os.makedirs(os.path.dirname(out_indel_3p_r1), exist_ok=True)
 os.makedirs(os.path.dirname(out_indel_3p_r2), exist_ok=True)
 os.makedirs(os.path.dirname(out_indel_5p_3p_r1), exist_ok=True)
 os.makedirs(os.path.dirname(out_indel_5p_3p_r2), exist_ok=True)
+os.makedirs(os.path.dirname(indel_stat_dir), exist_ok=True)
 
 count_5p = 0
 count_3p = 0

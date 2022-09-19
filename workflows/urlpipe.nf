@@ -54,6 +54,7 @@ include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT; CAT_STAT as CAT_STAT2 } from '../modules/local/cat_stat'
 include { UMI_PATTERN                 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
+include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -148,12 +149,23 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(CLASSIFY_INDEL.out.versions)
 
+    //
+    // MODULE: combine CLASSIFY_INDEL.out.stat into one file
+    //
     CAT_STAT2 (
       CLASSIFY_INDEL.out.stat.collect(),
       "3a_classify_indel/stat",
       "sample_name\tno_indel\tno_indel_percent\tindel_5p\tindel_5p_percent\tindel_3p\tindel_3p_percent\tindel_5p_3p\tindel_5p_3p_percent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT2.out.versions)
+
+    //
+    // MODULE: classify_readthrough
+    //
+    CLASSIFY_READTHROUGH (
+      MAP_LOCUS.out.reads_locus
+      )
+    ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
 
 
     // MAP_LOCUS.out.stat.collect()
