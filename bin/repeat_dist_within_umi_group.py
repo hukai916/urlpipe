@@ -50,6 +50,8 @@ with open(output_stat, "w") as f:
 if os.path.getsize(output_stat) == 0: # create empty png for empty tsv file
     _output_plot = os.path.join(output_plot, sample_name + "_empty.png")
     os.makedirs(os.path.dirname(_output_plot), exist_ok=True)
+    with open(_output_plot, "w") as f:
+        pass
 else:
     df = pd.read_csv(output_stat, sep = "\t", header = None)
     for group_id, group_df in df.groupby(df.iloc[:,0]):
