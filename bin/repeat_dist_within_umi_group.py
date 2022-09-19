@@ -63,9 +63,13 @@ else:
             span = max(span_n) - min(span_n)
         else:
             span = 0
-        bins = max(1 + len(span_s), span)
 
-        plt.hist(group_df.iloc[:,1], bins = bins)
+        if not len(span_n) == 0:
+            bins = max(1 + len(span_s), max(span_n) + len(span_s))
+        else:
+            bins = len(span_s)
+
+        plt.hist(sorted(group_df.iloc[:,1]), bins = bins)
 
         plt.xlabel("repeat length")
         plt.ylabel("count")

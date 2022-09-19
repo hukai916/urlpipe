@@ -255,6 +255,16 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP.out.versions)
 
+    //
+    // MODULE: UMI group stat: UMI read_count mean mode
+    //
+    UMI_GROUP_STAT (
+      REPEAT_DIST_DISTANCE.out.count_r1,
+      "5c_r1_umi_group_stat"
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP.out.versions)
+
+
 
     //
     // MODULE: repeat distribution R1 distance
