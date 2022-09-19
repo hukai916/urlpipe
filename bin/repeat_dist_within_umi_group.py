@@ -49,8 +49,8 @@ with open(output_stat, "w") as f:
 # save to plot
 df = pd.read_csv(output_stat, sep = "\t", header = None)
 for group_id, group_df in df.groupby(df.iloc[:,0]):
-    span_n = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: type(x) == int)].tolist()
-    span_s = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: type(x) != int)].tolist()
+    span_n = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: str(x).isdigit())].tolist()
+    span_s = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: !(str(x).isdigit()))].tolist()
 
     print(span_n)
     print(span_s)
