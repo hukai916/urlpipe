@@ -53,10 +53,10 @@ for group_id, group_df in df.groupby(df.iloc[:,0]):
     span_n = [int(x) for x in span_n]
     span_s = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: not str(x).isdigit())].tolist()
 
-    print(span_n)
-    print(span_s)
-    print(group_df.iloc[:,1])
-    span = max(span_n) - min(span_n)
+    if not len(span_n) == 0:
+        span = max(span_n) - min(span_n)
+    else:
+        span = 0
     bins = max(1 + len(span_s), span)
 
     plt.hist(group_df.iloc[:,1], bins = bins)
