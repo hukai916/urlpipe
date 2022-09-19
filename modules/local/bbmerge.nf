@@ -23,12 +23,12 @@ process BBMERGE {
     """
     mkdir -p 4b_bbmerge/merged 4b_bbmerge/non_merged 4b_bbmerge/stat
 
-    bbmerge.sh
+    bbmerge.sh in1=${prefix}_1.fastq.gz in2=${prefix}_2.fastq.gz out=4b_bbmerge/merged/${prefix}.fastq.gz outu1=4b_bbmerge/non_merged/${prefix}_1.fastq.gz outu2=4b_bbmerge/non_merged/${prefix}_2.fastq.gz
 
-    classify_readthrough.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 4a_classify_readthrough/readthrough 4a_classify_readthrough/non_readthrough 4a_classify_readthrough/stat ${prefix} $args
+    c_merge=\$(echo \$(zcat 4b_bbmerge/merged/${prefix}.fastq.gz | wc -l)/4|bc)
+    c_non_merge=\$(echo \$(zcat 4b_bbmerge/non_merged/${prefix}_1.fastq.gz | wc -l)/4|bc)
 
-    gzip 4a_classify_readthrough/readthrough*
-    gzip 4a_classify_readthrough/non_readthrough/*
+    echo "${prefix}\t\$c_merge\t\$c_non_merge" > 4b_bbmerge/stat/${prefix}.tsvv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

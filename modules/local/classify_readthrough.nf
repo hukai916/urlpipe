@@ -25,7 +25,7 @@ process CLASSIFY_READTHROUGH {
 
     classify_readthrough.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 4a_classify_readthrough/readthrough 4a_classify_readthrough/non_readthrough 4a_classify_readthrough/stat ${prefix} $args
 
-    gzip 4a_classify_readthrough/readthrough*
+    gzip 4a_classify_readthrough/readthrough/*
     gzip 4a_classify_readthrough/non_readthrough/*
 
     cat <<-END_VERSIONS > versions.yml
