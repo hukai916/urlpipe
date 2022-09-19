@@ -117,4 +117,4 @@ with open(os.path.join(stat_dir, sample_name + ".tsv"), "w") as f:
     p_count_through = count_through/(sum([count_through, count_non_through]))
     p_count_non_through = count_non_through/(sum([count_through, count_non_through]))
 
-    f.write(sample_name + "\t" + str(count_through) + "\t" + str(p_count_through) + "\t" + str(count_non_through) + "\t" + str(p_count_non_through))
+    f.write(sample_name + "\t" + str(count_through) + "\t" + str(p_count_through) + "\t" + str(count_non_through) + "\t" + str(p_count_non_through) + "\n")

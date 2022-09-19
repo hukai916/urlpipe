@@ -174,7 +174,7 @@ workflow URLPIPE {
     //
     CAT_STAT3 (
       CLASSIFY_READTHROUGH.out.stat.collect(),
-      "4a_classify_indel/stat",
+      "4a_classify_readthrough/stat",
       "sample_name\tcount_readthrough\tcount_readthrough_percent\tcount_non_readthrough\tp_count_non_readthrough_percent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT3.out.versions)
@@ -202,7 +202,7 @@ workflow URLPIPE {
     //
     FASTQC1 (
       CLASSIFY_READTHROUGH.out.reads_through,
-      "4c_r1_r2_fastqc"
+      "4c_fastqc_r1_r2"
       )
     ch_versions = ch_versions.mix(FASTQC1.out.versions)
 
@@ -211,9 +211,45 @@ workflow URLPIPE {
     //
     FASTQC_SINGLE (
       BBMERGE.out.reads_merged,
-      "4c_merge_fastqc"
+      "4c_fastqc_merged"
       )
     ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
+
+    //
+    // MODULE: repeat distribution R1/R2 distance
+    //
+    // REPEAT_DIST_DISTANCE (
+    //   CLASSIFY_READTHROUGH.out.reads_through
+    //   )
+    // ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE.out.versions)
+
+    //
+    // MODULE: repeat distribution R1 distance
+    //
+    // REPEAT_DIST_DISTANCE_MERGED (
+    //   BBMERGE.out.reads_merged,
+    //   "4c_merge_fastqc"
+    //   )
+    // ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
+
+    //
+    // MODULE: repeat distribution R1 distance
+    //
+    // REPEAT_DIST_ALIGNMENT (
+    //   BBMERGE.out.reads_merged,
+    //   "4c_merge_fastqc"
+    //   )
+    // ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
+    //
+    // //
+    // // MODULE: repeat distribution R1 distance
+    // //
+    // REPEAT_DIST_ALIGNMENT_MERGED (
+    //   BBMERGE.out.reads_merged,
+    //   "4c_merge_fastqc"
+    //   )
+    // ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
+
 
     // MAP_LOCUS.out.stat.collect()
     //
