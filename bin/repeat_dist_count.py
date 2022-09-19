@@ -144,10 +144,10 @@ with _open(r2) as f:
             dict_repeat["plus"] += 1
             dict_count[record.name] = "plus"
         else:
-            r1_match_start = r1_search.start()
-            r1_match_length = len(r1_search.captures()[0])
-            r2_match_end = r2_search.end()
+            r2_match_start = r2_search.start()
             r2_match_length = len(r2_search.captures()[0])
+            r1_match_end = r1_search.end()
+            r1_match_length = len(r1_search.captures()[0])
             repeat_length = r1_match_end - r2_match_start - r2_match_length - r1_match_length
             dict_count[record.name] = repeat_length
 
