@@ -124,6 +124,6 @@ plt.close()
 # ouput raw count:
 output_count = os.path.join(output_dir, "count_r1", sample_name + ".tsv")
 os.makedirs(os.path.dirname(output_count), exist_ok=True)
-with open(output_count) as f:
+with open(output_count, "w") as f:
     for x in dict_count:
         f.write(x + "\t" + str(dict_count[x]) + "\n")
