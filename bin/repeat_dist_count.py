@@ -44,7 +44,7 @@ r2_flanking_rc = str(r2_dna.reverse_complement())
 dict_repeat = {"problem": 0, "plus": 0}
 dict_count  = {}
 
-with open(r1) as f:
+with _open(r1) as f:
     for record in SeqIO.parse(f, 'fastq'):
         r1_search = regex.search("(" + r1_flanking + ")" + "{s<=" + str(mismatch) + "}", str(record.seq))
         r2_search = regex.search("(" + r2_flanking_rc + ")" + "{s<=" + str(mismatch) + "}", str(record.seq))
