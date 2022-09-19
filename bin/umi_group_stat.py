@@ -20,9 +20,9 @@ for line in open(tsv):
     umi = umi.split("_")[1]
     if str(length).isdigit():
         if not umi in d_umi:
-            d_umi[umi] = [length]
+            d_umi[umi] = [int(length)]
         else:
-            d_umi[umi].append(length)
+            d_umi[umi].append(int(length))
 
 # save to stat
 output_stat = os.path.join(outdir, sample_name + ".tsv")
@@ -36,6 +36,6 @@ with open(output_stat, "w") as f:
             if x[1] == mode_freq:
                 if mode > mode:
                     mode = x[0]
-        print(d_umi[k])
+        # print(d_umi[k])
         res = "\t".join([k, str(len(d_umi[k])), str(mean(d_umi[k])), str(mode)]) + "\n"
         f.write(res)
