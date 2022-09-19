@@ -49,7 +49,8 @@ with open(output_stat, "w") as f:
 # save to plot
 df = pd.read_csv(output_stat, sep = "\t", header = None)
 for group_id, group_df in df.groupby(df.iloc[:,0]):
-    plt.hist(group_df.iloc[:,1])
+    plt.hist(group_df.iloc[:,1], bins = max(int(group_df.iloc[:,1])) - min(int(group_df.iloc[:,1])))
+
     plt.xlabel("repeat length")
     plt.ylabel("count")
     plt.title("Repeat Length Distribution within UMI Group: " + group_df.iloc[0,0])
