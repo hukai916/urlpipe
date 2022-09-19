@@ -49,11 +49,11 @@ with open(output_stat, "w") as f:
 # save to plot
 df = pd.read_csv(output_stat, sep = "\t", header = None)
 for group_id, group_df in df.groupby(df.iloc[:,0]):
-    span_n = df.iloc[:, 1][df.iloc[:,1].apply(lambda x: type(x) == int)].tolist()
-    span_s = df.iloc[:, 1][df.iloc[:,1].apply(lambda x: type(x) != int)].tolist()
+    span_n = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: type(x) == int)].tolist()
+    span_s = group_df.iloc[:, 1][group_df.iloc[:,1].apply(lambda x: type(x) != int)].tolist()
 
     print(span_n)
-    print(df.iloc[:,1])
+    print(group_df.iloc[:,1])
     span = max(span_n) - min(span_n)
     bins = max(1 + len(span_s), span)
 
