@@ -55,6 +55,8 @@ include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3 } from '../modu
 include { UMI_PATTERN                 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
+include { BBMERGE                     } from '../modules/local/bbmerge'
+
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -185,6 +187,15 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(BBMERGE.out.versions)
 
+    //
+    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    //
+    CAT_STAT4 (
+      BBMERGE.out.stat.collect(),
+      "4b_bbmerge/stat",
+      "sample_name\tcount_merge\tcount_non_merge" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT4.out.versions)
 
 
     // MAP_LOCUS.out.stat.collect()
