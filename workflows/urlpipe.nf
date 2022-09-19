@@ -52,13 +52,15 @@ include { CUTADAPT                    } from '../modules/nf-core/modules/cutadap
 include { FASTQC; FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3; CAT_STAT as CAT_STAT4 } from '../modules/local/cat_stat'
-include { UMI_PATTERN                 } from '../modules/local/umi_pattern'
+include { UMI_PATTERN; UMI_PATTERN as UMI_PATTERN2 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { BBMERGE                     } from '../modules/local/bbmerge'
 include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
 include { REPEAT_DIST_DISTANCE        } from '../modules/local/repeat_dist_distance'
 include { REPEAT_DIST_DISTANCE_MERGED } from '../modules/local/repeat_dist_distance_merged'
+include { REPEAT_DIST_WITHIN_UMI_GROUP} from '../modules/local/repeat_dist_within_umi_group'
+
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -141,7 +143,8 @@ workflow URLPIPE {
     // MODULE: UMI pattern
     //
     UMI_PATTERN (
-      CUTADAPT.out.reads
+      CUTADAPT.out.reads,
+      "2a_umi_pattern"
       )
     ch_versions = ch_versions.mix(UMI_PATTERN.out.versions)
 
@@ -232,6 +235,25 @@ workflow URLPIPE {
       BBMERGE.out.reads_merged
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE_MERGED.out.versions)
+
+    //
+    // MODULE: UMI pattern
+    //
+    UMI_PATTERN2 (
+      CLASSIFY_READTHROUGH.out.reads_through,
+      "5a_umi_pattern"
+      )
+    ch_versions = ch_versions.mix(UMI_PATTERN2.out.versions)
+
+
+    //
+    // MODULE: repeat distribution within umi group
+    //
+    REPEAT_DIST_WITHIN_UMI_GROUP (
+      REPEAT_DIST_DISTANCE.out.count_r1
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP.out.versions)
+
 
     //
     // MODULE: repeat distribution R1 distance

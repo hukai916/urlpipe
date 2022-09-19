@@ -6,10 +6,11 @@ process UMI_PATTERN {
 
     input:
     tuple val(meta), path(reads)
+    val outdir
 
     output:
-    path "2a_umi_pattern/stat/*.tsv",    emit: stat
-    path "2a_umi_pattern/plot/*",        emit: plot
+    path "*/stat/*.tsv",    emit: stat
+    path "*/plot/*",        emit: plot
     path  "versions.yml",                emit: versions
 
     when:
@@ -20,14 +21,14 @@ process UMI_PATTERN {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p 2a_umi_pattern/stat 2a_umi_pattern/plot
+    mkdir -p ${outdir}/stat ${outdir}/plot
 
     zcat ${prefix}_1.fastq.gz | awk 'NR%4==1 {n = split(\$1, array, "_"); print array[n]}' | sort | uniq -c | awk '{print \$1}' | sort | uniq -c | awk '{print \$2, "\t", \$1}' | sort -n > tem.txt
 
-    (echo -e "${prefix}\tcount" && cat tem.txt | sort -n) > 2a_umi_pattern/stat/${prefix}_UMI_distribution.tsv
+    (echo -e "${prefix}\tcount" && cat tem.txt | sort -n) > ${outdir}/stat/${prefix}_UMI_distribution.tsv
     rm tem.txt
 
-    plot_umi_pattern.py 2a_umi_pattern/stat/${prefix}_UMI_distribution.tsv ${prefix} 2a_umi_pattern/plot/${prefix}_UMI_distribution.png
+    plot_umi_pattern.py ${outdir}/stat/${prefix}_UMI_distribution.tsv ${prefix} ${outdir}/plot/${prefix}_UMI_distribution.png
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
