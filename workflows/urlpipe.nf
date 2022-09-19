@@ -57,6 +57,7 @@ include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { BBMERGE                     } from '../modules/local/bbmerge'
 include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
+include { REPEAT_DIST_DISTANCE        } from '../modules/local/repeat_dist_distance'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
