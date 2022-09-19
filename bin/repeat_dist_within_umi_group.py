@@ -47,7 +47,7 @@ with open(output_stat, "w") as f:
             f.write(k + "\t" + str(c) + "\n")
 
 # save to plot
-if os.path.getsize(output_stat) > 0: # create empty png for empty tsv file
+if os.path.getsize(output_stat) == 0: # create empty png for empty tsv file
     df = pd.read_csv(output_stat, sep = "\t", header = None)
     _output_plot = os.path.join(output_plot, sample_name + "_empty.png")
     os.makedirs(os.path.dirname(_output_plot), exist_ok=True)
