@@ -31,10 +31,9 @@ for line in open(tsv):
         d_umi[umi].append(length)
 
 d_cutoff = {}
-print(d_umi)
 for x in d_umi:
     if len(d_umi[x]) == cutoff:
-        if not len(d_cutoff) > group_num:
+        if not len(d_cutoff) > int(group_num):
             d_cutoff[x] = d_umi[x]
         else:
             break
