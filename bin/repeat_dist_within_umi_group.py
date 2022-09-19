@@ -70,9 +70,17 @@ else:
             bins = len(span_s)
 
         _tem = group_df.iloc[:,1].tolist()
-        _tem = [int(x) if str(x).isdigit() else x for x in _tem]
+        _tem = [int(x) for x in _tem if str(x).isdigit()] # exclude "plus" and "problem"
+
+        _output_plot_tem = os.path.join(output_plot, sample_name + "_" + group_id + ".txt")
+        with open(_output_plot_tem, "w") as f:
+            f.write(sorted(_tem))
+            f.write()
+            f.write(bins)
 
         plt.hist(sorted(_tem), bins = bins)
+
+        
         # plt.hist(group_df.iloc[:,1], bins = bins)
 
         # sparse the x-axis ticks:
