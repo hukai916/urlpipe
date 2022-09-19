@@ -24,7 +24,7 @@ for line in open(tsv):
             d_umi[umi].append(length)
 
 # save to stat
-output_stat = os.path.join(outdir_stat, sample_name + ".tsv")
+output_stat = os.path.join(outdir, sample_name + ".tsv")
 os.makedirs(os.path.dirname(output_stat), exist_ok=True)
 with open(output_stat, "w") as f:
     for k in d_umi:
