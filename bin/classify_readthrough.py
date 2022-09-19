@@ -71,22 +71,20 @@ os.makedirs(os.path.dirname(out_non_readthrough_r1), exist_ok=True)
 os.makedirs(os.path.dirname(out_non_readthrough_r2), exist_ok=True)
 os.makedirs(os.path.dirname(stat_dir), exist_ok=True)
 
-r_readthrough_list = []
-r_non_readthrough_list = []
+r_readthrough_set = set()
+r_non_readthrough_set = set()
 with _open(r1) as f:
     for record in SeqIO.parse(f, 'fastq'):
         if r_match[record.name] >= 1:
-            r_readthrough_list.append(record.name)
+            r_readthrough_set.add(record.name)
         else:
-            r_non_readthrough_list.append(record.name)
+            r_non_readthrough_set.add(record.name)
 with _open(r2) as f:
     for record in SeqIO.parse(f, 'fastq'):
         if r_match[record.name] >= 1:
-            r_readthrough_list.append(record.name)
+            r_readthrough_set.add(record.name)
         else:
-            r_non_readthrough_list.append(record.name)
-r_readthrough_list = list(set(r_readthrough_list))
-r_non_readthrough_list = list(set(r_non_readthrough_list))
+            r_non_readthrough_set.add(record.name)
 
 output_r1_readthrough = open(out_readthrough_r1, "w")
 output_r1_non_readthrough = open(out_non_readthrough_r1, "w")
@@ -95,14 +93,14 @@ output_r2_non_readthrough = open(out_non_readthrough_r2, "w")
 
 with _open(r1) as f:
     for record in SeqIO.parse(f, 'fastq'):
-        if record.name in r_readthrough_list:
+        if record.name in r_readthrough_set:
             output_r1_readthrough.write(record.format("fastq"))
         else:
             output_r1_non_readthrough.write(record.format("fastq"))
 
 with _open(r2) as f:
     for record in SeqIO.parse(f, 'fastq'):
-        if record.name in r_readthrough_list:
+        if record.name in r_readthrough_set:
             output_r2_readthrough.write(record.format("fastq"))
         else:
             output_r2_non_readthrough.write(record.format("fastq"))

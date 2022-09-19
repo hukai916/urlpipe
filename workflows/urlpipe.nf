@@ -51,7 +51,7 @@ include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
 include { CUTADAPT                    } from '../modules/nf-core/modules/cutadapt/main'
 include { FASTQC                      } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
-include { CAT_STAT; CAT_STAT as CAT_STAT2 } from '../modules/local/cat_stat'
+include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3 } from '../modules/local/cat_stat'
 include { UMI_PATTERN                 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
@@ -166,6 +166,16 @@ workflow URLPIPE {
       MAP_LOCUS.out.reads_locus
       )
     ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
+
+    //
+    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    //
+    CAT_STAT3 (
+      CLASSIFY_READTHROUGH.out.stat.collect(),
+      "4a_classify_indel/stat",
+      "sample_name\tcount_readthrough\tcount_readthrough_percent\tcount_non_readthrough\tp_count_non_readthrough_percent" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT3.out.versions)
 
 
     // MAP_LOCUS.out.stat.collect()
