@@ -77,8 +77,8 @@ else:
 
         # sparse the x-axis ticks:
         N = 5  # 1 tick every 5
-        myticks = [i for i in range(bins) + N + 1 if not i%N]
-        newlabels = [i for i in range(bins) + N + 1 if not i%N]
+        myticks = [i for i in range(bins + N  + 1) if not i%N]
+        newlabels = [i for i in range(bins + N + 1) if not i%N]
 
         plt.xticks(myticks, newlabels, rotation = 85)
         plt.tick_params(labelsize=8)
