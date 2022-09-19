@@ -75,7 +75,7 @@ else:
         _output_plot_tem = os.path.join(output_plot, sample_name + "_" + group_id + ".txt")
         with open(_output_plot_tem, "w") as f:
             f.write(",".join([str(x) for x in sorted(_tem)]))
-            f.write()
+            f.write("\n")
             f.write(bins)
 
         plt.hist(sorted(_tem), bins = bins)
