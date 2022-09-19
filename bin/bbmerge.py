@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 
 """
-To classify reads into read through and non-read-through.
-As long as R1 or R2 contain both repeat flanking reads, the read pair will be treated as read-through read pair.
+Merge R1 and R1.
 
 Usage:
-    classify_readthrough.py 4a_classify_readthrough/readthrough 4a_classify_readthrough/non_readthrough 4a_classify_readthrough/stat sample_name $args
 
 """
 
@@ -112,8 +110,8 @@ output_r2_non_readthrough.close()
 
 # print some stats:
 with open(os.path.join(stat_dir, sample_name + ".tsv"), "w") as f:
-    count_through = len(r_readthrough_set)
-    count_non_through = len(r_non_readthrough_set)
+    count_through = len(r_readthrough)
+    count_non_through = len(r_non_readthrough)
     p_count_through = count_through/(sum([count_through, count_non_through]))
     p_count_non_through = count_non_through/(sum([count_through, count_non_through]))
 

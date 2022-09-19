@@ -181,9 +181,9 @@ workflow URLPIPE {
     // MODULE: BBmerge
     //
     // BBMERGE (
-    //   MAP_LOCUS.out.reads_locus
+    //   CLASSIFY_READTHROUGH.out.reads_through
     //   )
-    // ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
+    // ch_versions = ch_versions.mix(BBMERGE.out.versions)
     //
 
 
