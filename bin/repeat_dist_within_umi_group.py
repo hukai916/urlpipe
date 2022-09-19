@@ -73,17 +73,15 @@ else:
         _tem = [int(x) for x in _tem if str(x).isdigit()]
 
         plt.hist(sorted(_tem), bins = bins)
+        # plt.hist(group_df.iloc[:,1], bins = bins)
 
         # sparse the x-axis ticks:
         N = 5  # 1 tick every 5
-        myticks = [i for i in range(bins) if not i%N]
-        newlabels = [i for i in range(bins) if not i%N]
+        myticks = [i for i in range(bins) + N + 1 if not i%N]
+        newlabels = [i for i in range(bins) + N + 1 if not i%N]
 
         plt.xticks(myticks, newlabels, rotation = 85)
         plt.tick_params(labelsize=8)
-
-
-        # plt.hist(sorted(group_df.iloc[:,1]), bins = bins)
 
         plt.xlabel("repeat length")
         plt.ylabel("count")
