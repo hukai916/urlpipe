@@ -5,16 +5,16 @@ process REPEAT_DIST_WITHIN_UMI_GROUP {
     container "hukai916/miniconda3_bio:0.3"
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(tsv)
     val outdir
 
     output:
-    path "4d_repeat_distribution_distance/stat_r1/*.tsv",        emit: stat_r1
-    path "4d_repeat_distribution_distance/stat_r2/*.tsv",        emit: stat_r2
-    path "4d_repeat_distribution_distance/plot_r1/*.png",        emit: plot_r1
-    path "4d_repeat_distribution_distance/plot_r2/*.png",        emit: plot_r2
-    path "4d_repeat_distribution_distance/count_r1/*.tsv",       emit: count_r1
-    path "4d_repeat_distribution_distance/count_r2/*.tsv",       emit: count_r2
+    path "*/UMI_3/stat/*.tsv",        emit: umi_3_stat
+    path "*/UMI_10/stat/*.tsv",       emit: umi_10_stat
+    path "*/UMI_100/stat/*.tsv",      emit: umi_100_stat
+    path "*/UMI_3/plot/*.png",        emit: umi_3_plot
+    path "*/UMI_10/plot/*.png",       emit: umi_10_plot
+    path "*/UMI_100/plot/*.png",      emit: umi_100_plot
     path  "versions.yml",                                        emit: versions
 
     when:
@@ -25,9 +25,11 @@ process REPEAT_DIST_WITHIN_UMI_GROUP {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p 4d_repeat_distribution_distance/stat_r1 4d_repeat_distribution_distance/stat_r2 4d_repeat_distribution_distance/plot_r1 4d_repeat_distribution_distance/plot_r2 4d_repeat_distribution_distance/count_r1 4d_repeat_distribution_distance/count_r2
+    # examine repeat length distribution for UMI group 3, 10, and 100, each select 10 UMI to plot
 
-    repeat_dist_count.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz ${prefix} 4d_repeat_distribution_distance $args
+    mkdir -p ${outdir}/UMI_3/stat ${outdir}/UMI_3/plot ${outdir}/UMI_10/stat ${outdir}/UMI_10/plot ${outdir}/UMI_100/stat ${outdir}/UMI_100/plot
+
+    repeat_dist_within_umi_group.py $tsv $prefix 10 ${outdir}/UMI_10/stat ${outdir}/UMI_10/plot
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
