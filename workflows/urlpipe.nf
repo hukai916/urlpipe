@@ -61,6 +61,7 @@ include { REPEAT_DIST_DISTANCE        } from '../modules/local/repeat_dist_dista
 include { REPEAT_DIST_DISTANCE_MERGED } from '../modules/local/repeat_dist_distance_merged'
 include { REPEAT_DIST_WITHIN_UMI_GROUP} from '../modules/local/repeat_dist_within_umi_group'
 include { UMI_GROUP_STAT              } from '../modules/local/umi_group_stat'
+include { REPEAT_DIST_UMI_CORRECT     } from '../modules/local/repeat_dist_umi_correct'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -263,6 +264,16 @@ workflow URLPIPE {
       "5c_r1_umi_group_stat"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT.out.versions)
+
+    //
+    // MODULE: repeat dist UMI corrected
+    //
+    // REPEAT_DIST_UMI_CORRECT (
+    //   UMI_GROUP_STAT.out.stat,
+    //   "5d_r1_repeat_dist_umi_correct"
+    //   )
+    // ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT.out.versions)
+
 
     //
     // MODULE: repeat distribution R1 distance

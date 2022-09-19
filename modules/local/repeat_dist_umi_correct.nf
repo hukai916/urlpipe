@@ -1,4 +1,4 @@
-process UMI_GROUP_STAT {
+process REPEAT_DIST_UMI_CORRECT {
     tag "$meta.id"
     label 'process_low'
 
@@ -9,8 +9,8 @@ process UMI_GROUP_STAT {
     val outdir
 
     output:
-    tuple val(meta), path("*/*.tsv"),       emit: stat
-    path  "versions.yml",                   emit: versions
+    path "*/*.tsv",       emit: stat
+    path  "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
