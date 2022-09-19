@@ -60,7 +60,7 @@ include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
 include { REPEAT_DIST_DISTANCE        } from '../modules/local/repeat_dist_distance'
 include { REPEAT_DIST_DISTANCE_MERGED } from '../modules/local/repeat_dist_distance_merged'
 include { REPEAT_DIST_WITHIN_UMI_GROUP} from '../modules/local/repeat_dist_within_umi_group'
-
+include { UMI_GROUP_STAT              } from '../modules/local/umi_group_stat'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -258,13 +258,11 @@ workflow URLPIPE {
     //
     // MODULE: UMI group stat: UMI read_count mean mode
     //
-    // UMI_GROUP_STAT (
-    //   REPEAT_DIST_DISTANCE.out.count_r1,
-    //   "5c_r1_umi_group_stat"
-    //   )
-    // ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP.out.versions)
-    //
-
+    UMI_GROUP_STAT (
+      REPEAT_DIST_DISTANCE.out.count_r1,
+      "5c_r1_umi_group_stat"
+      )
+    ch_versions = ch_versions.mix(UMI_GROUP_STAT.out.versions)
 
     //
     // MODULE: repeat distribution R1 distance

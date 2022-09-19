@@ -99,7 +99,7 @@ for i in list(range(int(df.iloc[-3, 0]) + 10)) + ["plus", "problem"]:
 # weight = [math.log2(x + 0.1) for x in df.iloc[:, 1]]
 weight = y
 # n, bins, patches = axs[_i][_j].hist(x, weights = weight, bins=len(x), edgecolor='black')
-n, bins, patches = plt.hist(x, weights = weight, bins=len(x), edgecolor='black')
+n, bins, patches = plt.hist(x, weights = weight, bins=len(x), range = (0, len(x)), edgecolor='black')
 
 # sparse the x-axis ticks:
 N = 5  # 1 tick every 5
