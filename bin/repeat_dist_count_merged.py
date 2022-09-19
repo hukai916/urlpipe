@@ -67,7 +67,7 @@ with _open(r) as f:
 keys = [x for x in dict_repeat.keys() if not x == "problem" and not x == "plus"]
 
 # output stat:
-output_file = os.path.join(output_dir, "stat_r1", sample_name + ".tsv")
+output_file = os.path.join(output_dir, "stat", sample_name + ".tsv")
 os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
 with open(output_file, "w") as f:
@@ -77,7 +77,7 @@ with open(output_file, "w") as f:
     f.write("problem" + "\t" + str(dict_repeat["problem"]) + "\n")
 
 # output plot:
-output_plot = os.path.join(output_dir, "plot_r1", sample_name + ".png")
+output_plot = os.path.join(output_dir, "plot", sample_name + ".png")
 os.makedirs(os.path.dirname(output_plot), exist_ok=True)
 
 # We can set the number of bins with the *bins* keyword argument.
@@ -120,7 +120,7 @@ plt.savefig(output_plot, dpi = 300)
 plt.close()
 
 # ouput raw count:
-output_count = os.path.join(output_dir, "count_r1", sample_name + ".tsv")
+output_count = os.path.join(output_dir, "count", sample_name + ".tsv")
 os.makedirs(os.path.dirname(output_count), exist_ok=True)
 with open(output_count, "w") as f:
     for x in dict_count:
