@@ -34,7 +34,7 @@ with open(output_stat, "w") as f:
         mode_freq = _data.most_common()[0][1]  # Returns the highest occurring item frequency
         for x in _data.most_common():
             if x[1] == mode_freq:
-                if mode > mode:
+                if x[0] > mode:
                     mode = x[0]
         # print(d_umi[k])
         res = "\t".join([k, str(len(d_umi[k])), str(mean(d_umi[k])), str(mode)]) + "\n"
