@@ -58,6 +58,7 @@ include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthro
 include { BBMERGE                     } from '../modules/local/bbmerge'
 include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
 include { REPEAT_DIST_DISTANCE        } from '../modules/local/repeat_dist_distance'
+include { REPEAT_DIST_DISTANCE_MERGED } from '../modules/local/repeat_dist_distance_merged'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -217,12 +218,20 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
 
     //
-    // MODULE: repeat distribution R1/R2 distance
+    // MODULE: repeat distribution distance with R1/R2 reads
     //
     REPEAT_DIST_DISTANCE (
       CLASSIFY_READTHROUGH.out.reads_through
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE.out.versions)
+
+    //
+    // MODULE: repeat distribution distance with merged reads
+    //
+    REPEAT_DIST_DISTANCE_MERGED (
+      BBMERGE.out.reads_merged
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE_MERGED.out.versions)
 
     //
     // MODULE: repeat distribution R1 distance
