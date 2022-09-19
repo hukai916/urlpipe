@@ -29,7 +29,7 @@ process REPEAT_DIST_WITHIN_UMI_GROUP {
 
     mkdir -p ${outdir}/UMI_3/stat ${outdir}/UMI_3/plot ${outdir}/UMI_10/stat ${outdir}/UMI_10/plot ${outdir}/UMI_100/stat ${outdir}/UMI_100/plot
 
-    repeat_dist_within_umi_group.py $tsv $prefix 10 ${outdir}/UMI_10/stat ${outdir}/UMI_10/plot
+    repeat_dist_within_umi_group.py $tsv $prefix 10 ${outdir}/UMI_10/stat ${outdir}/UMI_10/plot $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
