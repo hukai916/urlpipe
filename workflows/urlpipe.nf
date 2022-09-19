@@ -218,10 +218,10 @@ workflow URLPIPE {
     //
     // MODULE: repeat distribution R1/R2 distance
     //
-    // REPEAT_DIST_DISTANCE (
-    //   CLASSIFY_READTHROUGH.out.reads_through
-    //   )
-    // ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE.out.versions)
+    REPEAT_DIST_DISTANCE (
+      CLASSIFY_READTHROUGH.out.reads_through
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE.out.versions)
 
     //
     // MODULE: repeat distribution R1 distance
