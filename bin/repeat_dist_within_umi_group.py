@@ -55,8 +55,8 @@ for group_id, group_df in df.groupby(df.iloc[:,0]):
     plt.title("Repeat Length Distribution within UMI Group: " + group_df.iloc[0,0])
 
     print(group_id)
-    output_plot = os.path.join(output_plot, sample_name + "_" + group_id + ".png")
-    os.makedirs(os.path.dirname(output_plot), exist_ok=True)
-    plt.savefig(output_plot, dpi = 300)
-
-    plt.close()
+    # output_plot = os.path.join(output_plot, sample_name + "_" + group_id + ".png")
+    # os.makedirs(os.path.dirname(output_plot), exist_ok=True)
+    # plt.savefig(output_plot, dpi = 300)
+    #
+    # plt.close()
