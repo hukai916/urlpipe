@@ -249,10 +249,10 @@ workflow URLPIPE {
     //
     // MODULE: repeat distribution within umi group
     //
-    REPEAT_DIST_WITHIN_UMI_GROUP (
-      REPEAT_DIST_DISTANCE.out.count_r1
-      )
-    ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP.out.versions)
+    // REPEAT_DIST_WITHIN_UMI_GROUP (
+    //   REPEAT_DIST_DISTANCE.out.count_r1
+    //   )
+    // ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP.out.versions)
 
 
     //
