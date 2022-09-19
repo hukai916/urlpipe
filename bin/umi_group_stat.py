@@ -7,6 +7,7 @@ Summarize UMI group stat: UMI read_count mean mode
 import sys
 import os
 from collections import Counter
+from statistics import mean
 
 tsv = sys.argv[1]
 sample_name = sys.argv[2]
