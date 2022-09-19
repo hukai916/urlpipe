@@ -78,9 +78,7 @@ else:
             f.write("\n")
             f.write(str(bins))
 
-        plt.hist(sorted(_tem), bins = bins)
-
-
+        plt.hist(sorted(_tem), bins = bins, range = (0, bins))
         # plt.hist(group_df.iloc[:,1], bins = bins)
 
         # sparse the x-axis ticks:
