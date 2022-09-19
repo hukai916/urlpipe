@@ -46,6 +46,8 @@ with open(output_stat, "w") as f:
         for c in d_cutoff[k]:
             f.write(k + "\t" + str(c) + "\n")
 
+print(output_stat)
+print(d_cutoff)
 # save to plot
 output_plot = os.path.join(output_plot, sample_name + ".png")
 os.makedirs(os.path.dirname(output_plot), exist_ok=True)

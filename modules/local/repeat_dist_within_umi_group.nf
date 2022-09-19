@@ -10,12 +10,12 @@ process REPEAT_DIST_WITHIN_UMI_GROUP {
 
     output:
     path "*/UMI_3/stat/*.tsv",        emit: umi_3_stat
-    path "*/UMI_10/stat/*.tsv",       emit: umi_10_stat
-    path "*/UMI_100/stat/*.tsv",      emit: umi_100_stat
     path "*/UMI_3/plot/*.png",        emit: umi_3_plot
+    path "*/UMI_10/stat/*.tsv",       emit: umi_10_stat
     path "*/UMI_10/plot/*.png",       emit: umi_10_plot
+    path "*/UMI_100/stat/*.tsv",      emit: umi_100_stat
     path "*/UMI_100/plot/*.png",      emit: umi_100_plot
-    path  "versions.yml",                                        emit: versions
+    path  "versions.yml",             emit: versions
 
     when:
     task.ext.when == null || task.ext.when
