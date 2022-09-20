@@ -51,4 +51,4 @@ plot_repeat_dist(outfile_mean, outplot_mean, sample_name, N)
 
 outplot_mode = os.path.join(outdir, "plot_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
 os.makedirs(outplot_mode, exist_ok=True)
-plot_repeat_dist(outfile_mode, outplot_mode, sample_name, N)
+plot_repeat_dist(outfile_mode, outplot_mode, sample_name, 5)
