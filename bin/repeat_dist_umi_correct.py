@@ -45,4 +45,3 @@ with open(os.path.join(outdir, "stat_mode_" + sample_name + "_cutoff_" + str(cut
 
 with open(outdir + "/test.txt", "w") as f:
     f.write("Simply a test!")
-    f.write(print_test())
