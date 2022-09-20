@@ -20,7 +20,7 @@ repeat_length_mode = {}
 
 with open(tsv, "r") as f:
     for line in f:
-        umi, int(count), int(mean), int(mode) = line.split()
+        umi, count, mean, mode = line.split()
         if count >= int(cutoff):
             if not int(mean) in repeat_length_mean:
                 repeat_length_mean[int(mean)] = 1
