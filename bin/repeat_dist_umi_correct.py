@@ -9,7 +9,7 @@ import os
 from collections import Counter
 from statistics import mean
 
-tsv = sys.argv[1]
+tsv         = sys.argv[1]
 sample_name = sys.argv[2]
 outdir      = sys.argv[3]
 cutoff      = sys.argv[4]

@@ -268,11 +268,11 @@ workflow URLPIPE {
     //
     // MODULE: repeat dist UMI corrected
     //
-    // REPEAT_DIST_UMI_CORRECT (
-    //   UMI_GROUP_STAT.out.stat,
-    //   "5d_r1_repeat_dist_umi_correct"
-    //   )
-    // ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT.out.versions)
+    REPEAT_DIST_UMI_CORRECT (
+      UMI_GROUP_STAT.out.stat,
+      "5d_r1_repeat_dist_umi_correct"
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT.out.versions)
 
 
     //
