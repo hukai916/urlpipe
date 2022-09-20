@@ -22,7 +22,7 @@ def plot_repeat_dist(tsv, output_file, sample_name, N):
 
     for i in range(len(df.iloc[:,0])):
         _dict[df.iloc[i, 0]] = df.iloc[i, 1]
-
+    print(_dict)
     for i in list(range(int(df.iloc[-3, 0]) + 10)) + ["plus", "problem"]:
         if not str(i) in _dict:
             x = x + [str(i)]
