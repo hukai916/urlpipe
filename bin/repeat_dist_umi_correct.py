@@ -8,7 +8,7 @@ import sys
 import os
 from collections import Counter
 from statistics import mean
-from .utils import plot_repeat_dist
+from utils import plot_repeat_dist
 
 tsv         = sys.argv[1]
 sample_name = sys.argv[2]
