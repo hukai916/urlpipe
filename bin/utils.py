@@ -16,7 +16,7 @@ def plot_repeat_dist(tsv, output_file, sample_name, N):
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
     # We can set the number of bins with the *bins* keyword argument.
-    df = pd.read_csv(tsv, sep = "\t")
+    df = pd.read_csv(tsv, sep = "\t", header = None)
     x, y = [], []
     _dict = {}
 
@@ -33,6 +33,8 @@ def plot_repeat_dist(tsv, output_file, sample_name, N):
 
     # weight = [math.log2(x + 0.1) for x in df.iloc[:, 1]]
     weight = y
+    print(x)
+    print(weights)
     # n, bins, patches = axs[_i][_j].hist(x, weights = weight, bins=len(x), edgecolor='black')
     n, bins, patches = plt.hist(x, weights = weight, bins=len(x), range = (0, len(x)))
 
