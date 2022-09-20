@@ -9,8 +9,13 @@ process REPEAT_DIST_UMI_CORRECT {
     val outdir
 
     output:
-    path "*/*.tsv",       emit: stat
-    path  "versions.yml", emit: versions
+    // path "*/cutoff_1/*.png",       emit: png_cutoff_1
+    // path "*/cutoff_3/*.png",       emit: png_cutoff_3
+    // path "*/cutoff_10/*.png",      emit: png_cutoff_10
+    // path "*/cutoff_30/*.png",      emit: png_cutoff_30
+    // path "*/cutoff_100/*.png",     emit: png_cutoff_100
+    path "*/*", emit: test
+    path  "versions.yml",          emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -20,11 +25,15 @@ process REPEAT_DIST_UMI_CORRECT {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    # examine repeat length distribution for UMI group 3, 10, and 100, each select 10 UMI to plot
+    # plot repeat length distribution with UMI cutoff: 1, 3, 10, 30, 100
 
-    mkdir -p ${outdir}
+    mkdir -p ${outdir}/cutoff_1 ${outdir}/cutoff_3 ${outdir}/cutoff_10 ${outdir}/cutoff_30 ${outdir}/cutoff_100
 
-    umi_group_stat.py $tsv $prefix ${outdir} $args
+    repeat_dist_umi_correct.py $tsv $prefix ${outdir}/cutoff_1 1
+    #repeat_dist_umi_correct.py $tsv $prefix ${outdir}/cutoff_3 3
+    #repeat_dist_umi_correct.py $tsv $prefix ${outdir}/cutoff_10 10
+    #repeat_dist_umi_correct.py $tsv $prefix ${outdir}/cutoff_30 30
+    #repeat_dist_umi_correct.py $tsv $prefix ${outdir}/cutoff_100 100
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
