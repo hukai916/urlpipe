@@ -21,8 +21,8 @@ def plot_repeat_dist(tsv, output_file, sample_name, N):
     _dict = {}
 
     for i in range(len(df.iloc[:,0])):
-        _dict[df.iloc[i, 0]] = df.iloc[i, 1]
-    print(_dict)
+        _dict[str(df.iloc[i, 0])] = df.iloc[i, 1]
+
     for i in list(range(int(df.iloc[-3, 0]) + 10)) + ["plus", "problem"]:
         if not str(i) in _dict:
             x = x + [str(i)]
@@ -33,8 +33,6 @@ def plot_repeat_dist(tsv, output_file, sample_name, N):
 
     # weight = [math.log2(x + 0.1) for x in df.iloc[:, 1]]
     weight = y
-    print(x)
-    print(weight)
     # n, bins, patches = axs[_i][_j].hist(x, weights = weight, bins=len(x), edgecolor='black')
     n, bins, patches = plt.hist(x, weights = weight, bins=len(x), range = (0, len(x)))
 
