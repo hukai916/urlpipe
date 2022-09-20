@@ -35,10 +35,10 @@ with open(tsv, "r") as f:
                 else:
                     repeat_length_mode[mode] += 1
 # output to stat:
-with open(os.path.join(outdir, "stat_mean_" + smaple_name + "_cutoff_" + str(cutoff) + ".tsv"), "w") as f:
+with open(os.path.join(outdir, "stat_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".tsv"), "w") as f:
     for k in sorted(repeat_length_mean.keys()):
         f.write(str(k) + '\t' + str(repeat_length_mean[k]) + '\n')
-with open(os.path.join(outdir, "stat_mode_" + smaple_name + "_cutoff_" + str(cutoff) + ".tsv"), "w") as f:
+with open(os.path.join(outdir, "stat_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".tsv"), "w") as f:
     for k in sorted(repeat_length_mode.keys()):
         f.write(str(k) + '\t' + str(repeat_length_mode[k]) + '\n')
 
