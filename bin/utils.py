@@ -1,4 +1,9 @@
-def plot_repeat_dist(tsv, output_dir, sample_name, N):
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib import colors
+from matplotlib.ticker import PercentFormatter
+
+def plot_repeat_dist(tsv, output_file, sample_name, N):
     """
     tsv:
         col1 col2
@@ -6,8 +11,7 @@ def plot_repeat_dist(tsv, output_dir, sample_name, N):
     N = 5  # 1 tick every 5
     """
     # output plot:
-    output_plot = os.path.join(output_dir, sample_name + ".png")
-    os.makedirs(os.path.dirname(output_plot), exist_ok=True)
+    os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
     # We can set the number of bins with the *bins* keyword argument.
     df = pd.read_csv(tsv, sep = "\t")
@@ -44,7 +48,7 @@ def plot_repeat_dist(tsv, output_dir, sample_name, N):
     plt.tick_params(labelsize=8)
     plt.title(sample_name)
 
-    plt.savefig(output_plot, dpi = 300)
+    plt.savefig(output_file, dpi = 300)
     plt.close()
 
 def print_test():

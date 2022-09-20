@@ -35,13 +35,20 @@ with open(tsv, "r") as f:
                 else:
                     repeat_length_mode[mode] += 1
 # output to stat:
-with open(os.path.join(outdir, "stat_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".tsv"), "w") as f:
+outfile_mean = os.path.join(outdir, "stat_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".tsv")
+with open(outfile_mean, "w") as f:
     for k in sorted(repeat_length_mean.keys()):
         f.write(str(k) + '\t' + str(repeat_length_mean[k]) + '\n')
-with open(os.path.join(outdir, "stat_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".tsv"), "w") as f:
+outfile_mode = os.path.join(outdir, "stat_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".tsv")
+with open(outfile_mode, "w") as f:
     for k in sorted(repeat_length_mode.keys()):
         f.write(str(k) + '\t' + str(repeat_length_mode[k]) + '\n')
 
+# output to plot:
+outplot_mean = os.path.join(outdir, "plot_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
+os.makedirs(outplot_mean, exist_ok=True)
+plot_repeat_dist(outfile_mean, outplot_mean, sample_name, N)
 
-with open(outdir + "/test.txt", "w") as f:
-    f.write("Simply a test!")
+outplot_mode = os.path.join(outdir, "plot_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
+os.makedirs(outplot_mode, exist_ok=True)
+plot_repeat_dist(outfile_mode, outplot_mode, sample_name, N)
