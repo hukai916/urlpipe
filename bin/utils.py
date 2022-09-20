@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import colors
 from matplotlib.ticker import PercentFormatter
+import os
 
 def plot_repeat_dist(tsv, output_file, sample_name, N):
     """
