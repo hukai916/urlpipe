@@ -46,3 +46,6 @@ def plot_repeat_dist(tsv, output_dir, sample_name, N):
 
     plt.savefig(output_plot, dpi = 300)
     plt.close()
+
+def print_test():
+    return("inside here")
