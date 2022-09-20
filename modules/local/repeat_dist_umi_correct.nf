@@ -9,12 +9,11 @@ process REPEAT_DIST_UMI_CORRECT {
     val outdir
 
     output:
-    // path "*/cutoff_1/*.png",       emit: png_cutoff_1
-    // path "*/cutoff_3/*.png",       emit: png_cutoff_3
-    // path "*/cutoff_10/*.png",      emit: png_cutoff_10
-    // path "*/cutoff_30/*.png",      emit: png_cutoff_30
-    // path "*/cutoff_100/*.png",     emit: png_cutoff_100
-    path "*/*", emit: test
+    path "*/cutoff_1/*",       emit: cutoff_1
+    path "*/cutoff_3/*",       emit: cutoff_3
+    path "*/cutoff_10/*",      emit: cutoff_10
+    path "*/cutoff_30/*",      emit: cutoff_30
+    path "*/cutoff_100/*",     emit: cutoff_100
     path  "versions.yml",          emit: versions
 
     when:
