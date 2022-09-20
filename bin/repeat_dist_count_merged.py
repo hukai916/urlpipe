@@ -17,12 +17,9 @@ import regex
 import gzip
 from mimetypes import guess_type
 from functools import partial
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import colors
-from matplotlib.ticker import PercentFormatter
-import sys
 import pandas as pd
+from utils import plot_repeat_dist
 
 r = sys.argv[1]
 sample_name = sys.argv[2]
@@ -77,47 +74,10 @@ with open(output_file, "w") as f:
     f.write("problem" + "\t" + str(dict_repeat["problem"]) + "\n")
 
 # output plot:
+N = 5
 output_plot = os.path.join(output_dir, "plot", sample_name + ".png")
 os.makedirs(os.path.dirname(output_plot), exist_ok=True)
-
-# We can set the number of bins with the *bins* keyword argument.
-df = pd.read_csv(output_file, sep = "\t")
-x, y = [], []
-_dict = {}
-
-for i in range(len(df.iloc[:,0])):
-    _dict[df.iloc[i, 0]] = df.iloc[i, 1]
-
-for i in list(range(int(df.iloc[-3, 0]) + 10)) + ["plus", "problem"]:
-    if not str(i) in _dict:
-        x = x + [str(i)]
-        y = y + [0]
-    else:
-        x = x + [str(i)]
-        y = y + [_dict[str(i)]]
-
-# weight = [math.log2(x + 0.1) for x in df.iloc[:, 1]]
-weight = y
-# n, bins, patches = axs[_i][_j].hist(x, weights = weight, bins=len(x), edgecolor='black')
-n, bins, patches = plt.hist(x, weights = weight, bins=len(x), range = (0, len(x)), edgecolor='black')
-
-# sparse the x-axis ticks:
-N = 5  # 1 tick every 5
-myticks = [i for i in range(len(x)) if not i%N]
-newlabels = [i for i in range(len(x)) if not i%N]
-
-if "plus" in list(x) and not "plus" in newlabels:
-    newlabels = newlabels[:-2]
-    myticks = myticks[:-2]
-    newlabels = newlabels + ["+"]
-    myticks = myticks + [len(x) - 2]
-
-plt.xticks(myticks, newlabels, rotation = 85)
-plt.tick_params(labelsize=8)
-plt.title(sample_name)
-
-plt.savefig(output_plot, dpi = 300)
-plt.close()
+plot_repeat_dist(output_file, output_plot, sample_name, N)
 
 # ouput raw count:
 output_count = os.path.join(output_dir, "count", sample_name + ".tsv")

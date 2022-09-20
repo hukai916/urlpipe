@@ -17,11 +17,7 @@ import regex
 import gzip
 from mimetypes import guess_type
 from functools import partial
-import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib import colors
-from matplotlib.ticker import PercentFormatter
-import sys
 import pandas as pd
 from utils import plot_repeat_dist
 
@@ -93,7 +89,6 @@ os.makedirs(os.path.dirname(output_count), exist_ok=True)
 with open(output_count, "w") as f:
     for x in dict_count:
         f.write(x + "\t" + str(dict_count[x]) + "\n")
-
 
 ## Now use R2:
 dict_repeat = {"problem": 0, "plus": 0}
