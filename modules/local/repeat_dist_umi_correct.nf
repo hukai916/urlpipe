@@ -28,11 +28,11 @@ process REPEAT_DIST_UMI_CORRECT {
 
     mkdir -p ${outdir}/cutoff_1 ${outdir}/cutoff_3 ${outdir}/cutoff_10 ${outdir}/cutoff_30 ${outdir}/cutoff_100
 
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_1 1
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_3 3
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_10 10
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_30 30
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_100 100
+    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_1 1 $args
+    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_3 3 $args
+    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_10 10 $args
+    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_30 30 $args
+    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_100 100 $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
