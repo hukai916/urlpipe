@@ -38,4 +38,5 @@ with open(output_stat, "w") as f:
                     mode = x[0]
         # print(d_umi[k])
         res = ",".join([k, str(len(d_umi[k])), str(mean(d_umi[k])), str(mode)]) + "\n"
+        print(res)
         f.write(res)

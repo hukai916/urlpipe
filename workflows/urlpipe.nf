@@ -141,7 +141,7 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(CAT_STAT.out.versions)
 
     //
-    // MODULE: UMI pattern
+    // MODULE: UMI pattern: 2a
     //
     UMI_PATTERN (
       CUTADAPT.out.reads,
@@ -238,7 +238,7 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE_MERGED.out.versions)
 
     //
-    // MODULE: UMI pattern
+    // MODULE: UMI pattern: 5a
     //
     UMI_PATTERN2 (
       CLASSIFY_READTHROUGH.out.reads_through,

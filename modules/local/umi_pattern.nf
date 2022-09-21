@@ -28,7 +28,7 @@ process UMI_PATTERN {
     (echo -e "${prefix},count" && cat tem.txt | sort -n) > ${outdir}/stat/${prefix}_UMI_distribution.csv
     rm tem.txt
 
-    plot_umi_pattern.py ${outdir}/stat/${prefix}_UMI_distribution.csv ${prefix} ${outdir}/plot/${prefix}_UMI_distribution.png
+    plot_umi_pattern.py ${outdir}/stat/${prefix}_UMI_distribution.csv ${prefix} ${outdir}/plot/${prefix}_UMI_distribution.png $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
