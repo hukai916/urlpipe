@@ -16,7 +16,7 @@ outdir      = sys.argv[3]
 # read csv into dict
 d_umi = {}
 for line in open(csv):
-    umi, length = line.split(",")
+    umi, length = line.strip().split(",")
     print(line.split(","))
     exit()
     umi = umi.split("_")[1]
