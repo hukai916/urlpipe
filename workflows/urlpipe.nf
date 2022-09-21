@@ -257,7 +257,7 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP.out.versions)
 
     //
-    // MODULE: UMI group stat: UMI read_count mean mode
+    // MODULE: UMI group stat: UMI read_count mean mode: 5c
     //
     UMI_GROUP_STAT (
       REPEAT_DIST_DISTANCE.out.count_r1,
@@ -266,7 +266,7 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(UMI_GROUP_STAT.out.versions)
 
     //
-    // MODULE: repeat dist UMI corrected
+    // MODULE: repeat dist UMI corrected: 5d
     //
     REPEAT_DIST_UMI_CORRECT (
       UMI_GROUP_STAT.out.stat,
