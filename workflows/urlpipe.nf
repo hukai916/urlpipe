@@ -171,7 +171,7 @@ workflow URLPIPE {
     // MODULE: classify_readthrough
     //
     CLASSIFY_READTHROUGH (
-      MAP_LOCUS.out.reads_locus
+      CLASSIFY_INDEL.out.reads_no_indel
       )
     ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
 
