@@ -17,7 +17,7 @@ outdir      = sys.argv[3]
 d_umi = {}
 for line in open(csv):
     umi, length = line.strip().split(",")
-    print(line.split(","))
+    print(line.strip().split(","))
     exit()
     umi = umi.split("_")[1]
     if str(length).isdigit():
