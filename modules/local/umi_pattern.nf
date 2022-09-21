@@ -9,7 +9,7 @@ process UMI_PATTERN {
     val outdir
 
     output:
-    path "*/stat/*.tsv",    emit: stat
+    path "*/stat/*.csv",    emit: stat
     path "*/plot/*",        emit: plot
     path  "versions.yml",                emit: versions
 
@@ -23,12 +23,12 @@ process UMI_PATTERN {
     """
     mkdir -p ${outdir}/stat ${outdir}/plot
 
-    zcat ${prefix}_1.fastq.gz | awk 'NR%4==1 {n = split(\$1, array, "_"); print array[n]}' | sort | uniq -c | awk '{print \$1}' | sort | uniq -c | awk '{print \$2, "\t", \$1}' | sort -n > tem.txt
+    zcat ${prefix}_1.fastq.gz | awk 'NR%4==1 {n = split(\$1, array, "_"); print array[n]}' | sort | uniq -c | awk '{print \$1}' | sort | uniq -c | awk '{print \$2, ",", \$1}' | sort -n > tem.txt
 
-    (echo -e "${prefix}\tcount" && cat tem.txt | sort -n) > ${outdir}/stat/${prefix}_UMI_distribution.tsv
+    (echo -e "${prefix},count" && cat tem.txt | sort -n) > ${outdir}/stat/${prefix}_UMI_distribution.csv
     rm tem.txt
 
-    plot_umi_pattern.py ${outdir}/stat/${prefix}_UMI_distribution.tsv ${prefix} ${outdir}/plot/${prefix}_UMI_distribution.png
+    plot_umi_pattern.py ${outdir}/stat/${prefix}_UMI_distribution.csv ${prefix} ${outdir}/plot/${prefix}_UMI_distribution.png
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

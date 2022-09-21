@@ -10,7 +10,7 @@ process BBMERGE {
     output:
     tuple val(meta), path("4b_bbmerge/merged/*.fastq.gz"),        emit: reads_merged
     tuple val(meta), path("4b_bbmerge/non_merged/*.fastq.gz"),    emit: reads_non_merged
-    path "4b_bbmerge/stat/*.tsv",               emit: stat
+    path "4b_bbmerge/stat/*.csv",               emit: stat
     path  "versions.yml",                       emit: versions
 
     when:
@@ -28,7 +28,7 @@ process BBMERGE {
     c_merge=\$(echo \$(zcat 4b_bbmerge/merged/${prefix}.fastq.gz | wc -l)/4|bc)
     c_non_merge=\$(echo \$(zcat 4b_bbmerge/non_merged/${prefix}_1.fastq.gz | wc -l)/4|bc)
 
-    echo "${prefix}\t\$c_merge\t\$c_non_merge" > 4b_bbmerge/stat/${prefix}.tsv
+    echo "${prefix},\$c_merge,\$c_non_merge" > 4b_bbmerge/stat/${prefix}.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

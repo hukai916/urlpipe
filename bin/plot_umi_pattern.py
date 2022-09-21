@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-tsv = sys.argv[1]
+csv = sys.argv[1]
 sample_name = sys.argv[2]
 outfile = sys.argv[3]
 
-data=pd.read_csv(tsv, sep='\t')
+data=pd.read_csv(csv, sep=',')
 x = data.iloc[:,0].to_frame()
 weight = np.log2(data[["count"]])
 

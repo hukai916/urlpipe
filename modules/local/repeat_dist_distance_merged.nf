@@ -8,9 +8,9 @@ process REPEAT_DIST_DISTANCE_MERGED {
     tuple val(meta), path(reads)
 
     output:
-    path "4d_repeat_distribution_distance_merged/stat/*.tsv",        emit: stat
+    path "4d_repeat_distribution_distance_merged/stat/*.csv",        emit: stat
     path "4d_repeat_distribution_distance_merged/plot/*.png",        emit: plot
-    path "4d_repeat_distribution_distance_merged/count/*.tsv",       emit: count
+    path "4d_repeat_distribution_distance_merged/count/*.csv",       emit: count
     path  "versions.yml",                                            emit: versions
 
     when:

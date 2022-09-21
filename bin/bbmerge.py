@@ -16,7 +16,6 @@ import regex
 import gzip
 from mimetypes import guess_type
 from functools import partial
-import regex
 
 r1 = sys.argv[1]
 r2 = sys.argv[2]
@@ -109,10 +108,10 @@ output_r2_readthrough.close()
 output_r2_non_readthrough.close()
 
 # print some stats:
-with open(os.path.join(stat_dir, sample_name + ".tsv"), "w") as f:
+with open(os.path.join(stat_dir, sample_name + ".csv"), "w") as f:
     count_through = len(r_readthrough)
     count_non_through = len(r_non_readthrough)
     p_count_through = count_through/(sum([count_through, count_non_through]))
     p_count_non_through = count_non_through/(sum([count_through, count_non_through]))
 
-    f.write(sample_name + "\t" + str(count_through) + "\t" + str(p_count_through) + "\t" + str(count_non_through) + "\t" + str(p_count_non_through))
+    f.write(sample_name + "," + str(count_through) + "," + str(p_count_through) + "," + str(count_non_through) + "," + str(p_count_non_through))

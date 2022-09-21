@@ -5,16 +5,16 @@ process REPEAT_DIST_WITHIN_UMI_GROUP {
     container "hukai916/miniconda3_bio:0.3"
 
     input:
-    tuple val(meta), path(tsv)
+    tuple val(meta), path(csv)
     val outdir
 
     output:
-    path "*/UMI_3/stat/*.tsv",        emit: umi_3_stat
-    path "*/UMI_3/plot/*",        emit: umi_3_plot
-    path "*/UMI_10/stat/*.tsv",       emit: umi_10_stat
-    path "*/UMI_10/plot/*",       emit: umi_10_plot
-    path "*/UMI_100/stat/*.tsv",      emit: umi_100_stat
-    path "*/UMI_100/plot/*",      emit: umi_100_plot
+    path "*/UMI_3/stat/*.csv",        emit: umi_3_stat
+    path "*/UMI_3/plot/*",            emit: umi_3_plot
+    path "*/UMI_10/stat/*.csv",       emit: umi_10_stat
+    path "*/UMI_10/plot/*",           emit: umi_10_plot
+    path "*/UMI_100/stat/*.csv",      emit: umi_100_stat
+    path "*/UMI_100/plot/*",          emit: umi_100_plot
     path  "versions.yml",             emit: versions
 
     when:
@@ -29,9 +29,9 @@ process REPEAT_DIST_WITHIN_UMI_GROUP {
 
     mkdir -p ${outdir}/UMI_3/stat ${outdir}/UMI_3/plot ${outdir}/UMI_10/stat ${outdir}/UMI_10/plot ${outdir}/UMI_100/stat ${outdir}/UMI_100/plot
 
-    repeat_dist_within_umi_group.py $tsv $prefix 3 ${outdir}/UMI_3/stat ${outdir}/UMI_3/plot $args
-    repeat_dist_within_umi_group.py $tsv $prefix 10 ${outdir}/UMI_10/stat ${outdir}/UMI_10/plot $args
-    repeat_dist_within_umi_group.py $tsv $prefix 100 ${outdir}/UMI_100/stat ${outdir}/UMI_100/plot $args
+    repeat_dist_within_umi_group.py $csv $prefix 3 ${outdir}/UMI_3/stat ${outdir}/UMI_3/plot $args
+    repeat_dist_within_umi_group.py $csv $prefix 10 ${outdir}/UMI_10/stat ${outdir}/UMI_10/plot $args
+    repeat_dist_within_umi_group.py $csv $prefix 100 ${outdir}/UMI_100/stat ${outdir}/UMI_100/plot $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -10,7 +10,7 @@ process CLASSIFY_READTHROUGH {
     output:
     tuple val(meta), path("4a_classify_readthrough/readthrough/*.fastq.gz"),        emit: reads_through
     tuple val(meta), path("4a_classify_readthrough/non_readthrough/*.fastq.gz"),    emit: reads_nonethrough
-    path "4a_classify_readthrough/stat/*.tsv",                    emit: stat
+    path "4a_classify_readthrough/stat/*.csv",                    emit: stat
     path  "versions.yml",                                         emit: versions
 
     when:

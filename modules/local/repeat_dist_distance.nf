@@ -8,12 +8,12 @@ process REPEAT_DIST_DISTANCE {
     tuple val(meta), path(reads)
 
     output:
-    path "4d_repeat_distribution_distance/stat_r1/*.tsv",        emit: stat_r1
-    path "4d_repeat_distribution_distance/stat_r2/*.tsv",        emit: stat_r2
+    path "4d_repeat_distribution_distance/stat_r1/*.csv",        emit: stat_r1
+    path "4d_repeat_distribution_distance/stat_r2/*.csv",        emit: stat_r2
     path "4d_repeat_distribution_distance/plot_r1/*.png",        emit: plot_r1
     path "4d_repeat_distribution_distance/plot_r2/*.png",        emit: plot_r2
-    tuple val(meta), path("4d_repeat_distribution_distance/count_r1/*.tsv"),       emit: count_r1
-    tuple val(meta), path("4d_repeat_distribution_distance/count_r2/*.tsv"),       emit: count_r2
+    tuple val(meta), path("4d_repeat_distribution_distance/count_r1/*.csv"),       emit: count_r1
+    tuple val(meta), path("4d_repeat_distribution_distance/count_r2/*.csv"),       emit: count_r2
     path  "versions.yml",                                        emit: versions
 
     when:

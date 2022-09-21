@@ -5,11 +5,11 @@ process UMI_GROUP_STAT {
     container "hukai916/miniconda3_bio:0.3"
 
     input:
-    tuple val(meta), path(tsv)
+    tuple val(meta), path(csv)
     val outdir
 
     output:
-    tuple val(meta), path("*/*.tsv"),       emit: stat
+    tuple val(meta), path("*/*.csv"),       emit: stat
     path  "versions.yml",                   emit: versions
 
     when:
@@ -24,7 +24,7 @@ process UMI_GROUP_STAT {
 
     mkdir -p ${outdir}
 
-    umi_group_stat.py $tsv $prefix ${outdir} $args
+    umi_group_stat.py $csv $prefix ${outdir} $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

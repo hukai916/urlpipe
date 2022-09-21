@@ -64,14 +64,14 @@ with _open(r) as f:
 keys = [x for x in dict_repeat.keys() if not x == "problem" and not x == "plus"]
 
 # output stat:
-output_file = os.path.join(output_dir, "stat", sample_name + ".tsv")
+output_file = os.path.join(output_dir, "stat", sample_name + ".csv")
 os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
 with open(output_file, "w") as f:
     for i in sorted(keys):
-        f.write(str(i) + "\t" + str(dict_repeat[i]) + "\n")
-    f.write("plus" + "\t" + str(dict_repeat["plus"]) + "\n")
-    f.write("problem" + "\t" + str(dict_repeat["problem"]) + "\n")
+        f.write(str(i) + "," + str(dict_repeat[i]) + "\n")
+    f.write("plus" + "," + str(dict_repeat["plus"]) + "\n")
+    f.write("problem" + "," + str(dict_repeat["problem"]) + "\n")
 
 # output plot:
 N = 5
@@ -80,8 +80,8 @@ os.makedirs(os.path.dirname(output_plot), exist_ok=True)
 plot_repeat_dist(output_file, output_plot, sample_name, N)
 
 # ouput raw count:
-output_count = os.path.join(output_dir, "count", sample_name + ".tsv")
+output_count = os.path.join(output_dir, "count", sample_name + ".csv")
 os.makedirs(os.path.dirname(output_count), exist_ok=True)
 with open(output_count, "w") as f:
     for x in dict_count:
-        f.write(x + "\t" + str(dict_count[x]) + "\n")
+        f.write(x + "," + str(dict_count[x]) + "\n")

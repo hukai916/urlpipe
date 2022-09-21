@@ -9,8 +9,8 @@ process CAT_STAT {
     val header
 
     output:
-    path "*/stat/all_sample.tsv",      emit: stat
-    path  "versions.yml",                         emit: versions
+    path "*/stat/all_sample.csv", emit: stat
+    path  "versions.yml",         emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,7 +21,7 @@ process CAT_STAT {
     """
     mkdir -p $outdir
 
-    (echo -e "$header" && cat *.tsv | sort -n) > $outdir/all_sample.tsv
+    (echo -e "$header" && cat *.csv | sort -n) > $outdir/all_sample.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

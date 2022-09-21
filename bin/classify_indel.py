@@ -20,7 +20,6 @@ import regex
 import gzip
 from mimetypes import guess_type
 from functools import partial
-import regex
 
 r1 = sys.argv[1]
 r2 = sys.argv[2]
@@ -127,10 +126,10 @@ SeqIO.write(r2_indel_5p_3p, out_indel_5p_3p_r2, "fastq")
 
 # print some stats:
 res = Counter(r_match.values())
-with open(os.path.join(indel_stat_dir, sample_name + ".tsv"), "w") as f:
+with open(os.path.join(indel_stat_dir, sample_name + ".csv"), "w") as f:
     p2 = str(res[2]/(sum([res[2], res[1], res[0]])))
     p_5p = str(count_5p/(sum([res[2], res[1], res[0]])))
     p_3p = str(count_3p/(sum([res[2], res[1], res[0]])))
     p0 = str(res[0]/(sum([res[2], res[1], res[0]])))
 
-    f.write(sample_name + "\t" + str(res[2]) + "\t" + p2 + "\t" + str(count_5p) + "\t" + p_5p + "\t" + str(count_3p) + "\t" + p_3p + "\t" + str(res[0]) + "\t" + p0 + "\n")
+    f.write(sample_name + "," + str(res[2]) + "," + p2 + "," + str(count_5p) + "," + p_5p + "," + str(count_3p) + "," + p_3p + "," + str(res[0]) + "," + p0 + "\n")
