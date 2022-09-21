@@ -16,9 +16,9 @@ outdir      = sys.argv[3]
 # read csv into dict
 d_umi = {}
 for line in open(csv):
-    print(line)
-    exit()
     umi, length = line.split(",")
+    print(line.split(","))
+    exit()
     umi = umi.split("_")[1]
     if str(length).isdigit():
         if not umi in d_umi:
