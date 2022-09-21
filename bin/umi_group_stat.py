@@ -16,6 +16,8 @@ outdir      = sys.argv[3]
 # read csv into dict
 d_umi = {}
 for line in open(csv):
+    print(line)
+    exit()
     umi, length = line.split(",")
     umi = umi.split("_")[1]
     if str(length).isdigit():
@@ -27,9 +29,7 @@ for line in open(csv):
 # save to stat
 output_stat = os.path.join(outdir, sample_name + ".csv")
 os.makedirs(os.path.dirname(output_stat), exist_ok=True)
-print("test")
-print(d_umi)
-print("test")
+
 with open(output_stat, "w") as f:
     for k in d_umi:
         mode = 0
