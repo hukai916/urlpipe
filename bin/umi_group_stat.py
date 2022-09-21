@@ -17,8 +17,6 @@ outdir      = sys.argv[3]
 d_umi = {}
 for line in open(csv):
     umi, length = line.strip().split(",")
-    print(line.strip().split(","))
-    exit()
     umi = umi.split("_")[1]
     if str(length).isdigit():
         if not umi in d_umi:
@@ -41,5 +39,4 @@ with open(output_stat, "w") as f:
                     mode = x[0]
         # print(d_umi[k])
         res = ",".join([k, str(len(d_umi[k])), str(mean(d_umi[k])), str(mode)]) + "\n"
-        print(res)
         f.write(res)

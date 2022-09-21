@@ -23,7 +23,7 @@ group_num   = sys.argv[6]
 # read csv into dict
 d_umi = {}
 for line in open(csv):
-    umi, length = line.split(",")
+    umi, length = line.strip().split(",")
     umi = umi.split("_")[1]
     if not umi in d_umi:
         d_umi[umi] = [length]
