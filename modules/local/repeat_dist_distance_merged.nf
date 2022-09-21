@@ -22,7 +22,7 @@ process REPEAT_DIST_DISTANCE_MERGED {
 
     """
     mkdir -p 4d_repeat_distribution_distance_merged/stat 4d_repeat_distribution_distance_merged/plot 4d_repeat_distribution_distance_merged/count
-    repeat_dist_count_merged.py ${prefix}.fastq.gz ${prefix} 4d_repeat_distribution_distance_merged $args
+    repeat_dist_distance_merged.py ${prefix}.fastq.gz ${prefix} 4d_repeat_distribution_distance_merged $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

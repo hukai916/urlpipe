@@ -19,6 +19,7 @@ cutoff      = sys.argv[3]
 outdir_stat = sys.argv[4]
 output_plot = sys.argv[5]
 group_num   = sys.argv[6]
+bin_number  = sys.argv[7]
 
 # read csv into dict
 d_umi = {}
@@ -78,7 +79,11 @@ else:
             f.write("\n")
             f.write(str(bins))
 
-        plt.hist(sorted(_tem), bins = bins, range = (0, bins))
+        if bin_number == "auto":
+            bin_n = bins
+        else:
+            bin_n = int(bin_number)
+        plt.hist(sorted(_tem), bins = bin_n, range = (0, bin_n))
         # plt.hist(group_df.iloc[:,1], bins = bins)
 
         # sparse the x-axis ticks:

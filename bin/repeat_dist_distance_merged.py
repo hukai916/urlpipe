@@ -27,6 +27,7 @@ output_dir  = sys.argv[3]
 r1_flanking = sys.argv[4]
 r2_flanking = sys.argv[5]
 mismatch = sys.argv[6]
+bin_number = sys.argv[7]
 
 encoding = guess_type(r)[1]  # uses file extension
 _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
@@ -77,7 +78,7 @@ with open(output_file, "w") as f:
 N = 5
 output_plot = os.path.join(output_dir, "plot", sample_name + ".png")
 os.makedirs(os.path.dirname(output_plot), exist_ok=True)
-plot_repeat_dist(output_file, output_plot, sample_name, N)
+plot_repeat_dist(output_file, output_plot, sample_name, N, bin_number)
 
 # ouput raw count:
 output_count = os.path.join(output_dir, "count", sample_name + ".csv")

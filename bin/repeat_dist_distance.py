@@ -28,6 +28,7 @@ output_dir  = sys.argv[4]
 r1_flanking = sys.argv[5]
 r2_flanking = sys.argv[6]
 mismatch = sys.argv[7]
+bin_number = sys.argv[8]
 
 # r1_flanking = "TCGAGTCCCTCAAGTCCTTC"
 # r2_flanking = "CCGCCACCGCCGCCGCCGCC"
@@ -79,9 +80,10 @@ with open(output_file, "w") as f:
 
 # output plot:
 N = 5
+
 output_plot = os.path.join(output_dir, "plot_r1", sample_name + ".png")
 os.makedirs(os.path.dirname(output_plot), exist_ok=True)
-plot_repeat_dist(output_file, output_plot, sample_name, N)
+plot_repeat_dist(output_file, output_plot, sample_name, N, bin_number)
 
 # ouput raw count:
 output_count = os.path.join(output_dir, "count_r1", sample_name + ".csv")
@@ -131,7 +133,7 @@ with open(output_file, "w") as f:
 # output plot:
 output_plot = os.path.join(output_dir, "plot_r2", sample_name + ".png")
 os.makedirs(os.path.dirname(output_plot), exist_ok=True)
-plot_repeat_dist(output_file, output_plot, sample_name, N)
+plot_repeat_dist(output_file, output_plot, sample_name, N, bin_number)
 
 # ouput raw count:
 output_count = os.path.join(output_dir, "count_r2", sample_name + ".csv")

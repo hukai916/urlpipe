@@ -16,6 +16,7 @@ outdir      = sys.argv[3]
 cutoff      = sys.argv[4]
 cutoff      = int(cutoff)
 N           = 5
+bin_number  = sys.argv[5]
 
 repeat_length_mean = {}
 repeat_length_mode = {}
@@ -47,7 +48,7 @@ with open(outfile_mode, "w") as f:
 
 # output to plot:
 outplot_mean = os.path.join(outdir, "plot_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
-plot_repeat_dist(outfile_mean, outplot_mean, sample_name, N)
+plot_repeat_dist(outfile_mean, outplot_mean, sample_name, N, bin_number)
 
 outplot_mode = os.path.join(outdir, "plot_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
-plot_repeat_dist(outfile_mode, outplot_mode, sample_name, N)
+plot_repeat_dist(outfile_mode, outplot_mode, sample_name, N, bin_number)

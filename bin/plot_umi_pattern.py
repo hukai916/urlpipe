@@ -23,7 +23,7 @@ if bin_number == "auto":
     bin_n = int(x.iloc[-1])
 else:
     bin_n = int(bin_number)
-n, bins, patches = plt.hist(x, weights = weight, bins=bin_n)
+n, bins, patches = plt.hist(x, weights = weight, bins = bin_n, range = (0, bin_n))
 
 plt.title(sample_name)
 plt.xlabel("reads per UMI")

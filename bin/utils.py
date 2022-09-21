@@ -5,7 +5,7 @@ from matplotlib.ticker import PercentFormatter
 import os
 import pandas as pd
 
-def plot_repeat_dist(csv, output_file, sample_name, N):
+def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = "auto"):
     """
     csv:
         col1 col2
@@ -34,7 +34,11 @@ def plot_repeat_dist(csv, output_file, sample_name, N):
     # weight = [math.log2(x + 0.1) for x in df.iloc[:, 1]]
     weight = y
     # n, bins, patches = axs[_i][_j].hist(x, weights = weight, bins=len(x), edgecolor='black')
-    n, bins, patches = plt.hist(x, weights = weight, bins=len(x), range = (0, len(x)))
+    if bin_number == "auto":
+        bin_n = len(x)
+    else:
+        bin_n = int(bin_number)
+    n, bins, patches = plt.hist(x, weights = weight, bins=bin_n, range = (0, bin_n))
 
     # sparse the x-axis ticks:
     myticks = [i for i in range(len(x)) if not i%N]
