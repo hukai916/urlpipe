@@ -77,6 +77,10 @@ with open(output_file, "w") as f:
 N = 5
 output_plot = os.path.join(output_dir, "plot", sample_name + ".png")
 os.makedirs(os.path.dirname(output_plot), exist_ok=True)
+print(output_file)
+print(output_plot)
+print(sample_name)
+print(N)
 plot_repeat_dist(output_file, output_plot, sample_name, N)
 
 # ouput raw count:
