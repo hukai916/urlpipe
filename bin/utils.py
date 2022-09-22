@@ -23,7 +23,10 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = "auto"):
     for i in range(len(df.iloc[:,0])):
         _dict[str(df.iloc[i, 0])] = df.iloc[i, 1]
 
-    for i in list(range(int(df.iloc[-3, 0]) + 10)) + ["plus", "problem"]:
+
+    bin_n = int(bin_number)
+    # use bin_n or (int(df.iloc[-3, 0]) + 10)
+    for i in list(range(bin_n - 2)) + ["plus", "problem"]:
         if not str(i) in _dict:
             x = x + [str(i)]
             y = y + [0]
