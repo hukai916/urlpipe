@@ -27,11 +27,10 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 200):
     bin_n = int(bin_number)
     # use bin_n or (int(df.iloc[-3, 0]) + 10)
     for i in list(range(bin_n + 1)) + ["plus", "problem"]:
+        x = x + [str(i)]
         if not str(i) in _dict:
-            x = x + [str(i)]
             y = y + [0]
         else:
-            x = x + [str(i)]
             y = y + [_dict[str(i)]]
 
     # weight = [math.log2(x + 0.1) for x in df.iloc[:, 1]]
@@ -41,6 +40,10 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 200):
         bin_n = len(x)
     else:
         bin_n = int(bin_number)
+    print(x)
+    print(weight)
+    print(bin_n)
+    
     n, bins, patches = plt.hist(x, weights = weight, bins=bin_n, range = (0, bin_n))
 
     # sparse the x-axis ticks:
