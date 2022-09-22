@@ -41,8 +41,8 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = "auto"):
     n, bins, patches = plt.hist(x, weights = weight, bins=bin_n, range = (0, bin_n))
 
     # sparse the x-axis ticks:
-    myticks = [i for i in range(len(x)) if not i%N]
-    newlabels = [i for i in range(len(x)) if not i%N]
+    myticks = [i for i in range(bin_n) if not i%N]
+    newlabels = [i for i in range(bin_n) if not i%N]
 
     if "plus" in list(x) and not "plus" in newlabels:
         newlabels = newlabels[:-2]
