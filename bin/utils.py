@@ -45,10 +45,11 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = "auto"):
     newlabels = [i for i in range(bin_n) if not i%N]
 
     if "plus" in list(x) and not "plus" in newlabels:
-        newlabels = newlabels[:-2]
-        myticks = myticks[:-2]
+        # newlabels = newlabels[:-2]
+        # myticks = myticks[:-2]
         newlabels = newlabels + ["+"]
-        myticks = myticks + [len(x) - 2]
+        # myticks = myticks + [len(x) - 2]
+        myticks = myticks + [bin_n + 1]
 
     plt.xticks(myticks, newlabels, rotation = 85)
     plt.tick_params(labelsize=8)
