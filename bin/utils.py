@@ -5,7 +5,7 @@ from matplotlib.ticker import PercentFormatter
 import os
 import pandas as pd
 
-def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = "auto"):
+def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 200):
     """
     csv:
         col1 col2
@@ -26,7 +26,7 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = "auto"):
 
     bin_n = int(bin_number)
     # use bin_n or (int(df.iloc[-3, 0]) + 10)
-    for i in list(range(bin_n - 2)) + ["plus", "problem"]:
+    for i in list(range(bin_n + 1)) + ["plus", "problem"]:
         if not str(i) in _dict:
             x = x + [str(i)]
             y = y + [0]
