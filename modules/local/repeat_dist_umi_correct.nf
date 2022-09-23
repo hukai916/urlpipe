@@ -14,11 +14,11 @@ process REPEAT_DIST_UMI_CORRECT {
     path "*/cutoff_10/*",      emit: cutoff_10
     path "*/cutoff_30/*",      emit: cutoff_30
     path "*/cutoff_100/*",     emit: cutoff_100
-    path "*/cutoff_1/frac_*/*.csv", emit: frac_1
-    path "*/cutoff_3/frac_*/*.csv", emit: frac_3
-    path "*/cutoff_10/frac_*/*.csv", emit: frac_10
-    path "*/cutoff_30/frac_*/*.csv", emit: frac_30
-    path "*/cutoff_100/frac_*/*.csv", emit: frac_100
+    path "*/cutoff_1/frac/*.csv", emit: frac_1
+    path "*/cutoff_3/frac/*.csv", emit: frac_3
+    path "*/cutoff_10/frac/*.csv", emit: frac_10
+    path "*/cutoff_30/frac/*.csv", emit: frac_30
+    path "*/cutoff_100/frac/*.csv", emit: frac_100
     path  "versions.yml",      emit: versions
 
     when:
@@ -41,14 +41,16 @@ process REPEAT_DIST_UMI_CORRECT {
     repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_100 100 $args
 
     # calculate fractions
-    tem="$args_frac"
-    suffix="\${tem// /_}"
-    mkdir ${outdir}/cutoff_1/frac_\$suffix ${outdir}/cutoff_3/frac_\$suffix ${outdir}/cutoff_10/frac_\$suffix ${outdir}/cutoff_30/frac_\$suffix ${outdir}/cutoff_100/frac_\$suffix
-    calculate_frac.py $prefix ${outdir}/cutoff_1/stat_mode_${prefix}_cutoff_1.csv ${outdir}/cutoff_1/frac_\$suffix "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_3/stat_mode_${prefix}_cutoff_3.csv ${outdir}/cutoff_3/frac_\$suffix "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_10/stat_mode_${prefix}_cutoff_10.csv ${outdir}/cutoff_10/frac_\$suffix "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_30/stat_mode_${prefix}_cutoff_30.csv ${outdir}/cutoff_30/frac_\$suffix "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_100/stat_mode_${prefix}_cutoff_100.csv ${outdir}/cutoff_100/frac_\$suffix "$args_frac"
+    # tem="$args_frac"
+    # suffix="\${tem// /_}"
+    #mkdir ${outdir}/cutoff_1/frac_\$suffix ${outdir}/cutoff_3/frac_\$suffix ${outdir}/cutoff_10/frac_\$suffix ${outdir}/cutoff_30/frac_\$suffix ${outdir}/cutoff_100/frac_\$suffix
+    mkdir ${outdir}/cutoff_1/frac ${outdir}/cutoff_3/frac ${outdir}/cutoff_10/frac ${outdir}/cutoff_30/frac ${outdir}/cutoff_100/frac
+
+    calculate_frac.py $prefix ${outdir}/cutoff_1/stat_mode_${prefix}_cutoff_1.csv ${outdir}/cutoff_1/frac "$args_frac"
+    calculate_frac.py $prefix ${outdir}/cutoff_3/stat_mode_${prefix}_cutoff_3.csv ${outdir}/cutoff_3/frac "$args_frac"
+    calculate_frac.py $prefix ${outdir}/cutoff_10/stat_mode_${prefix}_cutoff_10.csv ${outdir}/cutoff_10/frac "$args_frac"
+    calculate_frac.py $prefix ${outdir}/cutoff_30/stat_mode_${prefix}_cutoff_30.csv ${outdir}/cutoff_30/frac "$args_frac"
+    calculate_frac.py $prefix ${outdir}/cutoff_100/stat_mode_${prefix}_cutoff_100.csv ${outdir}/cutoff_100/frac "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

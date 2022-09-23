@@ -14,8 +14,8 @@ process REPEAT_DIST_DISTANCE {
     path "4d_repeat_distribution_distance/plot_r2/*.png",        emit: plot_r2
     tuple val(meta), path("4d_repeat_distribution_distance/count_r1/*.csv"),       emit: count_r1
     tuple val(meta), path("4d_repeat_distribution_distance/count_r2/*.csv"),       emit: count_r2
-    tuple val(meta), path("4d_repeat_distribution_distance/frac_r1_*/*.csv"),        emit: frac_r1
-    tuple val(meta), path("4d_repeat_distribution_distance/frac_r2_*/*.csv"),        emit: frac_r2
+    tuple val(meta), path("4d_repeat_distribution_distance/frac_r1/*.csv"),        emit: frac_r1
+    tuple val(meta), path("4d_repeat_distribution_distance/frac_r2/*.csv"),        emit: frac_r2
     path  "versions.yml",                                        emit: versions
 
     when:
@@ -36,8 +36,8 @@ process REPEAT_DIST_DISTANCE {
     suffix="\${tem// /_}"
     mkdir 4d_repeat_distribution_distance/frac_r1 4d_repeat_distribution_distance/frac_r2
 
-    calculate_frac.py $prefix 4d_repeat_distribution_distance/stat_r1/${prefix}.csv 4d_repeat_distribution_distance/frac_r1_\$suffix "$args_frac"
-    calculate_frac.py $prefix 4d_repeat_distribution_distance/stat_r2/${prefix}.csv 4d_repeat_distribution_distance/frac_r2_\$suffix "$args_frac"
+    calculate_frac.py $prefix 4d_repeat_distribution_distance/stat_r1/${prefix}.csv 4d_repeat_distribution_distance/frac_r1 "$args_frac"
+    calculate_frac.py $prefix 4d_repeat_distribution_distance/stat_r2/${prefix}.csv 4d_repeat_distribution_distance/frac_r2 "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

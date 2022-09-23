@@ -51,7 +51,7 @@ include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
 include { CUTADAPT                    } from '../modules/nf-core/modules/cutadapt/main'
 include { FASTQC; FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
-include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3; CAT_STAT as CAT_STAT4 } from '../modules/local/cat_stat'
+include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3; CAT_STAT as CAT_STAT4; CAT_STAT as CAT_STAT5; CAT_STAT as CAT_STAT6; CAT_STAT as CAT_STAT7; CAT_STAT as CAT_STAT8; CAT_STAT as CAT_STAT9; CAT_STAT as CAT_STAT10; CAT_STAT as CAT_STAT11 } from '../modules/local/cat_stat'
 include { UMI_PATTERN; UMI_PATTERN as UMI_PATTERN2 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
@@ -136,7 +136,7 @@ workflow URLPIPE {
     CAT_STAT (
       MAP_LOCUS.out.stat.collect(),
       "1a_map_locus/stat",
-      "sample_name\tlocus\tpercent\tmisprimed\tpercent\tproblem\tpercent" // header to be added
+      "sample_name,locus,percent,misprimed,percent,problem,percent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT.out.versions)
 
@@ -163,7 +163,7 @@ workflow URLPIPE {
     CAT_STAT2 (
       CLASSIFY_INDEL.out.stat.collect(),
       "3a_classify_indel/stat",
-      "sample_name\tno_indel\tno_indel_percent\tindel_5p\tindel_5p_percent\tindel_3p\tindel_3p_percent\tindel_5p_3p\tindel_5p_3p_percent" // header to be added
+      "sample_name,no_indel,no_indel_percent,indel_5p,indel_5p_percent,indel_3p,indel_3p_percent,indel_5p_3p,indel_5p_3p_percent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT2.out.versions)
 
@@ -181,7 +181,7 @@ workflow URLPIPE {
     CAT_STAT3 (
       CLASSIFY_READTHROUGH.out.stat.collect(),
       "4a_classify_readthrough/stat",
-      "sample_name\tcount_readthrough\tcount_readthrough_percent\tcount_non_readthrough\tp_count_non_readthrough_percent" // header to be added
+      "sample_name,count_readthrough,count_readthrough_percent,count_non_readthrough,p_count_non_readthrough_percent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT3.out.versions)
 
@@ -199,7 +199,7 @@ workflow URLPIPE {
     CAT_STAT4 (
       BBMERGE.out.stat.collect(),
       "4b_bbmerge/stat",
-      "sample_name\tcount_merge\tcount_non_merge" // header to be added
+      "sample_name,count_merge,count_non_merge" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT4.out.versions)
 
@@ -274,6 +274,40 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT.out.versions)
 
+
+    //
+    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    //
+    CAT_STAT5 (
+      REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
+      "4d_repeat_distribution_distance/frac_r1",
+      "blow,above" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT5.out.versions)
+
+    //
+    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    //
+    CAT_STAT6 (
+      REPEAT_DIST_DISTANCE.out.frac_r2.collect(),
+      "4d_repeat_distribution_distance/frac_r2",
+      "blow,above" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
+
+    //
+    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    //
+    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_1/frac", "blow,above" ) // header to be added)
+    ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
+    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_3/frac", "blow,above" ) // header to be added)
+    ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
+    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_10/frac", "blow,above" ) // header to be added)
+    ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
+    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_30/frac", "blow,above" ) // header to be added)
+    ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
+    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_100/frac", "blow,above" ) // header to be added)
+    ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
 
     //
     // MODULE: repeat distribution R1 distance
