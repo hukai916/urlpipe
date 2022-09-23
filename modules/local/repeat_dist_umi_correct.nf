@@ -32,25 +32,24 @@ process REPEAT_DIST_UMI_CORRECT {
     """
     # plot repeat length distribution with UMI cutoff: 1, 3, 10, 30, 100
 
-    mkdir -p ${outdir}/cutoff_1 ${outdir}/cutoff_3 ${outdir}/cutoff_10 ${outdir}/cutoff_30 ${outdir}/cutoff_100
+    mkdir -p 5d_r1_repeat_dist_umi_correct/cutoff_1/frac 5d_r1_repeat_dist_umi_correct/cutoff_3/frac 5d_r1_repeat_dist_umi_correct/cutoff_10/frac 5d_r1_repeat_dist_umi_correct/cutoff_30/frac 5d_r1_repeat_dist_umi_correct/cutoff_100/frac
 
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_1 1 $args
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_3 3 $args
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_10 10 $args
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_30 30 $args
-    repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_100 100 $args
+    repeat_dist_umi_correct.py $csv $prefix 5d_r1_repeat_dist_umi_correct/cutoff_1 1 $args
+    repeat_dist_umi_correct.py $csv $prefix 5d_r1_repeat_dist_umi_correct/cutoff_3 3 $args
+    repeat_dist_umi_correct.py $csv $prefix 5d_r1_repeat_dist_umi_correct/cutoff_10 10 $args
+    repeat_dist_umi_correct.py $csv $prefix 5d_r1_repeat_dist_umi_correct/cutoff_30 30 $args
+    repeat_dist_umi_correct.py $csv $prefix 5d_r1_repeat_dist_umi_correct/cutoff_100 100 $args
 
     # calculate fractions
     # tem="$args_frac"
     # suffix="\${tem// /_}"
-    #mkdir ${outdir}/cutoff_1/frac_\$suffix ${outdir}/cutoff_3/frac_\$suffix ${outdir}/cutoff_10/frac_\$suffix ${outdir}/cutoff_30/frac_\$suffix ${outdir}/cutoff_100/frac_\$suffix
-    mkdir ${outdir}/cutoff_1/frac ${outdir}/cutoff_3/frac ${outdir}/cutoff_10/frac ${outdir}/cutoff_30/frac ${outdir}/cutoff_100/frac
+    #mkdir 5d_r1_repeat_dist_umi_correct/cutoff_1/frac_\$suffix 5d_r1_repeat_dist_umi_correct/cutoff_3/frac_\$suffix 5d_r1_repeat_dist_umi_correct/cutoff_10/frac_\$suffix 5d_r1_repeat_dist_umi_correct/cutoff_30/frac_\$suffix 5d_r1_repeat_dist_umi_correct/cutoff_100/frac_\$suffix
 
-    calculate_frac.py $prefix ${outdir}/cutoff_1/stat_mode_${prefix}_cutoff_1.csv ${outdir}/cutoff_1/frac "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_3/stat_mode_${prefix}_cutoff_3.csv ${outdir}/cutoff_3/frac "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_10/stat_mode_${prefix}_cutoff_10.csv ${outdir}/cutoff_10/frac "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_30/stat_mode_${prefix}_cutoff_30.csv ${outdir}/cutoff_30/frac "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_100/stat_mode_${prefix}_cutoff_100.csv ${outdir}/cutoff_100/frac "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_1/stat_mode_${prefix}_cutoff_1.csv 5d_r1_repeat_dist_umi_correct/cutoff_1/frac "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_3/stat_mode_${prefix}_cutoff_3.csv 5d_r1_repeat_dist_umi_correct/cutoff_3/frac "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_10/stat_mode_${prefix}_cutoff_10.csv 5d_r1_repeat_dist_umi_correct/cutoff_10/frac "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_30/stat_mode_${prefix}_cutoff_30.csv 5d_r1_repeat_dist_umi_correct/cutoff_30/frac "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_100/stat_mode_${prefix}_cutoff_100.csv 5d_r1_repeat_dist_umi_correct/cutoff_100/frac "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
