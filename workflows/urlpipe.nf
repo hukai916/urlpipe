@@ -288,15 +288,15 @@ workflow URLPIPE {
     //
     // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
     //
-    // CAT_STAT6 (
-    //   REPEAT_DIST_DISTANCE.out.frac_r2.collect(),
-    //   "4d_repeat_distribution_distance/frac_r2",
-    //   "blow,above" // header to be added
-    //   )
-    // ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
+    CAT_STAT6 (
+      REPEAT_DIST_DISTANCE.out.frac_r2.collect(),
+      "4d_repeat_distribution_distance/frac_r2",
+      "blow,above" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
 
     //
-    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    // MODULE: combine REPEAT_DIST_UMI_CORRECT.out.frac_x into one file
     //
     CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_1/frac", "blow,above" ) // header to be added)
     ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
