@@ -14,12 +14,11 @@ process REPEAT_DIST_UMI_CORRECT {
     // path "5d_r1_repeat_dist_umi_correct/cutoff_10/*",      emit: cutoff_10
     // path "5d_r1_repeat_dist_umi_correct/cutoff_30/*",      emit: cutoff_30
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/*",     emit: cutoff_100
-    path "5d_r1_repeat_dist_umi_correct/cutoff_1/frac/*.csv", emit: frac_1
-    tuple val(meta), path("5d_r1_repeat_dist_umi_correct/cutoff_1/frac/*.csv"), emit: test
-    path "5d_r1_repeat_dist_umi_correct/cutoff_3/frac/*.csv", emit: frac_3
-    path "5d_r1_repeat_dist_umi_correct/cutoff_10/frac/*.csv", emit: frac_10
-    path "5d_r1_repeat_dist_umi_correct/cutoff_30/frac/*.csv", emit: frac_30
-    path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100
+    path "5d_r1_repeat_dist_umi_correct/frac_1/*.csv", emit: frac_1
+    path "5d_r1_repeat_dist_umi_correct/frac_3/*.csv", emit: frac_3
+    path "5d_r1_repeat_dist_umi_correct/frac_10/*.csv", emit: frac_10
+    path "5d_r1_repeat_dist_umi_correct/frac_30/*.csv", emit: frac_30
+    path "5d_r1_repeat_dist_umi_correct/frac_100/*.csv", emit: frac_100
     path  "versions.yml",      emit: versions
 
     when:
@@ -33,7 +32,10 @@ process REPEAT_DIST_UMI_CORRECT {
     """
     # plot repeat length distribution with UMI cutoff: 1, 3, 10, 30, 100
 
-    mkdir -p 5d_r1_repeat_dist_umi_correct/cutoff_1/frac 5d_r1_repeat_dist_umi_correct/cutoff_3/frac 5d_r1_repeat_dist_umi_correct/cutoff_10/frac 5d_r1_repeat_dist_umi_correct/cutoff_30/frac 5d_r1_repeat_dist_umi_correct/cutoff_100/frac
+    mkdir -p 5d_r1_repeat_dist_umi_correct/cutoff_1 5d_r1_repeat_dist_umi_correct/cutoff_3 5d_r1_repeat_dist_umi_correct/cutoff_10 5d_r1_repeat_dist_umi_correct/cutoff_30 5d_r1_repeat_dist_umi_correct/cutoff_100
+
+    mkdir -p 5d_r1_repeat_dist_umi_correct/frac_1 5d_r1_repeat_dist_umi_correct/frac_3 5d_r1_repeat_dist_umi_correct/frac_10 5d_r1_repeat_dist_umi_correct/frac_30 5d_r1_repeat_dist_umi_correct/frac_100
+
 
     repeat_dist_umi_correct.py $csv $prefix 5d_r1_repeat_dist_umi_correct/cutoff_1 1 $args
     repeat_dist_umi_correct.py $csv $prefix 5d_r1_repeat_dist_umi_correct/cutoff_3 3 $args
@@ -46,11 +48,11 @@ process REPEAT_DIST_UMI_CORRECT {
     # suffix="\${tem// /_}"
     #mkdir 5d_r1_repeat_dist_umi_correct/cutoff_1/frac_\$suffix 5d_r1_repeat_dist_umi_correct/cutoff_3/frac_\$suffix 5d_r1_repeat_dist_umi_correct/cutoff_10/frac_\$suffix 5d_r1_repeat_dist_umi_correct/cutoff_30/frac_\$suffix 5d_r1_repeat_dist_umi_correct/cutoff_100/frac_\$suffix
 
-    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_1/stat_mode_${prefix}_cutoff_1.csv 5d_r1_repeat_dist_umi_correct/cutoff_1/frac "$args_frac"
-    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_3/stat_mode_${prefix}_cutoff_3.csv 5d_r1_repeat_dist_umi_correct/cutoff_3/frac "$args_frac"
-    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_10/stat_mode_${prefix}_cutoff_10.csv 5d_r1_repeat_dist_umi_correct/cutoff_10/frac "$args_frac"
-    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_30/stat_mode_${prefix}_cutoff_30.csv 5d_r1_repeat_dist_umi_correct/cutoff_30/frac "$args_frac"
-    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_100/stat_mode_${prefix}_cutoff_100.csv 5d_r1_repeat_dist_umi_correct/cutoff_100/frac "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_1/stat_mode_${prefix}_cutoff_1.csv 5d_r1_repeat_dist_umi_correct/frac_1 "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_3/stat_mode_${prefix}_cutoff_3.csv 5d_r1_repeat_dist_umi_correct/frac_3 "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_10/stat_mode_${prefix}_cutoff_10.csv 5d_r1_repeat_dist_umi_correct/frac_10 "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_30/stat_mode_${prefix}_cutoff_30.csv 5d_r1_repeat_dist_umi_correct/frac_30 "$args_frac"
+    calculate_frac.py $prefix 5d_r1_repeat_dist_umi_correct/cutoff_100/stat_mode_${prefix}_cutoff_100.csv 5d_r1_repeat_dist_umi_correct/frac_100 "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
