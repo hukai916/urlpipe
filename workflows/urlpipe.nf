@@ -299,16 +299,16 @@ workflow URLPIPE {
     //
     // MODULE: combine REPEAT_DIST_UMI_CORRECT.out.frac_x into one file
     //
-    REPEAT_DIST_UMI_CORRECT.out.frac_1.collect().view()
-    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_1/frac", "blow,above" )
+    // REPEAT_DIST_UMI_CORRECT.out.frac_1.collect().view()
+    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
-    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_3/frac", "blow,above" )
+    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
-    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_10/frac", "blow,above" )
+    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/frac_10", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
-    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_30/frac", "blow,above" )
+    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/frac_30", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
-    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_100/frac", "blow,above" )
+    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/frac_100", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
 
     //
