@@ -9,16 +9,16 @@ process REPEAT_DIST_UMI_CORRECT {
     val outdir
 
     output:
-    path "*/cutoff_1/*",       emit: cutoff_1
-    path "*/cutoff_3/*",       emit: cutoff_3
-    path "*/cutoff_10/*",      emit: cutoff_10
-    path "*/cutoff_30/*",      emit: cutoff_30
-    path "*/cutoff_100/*",     emit: cutoff_100
-    path "*/cutoff_1/frac/*.csv", emit: frac_1
-    path "*/cutoff_3/frac/*.csv", emit: frac_3
-    path "*/cutoff_10/frac/*.csv", emit: frac_10
-    path "*/cutoff_30/frac/*.csv", emit: frac_30
-    path "*/cutoff_100/frac/*.csv", emit: frac_100
+    path "5d_r1_repeat_dist_umi_correct/cutoff_1/*",       emit: cutoff_1
+    path "5d_r1_repeat_dist_umi_correct/cutoff_3/*",       emit: cutoff_3
+    path "5d_r1_repeat_dist_umi_correct/cutoff_10/*",      emit: cutoff_10
+    path "5d_r1_repeat_dist_umi_correct/cutoff_30/*",      emit: cutoff_30
+    path "5d_r1_repeat_dist_umi_correct/cutoff_100/*",     emit: cutoff_100
+    path "5d_r1_repeat_dist_umi_correct/cutoff_1/frac/*.csv", emit: frac_1
+    path "5d_r1_repeat_dist_umi_correct/cutoff_3/frac/*.csv", emit: frac_3
+    path "5d_r1_repeat_dist_umi_correct/cutoff_10/frac/*.csv", emit: frac_10
+    path "5d_r1_repeat_dist_umi_correct/cutoff_30/frac/*.csv", emit: frac_30
+    path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100
     path  "versions.yml",      emit: versions
 
     when:
