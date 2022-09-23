@@ -15,6 +15,7 @@ process REPEAT_DIST_UMI_CORRECT {
     // path "5d_r1_repeat_dist_umi_correct/cutoff_30/*",      emit: cutoff_30
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/*",     emit: cutoff_100
     path "5d_r1_repeat_dist_umi_correct/cutoff_1/frac/*.csv", emit: frac_1
+    tuple val(meta), path("5d_r1_repeat_dist_umi_correct/cutoff_1/frac/*.csv"), emit: test
     path "5d_r1_repeat_dist_umi_correct/cutoff_3/frac/*.csv", emit: frac_3
     path "5d_r1_repeat_dist_umi_correct/cutoff_10/frac/*.csv", emit: frac_10
     path "5d_r1_repeat_dist_umi_correct/cutoff_30/frac/*.csv", emit: frac_30
