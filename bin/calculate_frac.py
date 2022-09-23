@@ -32,4 +32,4 @@ with open(csv, "r") as f:
 
 outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + ".csv")
 with open(outfile, "w") as f:
-    f.write(str(count_below/count_all) + "," + str(count_above/count_all))
+    f.write(str(count_below/count_all) + "," + str(count_above/count_all) + "\n")
