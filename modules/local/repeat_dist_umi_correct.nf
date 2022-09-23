@@ -14,7 +14,12 @@ process REPEAT_DIST_UMI_CORRECT {
     path "*/cutoff_10/*",      emit: cutoff_10
     path "*/cutoff_30/*",      emit: cutoff_30
     path "*/cutoff_100/*",     emit: cutoff_100
-    path  "versions.yml",          emit: versions
+    path "*/cutoff_1/frac_*/*.csv", emit: frac_1
+    path "*/cutoff_3/frac_*/*.csv", emit: frac_3
+    path "*/cutoff_10/frac_*/*.csv", emit: frac_10
+    path "*/cutoff_30/frac_*/*.csv", emit: frac_30
+    path "*/cutoff_100/frac_*/*.csv", emit: frac_100
+    path  "versions.yml",      emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -37,7 +42,7 @@ process REPEAT_DIST_UMI_CORRECT {
 
     # calculate fractions
     tem="$args_frac"
-    suffix="\${test// /_}"
+    suffix="\${tem// /_}"
     mkdir ${outdir}/cutoff_1/frac_\$suffix ${outdir}/cutoff_3/frac_\$suffix ${outdir}/cutoff_10/frac_\$suffix ${outdir}/cutoff_30/frac_\$suffix ${outdir}/cutoff_100/frac_\$suffix
     calculate_frac.py $prefix ${outdir}/cutoff_1/stat_mode_${prefix}_cutoff_1.csv ${outdir}/cutoff_1/frac_\$suffix "$args_frac"
     calculate_frac.py $prefix ${outdir}/cutoff_3/stat_mode_${prefix}_cutoff_3.csv ${outdir}/cutoff_3/frac_\$suffix "$args_frac"

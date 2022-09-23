@@ -32,7 +32,8 @@ process REPEAT_DIST_DISTANCE {
     repeat_dist_distance.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz ${prefix} 4d_repeat_distribution_distance $args
 
     # calculate fractions
-    suffix="\${$args_frac// /_}"
+    tem="$args_frac"
+    suffix="\${tem// /_}"
     mkdir 4d_repeat_distribution_distance/frac_r1 4d_repeat_distribution_distance/frac_r2
 
     calculate_frac.py $prefix 4d_repeat_distribution_distance/stat_r1/${prefix}.csv 4d_repeat_distribution_distance/frac_r1_\$suffix "$args_frac"
