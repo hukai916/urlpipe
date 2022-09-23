@@ -299,7 +299,7 @@ workflow URLPIPE {
     //
     // MODULE: combine REPEAT_DIST_UMI_CORRECT.out.frac_x into one file
     //
-    // REPEAT_DIST_UMI_CORRECT.out.frac_1.collect().view()
+    REPEAT_DIST_UMI_CORRECT.out.frac_1.collect().view()
     CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_1/frac", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
     CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/cutoff_3/frac", "blow,above" )
