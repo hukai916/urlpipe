@@ -278,6 +278,7 @@ workflow URLPIPE {
     //
     // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
     //
+    REPEAT_DIST_DISTANCE.out.frac_r1.collect().view()
     CAT_STAT5 (
       REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
       "4d_repeat_distribution_distance/frac_r1",
