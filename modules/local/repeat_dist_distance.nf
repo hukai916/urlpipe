@@ -14,7 +14,7 @@ process REPEAT_DIST_DISTANCE {
     path "4d_repeat_distribution_distance/plot_r2/*.png",        emit: plot_r2
     tuple val(meta), path("4d_repeat_distribution_distance/count_r1/*.csv"),       emit: count_r1
     tuple val(meta), path("4d_repeat_distribution_distance/count_r2/*.csv"),       emit: count_r2
-    patn "4d_repeat_distribution_distance/frac_r1/*.csv",        emit: frac_r1
+    path "4d_repeat_distribution_distance/frac_r1/*.csv",        emit: frac_r1
     patn "4d_repeat_distribution_distance/frac_r2/*.csv",        emit: frac_r2
     path  "versions.yml",                                        emit: versions
 
