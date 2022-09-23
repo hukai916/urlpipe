@@ -9,7 +9,7 @@ process CAT_STAT {
     val header
 
     output:
-    path "*all_sample.csv", emit: stat
+    path "**/all_sample.csv", emit: stat
     path  "versions.yml",         emit: versions
 
     when:
