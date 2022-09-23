@@ -28,8 +28,9 @@ with open(csv, "r") as f:
             if length > cutoff_above:
                 count_above += c
         elif length == "plus":
+            count_all += int(c)
             count_above += int(c)
 
 outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + ".csv")
 with open(outfile, "w") as f:
-    f.write(str(count_below/count_all) + "," + str(count_above/count_all) + "\n")
+    f.write(sample_name + "," + str(count_below/count_all) + "," + str(count_above/count_all) + "\n")
