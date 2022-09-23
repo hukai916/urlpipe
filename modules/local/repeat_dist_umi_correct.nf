@@ -36,7 +36,7 @@ process REPEAT_DIST_UMI_CORRECT {
     repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_100 100 $args
 
     # calculate fractions
-    suffix="\${args_frac// /_}"
+    suffix="\${$args_frac// /_}"
     mkdir ${outdir}/cutoff_1/frac_\$suffix ${outdir}/cutoff_3/frac_\$suffix ${outdir}/cutoff_10/frac_\$suffix ${outdir}/cutoff_30/frac_\$suffix ${outdir}/cutoff_100/frac_\$suffix
     calculate_frac.py $prefix ${outdir}/cutoff_1/stat_mode_${prefix}_cutoff_1.csv ${outdir}/cutoff_1/frac_\$suffix "$args_frac"
     calculate_frac.py $prefix ${outdir}/cutoff_3/stat_mode_${prefix}_cutoff_3.csv ${outdir}/cutoff_3/frac_\$suffix "$args_frac"
