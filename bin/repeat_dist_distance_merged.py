@@ -3,9 +3,6 @@
 """
 To count the repeat length by measuring distance.
 
-Usage:
-    python count_cag.py r1.fastq dir_output
-
 Dev notes:
 1. Nextflow won't resume if utils changes.
 

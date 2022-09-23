@@ -40,11 +40,7 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 200):
     if bin_number == "auto":
         bin_n = len(x) + offset
     else:
-        bin_n = int(bin_number) + offset # otherwise the last data will be overlayed
-
-    print(x)
-    print(weight)
-    print(bin_n)
+        bin_n = max(int(bin_number), len(x)) + offset # otherwise the last data will be overlayed
 
     n, bins, patches = plt.hist(x, weights = weight, bins=bin_n, range = (0, bin_n))
 
