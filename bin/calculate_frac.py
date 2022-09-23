@@ -20,14 +20,16 @@ cutoff_below, cutoff_above = int(cutoff_below), int(cutoff_above)
 with open(csv, "r") as f:
     for line in f:
         length, c = line.strip().split(",")
-        length, c = int(length), int(c)
-        count_all = count_all + c
-        if length < cutoff_below:
-            count_below += c
-        if length > cutoff_above:
-            count_above += c
-        
-outfile = os.path.join(outdir, "frac_" + str(cutoff_below) + "_" + str(cutoff_above))
+        if not length in ["plus", "problem"]:
+            length, c = int(length), int(c)
+            count_all = count_all + c
+            if length < cutoff_below:
+                count_below += c
+            if length > cutoff_above:
+                count_above += c
+        elif length == "plus":
+            count_above += int(c)
+
+outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + ".csv")
 with open(outfile, "w") as f:
-    f.write("frac_below_" + str(cutoff_below) + "," + "frac_above_" + str(cutoff_above) + "\n")
     f.write(str(count_below/count_all) + "," + str(count_above/count_all))

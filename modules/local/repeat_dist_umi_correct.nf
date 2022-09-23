@@ -36,12 +36,13 @@ process REPEAT_DIST_UMI_CORRECT {
     repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_100 100 $args
 
     # calculate fractions
-    mkdir ${outdir}/cutoff_1/frac ${outdir}/cutoff_3/frac ${outdir}/cutoff_10/frac ${outdir}/cutoff_30/frac ${outdir}/cutoff_100/frac
-    calculate_frac.py $prefix ${outdir}/cutoff_1/stat_mode_${prefix}_cutoff_1.csv ${outdir}/cutoff_1/frac "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_3/stat_mode_${prefix}_cutoff_3.csv ${outdir}/cutoff_3/frac "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_10/stat_mode_${prefix}_cutoff_10.csv ${outdir}/cutoff_10/frac "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_30/stat_mode_${prefix}_cutoff_30.csv ${outdir}/cutoff_30/frac "$args_frac"
-    calculate_frac.py $prefix ${outdir}/cutoff_100/stat_mode_${prefix}_cutoff_100.csv ${outdir}/cutoff_100/frac "$args_frac"
+    suffix="\${args_frac// /_}"
+    mkdir ${outdir}/cutoff_1/frac_\$suffix ${outdir}/cutoff_3/frac_\$suffix ${outdir}/cutoff_10/frac_\$suffix ${outdir}/cutoff_30/frac_\$suffix ${outdir}/cutoff_100/frac_\$suffix
+    calculate_frac.py $prefix ${outdir}/cutoff_1/stat_mode_${prefix}_cutoff_1.csv ${outdir}/cutoff_1/frac_\$suffix "$args_frac"
+    calculate_frac.py $prefix ${outdir}/cutoff_3/stat_mode_${prefix}_cutoff_3.csv ${outdir}/cutoff_3/frac_\$suffix "$args_frac"
+    calculate_frac.py $prefix ${outdir}/cutoff_10/stat_mode_${prefix}_cutoff_10.csv ${outdir}/cutoff_10/frac_\$suffix "$args_frac"
+    calculate_frac.py $prefix ${outdir}/cutoff_30/stat_mode_${prefix}_cutoff_30.csv ${outdir}/cutoff_30/frac_\$suffix "$args_frac"
+    calculate_frac.py $prefix ${outdir}/cutoff_100/stat_mode_${prefix}_cutoff_100.csv ${outdir}/cutoff_100/frac_\$suffix "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -25,8 +25,9 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 200):
 
 
     bin_n = int(bin_number)
+    offset = 3 # make sure the last two columns are not overlayed in the hist plot:
     # use bin_n or (int(df.iloc[-3, 0]) + 10)
-    for i in list(range(bin_n + 1)) + ["plus", "problem"]:
+    for i in list(range(bin_n + 1 + offset)) + ["plus", "problem"]:
         x = x + [str(i)]
         if not str(i) in _dict:
             y = y + [0]
@@ -37,9 +38,9 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 200):
     weight = y
     # n, bins, patches = axs[_i][_j].hist(x, weights = weight, bins=len(x), edgecolor='black')
     if bin_number == "auto":
-        bin_n = len(x) + 3
+        bin_n = len(x) + offset
     else:
-        bin_n = int(bin_number) + 3 # otherwise the last data will be overlayed
+        bin_n = int(bin_number) + offset # otherwise the last data will be overlayed
 
     n, bins, patches = plt.hist(x, weights = weight, bins=bin_n, range = (0, bin_n))
 
