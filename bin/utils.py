@@ -42,6 +42,10 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 200):
     else:
         bin_n = int(bin_number) + offset # otherwise the last data will be overlayed
 
+    print(x)
+    print(weight)
+    print(bin_n)
+
     n, bins, patches = plt.hist(x, weights = weight, bins=bin_n, range = (0, bin_n))
 
     # sparse the x-axis ticks:
