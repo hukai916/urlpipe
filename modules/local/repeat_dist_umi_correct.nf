@@ -9,15 +9,15 @@ process REPEAT_DIST_UMI_CORRECT {
     val outdir
 
     output:
-    // path "5d_r1_repeat_dist_umi_correct/cutoff_1/*",       emit: cutoff_1
-    // path "5d_r1_repeat_dist_umi_correct/cutoff_3/*",       emit: cutoff_3
-    // path "5d_r1_repeat_dist_umi_correct/cutoff_10/*",      emit: cutoff_10
-    // path "5d_r1_repeat_dist_umi_correct/cutoff_30/*",      emit: cutoff_30
-    // path "5d_r1_repeat_dist_umi_correct/cutoff_100/*",     emit: cutoff_100
-    path "*/frac_1/*.csv", emit: frac_1
-    path "*/frac_3/*.csv", emit: frac_3
-    path "*/frac_10/*.csv", emit: frac_10
-    path "*/frac_30/*.csv", emit: frac_30
+    path "*/cutoff_1",       emit: cutoff_1
+    path "*/cutoff_3",       emit: cutoff_3
+    path "*/cutoff_10",      emit: cutoff_10
+    path "*/cutoff_30",      emit: cutoff_30
+    path "*/cutoff_100",     emit: cutoff_100
+    path "*/frac_1/*.csv",   emit: frac_1
+    path "*/frac_3/*.csv",   emit: frac_3
+    path "*/frac_10/*.csv",  emit: frac_10
+    path "*/frac_30/*.csv",  emit: frac_30
     path "*/frac_100/*.csv", emit: frac_100
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100 // this won't work, may cause a weird issue, could be Nextflow's problem.
     path  "versions.yml",      emit: versions
