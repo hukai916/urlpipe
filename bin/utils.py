@@ -67,7 +67,7 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
     plt.xticks(myticks, mylabels, rotation = 85)
     plt.tick_params(labelsize = 8)
 
-    plt.savefig(output_file, dpi = 300)
+    plt.savefig(output_file, dpi = 300, bbox_inches = "tight")
     plt.close()
 
 def print_test():
