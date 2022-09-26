@@ -4,7 +4,7 @@
 To count the repeat length by measuring distance.
 
 Dev notes:
-1. Nextflow won't resume if utils changes;
+1. Nextflow won't resume if utils changes.
 
 """
 

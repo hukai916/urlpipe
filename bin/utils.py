@@ -23,7 +23,7 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
         _dict[str(df.iloc[i, 0])] = df.iloc[i, 1]
 
     # determine max count:
-    max_count = max([int(i) for i in df.iloc[:,0] if i.isdigit()])
+    max_count = max([int(i) for i in df.iloc[:,0] if str(i).isdigit()])
     # plus, problem = 0, 0
     # for i, v in enumerate(df.iloc[:, 0]):
     #     if v == "plus":
