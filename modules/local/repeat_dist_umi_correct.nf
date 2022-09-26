@@ -9,7 +9,7 @@ process REPEAT_DIST_UMI_CORRECT {
     val outdir
 
     output:
-    path "*/cutoff_1/*",       emit: cutoff_1
+    path "*/cutoff_1/*",       emit: cutoff_1 // not if "*/cutoff_1", the resume is problematic
     path "*/cutoff_3/*",       emit: cutoff_3
     path "*/cutoff_10/*",      emit: cutoff_10
     path "*/cutoff_30/*",      emit: cutoff_30

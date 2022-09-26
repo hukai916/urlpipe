@@ -5,7 +5,7 @@ from matplotlib.ticker import PercentFormatter
 import os
 import pandas as pd
 
-def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 200):
+def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
     """
     csv:
         col1 col2
@@ -15,49 +15,57 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 200):
     # output plot:
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
-    # We can set the number of bins with the *bins* keyword argument.
+    # read in stat csv: ensure 'plus' and 'problem' are there
     df = pd.read_csv(csv, sep = ",", header = None)
     x, y = [], []
-    _dict = {}
-
+    _dict = {"plus": 0, "problem": 0} # ensure that 'plus' and 'problem' are there
     for i in range(len(df.iloc[:,0])):
         _dict[str(df.iloc[i, 0])] = df.iloc[i, 1]
 
+    # determine max count:
+    max_count = max([int(i) for i in df.iloc[:,0] if i.isdigit()])
+    # plus, problem = 0, 0
+    # for i, v in enumerate(df.iloc[:, 0]):
+    #     if v == "plus":
+    #         plus = df.iloc[i, 1]
+    #     elif v == "problem":
+    #         problem = df.iloc[i, 1]
 
-    bin_n = int(bin_number)
-    offset = 3 # make sure the last two columns are not overlayed in the hist plot:
-    # use bin_n or (int(df.iloc[-3, 0]) + 10)
-    for i in list(range(bin_n + 1 + offset)) + ["plus", "problem"]:
-        x = x + [str(i)]
-        if not str(i) in _dict:
-            y = y + [0]
-        else:
-            y = y + [_dict[str(i)]]
-
-    # weight = [math.log2(x + 0.1) for x in df.iloc[:, 1]]
-    weight = y
-    # n, bins, patches = axs[_i][_j].hist(x, weights = weight, bins=len(x), edgecolor='black')
-    if bin_number == "auto":
-        bin_n = len(x) + offset
+    # determine bin_n considering 'auto' option:
+    if bin_number == 'auto': # if 'auto', use max_count as bin_number
+        bin_n = max_count # include "plus" and "problem"
     else:
-        bin_n = max(int(bin_number), len(x)) + offset # otherwise the last data will be overlayed
+        bin_n = int(bin_number)
+        assert max_count <= bin_n, "X-axis scale too small!"
 
-    n, bins, patches = plt.hist(x, weights = weight, bins=bin_n, range = (0, bin_n))
+    # determine x and weight (y), add N number of gap between count and "plus" and "problem" for better visualization
+    x, y = [], []
+    for i, v in enumerate(list(range(bin_n + N)) + ["plus"] + [0] * N +  ["problem"]):
+        x = x + [str(i)]
+        if not v in ["plus", "problem"]:
+            if not str(i) in _dict:
+                y = y + [0]
+            else:
+                y = y + [_dict[str(i)]]
+        elif v == "plus":
+            y = y + [_dict["plus"]]
+        elif v == "problem":
+            y = y + [_dict["problem"]]
 
-    # sparse the x-axis ticks:
+    # sparse the ticks:
     myticks = [i for i in range(bin_n) if not i%N]
-    newlabels = [i for i in range(bin_n) if not i%N]
+    mylabels = [i for i in range(bin_n) if not i%N]
+    if not "plus" in mylabels:
+        mylabels = mylabels + ["plus"]
+        myticks = myticks + [bin_n + N]
+    if not "problem" in mylabels:
+        mylabels = mylabels + ["problem"]
+        myticks = myticks + [bin_n + 2* N]
 
-    if "plus" in list(x) and not "plus" in newlabels:
-        # newlabels = newlabels[:-2]
-        # myticks = myticks[:-2]
-        newlabels = newlabels + ["+"]
-        # myticks = myticks + [len(x) - 2]
-        myticks = myticks + [bin_n + 1]
-
-    plt.xticks(myticks, newlabels, rotation = 85)
-    plt.tick_params(labelsize=8)
-    plt.title(sample_name)
+    # plot:
+    n, bins, patches = plt.hist(x, weights = y, bins = bin_n + 2 * N, range = (0, bin_n + 2 * N))
+    plt.xticks(myticks, mylabels, rotation = 85)
+    plt.tick_params(labelsize = 8)
 
     plt.savefig(output_file, dpi = 300)
     plt.close()
