@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-To plot UMI distribution.
+To plot the UMI distribution.
 
 """
 
