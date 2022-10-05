@@ -20,6 +20,7 @@ process REPEAT_DIST_DISTANCE_MERGED {
 
     script:
     def args = task.ext.args ?: ''
+    def args_frac = task.ext.args_frac ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
