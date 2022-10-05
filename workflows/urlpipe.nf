@@ -277,7 +277,7 @@ workflow URLPIPE {
       REPEAT_DIST_DISTANCE.out.count_r1,
       "5c_umi_group_stat_r1"
       )
-    ch_versions = ch_versions.mix(UMI_GROUP_STAT.out.versions)
+    ch_versions = ch_versions.mix(UMI_GROUP_STAT_R1.out.versions)
 
     //
     // MODULE: repeat dist UMI corrected: 5d
