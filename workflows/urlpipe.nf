@@ -60,6 +60,8 @@ include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
 include { REPEAT_DIST_DISTANCE        } from '../modules/local/repeat_dist_distance'
 include { REPEAT_DIST_DISTANCE_MERGED } from '../modules/local/repeat_dist_distance_merged'
 include { REPEAT_DIST_WITHIN_UMI_GROUP} from '../modules/local/repeat_dist_within_umi_group'
+include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_R2 } from '../modules/local/repeat_dist_within_umi_group'
+
 include { UMI_GROUP_STAT as UMI_GROUP_STAT_R1 } from '../modules/local/umi_group_stat'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 
@@ -261,11 +263,11 @@ workflow URLPIPE {
     //
     // MODULE: repeat distribution within umi group
     //
-    REPEAT_DIST_WITHIN_UMI_GROUP2 (
-      REPEAT_DIST_DISTANCE.out.count_r2,
-      "5b_r2_repeat_dist_within_umi_group"
-      )
-    ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP2.out.versions)
+    // REPEAT_DIST_WITHIN_UMI_GROUP2 (
+    //   REPEAT_DIST_DISTANCE.out.count_r2,
+    //   "5b_r2_repeat_dist_within_umi_group"
+    //   )
+    // ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP2.out.versions)
 
 
     //
