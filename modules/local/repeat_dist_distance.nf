@@ -6,16 +6,17 @@ process REPEAT_DIST_DISTANCE {
 
     input:
     tuple val(meta), path(reads)
+    val outdir
 
     output:
-    path "4d_repeat_distribution_distance/stat_r1/*.csv",        emit: stat_r1
-    path "4d_repeat_distribution_distance/stat_r2/*.csv",        emit: stat_r2
-    path "4d_repeat_distribution_distance/plot_r1/*.png",        emit: plot_r1
-    path "4d_repeat_distribution_distance/plot_r2/*.png",        emit: plot_r2
-    tuple val(meta), path("4d_repeat_distribution_distance/count_r1/*.csv"),       emit: count_r1
-    tuple val(meta), path("4d_repeat_distribution_distance/count_r2/*.csv"),       emit: count_r2
-    path "4d_repeat_distribution_distance/frac_r1/*.csv",        emit: frac_r1
-    path "4d_repeat_distribution_distance/frac_r2/*.csv",        emit: frac_r2
+    path "*/stat_r1/*.csv",        emit: stat_r1
+    path "*/stat_r2/*.csv",        emit: stat_r2
+    path "*/plot_r1/*.png",        emit: plot_r1
+    path "*/plot_r2/*.png",        emit: plot_r2
+    tuple val(meta), path("*/count_r1/*.csv"),       emit: count_r1
+    tuple val(meta), path("*/count_r2/*.csv"),       emit: count_r2
+    path "*/frac_r1/*.csv",        emit: frac_r1
+    path "*/frac_r2/*.csv",        emit: frac_r2
     path  "versions.yml",                                        emit: versions
 
     when:
@@ -27,17 +28,17 @@ process REPEAT_DIST_DISTANCE {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p 4d_repeat_distribution_distance/stat_r1 4d_repeat_distribution_distance/stat_r2 4d_repeat_distribution_distance/plot_r1 4d_repeat_distribution_distance/plot_r2 4d_repeat_distribution_distance/count_r1 4d_repeat_distribution_distance/count_r2
+    mkdir -p ${outdir}/stat_r1 ${outdir}/stat_r2 ${outdir}/plot_r1 ${outdir}/plot_r2 ${outdir}/count_r1 ${outdir}/count_r2
 
-    repeat_dist_distance.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz ${prefix} 4d_repeat_distribution_distance $args
+    repeat_dist_distance.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz ${prefix} ${outdir} $args
 
     # calculate fractions
     tem="$args_frac"
     suffix="\${tem// /_}"
-    mkdir 4d_repeat_distribution_distance/frac_r1 4d_repeat_distribution_distance/frac_r2
+    mkdir ${outdir}/frac_r1 ${outdir}/frac_r2
 
-    calculate_frac.py $prefix 4d_repeat_distribution_distance/stat_r1/${prefix}.csv 4d_repeat_distribution_distance/frac_r1 "$args_frac"
-    calculate_frac.py $prefix 4d_repeat_distribution_distance/stat_r2/${prefix}.csv 4d_repeat_distribution_distance/frac_r2 "$args_frac"
+    calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.csv ${outdir}/frac_r1 "$args_frac"
+    calculate_frac.py $prefix ${outdir}/stat_r2/${prefix}.csv ${outdir}/frac_r2 "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

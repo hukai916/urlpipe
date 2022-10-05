@@ -6,12 +6,14 @@ process REPEAT_DIST_DISTANCE_MERGED {
 
     input:
     tuple val(meta), path(reads)
+    val outdir
 
     output:
-    path "4d_repeat_distribution_distance_merged/stat/*.csv",        emit: stat
-    path "4d_repeat_distribution_distance_merged/plot/*.png",        emit: plot
-    path "4d_repeat_distribution_distance_merged/count/*.csv",       emit: count
-    path  "versions.yml",                                            emit: versions
+    path "*/stat/*.csv",                    emit: stat
+    path "*/plot/*.png",                    emit: plot
+    tuple val(meta), path("*/count/*.csv"), emit: count
+    path "*/frac/*.csv",                    emit: frac
+    path  "versions.yml",                   emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,8 +23,15 @@ process REPEAT_DIST_DISTANCE_MERGED {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p 4d_repeat_distribution_distance_merged/stat 4d_repeat_distribution_distance_merged/plot 4d_repeat_distribution_distance_merged/count
-    repeat_dist_distance_merged.py ${prefix}.fastq.gz ${prefix} 4d_repeat_distribution_distance_merged $args
+    mkdir -p ${outdir}/stat ${outdir}/plot ${outdir}/count ${outdir}/frac
+
+    repeat_dist_distance_merged.py ${prefix}.fastq.gz ${prefix} ${outdir} $args
+
+    # calculate fractions
+    tem="$args_frac"
+    suffix="\${tem// /_}"
+
+    calculate_frac.py $prefix ${outdir}/stat/${prefix}.csv ${outdir}/frac "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

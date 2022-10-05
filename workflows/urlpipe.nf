@@ -60,8 +60,8 @@ include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
 include { REPEAT_DIST_DISTANCE        } from '../modules/local/repeat_dist_distance'
 include { REPEAT_DIST_DISTANCE_MERGED } from '../modules/local/repeat_dist_distance_merged'
 include { REPEAT_DIST_WITHIN_UMI_GROUP} from '../modules/local/repeat_dist_within_umi_group'
-include { UMI_GROUP_STAT              } from '../modules/local/umi_group_stat'
-include { REPEAT_DIST_UMI_CORRECT     } from '../modules/local/repeat_dist_umi_correct'
+include { UMI_GROUP_STAT as UMI_GROUP_STAT_R1 } from '../modules/local/umi_group_stat'
+include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -225,7 +225,8 @@ workflow URLPIPE {
     // MODULE: repeat distribution distance with R1/R2 reads
     //
     REPEAT_DIST_DISTANCE (
-      CLASSIFY_READTHROUGH.out.reads_through
+      CLASSIFY_READTHROUGH.out.reads_through,
+      "4d_repeat_distribution_distance"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE.out.versions)
 
@@ -233,7 +234,8 @@ workflow URLPIPE {
     // MODULE: repeat distribution distance with merged reads
     //
     REPEAT_DIST_DISTANCE_MERGED (
-      BBMERGE.out.reads_merged
+      BBMERGE.out.reads_merged,
+      "4d_repeat_distribution_distance_merged"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE_MERGED.out.versions)
 
@@ -257,22 +259,32 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP.out.versions)
 
     //
+    // MODULE: repeat distribution within umi group
+    //
+    REPEAT_DIST_WITHIN_UMI_GROUP2 (
+      REPEAT_DIST_DISTANCE.out.count_r2,
+      "5b_r2_repeat_dist_within_umi_group"
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP2.out.versions)
+
+
+    //
     // MODULE: UMI group stat: UMI read_count mean mode: 5c
     //
-    UMI_GROUP_STAT (
+    UMI_GROUP_STAT_R1 (
       REPEAT_DIST_DISTANCE.out.count_r1,
-      "5c_r1_umi_group_stat"
+      "5c_umi_group_stat_r1"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT.out.versions)
 
     //
     // MODULE: repeat dist UMI corrected: 5d
     //
-    REPEAT_DIST_UMI_CORRECT (
-      UMI_GROUP_STAT.out.stat,
-      "5d_r1_repeat_dist_umi_correct"
+    REPEAT_DIST_UMI_CORRECT_R1 (
+      UMI_GROUP_STAT_R1.out.stat,
+      "5d_repeat_dist_umi_correct_r1"
       )
-    ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT.out.versions)
+    ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
 
 
     //
@@ -297,18 +309,18 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
 
     //
-    // MODULE: combine REPEAT_DIST_UMI_CORRECT.out.frac_x into one file
+    // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
     //
-    // REPEAT_DIST_UMI_CORRECT.out.frac_1.collect().view()
-    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "blow,above" )
+    // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
+    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_repeat_dist_umi_correct_r1/frac_1", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
-    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "blow,above" )
+    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_repeat_dist_umi_correct_r1/frac_3", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
-    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/frac_10", "blow,above" )
+    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_10.collect(), "5d_repeat_dist_umi_correct_r1/frac_10", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
-    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/frac_30", "blow,above" )
+    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_30.collect(), "5d_repeat_dist_umi_correct_r1/frac_30", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
-    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/frac_100", "blow,above" )
+    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_100.collect(), "5d_repeat_dist_umi_correct_r1/frac_100", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
 
     //
