@@ -321,7 +321,7 @@ workflow URLPIPE {
     CAT_STAT5 (
       REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
       "4d_repeat_distribution_distance/frac_r1",
-      "blow,above" // header to be added
+      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT5.out.versions)
 
