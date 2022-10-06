@@ -48,6 +48,6 @@ with open(outfile, "w") as f:
     above_mean  = str(np.mean(above_list))
     above_std   = str(np.std(above_list))
 
-    res_list = [sample, below_count, below_frac, below_mean, below_std, above_count, above_frac, above_mean, above_std]
+    res_list = [sample_name, below_count, below_frac, below_mean, below_std, above_count, above_frac, above_mean, above_std]
     res = ",".join(res_list) + "\n"
     f.write(res)
