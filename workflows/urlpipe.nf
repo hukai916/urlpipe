@@ -67,6 +67,11 @@ include { UMI_GROUP_STAT as UMI_GROUP_STAT_MERGE } from '../modules/local/umi_gr
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../modules/local/repeat_dist_umi_correct'
 
+include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
+include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
+include { PLOT_FRAC as PLOT_FRAC_5D_R1    } from '../modules/local/plot_frac'
+include { PLOT_FRAC as PLOT_FRAC_5D_MERGE } from '../modules/local/plot_frac'
+
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
 
@@ -363,6 +368,11 @@ workflow URLPIPE {
     CAT_STAT11_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_100.collect(), "5d_merge_repeat_dist_umi_correct/frac_100", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
 
+    // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
+    PLOT_FRAC_4D_R1 (
+      CAT_STAT5.out.stat,
+      "4d_repeat_distribution_distance/plot_r1_frac"
+    )
 
     //
     // MODULE: repeat distribution R1 distance
