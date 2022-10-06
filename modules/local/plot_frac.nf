@@ -8,8 +8,8 @@ process PLOT_FRAC {
     val outdir
 
     output:
-    path "*/*/all_sample.png",  emit: plot
-    path  "versions.yml",       emit: versions
+    path "*/*/all_sample_*.png",  emit: plot
+    path  "versions.yml",         emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -19,7 +19,7 @@ process PLOT_FRAC {
     """
     mkdir -p ${outdir}
 
-    plot_frac.py $csv ${outdir}/all_sample.png
+    plot_frac.py $csv ${outdir}/all_sample_frac.png ${outdir}/all_sample_repeat_length.png
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

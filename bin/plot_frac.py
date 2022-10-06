@@ -10,10 +10,12 @@ import numpy as np
 import pandas as pd
 
 csv = sys.argv[1]
-outfile = sys.argv[2]
+outfile1 = sys.argv[2]
+outfile2 = sys.argv[3]
 
 data=pd.read_csv(csv, sep=',')
 
+# Plot frac bar plot:
 fig, ax = plt.subplots()
 labels = list(data.iloc[:,0])
 below_mean = list(data.iloc[:,2])
@@ -27,20 +29,31 @@ ax.set_ylabel('Fraction')
 ax.set_title('Below and Above Cutoff Reads Fraction by Sample')
 ax.legend()
 plt.xticks(rotation = 85)
-plt.savefig(outfile, dpi = 300, bbox_inches = "tight")
+plt.savefig(outfile1, dpi = 300, bbox_inches = "tight")
 plt.close()
-# x = data.iloc[:,0].to_frame()
-# weight = np.log2(data[["count"]])
-#
-# # n, bins, patches = axs[_i][_j].hist(x, weights = weight, bins=len(x), edgecolor='black')
-# if bin_number == "auto":
-#     bin_n = int(x.iloc[-1])
-# else:
-#     bin_n = int(bin_number)
-# n, bins, patches = plt.hist(x, weights = weight, bins = bin_n, range = (0, bin_n))
-#
-# plt.title(sample_name)
-# plt.xlabel("reads per UMI")
-# plt.ylabel("log2(count)")
-# plt.savefig(outfile, dpi = 300)
-# plt.close()
+
+
+
+# Plot repeat length bar plot:
+N = len(labels)
+ind = np.arange(N)  # the x locations for the groups
+width = 0.4       # the width of the bars
+below_mean = list(data.iloc[:,3])
+below_std  = list(data.iloc[:,4])
+above_mean = list(data.iloc[:,7])
+above_std = list(data.iloc[:,8])
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+rects1 = ax.bar(ind, below_mean, width, yerr=below_std)
+rects2 = ax.bar(ind+width, above_mean, width, yerr=above_std)
+
+ax.set_ylabel('Repeat Length')
+ax.set_title('Below and Above Cutoff Read Length by Sample')
+ax.set_xticks(ind + width / 2)
+ax.set_xticklabels(labels)
+
+# ax.legend(('Below_frac', 'Above_frac') )
+plt.xticks(rotation = 85)
+plt.savefig(outfile2, dpi = 300, bbox_inches = "tight")
+plt.close()
