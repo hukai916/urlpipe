@@ -309,7 +309,6 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_MERGE.out.versions)
 
-
     //
     // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
     //
@@ -327,14 +326,14 @@ workflow URLPIPE {
     CAT_STAT6 (
       REPEAT_DIST_DISTANCE.out.frac_r2.collect(),
       "4d_repeat_distribution_distance/frac_r2",
-      "blow,above" // header to be added
+      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
 
     CAT_STAT5_MERGE (
       REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
       "4d_repeat_distribution_distance/frac_merge",
-      "blow,above" // header to be added
+      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT5_MERGE.out.versions)
 
@@ -342,26 +341,26 @@ workflow URLPIPE {
     // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
     //
     // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
-    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "blow,above" )
+    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
-    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "blow,above" )
+    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
-    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/frac_10", "blow,above" )
+    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/frac_10", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
-    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/frac_30", "blow,above" )
+    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/frac_30", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
-    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/frac_100", "blow,above" )
+    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/frac_100", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
 
-    CAT_STAT7_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_1.collect(), "5d_merge_repeat_dist_umi_correct/frac_1", "blow,above" )
+    CAT_STAT7_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_1.collect(), "5d_merge_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
-    CAT_STAT8_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_3.collect(), "5d_merge_repeat_dist_umi_correct/frac_3", "blow,above" )
+    CAT_STAT8_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_3.collect(), "5d_merge_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
-    CAT_STAT9_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_10.collect(), "5d_merge_repeat_dist_umi_correct/frac_10", "blow,above" )
+    CAT_STAT9_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_10.collect(), "5d_merge_repeat_dist_umi_correct/frac_10", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
-    CAT_STAT10_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_30.collect(), "5d_merge_repeat_dist_umi_correct/frac_30", "blow,above" )
+    CAT_STAT10_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_30.collect(), "5d_merge_repeat_dist_umi_correct/frac_30", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
-    CAT_STAT11_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_100.collect(), "5d_merge_repeat_dist_umi_correct/frac_100", "blow,above" )
+    CAT_STAT11_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_100.collect(), "5d_merge_repeat_dist_umi_correct/frac_100", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
 
 
