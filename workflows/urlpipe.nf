@@ -51,7 +51,7 @@ include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
 include { CUTADAPT                    } from '../modules/nf-core/modules/cutadapt/main'
 include { FASTQC; FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
-include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3; CAT_STAT as CAT_STAT4; CAT_STAT as CAT_STAT5; CAT_STAT as CAT_STAT6; CAT_STAT as CAT_STAT7; CAT_STAT as CAT_STAT8; CAT_STAT as CAT_STAT9; CAT_STAT as CAT_STAT10; CAT_STAT as CAT_STAT11 } from '../modules/local/cat_stat'
+include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3; CAT_STAT as CAT_STAT4; CAT_STAT as CAT_STAT5; CAT_STAT as CAT_STAT6; CAT_STAT as CAT_STAT7; CAT_STAT as CAT_STAT8; CAT_STAT as CAT_STAT9; CAT_STAT as CAT_STAT10; CAT_STAT as CAT_STAT11; CAT_STAT as CAT_STAT5_MERGE; CAT_STAT7 as CAT_STAT7_MERGE; CAT_STAT8 as CAT_STAT8_MERGE; CAT_STAT9 as CAT_STAT9_MERGE; CAT_STAT10 as CAT_STAT10_MERGE; CAT_STAT11 as CAT_STAT11_MERGE} from '../modules/local/cat_stat'
 include { UMI_PATTERN; UMI_PATTERN as UMI_PATTERN2 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
@@ -59,11 +59,13 @@ include { BBMERGE                     } from '../modules/local/bbmerge'
 include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
 include { REPEAT_DIST_DISTANCE        } from '../modules/local/repeat_dist_distance'
 include { REPEAT_DIST_DISTANCE_MERGED } from '../modules/local/repeat_dist_distance_merged'
-include { REPEAT_DIST_WITHIN_UMI_GROUP} from '../modules/local/repeat_dist_within_umi_group'
-include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_R2 } from '../modules/local/repeat_dist_within_umi_group'
+include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_R1 } from '../modules/local/repeat_dist_within_umi_group'
+include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_MERGE } from '../modules/local/repeat_dist_within_umi_group'
 
 include { UMI_GROUP_STAT as UMI_GROUP_STAT_R1 } from '../modules/local/umi_group_stat'
+include { UMI_GROUP_STAT as UMI_GROUP_STAT_MERGE } from '../modules/local/umi_group_stat'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
+include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../modules/local/repeat_dist_umi_correct'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -210,7 +212,7 @@ workflow URLPIPE {
     //
     FASTQC1 (
       CLASSIFY_READTHROUGH.out.reads_through,
-      "4c_fastqc_r1_r2"
+      "4c_r1_r2_fastqc"
       )
     ch_versions = ch_versions.mix(FASTQC1.out.versions)
 
@@ -219,7 +221,7 @@ workflow URLPIPE {
     //
     FASTQC_SINGLE (
       BBMERGE.out.reads_merged,
-      "4c_fastqc_merged"
+      "4c_merge_fastqc"
       )
     ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
 
@@ -237,7 +239,7 @@ workflow URLPIPE {
     //
     REPEAT_DIST_DISTANCE_MERGED (
       BBMERGE.out.reads_merged,
-      "4d_repeat_distribution_distance_merged"
+      "4d_merge_repeat_distribution_distance"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE_MERGED.out.versions)
 
@@ -254,12 +256,19 @@ workflow URLPIPE {
     //
     // MODULE: repeat distribution within umi group
     //
-    REPEAT_DIST_WITHIN_UMI_GROUP (
+    REPEAT_DIST_WITHIN_UMI_GROUP_R1 (
       REPEAT_DIST_DISTANCE.out.count_r1,
       "5b_r1_repeat_dist_within_umi_group"
       )
-    ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP.out.versions)
+    ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP_R1.out.versions)
 
+    REPEAT_DIST_WITHIN_UMI_GROUP_MERGE (
+      REPEAT_DIST_DISTANCE_MERGED.out.count,
+      "5b_merge_repeat_dist_within_umi_group"
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP_MERGE.out.versions)
+
+    //
     //
     // MODULE: repeat distribution within umi group
     //
@@ -275,18 +284,30 @@ workflow URLPIPE {
     //
     UMI_GROUP_STAT_R1 (
       REPEAT_DIST_DISTANCE.out.count_r1,
-      "5c_umi_group_stat_r1"
+      "5c_r1_umi_group_stat"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_R1.out.versions)
+
+    UMI_GROUP_STAT_MERGE (
+      REPEAT_DIST_DISTANCE_MERGED.out.count,
+      "5c_merge_umi_group_stat"
+      )
+    ch_versions = ch_versions.mix(UMI_GROUP_STAT_MERGE.out.versions)
 
     //
     // MODULE: repeat dist UMI corrected: 5d
     //
     REPEAT_DIST_UMI_CORRECT_R1 (
       UMI_GROUP_STAT_R1.out.stat,
-      "5d_repeat_dist_umi_correct_r1"
+      "5d_r1_repeat_dist_umi_correct"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
+
+    REPEAT_DIST_UMI_CORRECT_MERGE (
+      UMI_GROUP_STAT_MERGE.out.stat,
+      "5d_merge_repeat_dist_umi_correct"
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_MERGE.out.versions)
 
 
     //
@@ -310,20 +331,39 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
 
+    CAT_STAT5_MERGE (
+      REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
+      "4d_repeat_distribution_distance/frac_merge",
+      "blow,above" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT5_MERGE.out.versions)
+
     //
     // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
     //
     // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
-    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_repeat_dist_umi_correct_r1/frac_1", "blow,above" )
+    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
-    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_repeat_dist_umi_correct_r1/frac_3", "blow,above" )
+    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
-    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_10.collect(), "5d_repeat_dist_umi_correct_r1/frac_10", "blow,above" )
+    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/frac_10", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
-    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_30.collect(), "5d_repeat_dist_umi_correct_r1/frac_30", "blow,above" )
+    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/frac_30", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
-    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_100.collect(), "5d_repeat_dist_umi_correct_r1/frac_100", "blow,above" )
+    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/frac_100", "blow,above" )
     ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
+
+    CAT_STAT7_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_1.collect(), "5d_merge_repeat_dist_umi_correct/frac_1", "blow,above" )
+    ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
+    CAT_STAT8_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_3.collect(), "5d_merge_repeat_dist_umi_correct/frac_3", "blow,above" )
+    ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
+    CAT_STAT9_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_10.collect(), "5d_merge_repeat_dist_umi_correct/frac_10", "blow,above" )
+    ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
+    CAT_STAT10_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_30.collect(), "5d_merge_repeat_dist_umi_correct/frac_30", "blow,above" )
+    ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
+    CAT_STAT11_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_100.collect(), "5d_merge_repeat_dist_umi_correct/frac_100", "blow,above" )
+    ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
+
 
     //
     // MODULE: repeat distribution R1 distance
