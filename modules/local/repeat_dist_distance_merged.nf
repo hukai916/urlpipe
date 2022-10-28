@@ -9,7 +9,8 @@ process REPEAT_DIST_DISTANCE_MERGED {
     val outdir
 
     output:
-    path "*/stat/*.csv",                    emit: stat
+    // path "*/stat/*.csv",                    emit: stat
+    path "*/stat",                          emit: stat_raw
     path "*/plot/*.png",                    emit: plot
     tuple val(meta), path("*/count/*.csv"), emit: count
     path "*/frac/*.csv",                    emit: frac
