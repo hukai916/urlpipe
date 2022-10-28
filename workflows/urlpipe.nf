@@ -296,14 +296,14 @@ workflow URLPIPE {
     //
     UMI_GROUP_STAT_R1 (
       REPEAT_DIST_DISTANCE.out.count_r1,
-      REPEAT_DIST_DISTANCE.out.stat_r1,
+      REPEAT_DIST_DISTANCE.out.stat_raw,
       "5c_r1_umi_group_stat"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_R1.out.versions)
 
     UMI_GROUP_STAT_MERGE (
       REPEAT_DIST_DISTANCE_MERGED.out.count,
-      REPEAT_DIST_DISTANCE_MERGED.out.stat_r1,
+      REPEAT_DIST_DISTANCE_MERGED.out.stat_raw,
       "5c_merge_umi_group_stat"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_MERGE.out.versions)
