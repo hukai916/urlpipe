@@ -296,7 +296,7 @@ workflow URLPIPE {
     //
     UMI_GROUP_STAT_R1 (
       REPEAT_DIST_DISTANCE.out.count_r1,
-      REPEAT_DIST_DISTANCE.out.stat_raw,
+      REPEAT_DIST_DISTANCE.out.stat_raw, // stat_raw store the raw stat before UMI correction
       "5c_r1_umi_group_stat"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_R1.out.versions)
