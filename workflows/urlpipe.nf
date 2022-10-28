@@ -311,6 +311,10 @@ workflow URLPIPE {
     //
     // MODULE: repeat dist UMI corrected: 5d
     //
+    UMI_GROUP_STAT_R1.out.stat.view()
+    UMI_GROUP_STAT_R1.out.stat_raw.view()
+    
+
     REPEAT_DIST_UMI_CORRECT_R1 (
       UMI_GROUP_STAT_R1.out.stat,
       UMI_GROUP_STAT_R1.out.stat_raw,
