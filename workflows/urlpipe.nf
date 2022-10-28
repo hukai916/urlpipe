@@ -296,12 +296,14 @@ workflow URLPIPE {
     //
     UMI_GROUP_STAT_R1 (
       REPEAT_DIST_DISTANCE.out.count_r1,
+      REPEAT_DIST_DISTANCE.out.stat_r1,
       "5c_r1_umi_group_stat"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_R1.out.versions)
 
     UMI_GROUP_STAT_MERGE (
       REPEAT_DIST_DISTANCE_MERGED.out.count,
+      REPEAT_DIST_DISTANCE_MERGED.out.stat_r1,
       "5c_merge_umi_group_stat"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_MERGE.out.versions)
@@ -311,12 +313,14 @@ workflow URLPIPE {
     //
     REPEAT_DIST_UMI_CORRECT_R1 (
       UMI_GROUP_STAT_R1.out.stat,
+      UMI_GROUP_STAT_R1.out.stat_raw,
       "5d_r1_repeat_dist_umi_correct"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
 
     REPEAT_DIST_UMI_CORRECT_MERGE (
       UMI_GROUP_STAT_MERGE.out.stat,
+      UMI_GROUP_STAT_MERGE.out.stat_raw,
       "5d_merge_repeat_dist_umi_correct"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_MERGE.out.versions)
@@ -419,6 +423,9 @@ workflow URLPIPE {
       CAT_STAT10_MERGE.out.stat,
       "5d_merge_repeat_dist_umi_correct/plot_merge_frac_30"
     )
+
+    // MODULE: read length SD plot vs UMI per sample:
+
 
     //
     // MODULE: repeat distribution R1 distance

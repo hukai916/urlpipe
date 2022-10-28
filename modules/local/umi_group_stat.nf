@@ -6,10 +6,12 @@ process UMI_GROUP_STAT {
 
     input:
     tuple val(meta), path(csv)
+    tuple val(meta), path(stat)
     val outdir
 
     output:
     tuple val(meta), path("*/*.csv"),       emit: stat
+    tuple val(meta), path(stat),            emit: stat_raw
     path  "versions.yml",                   emit: versions
 
     when:

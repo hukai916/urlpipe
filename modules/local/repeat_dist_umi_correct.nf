@@ -6,6 +6,7 @@ process REPEAT_DIST_UMI_CORRECT {
 
     input:
     tuple val(meta), path(csv)
+    tupel val(meta), path(stat_raw)
     val outdir
 
     output:
