@@ -66,4 +66,4 @@ try:
     plt.savefig(output_violin_zoom_plot)
     plt.clf()
 except:
-    continue
+    pass
