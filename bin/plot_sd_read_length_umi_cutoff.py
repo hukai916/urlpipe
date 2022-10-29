@@ -41,13 +41,14 @@ for file in input_files:
 X = ["No_correction", "Cutoff_1", "Cutoff_3", "Cutoff_10", "Cutoff_30", "Cutoff_100"]
 Y = [round(x, 2) for x in sd_list]
 plt.scatter(X, sd_list)
-plt.ylim(1, 10)
+plt.ylim(1, max(sd_list) + 2)
 locs, labels = plt.xticks()
 for i, label in enumerate(Y):
     plt.annotate(label, (X[i], Y[i] * 1.05))
 fig = plt.gcf()
 fig.patch.set_facecolor('xkcd:white')
 plt.savefig(output_sd_plot)
+plt.clf()
 
 # For violin plot:
 output_violin_raw_plot = os.path.join(outdir, sample_name + "_violin_raw.png")
@@ -63,3 +64,4 @@ plt.ylim(0, 200)
 plt.savefig(output_violin_raw_plot)
 plt.ylim(130, 180)
 plt.savefig(output_violin_zoom_plot)
+plt.clf()
