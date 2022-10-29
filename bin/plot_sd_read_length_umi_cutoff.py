@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import sys
 import matplotlib.pyplot as plt
+import os
 
 sample_name = sys.argv[1]
 outdir      = sys.argv[2]
