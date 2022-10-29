@@ -69,7 +69,7 @@ with _open(r1) as f:
 keys = [x for x in dict_repeat.keys() if not x == "problem" and not x == "plus"]
 
 # output stat:
-output_file = os.path.join(output_dir, "stat_r1", sample_name + ".csv")
+output_file = os.path.join(output_dir, "stat_r1", sample_name + ".stat.csv")
 os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
 with open(output_file, "w") as f:
@@ -121,7 +121,7 @@ with _open(r2) as f:
 keys = [x for x in dict_repeat.keys() if not x == "problem" and not x == "plus"]
 
 # output stat:
-output_file = os.path.join(output_dir, "stat_r2", sample_name + ".csv")
+output_file = os.path.join(output_dir, "stat_r2", sample_name + ".stat.csv")
 os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
 with open(output_file, "w") as f:
