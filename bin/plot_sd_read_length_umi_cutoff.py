@@ -27,8 +27,9 @@ input_files = [cutoff_0, cutoff_1, cutoff_3, cutoff_10, cutoff_30, cutoff_100]
 sd_list = []
 raw_list = []
 
+print(input_files)
+
 for file in input_files:
-    print(file)
     tem = pd.read_csv(file)
     tem = tem[tem.iloc[:,0] != "problem"]
     tem = tem[tem.iloc[:, 0] != "plus"]
