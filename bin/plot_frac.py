@@ -52,6 +52,7 @@ ax3.legend()
 ax3.set_xticklabels(labels, rotation = 85)
 
 plt.savefig(outfile1, dpi = 600)
+plt.clf()
 
 # Violin plots
 path = r'*.stat.csv'
