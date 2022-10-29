@@ -58,6 +58,7 @@ plt.violinplot(raw_list, positions = [1,2,3,4,5,6])
 fig = plt.gcf()
 fig.patch.set_facecolor('xkcd:white')
 locs, labels = plt.xticks()
+print(labels)
 plt.xticks(ticks = locs, labels = X, rotation = 10)
 
 plt.ylim(0, 200)
