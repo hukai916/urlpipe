@@ -385,47 +385,48 @@ workflow URLPIPE {
     // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
     PLOT_FRAC_4D_R1 (
       CAT_STAT5.out.stat,
+      REPEAT_DIST_DISTANCE.out.cutoff_1_mode_stat,
       "4d_repeat_distribution_distance/plot_r1_frac"
     )
-
-    PLOT_FRAC_4D_MERGE (
-      CAT_STAT5_MERGE.out.stat,
-      "4d_repeat_distribution_distance/plot_merge_frac"
-    )
-
-    PLOT_FRAC_5D_R1_FRAC_1 (
-      CAT_STAT7.out.stat,
-      "5d_r1_repeat_dist_umi_correct/plot_r1_frac_1"
-    )
-    PLOT_FRAC_5D_R1_FRAC_3 (
-      CAT_STAT8.out.stat,
-      "5d_r1_repeat_dist_umi_correct/plot_r1_frac_3"
-    )
-    PLOT_FRAC_5D_R1_FRAC_10 (
-      CAT_STAT9.out.stat,
-      "5d_r1_repeat_dist_umi_correct/plot_r1_frac_10"
-    )
-    PLOT_FRAC_5D_R1_FRAC_30 (
-      CAT_STAT10.out.stat,
-      "5d_r1_repeat_dist_umi_correct/plot_r1_frac_30"
-    )
-
-    PLOT_FRAC_5D_MERGE_FRAC_1 (
-      CAT_STAT7_MERGE.out.stat,
-      "5d_merge_repeat_dist_umi_correct/plot_merge_frac_1"
-    )
-    PLOT_FRAC_5D_MERGE_FRAC_3 (
-      CAT_STAT8_MERGE.out.stat,
-      "5d_merge_repeat_dist_umi_correct/plot_merge_frac_3"
-    )
-    PLOT_FRAC_5D_MERGE_FRAC_10 (
-      CAT_STAT9_MERGE.out.stat,
-      "5d_merge_repeat_dist_umi_correct/plot_merge_frac_10"
-    )
-    PLOT_FRAC_5D_MERGE_FRAC_30 (
-      CAT_STAT10_MERGE.out.stat,
-      "5d_merge_repeat_dist_umi_correct/plot_merge_frac_30"
-    )
+    //
+    // PLOT_FRAC_4D_MERGE (
+    //   CAT_STAT5_MERGE.out.stat,
+    //   "4d_repeat_distribution_distance/plot_merge_frac"
+    // )
+    //
+    // PLOT_FRAC_5D_R1_FRAC_1 (
+    //   CAT_STAT7.out.stat,
+    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_1"
+    // )
+    // PLOT_FRAC_5D_R1_FRAC_3 (
+    //   CAT_STAT8.out.stat,
+    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_3"
+    // )
+    // PLOT_FRAC_5D_R1_FRAC_10 (
+    //   CAT_STAT9.out.stat,
+    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_10"
+    // )
+    // PLOT_FRAC_5D_R1_FRAC_30 (
+    //   CAT_STAT10.out.stat,
+    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_30"
+    // )
+    //
+    // PLOT_FRAC_5D_MERGE_FRAC_1 (
+    //   CAT_STAT7_MERGE.out.stat,
+    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_1"
+    // )
+    // PLOT_FRAC_5D_MERGE_FRAC_3 (
+    //   CAT_STAT8_MERGE.out.stat,
+    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_3"
+    // )
+    // PLOT_FRAC_5D_MERGE_FRAC_10 (
+    //   CAT_STAT9_MERGE.out.stat,
+    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_10"
+    // )
+    // PLOT_FRAC_5D_MERGE_FRAC_30 (
+    //   CAT_STAT10_MERGE.out.stat,
+    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_30"
+    // )
 
     // MODULE: read length SD plot vs UMI per sample:
 
