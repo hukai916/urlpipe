@@ -9,10 +9,8 @@ process REPEAT_DIST_DISTANCE {
     val outdir
 
     output:
-    path "*/stat_r1",              emit: stat_raw
-    path "*/stat_r2",              emit: stat_r2
-    path "*/stat_r1/*.csv",              emit: stat_raw_file
-    path "*/stat_r2/*.csv",              emit: stat_r2_file
+    path "*/stat_r1/*.stat.csv",   emit: stat_raw
+    path "*/stat_r2/*.stat.csv",   emit: stat_r2
     path "*/plot_r1/*.png",        emit: plot_r1
     path "*/plot_r2/*.png",        emit: plot_r2
     tuple val(meta), path("*/count_r1/*.csv"),       emit: count_r1
@@ -39,8 +37,8 @@ process REPEAT_DIST_DISTANCE {
     suffix="\${tem// /_}"
     mkdir ${outdir}/frac_r1 ${outdir}/frac_r2
 
-    calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.csv ${outdir}/frac_r1 "$args_frac"
-    calculate_frac.py $prefix ${outdir}/stat_r2/${prefix}.csv ${outdir}/frac_r2 "$args_frac"
+    calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 "$args_frac"
+    calculate_frac.py $prefix ${outdir}/stat_r2/${prefix}.stat.csv ${outdir}/frac_r2 "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -10,8 +10,7 @@ process REPEAT_DIST_DISTANCE_MERGED {
 
     output:
     // path "*/stat/*.csv",                    emit: stat
-    path "*/stat",                          emit: stat_raw
-    path "*/stat/*.csv",                          emit: stat_raw_file
+    path "*/stat/*.stat.csv",               emit: stat_raw
     path "*/plot/*.png",                    emit: plot
     tuple val(meta), path("*/count/*.csv"), emit: count
     path "*/frac/*.csv",                    emit: frac
@@ -34,7 +33,7 @@ process REPEAT_DIST_DISTANCE_MERGED {
     tem="$args_frac"
     suffix="\${tem// /_}"
 
-    calculate_frac.py $prefix ${outdir}/stat/${prefix}.csv ${outdir}/frac "$args_frac"
+    calculate_frac.py $prefix ${outdir}/stat/${prefix}.stat.csv ${outdir}/frac "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
