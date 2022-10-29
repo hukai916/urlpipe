@@ -20,7 +20,7 @@ process REPEAT_DIST_UMI_CORRECT {
     path "*/frac_10/*.csv",    emit: frac_10
     path "*/frac_30/*.csv",    emit: frac_30
     path "*/frac_100/*.csv",   emit: frac_100
-    path "*/plot",             emit: plot // STD and Violin plot of read length after UMI correction.
+    path "*/plot/*",             emit: plot // STD and Violin plot of read length after UMI correction.
     path stat_raw,             emit: stat_raw
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100 // this won't work, may cause a weird issue, could be Nextflow's problem.
     path  "versions.yml",      emit: versions
