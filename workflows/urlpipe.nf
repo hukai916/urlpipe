@@ -385,7 +385,7 @@ workflow URLPIPE {
     // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
     PLOT_FRAC_4D_R1 (
       CAT_STAT5.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_1_mode_stat,
+      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
       "4d_repeat_distribution_distance/plot_r1_frac"
     )
     //
