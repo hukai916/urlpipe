@@ -81,7 +81,7 @@ plt.violinplot(raw_list, positions = list(range(1, len(sample_list) + 1)),
                showextrema = False)
 fig = plt.gcf()
 fig.patch.set_facecolor('xkcd:white')
-fig.set_size_inches(8, 6)
+fig.set_size_inches(8, 8)
 
 plt.xlim(0, 200)
 locs, labels = plt.xticks()
