@@ -22,12 +22,12 @@ cutoff_30   = sys.argv[7]
 cutoff_100  = sys.argv[8]
 
 # For STD scatter plot:
-output_sd_plot = os.path.join(outdir, "plot_std_", sample_name + ".png")
+output_sd_plot = os.path.join(outdir, sample_name + "_std_.png")
 input_files = [cutoff_0, cutoff_1, cutoff_3, cutoff_10, cutoff_30, cutoff_100]
 sd_list = []
 raw_list = []
 
-print(input_files)
+# print(input_files)
 
 for file in input_files:
     tem = pd.read_csv(file)
@@ -50,8 +50,8 @@ fig.patch.set_facecolor('xkcd:white')
 plt.savefig(output_sd_plot)
 
 # For violin plot:
-output_violin_raw_plot = os.path.join(outdir, "plot_violin_raw_", sample_name + ".png")
-output_violin_zoom_plot = os.path.join(outdir, "plot_violin_zoom_", sample_name + ".png")
+output_violin_raw_plot = os.path.join(outdir, sample_name + "_violin_raw.png")
+output_violin_zoom_plot = os.path.join(outdir, sample_name + "_violin_zoom.png")
 
 plt.violinplot(raw_list)
 fig = plt.gcf()

@@ -42,7 +42,6 @@ process REPEAT_DIST_UMI_CORRECT {
 
     mkdir -p ${outdir}/plot
 
-
     repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_1 1 $args
     repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_3 3 $args
     repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_10 10 $args
