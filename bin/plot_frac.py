@@ -86,28 +86,3 @@ plt.axvline(x = 166, color = 'r', linewidth = 1, linestyle = "dotted")
 plt.savefig(output_violin_raw_plot, dpi = 600)
 plt.xlim(130, 180)
 plt.savefig(output_violin_zoom_plot, dpi = 600)
-
-
-# Plot repeat length bar plot:
-N = len(labels)
-ind = np.arange(N)  # the x locations for the groups
-width = 0.4       # the width of the bars
-below_mean = list(data.iloc[:,3])
-below_std  = list(data.iloc[:,4])
-above_mean = list(data.iloc[:,7])
-above_std = list(data.iloc[:,8])
-
-fig = plt.figure()
-ax = fig.add_subplot(111)
-rects1 = ax.bar(ind, below_mean, width, yerr=below_std)
-rects2 = ax.bar(ind+width, above_mean, width, yerr=above_std)
-
-ax.set_ylabel('Repeat Length')
-ax.set_title('Below and Above Cutoff Read Length by Sample')
-ax.set_xticks(ind + width / 2)
-ax.set_xticklabels(labels)
-
-# ax.legend(('Below_frac', 'Above_frac') )
-plt.xticks(rotation = 85)
-plt.savefig(outfile2, dpi = 300, bbox_inches = "tight")
-plt.close()

@@ -20,7 +20,7 @@ process PLOT_FRAC {
     """
     mkdir -p ${outdir}
 
-    plot_frac.py $csv ${outdir}/all_sample_frac.png ${outdir}/all_sample_repeat_length.png
+    plot_frac.py $csv ${outdir}/all_sample_frac_barplot.png ${outdir}/all_sample_read_length_violin.png
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
