@@ -57,6 +57,9 @@ plt.clf()
 # Violin plots
 path = r'*.stat.csv'
 files = sorted(glob.glob(path))
+path = r'*cutoff_*.csv'
+files2 = sorted(glob.glob(path))
+files = files + files2
 
 raw_list = []
 sample_list = []
