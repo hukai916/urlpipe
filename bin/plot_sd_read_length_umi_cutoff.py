@@ -28,6 +28,7 @@ sd_list = []
 raw_list = []
 
 for file in input_files:
+    print(file)
     tem = pd.read_csv(file)
     tem = tem[tem.iloc[:,0] != "problem"]
     tem = tem[tem.iloc[:, 0] != "plus"]
