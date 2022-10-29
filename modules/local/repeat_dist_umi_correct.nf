@@ -22,6 +22,11 @@ process REPEAT_DIST_UMI_CORRECT {
     path "*/frac_100/*.csv",   emit: frac_100
     path "*/plot_std/*",             emit: plot // STD and Violin plot of read length after UMI correction.
     path stat_raw,             emit: stat_raw
+    path "*/cutoff_1/stat_mode*.csv",       emit: cutoff_1_mode_stat
+    path "*/cutoff_3/stat_mode*.csv",       emit: cutoff_3_mode_stat
+    path "*/cutoff_10/stat_mode*.csv",      emit: cutoff_10_mode_stat
+    path "*/cutoff_30/stat_mode*.csv",      emit: cutoff_30_mode_stat
+    path "*/cutoff_100/stat_mode*.csv",     emit: cutoff_100_mode_stat
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100 // this won't work, may cause a weird issue, could be Nextflow's problem.
     path  "versions.yml",      emit: versions
 

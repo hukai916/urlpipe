@@ -5,6 +5,7 @@ process PLOT_FRAC {
 
     input:
     path csv
+    path stat_csv
     val outdir
 
     output:
