@@ -399,7 +399,7 @@ workflow URLPIPE {
       CAT_STAT7.out.stat,
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_1_mode_stat.collect(),
       "5d_r1_repeat_dist_umi_correct/plot_r1_frac_1"
-    // )
+    )
     // PLOT_FRAC_5D_R1_FRAC_3 (
     //   CAT_STAT8.out.stat,
     //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_3_mode_stat.collect(),
