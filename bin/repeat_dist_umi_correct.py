@@ -28,12 +28,12 @@ with open(csv, "r") as f:
         count, mean, mode = int(float(count)), int(float(mean)), int(mode)
         if count >= cutoff:
             if not mean in repeat_length_mean:
-                repeat_length_mean[mean] = 1
+                repeat_length_mean[mean] = count
             else:
                 repeat_length_mean[mean] += count
 
             if not mode in repeat_length_mode:
-                repeat_length_mode[mode] = 1
+                repeat_length_mode[mode] = count
             else:
                 repeat_length_mode[mode] += count
 # output to stat:
