@@ -53,7 +53,7 @@ plt.savefig(output_sd_plot)
 output_violin_raw_plot = os.path.join(outdir, sample_name + "_violin_raw.png")
 output_violin_zoom_plot = os.path.join(outdir, sample_name + "_violin_zoom.png")
 
-plt.violinplot(raw_list)
+plt.violinplot(raw_list, positions = [1,2,3,4,5,6])
 fig = plt.gcf()
 fig.patch.set_facecolor('xkcd:white')
 locs, labels = plt.xticks()
