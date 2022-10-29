@@ -30,13 +30,12 @@ with open(csv, "r") as f:
             if not mean in repeat_length_mean:
                 repeat_length_mean[mean] = 1
             else:
-                repeat_length_mean[mean] += 1
+                repeat_length_mean[mean] += count
 
-            if count >= cutoff:
-                if not mode in repeat_length_mode:
-                    repeat_length_mode[mode] = 1
-                else:
-                    repeat_length_mode[mode] += 1
+            if not mode in repeat_length_mode:
+                repeat_length_mode[mode] = 1
+            else:
+                repeat_length_mode[mode] += count
 # output to stat:
 outfile_mean = os.path.join(outdir, "stat_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".csv")
 with open(outfile_mean, "w") as f:
