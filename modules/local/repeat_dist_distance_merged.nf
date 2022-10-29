@@ -11,6 +11,7 @@ process REPEAT_DIST_DISTANCE_MERGED {
     output:
     // path "*/stat/*.csv",                    emit: stat
     path "*/stat",                          emit: stat_raw
+    path "*/stat/*.csv",                          emit: stat_raw_file
     path "*/plot/*.png",                    emit: plot
     tuple val(meta), path("*/count/*.csv"), emit: count
     path "*/frac/*.csv",                    emit: frac

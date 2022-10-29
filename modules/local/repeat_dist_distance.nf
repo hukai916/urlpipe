@@ -11,6 +11,8 @@ process REPEAT_DIST_DISTANCE {
     output:
     path "*/stat_r1",              emit: stat_raw
     path "*/stat_r2",              emit: stat_r2
+    path "*/stat_r1/*.csv",              emit: stat_raw_file
+    path "*/stat_r2/*.csv",              emit: stat_r2_file
     path "*/plot_r1/*.png",        emit: plot_r1
     path "*/plot_r2/*.png",        emit: plot_r2
     tuple val(meta), path("*/count_r1/*.csv"),       emit: count_r1
