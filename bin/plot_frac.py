@@ -73,6 +73,8 @@ for x in files:
     sample = p.stem.replace(".stat", "")
     sample_list.append(sample)
 
+print(sample_list)
+
 plt.violinplot(raw_list, positions = list(range(1, len(sample_list) + 1)),
                vert = False,
                showextrema = False)
