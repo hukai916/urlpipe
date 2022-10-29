@@ -61,7 +61,7 @@ process REPEAT_DIST_UMI_CORRECT {
     calculate_frac.py $prefix ${outdir}/cutoff_100/stat_mode_${prefix}_cutoff_100.csv ${outdir}/frac_100 "$args_frac"
 
     # plot sd of read lengths vs UMI cutoffs; as well as read length violin plot:
-    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot stat_raw ${outdir}/cutoff_1/stat_mode_${prefix}_cutoff_1.csv ${outdir}/cutoff_3/stat_mode_${prefix}_cutoff_3.csv ${outdir}/cutoff_10/stat_mode_${prefix}_cutoff_10.csv ${outdir}/cutoff_30/stat_mode_${prefix}_cutoff_30.csv ${outdir}/cutoff_100/stat_mode_${prefix}_cutoff_100.csv
+    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot $stat_raw/*.csv ${outdir}/cutoff_1/stat_mode_${prefix}_cutoff_1.csv ${outdir}/cutoff_3/stat_mode_${prefix}_cutoff_3.csv ${outdir}/cutoff_10/stat_mode_${prefix}_cutoff_10.csv ${outdir}/cutoff_30/stat_mode_${prefix}_cutoff_30.csv ${outdir}/cutoff_100/stat_mode_${prefix}_cutoff_100.csv
 
 
     cat <<-END_VERSIONS > versions.yml
