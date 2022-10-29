@@ -59,7 +59,7 @@ fig = plt.gcf()
 fig.patch.set_facecolor('xkcd:white')
 locs, labels = plt.xticks()
 print(labels)
-plt.xticks(ticks = locs, labels = X, rotation = 10)
+plt.xticks(ticks = locs, labels = labels, rotation = 10)
 
 plt.ylim(0, 200)
 plt.savefig(output_violin_raw_plot)
