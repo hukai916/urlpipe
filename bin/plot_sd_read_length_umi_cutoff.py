@@ -53,15 +53,17 @@ plt.clf()
 # For violin plot:
 output_violin_raw_plot = os.path.join(outdir, sample_name + "_violin_raw.png")
 output_violin_zoom_plot = os.path.join(outdir, sample_name + "_violin_zoom.png")
+try:
+    plt.violinplot(raw_list, positions = [1,2,3,4,5,6])
+    fig = plt.gcf()
+    fig.patch.set_facecolor('xkcd:white')
+    locs, labels = plt.xticks()
+    plt.xticks(ticks = locs, labels = [""] + X + [""], rotation = 10)
 
-plt.violinplot(raw_list, positions = [1,2,3,4,5,6])
-fig = plt.gcf()
-fig.patch.set_facecolor('xkcd:white')
-locs, labels = plt.xticks()
-plt.xticks(ticks = locs, labels = [""] + X + [""], rotation = 10)
-
-plt.ylim(0, 200)
-plt.savefig(output_violin_raw_plot)
-plt.ylim(130, 180)
-plt.savefig(output_violin_zoom_plot)
-plt.clf()
+    plt.ylim(0, 200)
+    plt.savefig(output_violin_raw_plot)
+    plt.ylim(130, 180)
+    plt.savefig(output_violin_zoom_plot)
+    plt.clf()
+except:
+    continue
