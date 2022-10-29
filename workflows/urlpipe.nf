@@ -73,11 +73,15 @@ include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_1    } from '../modules/local/plot_f
 include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_3    } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_10   } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_30   } from '../modules/local/plot_frac'
+include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_100   } from '../modules/local/plot_frac'
+
 
 include { PLOT_FRAC as PLOT_FRAC_5D_MERGE_FRAC_1 } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_5D_MERGE_FRAC_3 } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_5D_MERGE_FRAC_10} from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_5D_MERGE_FRAC_30 } from '../modules/local/plot_frac'
+include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_100   } from '../modules/local/plot_frac'
+
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
