@@ -22,7 +22,7 @@ cutoff_30   = sys.argv[7]
 cutoff_100  = sys.argv[8]
 
 # For STD scatter plot:
-output_sd_plot = os.path.join(outdir, sample_name + "_std_.png")
+output_sd_plot = os.path.join(outdir, sample_name + "_std.png")
 input_files = [cutoff_0, cutoff_1, cutoff_3, cutoff_10, cutoff_30, cutoff_100]
 sd_list = []
 raw_list = []
@@ -58,7 +58,6 @@ plt.violinplot(raw_list, positions = [1,2,3,4,5,6])
 fig = plt.gcf()
 fig.patch.set_facecolor('xkcd:white')
 locs, labels = plt.xticks()
-print(labels)
 plt.xticks(ticks = locs, labels = [""] + X + [""], rotation = 10)
 
 plt.ylim(0, 200)
