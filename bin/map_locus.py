@@ -105,4 +105,4 @@ with open(output_stat_file, "w") as f:
     p1 = str(res[1]/(sum([res[2], res[1], res[0]])))
     p0 = str(res[0]/(sum([res[2], res[1], res[0]])))
 
-    f.write(name + "\t" + str(res[2]) + "\t" + p2 + "\t" + str(res[1]) + "\t" + p1 + "\t" + str(res[0]) + "\t" + p0 + "\n")
+    f.write(name + "," + str(res[2]) + "," + p2 + "," + str(res[1]) + "," + p1 + "," + str(res[0]) + "," + p0 + "\n")
