@@ -318,138 +318,149 @@ workflow URLPIPE {
     // UMI_GROUP_STAT_R1.out.stat.view()
     // UMI_GROUP_STAT_R1.out.stat_raw.view()
 
+    // REPEAT_DIST_UMI_CORRECT_R1 (
+    //   UMI_GROUP_STAT_R1.out.stat,
+    //   UMI_GROUP_STAT_R1.out.stat_raw,
+    //   "5d_r1_repeat_dist_umi_correct"
+    //   )
+    // ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
+
+    // Testing of UMI as a seperate parameter:
     REPEAT_DIST_UMI_CORRECT_R1 (
       UMI_GROUP_STAT_R1.out.stat,
       UMI_GROUP_STAT_R1.out.stat_raw,
+      params.umi_cutoffs,
       "5d_r1_repeat_dist_umi_correct"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
 
-    REPEAT_DIST_UMI_CORRECT_MERGE (
-      UMI_GROUP_STAT_MERGE.out.stat,
-      UMI_GROUP_STAT_MERGE.out.stat_raw,
-      "5d_merge_repeat_dist_umi_correct"
-      )
-    ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_MERGE.out.versions)
 
+    // REPEAT_DIST_UMI_CORRECT_MERGE (
+    //   UMI_GROUP_STAT_MERGE.out.stat,
+    //   UMI_GROUP_STAT_MERGE.out.stat_raw,
+    //   "5d_merge_repeat_dist_umi_correct"
+    //   )
+    // ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_MERGE.out.versions)
     //
-    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    // //
+    // // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    // //
+    // // REPEAT_DIST_DISTANCE.out.frac_r1.collect().view()
+    // CAT_STAT5 (
+    //   REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
+    //   "4d_repeat_distribution_distance/frac_r1",
+    //   "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
+    //   )
+    // ch_versions = ch_versions.mix(CAT_STAT5.out.versions)
     //
-    // REPEAT_DIST_DISTANCE.out.frac_r1.collect().view()
-    CAT_STAT5 (
-      REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
-      "4d_repeat_distribution_distance/frac_r1",
-      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
-      )
-    ch_versions = ch_versions.mix(CAT_STAT5.out.versions)
-
+    // //
+    // // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    // //
+    // CAT_STAT6 (
+    //   REPEAT_DIST_DISTANCE.out.frac_r2.collect(),
+    //   "4d_repeat_distribution_distance/frac_r2",
+    //   "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
+    //   )
+    // ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
     //
-    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    // CAT_STAT5_MERGE (
+    //   REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
+    //   "4d_repeat_distribution_distance/frac_merge",
+    //   "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
+    //   )
+    // ch_versions = ch_versions.mix(CAT_STAT5_MERGE.out.versions)
     //
-    CAT_STAT6 (
-      REPEAT_DIST_DISTANCE.out.frac_r2.collect(),
-      "4d_repeat_distribution_distance/frac_r2",
-      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
-      )
-    ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
-
-    CAT_STAT5_MERGE (
-      REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
-      "4d_repeat_distribution_distance/frac_merge",
-      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
-      )
-    ch_versions = ch_versions.mix(CAT_STAT5_MERGE.out.versions)
-
+    // //
+    // // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
+    // //
+    // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
+    // CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
+    // CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
+    // CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/frac_10", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
+    // CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/frac_30", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
+    // CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/frac_100", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
     //
-    // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
+    // CAT_STAT7_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_1.collect(), "5d_merge_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
+    // CAT_STAT8_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_3.collect(), "5d_merge_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
+    // CAT_STAT9_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_10.collect(), "5d_merge_repeat_dist_umi_correct/frac_10", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
+    // CAT_STAT10_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_30.collect(), "5d_merge_repeat_dist_umi_correct/frac_30", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
+    // CAT_STAT11_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_100.collect(), "5d_merge_repeat_dist_umi_correct/frac_100", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
+    // ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
     //
-    // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
-    CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
-    CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
-    CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/frac_10", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
-    CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/frac_30", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
-    CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/frac_100", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
+    // // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
+    // PLOT_FRAC_4D_R1 (
+    //   CAT_STAT5.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
+    //   "4d_repeat_distribution_distance/plot_r1_frac"
+    // )
+    //
+    // PLOT_FRAC_4D_MERGE (
+    //   CAT_STAT5_MERGE.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
+    //   "4d_repeat_distribution_distance/plot_merge_frac"
+    // )
+    //
+    // PLOT_FRAC_5D_R1_FRAC_1 (
+    //   CAT_STAT7.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_1_mode_stat.collect(),
+    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_1"
+    // )
+    // PLOT_FRAC_5D_R1_FRAC_3 (
+    //   CAT_STAT8.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_3_mode_stat.collect(),
+    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_3"
+    // )
+    // PLOT_FRAC_5D_R1_FRAC_10 (
+    //   CAT_STAT9.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_10_mode_stat.collect(),
+    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_10"
+    // )
+    // PLOT_FRAC_5D_R1_FRAC_30 (
+    //   CAT_STAT10.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_30_mode_stat.collect(),
+    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_30"
+    // )
+    // PLOT_FRAC_5D_R1_FRAC_100 (
+    //   CAT_STAT11.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_100_mode_stat.collect(),
+    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_100"
+    // )
+    //
+    // PLOT_FRAC_5D_MERGE_FRAC_1 (
+    //   CAT_STAT7_MERGE.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_1_mode_stat.collect(),
+    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_1"
+    // )
+    // PLOT_FRAC_5D_MERGE_FRAC_3 (
+    //   CAT_STAT8_MERGE.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_3_mode_stat.collect(),
+    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_3"
+    // )
+    // PLOT_FRAC_5D_MERGE_FRAC_10 (
+    //   CAT_STAT9_MERGE.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_10_mode_stat.collect(),
+    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_10"
+    // )
+    // PLOT_FRAC_5D_MERGE_FRAC_30 (
+    //   CAT_STAT10_MERGE.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_30_mode_stat.collect(),
+    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_30"
+    // )
+    // PLOT_FRAC_5D_MERGE_FRAC_100 (
+    //   CAT_STAT11_MERGE.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_100_mode_stat.collect(),
+    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_100"
+    // )
 
-    CAT_STAT7_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_1.collect(), "5d_merge_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
-    CAT_STAT8_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_3.collect(), "5d_merge_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
-    CAT_STAT9_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_10.collect(), "5d_merge_repeat_dist_umi_correct/frac_10", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
-    CAT_STAT10_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_30.collect(), "5d_merge_repeat_dist_umi_correct/frac_30", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
-    CAT_STAT11_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_100.collect(), "5d_merge_repeat_dist_umi_correct/frac_100", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
-
-    // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
-    PLOT_FRAC_4D_R1 (
-      CAT_STAT5.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
-      "4d_repeat_distribution_distance/plot_r1_frac"
-    )
-
-    PLOT_FRAC_4D_MERGE (
-      CAT_STAT5_MERGE.out.stat,
-      REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
-      "4d_repeat_distribution_distance/plot_merge_frac"
-    )
-
-    PLOT_FRAC_5D_R1_FRAC_1 (
-      CAT_STAT7.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_1_mode_stat.collect(),
-      "5d_r1_repeat_dist_umi_correct/plot_r1_frac_1"
-    )
-    PLOT_FRAC_5D_R1_FRAC_3 (
-      CAT_STAT8.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_3_mode_stat.collect(),
-      "5d_r1_repeat_dist_umi_correct/plot_r1_frac_3"
-    )
-    PLOT_FRAC_5D_R1_FRAC_10 (
-      CAT_STAT9.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_10_mode_stat.collect(),
-      "5d_r1_repeat_dist_umi_correct/plot_r1_frac_10"
-    )
-    PLOT_FRAC_5D_R1_FRAC_30 (
-      CAT_STAT10.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_30_mode_stat.collect(),
-      "5d_r1_repeat_dist_umi_correct/plot_r1_frac_30"
-    )
-    PLOT_FRAC_5D_R1_FRAC_100 (
-      CAT_STAT11.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_100_mode_stat.collect(),
-      "5d_r1_repeat_dist_umi_correct/plot_r1_frac_100"
-    )
-
-    PLOT_FRAC_5D_MERGE_FRAC_1 (
-      CAT_STAT7_MERGE.out.stat,
-      REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_1_mode_stat.collect(),
-      "5d_merge_repeat_dist_umi_correct/plot_merge_frac_1"
-    )
-    PLOT_FRAC_5D_MERGE_FRAC_3 (
-      CAT_STAT8_MERGE.out.stat,
-      REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_3_mode_stat.collect(),
-      "5d_merge_repeat_dist_umi_correct/plot_merge_frac_3"
-    )
-    PLOT_FRAC_5D_MERGE_FRAC_10 (
-      CAT_STAT9_MERGE.out.stat,
-      REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_10_mode_stat.collect(),
-      "5d_merge_repeat_dist_umi_correct/plot_merge_frac_10"
-    )
-    PLOT_FRAC_5D_MERGE_FRAC_30 (
-      CAT_STAT10_MERGE.out.stat,
-      REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_30_mode_stat.collect(),
-      "5d_merge_repeat_dist_umi_correct/plot_merge_frac_30"
-    )
-    PLOT_FRAC_5D_MERGE_FRAC_100 (
-      CAT_STAT11_MERGE.out.stat,
-      REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_100_mode_stat.collect(),
-      "5d_merge_repeat_dist_umi_correct/plot_merge_frac_100"
-    )
 
 
     // MODULE: read length SD plot vs UMI per sample:
