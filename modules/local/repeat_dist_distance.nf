@@ -37,8 +37,8 @@ process REPEAT_DIST_DISTANCE {
     suffix="\${tem// /_}"
     mkdir ${outdir}/frac_r1 ${outdir}/frac_r2
 
-    calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 "$args_frac"
-    calculate_frac.py $prefix ${outdir}/stat_r2/${prefix}.stat.csv ${outdir}/frac_r2 "$args_frac"
+    calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 0 "$args_frac"
+    calculate_frac.py $prefix ${outdir}/stat_r2/${prefix}.stat.csv ${outdir}/frac_r2 0 "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
