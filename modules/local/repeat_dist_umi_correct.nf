@@ -35,7 +35,7 @@ process REPEAT_DIST_UMI_CORRECT {
     # calculate fractions
 
     umi_cutoffs_str="$umi_cutoffs"
-    umi_cutoffs_array=\$(echo \${cutoffs//[[:blank:]]/} | tr "," " ")
+    umi_cutoffs_array=\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " ")
     for i in "\${umi_cutoffs_array[@]}"
     do
       mkdir -p ${outdir}/cutoff_\$i ${outdir}/frac_\$i
