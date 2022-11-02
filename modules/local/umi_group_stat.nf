@@ -25,7 +25,7 @@ process UMI_GROUP_STAT {
     # examine repeat length distribution for UMI group 3, 10, and 100, each select 10 UMI to plot
 
     mkdir -p ${outdir}/input
-    ln -s $stat ${outdir}/input/ # otherwise, the emit will also place it under results/ directly
+    cp $stat ${outdir}/input/ # otherwise, the emit will also place it under results/ directly
 
     umi_group_stat.py $csv $prefix ${outdir} $args
 
