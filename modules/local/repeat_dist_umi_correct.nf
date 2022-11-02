@@ -14,7 +14,7 @@ process REPEAT_DIST_UMI_CORRECT {
     path "*/cutoff_*/*",                    emit: cutoff // not if "*/cutoff_1", the resume is problematic
     path "*/frac_*/*.csv",                  emit: frac
     path "*/plot_std/*",                    emit: plot // STD and Violin plot of read length after UMI correction.
-    path stat_raw,                          emit: stat_raw
+    path "${outdir}/input/*.csv",           emit: stat_raw
     path "*/cutoff_*/stat_mode*.csv",       emit: cutoff_mode_stat
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100 // this won't work, may cause a weird issue, could be Nextflow's problem.
     path  "versions.yml",      emit: versions
@@ -30,6 +30,9 @@ process REPEAT_DIST_UMI_CORRECT {
     """
     ## Dev notes:
     ## remove all space from string: https://stackoverflow.com/questions/13659318/how-to-remove-space-from-string
+
+    mkdir ${outdir}/input
+    cp $stat_raw ${outdir}/input /
 
     # plot repeat length distribution with UMI cutoff
     # calculate fractions
