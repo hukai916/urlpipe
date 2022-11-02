@@ -33,7 +33,7 @@ process REPEAT_DIST_DISTANCE_MERGED {
     tem="$args_frac"
     suffix="\${tem// /_}"
 
-    calculate_frac.py $prefix ${outdir}/stat/${prefix}.stat.csv ${outdir}/frac "$args_frac"
+    calculate_frac.py $prefix ${outdir}/stat/${prefix}.stat.csv ${outdir}/frac 0 "$args_frac"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
