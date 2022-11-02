@@ -15,11 +15,12 @@ import os
 sample_name = sys.argv[1]
 outdir      = sys.argv[2]
 cutoffs_str = sys.argv[3]
-cutoffs_file= sys.argv[4:]
+cutoff_0    = sys.argv[4]
+cutoffs_file= sys.argv[5:]
 
 # For STD scatter plot:
 output_sd_plot = os.path.join(outdir, sample_name + "_std.png")
-input_files = cutoffs_file
+input_files = [cutoff_0] + cutoffs_file
 sd_list = []
 raw_list = []
 

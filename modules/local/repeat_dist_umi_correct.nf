@@ -52,7 +52,7 @@ process REPEAT_DIST_UMI_CORRECT {
       stat_mode_csv+=" ${outdir}/cutoff_\$i/stat_mode_${prefix}_cutoff_\$i.csv"
     done
 
-    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_std $stat_raw "$umi_cutoffs" \$stat_mode_csv
+    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_std "$umi_cutoffs" $stat_raw \$stat_mode_csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
