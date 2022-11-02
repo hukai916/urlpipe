@@ -37,7 +37,7 @@ _tem = ["Cutoff_" + x.strip() for x in cutoffs_str.split(",")]
 X = ["No_correction"] + _tem
 Y = [round(x, 2) for x in sd_list]
 print(X)
-# print(dim(sd_list))
+print(sd_list)
 plt.scatter(X, sd_list)
 plt.ylim(1, max(sd_list) + 2)
 locs, labels = plt.xticks()
