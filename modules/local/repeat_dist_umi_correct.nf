@@ -32,7 +32,7 @@ process REPEAT_DIST_UMI_CORRECT {
     ## remove all space from string: https://stackoverflow.com/questions/13659318/how-to-remove-space-from-string
 
     mkdir ${outdir}/input
-    cp $stat_raw ${outdir}/input /
+    cp $stat_raw ${outdir}/input/
 
     # plot repeat length distribution with UMI cutoff
     # calculate fractions
