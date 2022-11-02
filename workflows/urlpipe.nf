@@ -52,6 +52,7 @@ include { CUTADAPT                    } from '../modules/nf-core/modules/cutadap
 include { FASTQC; FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3; CAT_STAT as CAT_STAT4; CAT_STAT as CAT_STAT5; CAT_STAT as CAT_STAT6; CAT_STAT as CAT_STAT7; CAT_STAT as CAT_STAT8; CAT_STAT as CAT_STAT9; CAT_STAT as CAT_STAT10; CAT_STAT as CAT_STAT11; CAT_STAT as CAT_STAT5_MERGE; CAT_STAT as CAT_STAT7_MERGE; CAT_STAT as CAT_STAT8_MERGE; CAT_STAT as CAT_STAT9_MERGE; CAT_STAT as CAT_STAT10_MERGE; CAT_STAT as CAT_STAT11_MERGE} from '../modules/local/cat_stat'
+include { CAT_STAT_CUTOFF }             from '../modules/local/map_locus'
 include { UMI_PATTERN; UMI_PATTERN as UMI_PATTERN2 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
@@ -374,6 +375,7 @@ workflow URLPIPE {
     // // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
     // //
     // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
+    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac.collect(), "5d_r1_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     // CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     // ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
     // CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )

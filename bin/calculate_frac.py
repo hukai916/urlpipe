@@ -14,7 +14,8 @@ import numpy as np
 sample_name = sys.argv[1]
 csv = sys.argv[2]
 outdir = sys.argv[3]
-cutoff = sys.argv[4]
+umi_cutoff = sys.argv[4]
+cutoff = sys.argv[5] # below/above cutoff
 
 count_below, count_above, count_all = 0, 0, 0
 cutoff_below, cutoff_above = cutoff.strip().split()
@@ -37,7 +38,7 @@ with open(csv, "r") as f:
             count_all += int(c)
             count_above += int(c)
 
-outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + ".csv")
+outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + umi_cutoff + ".csv")
 with open(outfile, "w") as f:
     below_count = str(count_below)
     below_frac  = str(count_below/count_all)

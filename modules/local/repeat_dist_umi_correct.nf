@@ -44,7 +44,7 @@ process REPEAT_DIST_UMI_CORRECT {
       mkdir -p ${outdir}/cutoff_\$i ${outdir}/frac_\$i
 
       repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_\$i \$i $args
-      calculate_frac.py $prefix ${outdir}/cutoff_\$i/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_\$i "$args_frac"
+      calculate_frac.py $prefix ${outdir}/cutoff_\$i/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_\$i \$i "$args_frac"
     done
 
     # plot std of read lengths vs UMI cutoffs, also violin plot
