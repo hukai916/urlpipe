@@ -386,19 +386,16 @@ workflow URLPIPE {
     // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
     PLOT_FRAC_4D_R1 (
       CAT_STAT5.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
       "4d_repeat_distribution_distance/plot_r1_frac"
     )
 
     PLOT_FRAC_4D_MERGE (
       CAT_STAT5_MERGE.out.stat,
-      REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
       "4d_repeat_distribution_distance/plot_merge_frac"
     )
 
     PLOT_FRAC_CUTOFF_R1 (
       CAT_STAT_CUTOFF.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
       "5d_r1_repeat_dist_umi_correct" // plot_frac_cutoff_xxx
     )
