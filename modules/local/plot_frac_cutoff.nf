@@ -1,10 +1,11 @@
-process PLOT_FRAC {
+process PLOT_FRAC_CUTOFF {
     label 'process_low'
 
     container "hukai916/miniconda3_bio:0.3"
 
     input:
     path csv
+    val umi_cutoffs
     val outdir
 
     output:
@@ -17,10 +18,15 @@ process PLOT_FRAC {
     script:
 
     """
-    mkdir -p ${outdir}
-
-    plot_frac.py $csv ${outdir}/all_sample_frac_barplot.png ${outdir}/all_sample_read_length_violin.png
-
+    umi_cutoffs_str="$umi_cutoffs"
+    umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
+    for i in "\${umi_cutoffs_array[@]}"
+    do
+      mkdir -p ${outdir}
+      #csv: all_sample_cutoff_xxx.csv
+      plot_frac.py all_sample_cutoff_\$i.csv ${outdir}/all_sample_frac_barplot_cutoff_\$i.png ${outdir}/all_sample_read_length_violin_cutoff_\$i.png
+    done
+    
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$( python --version | sed -e "s/python //g" )

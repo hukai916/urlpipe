@@ -52,7 +52,8 @@ include { CUTADAPT                    } from '../modules/nf-core/modules/cutadap
 include { FASTQC; FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3; CAT_STAT as CAT_STAT4; CAT_STAT as CAT_STAT5; CAT_STAT as CAT_STAT6; CAT_STAT as CAT_STAT7; CAT_STAT as CAT_STAT8; CAT_STAT as CAT_STAT9; CAT_STAT as CAT_STAT10; CAT_STAT as CAT_STAT11; CAT_STAT as CAT_STAT5_MERGE; CAT_STAT as CAT_STAT7_MERGE; CAT_STAT as CAT_STAT8_MERGE; CAT_STAT as CAT_STAT9_MERGE; CAT_STAT as CAT_STAT10_MERGE; CAT_STAT as CAT_STAT11_MERGE} from '../modules/local/cat_stat'
-include { CAT_STAT_CUTOFF; CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE }   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF             }   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE }   from '../modules/local/cat_stat_cutoff'
 include { UMI_PATTERN; UMI_PATTERN as UMI_PATTERN2 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
@@ -70,10 +71,11 @@ include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../mo
 
 include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
-include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_1    } from '../modules/local/plot_frac'
-include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_3    } from '../modules/local/plot_frac'
-include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_10   } from '../modules/local/plot_frac'
-include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_30   } from '../modules/local/plot_frac'
+include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1 } from '../modules/local/plot_frac_cutoff'
+include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_1     } from '../modules/local/plot_frac'
+include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_3     } from '../modules/local/plot_frac'
+include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_10    } from '../modules/local/plot_frac'
+include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_30    } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_100   } from '../modules/local/plot_frac'
 
 
@@ -343,84 +345,63 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_MERGE.out.versions)
 
-    // //
-    // // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
-    // //
-    // // REPEAT_DIST_DISTANCE.out.frac_r1.collect().view()
-    // CAT_STAT5 (
-    //   REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
-    //   "4d_repeat_distribution_distance/frac_r1",
-    //   "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
-    //   )
-    // ch_versions = ch_versions.mix(CAT_STAT5.out.versions)
     //
-    // //
-    // // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
-    // //
-    // CAT_STAT6 (
-    //   REPEAT_DIST_DISTANCE.out.frac_r2.collect(),
-    //   "4d_repeat_distribution_distance/frac_r2",
-    //   "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
-    //   )
-    // ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
+    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
     //
-    // CAT_STAT5_MERGE (
-    //   REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
-    //   "4d_repeat_distribution_distance/frac_merge",
-    //   "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
-    //   )
-    // ch_versions = ch_versions.mix(CAT_STAT5_MERGE.out.versions)
+    // REPEAT_DIST_DISTANCE.out.frac_r1.collect().view()
+    CAT_STAT5 (
+      REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
+      "4d_repeat_distribution_distance/frac_r1",
+      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT5.out.versions)
+
     //
+    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    //
+    CAT_STAT6 (
+      REPEAT_DIST_DISTANCE.out.frac_r2.collect(),
+      "4d_repeat_distribution_distance/frac_r2",
+      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
+
+    CAT_STAT5_MERGE (
+      REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
+      "4d_repeat_distribution_distance/frac_merge",
+      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
+      )
+    ch_versions = ch_versions.mix(CAT_STAT5_MERGE.out.versions)
+
     // //
     // // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
     // //
     // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
     CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac.collect(), "5d_r1_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs ) // subdir: frac_xxx
-    // CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
-    // CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
-    // CAT_STAT9 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_10.collect(), "5d_r1_repeat_dist_umi_correct/frac_10", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
-    // CAT_STAT10 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_30.collect(), "5d_r1_repeat_dist_umi_correct/frac_30", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
-    // CAT_STAT11 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_100.collect(), "5d_r1_repeat_dist_umi_correct/frac_100", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
-    //
 
     CAT_STAT_CUTOFF_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac.collect(), "5d_merge_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs ) // subdir: frac_xxx
 
-    // CAT_STAT7_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_1.collect(), "5d_merge_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
-    // CAT_STAT8_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_3.collect(), "5d_merge_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT8.out.versions)
-    // CAT_STAT9_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_10.collect(), "5d_merge_repeat_dist_umi_correct/frac_10", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT9.out.versions)
-    // CAT_STAT10_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_30.collect(), "5d_merge_repeat_dist_umi_correct/frac_30", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT10.out.versions)
-    // CAT_STAT11_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_100.collect(), "5d_merge_repeat_dist_umi_correct/frac_100", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
-    // ch_versions = ch_versions.mix(CAT_STAT11.out.versions)
-    //
-    // // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
-    // PLOT_FRAC_4D_R1 (
-    //   CAT_STAT5.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
-    //   "4d_repeat_distribution_distance/plot_r1_frac"
-    // )
-    //
-    // PLOT_FRAC_4D_MERGE (
-    //   CAT_STAT5_MERGE.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
-    //   "4d_repeat_distribution_distance/plot_merge_frac"
-    // )
-    //
-    // PLOT_FRAC_5D_R1_FRAC_1 (
-    //   CAT_STAT7.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_1_mode_stat.collect(),
-    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_1"
-    // )
+    // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
+    PLOT_FRAC_4D_R1 (
+      CAT_STAT5.out.stat,
+      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
+      "4d_repeat_distribution_distance/plot_r1_frac"
+    )
+
+    PLOT_FRAC_4D_MERGE (
+      CAT_STAT5_MERGE.out.stat,
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
+      "4d_repeat_distribution_distance/plot_merge_frac"
+    )
+
+    PLOT_FRAC_CUTOFF_R1 (
+      CAT_STAT_CUTOFF.out.stat,
+      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
+      params.umi_cutoffs,
+      "5d_r1_repeat_dist_umi_correct" // plot_frac_cutoff_xxx
+    )
     // PLOT_FRAC_5D_R1_FRAC_3 (
     //   CAT_STAT8.out.stat,
     //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_3_mode_stat.collect(),
