@@ -6,13 +6,13 @@ process UMI_GROUP_STAT {
 
     input:
     tuple val(meta), path(csv)
-    path(stat)
+    path stat
     val outdir
 
     output:
     tuple val(meta), path("${outdir}/*.csv"),       emit: stat
-    path(stat),                             emit: stat_raw
-    path  "versions.yml",                   emit: versions
+    path "*/input/*.csv",                           emit: stat_raw
+    path  "versions.yml",                           emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -24,7 +24,8 @@ process UMI_GROUP_STAT {
     """
     # examine repeat length distribution for UMI group 3, 10, and 100, each select 10 UMI to plot
 
-    mkdir -p ${outdir}
+    mkdir -p ${outdir}/input
+    ln -s $stat ${outdir}/input/ # otherwise, the emit will also place it under results/ directly
 
     umi_group_stat.py $csv $prefix ${outdir} $args
 

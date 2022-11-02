@@ -334,14 +334,14 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
 
+    REPEAT_DIST_UMI_CORRECT_MERGE (
+      UMI_GROUP_STAT_MERGE.out.stat,
+      UMI_GROUP_STAT_MERGE.out.stat_raw,
+      params.umi_cutoffs,
+      "5d_merge_repeat_dist_umi_correct"
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_MERGE.out.versions)
 
-    // REPEAT_DIST_UMI_CORRECT_MERGE (
-    //   UMI_GROUP_STAT_MERGE.out.stat,
-    //   UMI_GROUP_STAT_MERGE.out.stat_raw,
-    //   "5d_merge_repeat_dist_umi_correct"
-    //   )
-    // ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_MERGE.out.versions)
-    //
     // //
     // // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
     // //
