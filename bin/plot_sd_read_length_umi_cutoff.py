@@ -20,6 +20,8 @@ cutoffs_file= sys.argv[4:]
 # For STD scatter plot:
 output_sd_plot = os.path.join(outdir, sample_name + "_std.png")
 input_files = cutoffs_file
+print(cutoffs_file)
+exit()
 sd_list = []
 raw_list = []
 
