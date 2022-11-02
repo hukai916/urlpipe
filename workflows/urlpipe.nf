@@ -375,7 +375,8 @@ workflow URLPIPE {
     // // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
     // //
     // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
-    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac.collect(), "5d_r1_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" ) // subdir: frac_xxx
+    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac.collect(), "5d_r1_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    params.umi_cutoff ) // subdir: frac_xxx
     // CAT_STAT7 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect(), "5d_r1_repeat_dist_umi_correct/frac_1", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
     // ch_versions = ch_versions.mix(CAT_STAT7.out.versions)
     // CAT_STAT8 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_3.collect(), "5d_r1_repeat_dist_umi_correct/frac_3", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" )
