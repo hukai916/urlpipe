@@ -14,6 +14,7 @@ process REPEAT_DIST_DISTANCE_MERGED {
     path "*/plot/*.png",                    emit: plot
     tuple val(meta), path("*/count/*.csv"), emit: count
     path "*/frac/*.csv",                    emit: frac
+    tuple val(meta), path("*/frac/*.csv"),  emit: frac_meta
     path  "versions.yml",                   emit: versions
 
     when:

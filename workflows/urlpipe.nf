@@ -429,7 +429,7 @@ workflow URLPIPE {
     )
 
     PLOT_FRAC_UMI_CUTOFF_MERGE (
-      REPEAT_DIST_DISTANCE_MERGED.out.frac_r1.collect(),
+      REPEAT_DIST_DISTANCE_MERGED.out.frac_meta.collect(),
       REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_meta,
       params.umi_cutoffs,
       "5d_merge_repeat_dist_umi_correct/plot_frac_umi_cutoff"
