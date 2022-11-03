@@ -11,7 +11,7 @@ process PLOT_UMI_GROUPS {
 
     output:
     path "*/*/*.png",          emit: plot
-    path  "versions.yml",               emit: versions
+    path  "versions.yml",      emit: versions
 
     when:
     task.ext.when == null || task.ext.when
