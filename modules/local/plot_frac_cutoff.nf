@@ -10,8 +10,8 @@ process PLOT_FRAC_CUTOFF {
     val outdir
 
     output:
-    path "${outdir}/all_sample_*.png",  emit: plot
-    path  "versions.yml",         emit: versions
+    path "*/all_sample_*.png",  emit: plot
+    path  "versions.yml",               emit: versions
 
     when:
     task.ext.when == null || task.ext.when
