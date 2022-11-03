@@ -20,7 +20,7 @@ process PLOT_FRAC_UMI_CUTOFF {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir ${outdir}
+    mkdir -p ${outdir}
 
     umi_cutoffs_str="$umi_cutoffs"
 
