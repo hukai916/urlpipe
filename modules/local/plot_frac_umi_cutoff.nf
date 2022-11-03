@@ -20,6 +20,8 @@ process PLOT_FRAC_UMI_CUTOFF {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
+    mkdir ${outdir}
+
     umi_cutoffs_str="$umi_cutoffs"
 
     plot_frac_umi_cutoff.py ${prefix} ${prefix}_frac_*_cutoff_0.csv "$umi_cutoffs" $outdir/${prefix}.png

@@ -29,6 +29,9 @@ width = 0.35
 label = ["Cutoff_" + x for x in umis]
 label = ["No_correction"] + label
 
+print(res)
+print(csv_no_correction)
+
 ax1.bar(label, res.iloc[:, 0], width)
 ax1.set_ylabel("Percentage")
 ax1.set_title("Above cutoff fraction")
