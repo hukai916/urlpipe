@@ -76,6 +76,8 @@ include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE } from '../modules/local/pl
 
 include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_R1      } from '../modules/local/plot_umi_groups'
 include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE   } from '../modules/local/plot_umi_groups'
+include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1    } from '../modules/local/plot_frac_cutoff'
+include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE } from '../modules/local/plot_frac_cutoff'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -418,6 +420,20 @@ workflow URLPIPE {
       "5d_merge_repeat_dist_umi_correct/plot_umi_groups"
     )
 
+    // MODULE: plot above/below fraction at different UMI cutoffs
+    PLOT_FRAC_UMI_CUTOFF_R1 (
+      REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
+      REPEAT_DIST_UMI_CORRECT_R1.out.frac,
+      params.umi_cutoffs,
+      "5d_r1_repeat_dist_umi_correct/plot_frac_umi_cutoff"
+    )
+
+    // PLOT_FRAC_UMI_CUTOFF_MERGE (
+    //   REPEAT_DIST_DISTANCE_MERGED.out.frac_r1.collect(),
+    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.frac,
+    //   params.umi_cutoffs,
+    //   "5d_merge_repeat_dist_umi_correct/plot_frac_umi_cutoff"
+    // )
 
     //
     // MODULE: repeat distribution R1 distance

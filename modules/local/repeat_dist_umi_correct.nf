@@ -12,7 +12,7 @@ process REPEAT_DIST_UMI_CORRECT {
 
     output:
     path "*/cutoff_*/*",                    emit: cutoff // not if "*/cutoff_1", the resume is problematic
-    path "*/frac_*/*.csv",                  emit: frac
+    tuple val(meta), path("*/frac_*/*.csv"),            emit: frac
     path "*/plot_read_length_std/*",                    emit: plot // STD and Violin plot of read length after UMI correction.
     tuple val(meta), path("${outdir}/input/*.csv"),           emit: stat_raw_meta
     path "${outdir}/input/*.csv",                             emit: stat_raw
