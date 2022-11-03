@@ -71,7 +71,9 @@ include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../mo
 
 include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
-include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1 } from '../modules/local/plot_frac_cutoff'
+include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1    } from '../modules/local/plot_frac_cutoff'
+include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE } from '../modules/local/plot_frac_cutoff'
+
 include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_1     } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_3     } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_10    } from '../modules/local/plot_frac'
@@ -404,6 +406,14 @@ workflow URLPIPE {
       params.umi_cutoffs,
       "5d_r1_repeat_dist_umi_correct" // plot_frac_cutoff_xxx
     )
+
+    PLOT_FRAC_CUTOFF_MERGE (
+      CAT_STAT_CUTOFF.out.stat,
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat.collect(),
+      params.umi_cutoffs,
+      "5d_merge_repeat_dist_umi_correct" // plot_frac_cutoff_xxx
+    )
+
     // PLOT_FRAC_5D_R1_FRAC_3 (
     //   CAT_STAT8.out.stat,
     //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_3_mode_stat.collect(),
