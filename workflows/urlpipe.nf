@@ -411,6 +411,13 @@ workflow URLPIPE {
       "5d_r1_repeat_dist_umi_correct/plot_umi_groups"
     )
 
+    PLOT_UMI_GROUPS_MERGE (
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw_meta,
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat,
+      params.umi_cutoffs,
+      "5d_merge_repeat_dist_umi_correct/plot_umi_groups"
+    )
+
 
     //
     // MODULE: repeat distribution R1 distance
