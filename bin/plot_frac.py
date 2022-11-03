@@ -58,7 +58,9 @@ plt.savefig(outfile1, dpi = 600)
 plt.clf()
 
 # Violin plots
+print("umi_cutoff:", umi_cutoff)
 if umi_cutoff == 0:
+    print("yes")
     path = r'*.stat.csv'
     files = sorted(glob.glob(path))
 else:
