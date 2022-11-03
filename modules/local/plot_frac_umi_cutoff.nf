@@ -4,7 +4,7 @@ process PLOT_FRAC_UMI_CUTOFF {
     container "hukai916/miniconda3_bio:0.3"
 
     input:
-    path csv_raw, // without correction
+    path csv_raw // without correction
     tuple val(meta), path(csv_cutoff)
     val umi_cutoffs
     val outdir
