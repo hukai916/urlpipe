@@ -15,6 +15,8 @@ from pathlib import Path
 csv = sys.argv[1]
 outfile1 = sys.argv[2] # bar plot_plot
 outfile2 = sys.argv[3] # violin plot
+umi_cutoff   = sys.argv[4] # if 0, means raw without UMI correction
+
 outfile2_raw = outfile2.replace(".png", ".raw.png")
 outfile2_zoom = outfile2.replace(".png", ".zoom.png")
 
