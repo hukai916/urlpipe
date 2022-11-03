@@ -80,6 +80,7 @@ for x in files:
     data_tem = np.repeat(tem.iloc[:, 0], tem.iloc[:, 1])
     print(data_tem)
     print(tem)
+    print(files)
     ls_tem = [int(x) for x in data_tem]
     raw_list.append(ls_tem)
 
