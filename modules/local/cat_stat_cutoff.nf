@@ -4,7 +4,7 @@ process CAT_STAT_CUTOFF {
     container "hukai916/miniconda3_bio:0.3"
 
     input:
-    tuple val(meta), path(stat)
+    path stat
     val outdir
     val header
     val umi_cutoffs
