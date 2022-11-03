@@ -22,7 +22,7 @@ process PLOT_FRAC_UMI_CUTOFF {
     """
     umi_cutoffs_str="$umi_cutoffs"
 
-    plot_frac_umi_cutoff.py $csv_raw "$umi_cutoffs" $outdir/${prefix}.png
+    plot_frac_umi_cutoff.py ${prefix}_frac_*_cutoff_0.csv "$umi_cutoffs" $outdir/${prefix}.png
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
