@@ -69,6 +69,7 @@ else:
     #r'*cutoff_*.csv'
     files = sorted(glob.glob(path))
     print("test: ", files)
+    exit()
 
 raw_list = []
 sample_list = []

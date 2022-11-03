@@ -398,12 +398,12 @@ workflow URLPIPE {
       "4d_repeat_distribution_distance/plot_merge_frac"
     )
 
-    // PLOT_FRAC_CUTOFF_R1 (
-    //   CAT_STAT_CUTOFF.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
-    //   params.umi_cutoffs,
-    //   "5d_r1_repeat_dist_umi_correct" // plot_frac_cutoff_xxx
-    // )
+    PLOT_FRAC_CUTOFF_R1 (
+      CAT_STAT_CUTOFF.out.stat,
+      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
+      params.umi_cutoffs,
+      "5d_r1_repeat_dist_umi_correct" // plot_frac_cutoff_xxx
+    )
     // PLOT_FRAC_5D_R1_FRAC_3 (
     //   CAT_STAT8.out.stat,
     //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_3_mode_stat.collect(),
