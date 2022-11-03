@@ -10,7 +10,7 @@ process PLOT_UMI_GROUPS {
     val outdir
 
     output:
-    path "*/*/all_sample_*.png",          emit: plot
+    path "*/*/*.png",          emit: plot
     path  "versions.yml",               emit: versions
 
     when:
