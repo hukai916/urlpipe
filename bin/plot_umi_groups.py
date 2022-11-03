@@ -2,6 +2,9 @@
 
 """
 Plot below/above fraction, mean, and std for all_sample.csv
+for 4d, the sample names are like: 13-PN.stat.csv
+for 5d, the sample names are like: stat_mode_11-PN_cutoff_100.csv
+
 """
 
 import sys
@@ -11,14 +14,12 @@ import pandas as pd
 import glob
 from pathlib import Path
 
-
 csv = sys.argv[1]
 outfile1 = sys.argv[2] # bar plot_plot
 outfile2 = sys.argv[3] # violin plot
-umi_cutoff   = sys.argv[4] # if 0, means raw without UMI correction
-
 outfile2_raw = outfile2.replace(".png", ".raw.png")
 outfile2_zoom = outfile2.replace(".png", ".zoom.png")
+umi_cutoff   = sys.argv[4] # if 0, means raw without UMI correction
 
 data=pd.read_csv(csv, sep=',')
 
@@ -57,11 +58,14 @@ plt.savefig(outfile1, dpi = 600)
 plt.clf()
 
 # Violin plots
-path = r'*.stat.csv'
-files = sorted(glob.glob(path))
-path = r'*cutoff_*.csv'
-files2 = sorted(glob.glob(path))
-files = files + files2
+if int(umi_cutoff) == 0:
+    path = r'*.stat.csv'
+    files = sorted(glob.glob(path))
+else:
+    path = 'stat_mode_*cutoff_' + str(umi_cutoff) + ".csv"
+    #r'*cutoff_*.csv'
+    path = path.encode('unicode_escape').decode() # make it raw string
+    files = sorted(glob.glob(path))
 
 raw_list = []
 sample_list = []
@@ -77,7 +81,6 @@ for x in files:
     p = Path(x)
     sample = p.stem.replace(".stat", "")
     sample_list.append(sample)
-
 try:
     plt.violinplot(raw_list, positions = list(range(1, len(sample_list) + 1)),
                    vert = False,

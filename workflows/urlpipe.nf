@@ -74,11 +74,9 @@ include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
 include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1    } from '../modules/local/plot_frac_cutoff'
 include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE } from '../modules/local/plot_frac_cutoff'
 
-include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_1     } from '../modules/local/plot_frac'
-include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_3     } from '../modules/local/plot_frac'
-include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_10    } from '../modules/local/plot_frac'
-include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_30    } from '../modules/local/plot_frac'
-include { PLOT_FRAC as PLOT_FRAC_5D_R1_FRAC_100   } from '../modules/local/plot_frac'
+include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_R1      } from '../modules/local/plot_umi_groups'
+include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE   } from '../modules/local/plot_umi_groups'
+
 
 
 include { PLOT_FRAC as PLOT_FRAC_5D_MERGE_FRAC_1 } from '../modules/local/plot_frac'
@@ -404,66 +402,23 @@ workflow URLPIPE {
       CAT_STAT_CUTOFF.out.stat,
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
-      "5d_r1_repeat_dist_umi_correct" // plot_frac_cutoff_xxx
+      "5d_r1_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
     )
 
     PLOT_FRAC_CUTOFF_MERGE (
       CAT_STAT_CUTOFF.out.stat,
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
-      "5d_merge_repeat_dist_umi_correct" // plot_frac_cutoff_xxx
+      "5d_merge_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
     )
 
-    // PLOT_FRAC_5D_R1_FRAC_3 (
-    //   CAT_STAT8.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_3_mode_stat.collect(),
-    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_3"
-    // )
-    // PLOT_FRAC_5D_R1_FRAC_10 (
-    //   CAT_STAT9.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_10_mode_stat.collect(),
-    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_10"
-    // )
-    // PLOT_FRAC_5D_R1_FRAC_30 (
-    //   CAT_STAT10.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_30_mode_stat.collect(),
-    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_30"
-    // )
-    // PLOT_FRAC_5D_R1_FRAC_100 (
-    //   CAT_STAT11.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_100_mode_stat.collect(),
-    //   "5d_r1_repeat_dist_umi_correct/plot_r1_frac_100"
-    // )
-    //
-    // PLOT_FRAC_5D_MERGE_FRAC_1 (
-    //   CAT_STAT7_MERGE.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_1_mode_stat.collect(),
-    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_1"
-    // )
-    // PLOT_FRAC_5D_MERGE_FRAC_3 (
-    //   CAT_STAT8_MERGE.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_3_mode_stat.collect(),
-    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_3"
-    // )
-    // PLOT_FRAC_5D_MERGE_FRAC_10 (
-    //   CAT_STAT9_MERGE.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_10_mode_stat.collect(),
-    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_10"
-    // )
-    // PLOT_FRAC_5D_MERGE_FRAC_30 (
-    //   CAT_STAT10_MERGE.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_30_mode_stat.collect(),
-    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_30"
-    // )
-    // PLOT_FRAC_5D_MERGE_FRAC_100 (
-    //   CAT_STAT11_MERGE.out.stat,
-    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_100_mode_stat.collect(),
-    //   "5d_merge_repeat_dist_umi_correct/plot_merge_frac_100"
-    // )
-
-
-
-    // MODULE: read length SD plot vs UMI per sample:
+    // MODULE: plot UMI groups at different UMI cutoffs
+    PLOT_UMI_GROUPS_R1 (
+      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw,
+      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat,
+      params.umi_cutoffs,
+      "5d_r1_repeat_dist_umi_correct/plot_umi_groups"
+    )
 
 
     //
