@@ -67,11 +67,8 @@ if umi_cutoff == 0:
 else:
     path = '*cutoff_' + str(umi_cutoff) + ".csv"
     #r'*cutoff_*.csv'
-    path = path.encode('unicode_escape').decode()
+    path = path.encode('unicode_escape').decode() # make it raw string
     files = sorted(glob.glob(path))
-    print("test raw: ", path)
-    print("test: ", files)
-    exit()
 
 raw_list = []
 sample_list = []
