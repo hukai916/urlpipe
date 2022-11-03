@@ -404,12 +404,12 @@ workflow URLPIPE {
     )
 
     // MODULE: plot UMI groups at different UMI cutoffs
-    // PLOT_UMI_GROUPS_R1 (
-    //   REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw,
-    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat,
-    //   params.umi_cutoffs,
-    //   "5d_r1_repeat_dist_umi_correct/plot_umi_groups"
-    // )
+    PLOT_UMI_GROUPS_R1 (
+      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw_meta,
+      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat,
+      params.umi_cutoffs,
+      "5d_r1_repeat_dist_umi_correct/plot_umi_groups"
+    )
 
 
     //

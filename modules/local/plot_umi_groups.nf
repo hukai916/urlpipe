@@ -4,7 +4,7 @@ process PLOT_UMI_GROUPS {
     container "hukai916/miniconda3_bio:0.3"
 
     input:
-    path csv // this is without correction
+    tuple val(meta), path(csv_no_correction) // this is without correction
     path stat_csv // with corretion at different cutoffs
     val umi_cutoffs
     val outdir
@@ -25,9 +25,9 @@ process PLOT_UMI_GROUPS {
     for i in "\${umi_cutoffs_array[@]}"
     do
       mkdir -p ${outdir}
-      touch ${outdir}.png
+      touch ${outdir}/all_sample_.npg
       #csv: all_sample_cutoff_xxx.csv
-      plot_umi_groups.py $csv "$umi_cutoffs" ${outdir}/${prefix}.txt
+      #plot_umi_groups.py $csv "$umi_cutoffs" ${outdir}/${prefix}.txt
     done
 
     cat <<-END_VERSIONS > versions.yml
