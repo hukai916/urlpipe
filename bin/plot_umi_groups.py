@@ -23,17 +23,16 @@ for umi in umis:
     file = "stat_mode_" + sample_name + "_cutoff_" + umi + ".csv"
     df = pd.read_csv(file, header = None)
     res.append(sum(df.iloc[:, 1]))
-res[0] = int(res[0]/3)
+res[0] = int(res[0]/10)
 
 fig, ax = plt.subplots()
 width = 0.35
 label = ["Cutoff_" + x for x in umis]
-label = ["No_correction\n (count/5)"] + label
+label = ["No_correction\n (count/10)"] + label
 
 ax.bar(label, res, width)
 ax.set_ylabel("Counts")
 ax.set_title("UMI group count vs UMI cutoff")
-ax.legend()
 plt.xticks(rotation = 10)
 
 fig.savefig(outfile)
