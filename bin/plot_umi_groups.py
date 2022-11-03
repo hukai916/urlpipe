@@ -31,7 +31,7 @@ label = ["Cutoff_" + x for x in umis]
 label = ["No_correction\n (count/5)"] + label
 
 ax.bar(label, res, width)
-as.set_ylabel("Counts")
+ax.set_ylabel("Counts")
 ax.set_title("UMI group count vs UMI cutoff")
 ax.legend()
 plt.xticks(rotation = 10)
