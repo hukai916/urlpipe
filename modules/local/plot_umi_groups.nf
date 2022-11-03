@@ -26,7 +26,7 @@ process PLOT_UMI_GROUPS {
     do
       mkdir -p ${outdir}
       touch ${outdir}/all_sample_.npg
-      #plot_umi_groups.py $csv "$umi_cutoffs" ${outdir}/${prefix}.png
+      #plot_umi_groups.py $csv_no_correction "$umi_cutoffs" ${outdir}/${prefix}.png
     done
 
     cat <<-END_VERSIONS > versions.yml
