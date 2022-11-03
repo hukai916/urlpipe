@@ -61,11 +61,8 @@ plt.clf()
 if umi_cutoff == 0:
     path = r'*.stat.csv'
     files = sorted(glob.glob(path))
-    path = r'*cutoff_*.csv'
-    files2 = sorted(glob.glob(path))
-    files = files + files2
 else:
-    path = '*cutoff_' + str(umi_cutoff) + ".csv"
+    path = 'stat_mode_*cutoff_' + str(umi_cutoff) + ".csv"
     #r'*cutoff_*.csv'
     path = path.encode('unicode_escape').decode() # make it raw string
     files = sorted(glob.glob(path))
