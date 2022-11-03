@@ -76,8 +76,8 @@ include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE } from '../modules/local/pl
 
 include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_R1      } from '../modules/local/plot_umi_groups'
 include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE   } from '../modules/local/plot_umi_groups'
-include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1    } from '../modules/local/plot_frac_cutoff'
-include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE } from '../modules/local/plot_frac_cutoff'
+include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1    } from '../modules/local/plot_frac_umi_cutoff'
+include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE } from '../modules/local/plot_frac_umi_cutoff'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
