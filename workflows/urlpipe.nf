@@ -423,14 +423,14 @@ workflow URLPIPE {
     // MODULE: plot above/below fraction at different UMI cutoffs
     PLOT_FRAC_UMI_CUTOFF_R1 (
       REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
-      REPEAT_DIST_UMI_CORRECT_R1.out.frac,
+      REPEAT_DIST_UMI_CORRECT_R1.out.frac_meta,
       params.umi_cutoffs,
       "5d_r1_repeat_dist_umi_correct/plot_frac_umi_cutoff"
     )
 
     // PLOT_FRAC_UMI_CUTOFF_MERGE (
     //   REPEAT_DIST_DISTANCE_MERGED.out.frac_r1.collect(),
-    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.frac,
+    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_meta,
     //   params.umi_cutoffs,
     //   "5d_merge_repeat_dist_umi_correct/plot_frac_umi_cutoff"
     // )
