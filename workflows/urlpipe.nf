@@ -77,9 +77,6 @@ include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE } from '../modules/local/pl
 include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_R1      } from '../modules/local/plot_umi_groups'
 include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE   } from '../modules/local/plot_umi_groups'
 
-include { PLOT_FRAC as PLOT_FRAC_5D_MERGE_FRAC_1 } from '../modules/local/plot_frac'
-
-
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
 
@@ -407,12 +404,12 @@ workflow URLPIPE {
     )
 
     // MODULE: plot UMI groups at different UMI cutoffs
-    PLOT_UMI_GROUPS_R1 (
-      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw,
-      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat,
-      params.umi_cutoffs,
-      "5d_r1_repeat_dist_umi_correct/plot_umi_groups"
-    )
+    // PLOT_UMI_GROUPS_R1 (
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw,
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat,
+    //   params.umi_cutoffs,
+    //   "5d_r1_repeat_dist_umi_correct/plot_umi_groups"
+    // )
 
 
     //
