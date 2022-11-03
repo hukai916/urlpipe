@@ -69,6 +69,7 @@ else:
     #r'*cutoff_*.csv'
     path = path.encode('unicode_escape').decode()
     files = sorted(glob.glob(path))
+    print("test raw: ", path)
     print("test: ", files)
     exit()
 
