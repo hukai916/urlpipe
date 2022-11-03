@@ -25,7 +25,7 @@ process PLOT_FRAC_CUTOFF {
     do
       mkdir -p ${outdir}
       #csv: all_sample_cutoff_xxx.csv
-      plot_frac.py all_sample_cutoff_\$i.csv ${outdir}/all_sample_frac_barplot_cutoff_\$i.png ${outdir}/all_sample_read_length_violin_cutoff_\$i.png $umi_cutoffs
+      plot_frac.py all_sample_cutoff_\$i.csv ${outdir}/all_sample_frac_barplot_cutoff_\$i.png ${outdir}/all_sample_read_length_violin_cutoff_\$i.png "$umi_cutoffs"
     done
 
     cat <<-END_VERSIONS > versions.yml
