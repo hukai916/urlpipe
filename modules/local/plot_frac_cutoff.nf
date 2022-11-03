@@ -5,7 +5,7 @@ process PLOT_FRAC_CUTOFF {
 
     input:
     path csv
-    path stat_csv
+    tuple val(meta), path(stat_csv)
     val umi_cutoffs
     val outdir
 

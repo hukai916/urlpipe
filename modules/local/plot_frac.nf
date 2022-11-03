@@ -5,7 +5,7 @@ process PLOT_FRAC {
 
     input:
     path csv
-    path stat_csv // raw stat csv, used for plot_frac.py though not mentioned in nf file
+    tuple val(meta), path(stat_csv) // raw stat csv, used for plot_frac.py though not mentioned in nf file
     val umi_cutoffs
     val outdir
 

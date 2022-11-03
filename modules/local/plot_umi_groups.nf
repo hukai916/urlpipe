@@ -17,6 +17,7 @@ process PLOT_UMI_GROUPS {
     task.ext.when == null || task.ext.when
 
     script:
+    def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
     umi_cutoffs_str="$umi_cutoffs"
@@ -26,7 +27,7 @@ process PLOT_UMI_GROUPS {
       mkdir -p ${outdir}
       touch ${outdir}.png
       #csv: all_sample_cutoff_xxx.csv
-      plot_umi_groups.py $csv "$umi_cutoffs"
+      plot_umi_groups.py $csv "$umi_cutoffs" ${outdir}/${prefix}.txt
     done
 
     cat <<-END_VERSIONS > versions.yml
