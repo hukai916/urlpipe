@@ -18,7 +18,7 @@ umi_cutoff  = sys.argv[3]
 outfile     = sys.argv[4]
 
 umis = [x.strip() for x in umi_cutoff.split(",")]
-res  = pd.read_csv(raw_csv, header = None).iloc[:. [2,4]] # above/below percentage columns
+res  = pd.read_csv(raw_csv, header = None).iloc[:, [2,4]] # above/below percentage columns
 for x in umis:
     filename = sample_name + "_frac_*_cutoff_" + x + ".csv"
     file = glob.glob(filename)[0]
