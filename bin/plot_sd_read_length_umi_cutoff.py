@@ -26,7 +26,7 @@ raw_list = []
 
 for file in input_files:
     print(file, input_files)
-    tem = pd.read_csv(file)
+    tem = pd.read_csv(file, header = None)
     tem = tem[tem.iloc[:,0] != "problem"]
     tem = tem[tem.iloc[:, 0] != "plus"]
     data_tem = np.repeat(tem.iloc[:, 0], tem.iloc[:, 1])
@@ -38,8 +38,7 @@ for file in input_files:
 _tem = ["Cutoff_" + x.strip() for x in cutoffs_str.split(",")]
 X = ["No_correction"] + _tem
 Y = [round(x, 2) for x in sd_list]
-print(X)
-print(sd_list)
+
 plt.scatter(X, sd_list)
 plt.ylim(1, max(sd_list) + 2)
 locs, labels = plt.xticks()

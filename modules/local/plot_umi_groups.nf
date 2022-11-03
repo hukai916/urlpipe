@@ -20,14 +20,8 @@ process PLOT_UMI_GROUPS {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    umi_cutoffs_str="$umi_cutoffs"
-    umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
-    for i in "\${umi_cutoffs_array[@]}"
-    do
-      mkdir -p ${outdir}
-      touch ${outdir}/all_sample_.npg
-      #plot_umi_groups.py $csv_no_correction "$umi_cutoffs" ${outdir}/${prefix}.png
-    done
+    mkdir -p ${outdir}
+    plot_umi_groups.py $prefix $csv_no_correction "$umi_cutoffs" ${outdir}/${prefix}.png
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

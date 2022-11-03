@@ -71,7 +71,7 @@ raw_list = []
 sample_list = []
 
 for x in files:
-    tem = pd.read_csv(x)
+    tem = pd.read_csv(x, header = None)
     tem = tem[tem.iloc[:,0] != "problem"]
     tem = tem[tem.iloc[:, 0] != "plus"]
     data_tem = np.repeat(tem.iloc[:, 0], tem.iloc[:, 1])
