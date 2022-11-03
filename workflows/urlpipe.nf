@@ -387,12 +387,14 @@ workflow URLPIPE {
     PLOT_FRAC_4D_R1 (
       CAT_STAT5.out.stat,
       REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
+      Channel.value(0),
       "4d_repeat_distribution_distance/plot_r1_frac"
     )
 
     PLOT_FRAC_4D_MERGE (
       CAT_STAT5_MERGE.out.stat,
       REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
+      Channel.value(0),
       "4d_repeat_distribution_distance/plot_merge_frac"
     )
 
