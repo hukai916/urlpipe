@@ -47,7 +47,7 @@ with open(output_stat, "w") as f:
 
         ## Calculate the "ld" per UMI group: when tie, take mean of the ld_ls
         ld = 0
-        ld_lt = []
+        ld_ls = []
         _tem = {} # store the height and its distance
         for height in _data: # height is the count, distance is nucleotide distance
             distance = 0
