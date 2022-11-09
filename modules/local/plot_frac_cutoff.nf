@@ -7,10 +7,11 @@ process PLOT_FRAC_CUTOFF {
     path csv
     path stat_csv
     val umi_cutoffs
+    val mode // mode, mean, ld
     val outdir
 
     output:
-    path "*/*/all_sample_*.png",          emit: plot
+    path "*/${mode}/*/all_sample_*.png",          emit: plot
     path  "versions.yml",               emit: versions
 
     when:
@@ -23,10 +24,10 @@ process PLOT_FRAC_CUTOFF {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      mkdir -p ${outdir}/plot_frac_barplot
-      mkdir -p ${outdir}/plot_read_length_violin
+      mkdir -p ${outdir}/${mode}/plot_frac_barplot
+      mkdir -p ${outdir}/${mode}/plot_read_length_violin
       #csv: all_sample_cutoff_xxx.csv
-      plot_frac.py all_sample_cutoff_\$i.csv ${outdir}/plot_frac_barplot/all_sample_frac_barplot_cutoff_\$i.png ${outdir}/plot_read_length_violin/all_sample_read_length_violin_cutoff_\$i.png "\$i"
+      plot_frac.py all_sample_cutoff_\$i.csv ${outdir}/${mode}/plot_frac_barplot/all_sample_frac_barplot_cutoff_\$i.png ${outdir}/${mode}/plot_read_length_violin/all_sample_read_length_violin_cutoff_\$i.png "\$i"
     done
 
     cat <<-END_VERSIONS > versions.yml

@@ -5,10 +5,11 @@ process CAT_STAT_CUTOFF {
 
     input:
     path stat
-    val outdir
+    val mode
     val header
     val umi_cutoffs
-    val mode // "mode", "mean", "ld"
+     // "mode", "mean", "ld"
+    val outdir
 
     output:
     path "**/all_sample_cutoff_*.csv",     emit: stat

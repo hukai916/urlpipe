@@ -54,6 +54,9 @@ include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3; CAT_STAT as CAT_STAT4; CAT_STAT as CAT_STAT5; CAT_STAT as CAT_STAT6; CAT_STAT as CAT_STAT7; CAT_STAT as CAT_STAT8; CAT_STAT as CAT_STAT9; CAT_STAT as CAT_STAT10; CAT_STAT as CAT_STAT11; CAT_STAT as CAT_STAT5_MERGE; CAT_STAT as CAT_STAT7_MERGE; CAT_STAT as CAT_STAT8_MERGE; CAT_STAT as CAT_STAT9_MERGE; CAT_STAT as CAT_STAT10_MERGE; CAT_STAT as CAT_STAT11_MERGE} from '../modules/local/cat_stat'
 include { CAT_STAT_CUTOFF             }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE }   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_2      }   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE_2}   from '../modules/local/cat_stat_cutoff'
+
 include { UMI_PATTERN; UMI_PATTERN as UMI_PATTERN2 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
@@ -73,11 +76,18 @@ include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
 include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1    } from '../modules/local/plot_frac_cutoff'
 include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE } from '../modules/local/plot_frac_cutoff'
+include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1_2    } from '../modules/local/plot_frac_cutoff'
+include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE_2 } from '../modules/local/plot_frac_cutoff'
 
 include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_R1      } from '../modules/local/plot_umi_groups'
 include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE   } from '../modules/local/plot_umi_groups'
+include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_R1_2    } from '../modules/local/plot_umi_groups'
+include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE_2 } from '../modules/local/plot_umi_groups'
+
 include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1    } from '../modules/local/plot_frac_umi_cutoff'
 include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE } from '../modules/local/plot_frac_umi_cutoff'
+include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1_2  } from '../modules/local/plot_frac_umi_cutoff'
+include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE_2 } from '../modules/local/plot_frac_umi_cutoff'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -371,13 +381,24 @@ workflow URLPIPE {
     // //
     // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
     // CAT_STAT_CUTOFF is specifically designed for mode
-    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(), "5d_r1_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(), "mode", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
-    "mode" ) // subdir: frac_xxx
+    "5d_merge_repeat_dist_umi_correct" ) // subdir: frac_xxx
 
-    CAT_STAT_CUTOFF_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac.collect(), "5d_merge_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    CAT_STAT_CUTOFF_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_mode.collect(), "mode", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
-    "mode" ) // subdir: frac_xxx
+    "5d_merge_repeat_dist_umi_correct" ) // subdir: frac_xxx
+
+    // For ld
+    CAT_STAT_CUTOFF_2 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_ld.collect(),
+    "ld", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    params.umi_cutoffs,
+    "5d_r1_repeat_dist_umi_correct" ) // subdir: frac_xxx
+
+    CAT_STAT_CUTOFF_MERGE_2 ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_ld.collect(),
+    "ld", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    params.umi_cutoffs,
+    "5d_merge_repeat_dist_umi_correct" ) // subdir: frac_xxx
 
     // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
     PLOT_FRAC_4D_R1 (
@@ -398,13 +419,32 @@ workflow URLPIPE {
       CAT_STAT_CUTOFF.out.stat,
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
+      "mode",
       "5d_r1_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
     )
 
     PLOT_FRAC_CUTOFF_MERGE (
-      CAT_STAT_CUTOFF.out.stat,
+      CAT_STAT_CUTOFF_MERGE.out.stat,
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
+      "mode",
+      "5d_merge_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
+    )
+
+    // for ld:
+    PLOT_FRAC_CUTOFF_R1_2 (
+      CAT_STAT_CUTOFF_2.out.stat,
+      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_ld_stat.collect(),
+      params.umi_cutoffs,
+      "ld",
+      "5d_r1_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
+    )
+
+    PLOT_FRAC_CUTOFF_MERGE_2 (
+      CAT_STAT_CUTOFF_MERGE_2.out.stat,
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_ld_stat.collect(),
+      params.umi_cutoffs,
+      "ld",
       "5d_merge_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
     )
 
@@ -413,14 +453,28 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw_meta,
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat,
       params.umi_cutoffs,
-      "5d_r1_repeat_dist_umi_correct/plot_umi_groups"
+      "5d_r1_repeat_dist_umi_correct/plot_umi_groups_mode"
     )
 
     PLOT_UMI_GROUPS_MERGE (
       REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw_meta,
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat,
       params.umi_cutoffs,
-      "5d_merge_repeat_dist_umi_correct/plot_umi_groups"
+      "5d_merge_repeat_dist_umi_correct/plot_umi_groups_mode"
+    )
+    // for ld:
+    PLOT_UMI_GROUPS_R1_2 (
+      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw_meta,
+      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_ld_stat,
+      params.umi_cutoffs,
+      "5d_r1_repeat_dist_umi_correct/plot_umi_groups_ld"
+    )
+
+    PLOT_UMI_GROUPS_MERGE_2 (
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw_meta,
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_ld_stat,
+      params.umi_cutoffs,
+      "5d_merge_repeat_dist_umi_correct/plot_umi_groups_ld"
     )
 
     // MODULE: plot above/below fraction at different UMI cutoffs
@@ -433,10 +487,26 @@ workflow URLPIPE {
 
     PLOT_FRAC_UMI_CUTOFF_MERGE (
       REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
-      REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_meta,
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_meta_mode,
       params.umi_cutoffs,
       "5d_merge_repeat_dist_umi_correct/plot_frac_umi_cutoff"
     )
+
+    // for ld:
+    PLOT_FRAC_UMI_CUTOFF_R1_2 (
+      REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
+      REPEAT_DIST_UMI_CORRECT_R1.out.frac_meta_ld,
+      params.umi_cutoffs,
+      "5d_r1_repeat_dist_umi_correct/plot_frac_umi_cutoff_ld"
+    )
+
+    PLOT_FRAC_UMI_CUTOFF_MERGE_2 (
+      REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_meta_ld,
+      params.umi_cutoffs,
+      "5d_merge_repeat_dist_umi_correct/plot_frac_umi_cutoff_ld"
+    )
+
 
     //
     // MODULE: repeat distribution R1 distance

@@ -16,6 +16,10 @@ process REPEAT_DIST_UMI_CORRECT {
     path "*/frac_*/mode/*.csv",                   emit: frac_mode
     path "*/cutoff_*/mode/stat_mode*.csv",        emit: cutoff_mode_stat
 
+    tuple val(meta), path("*/frac_*/ld/*.csv"),   emit: frac_meta_ld
+    path "*/frac_*/ld/*.csv",                     emit: frac_ld
+    path "*/cutoff_*/ld/stat_ld*.csv",            emit: cutoff_ld_stat
+
     path "*/plot_read_length_std/*",              emit: plot // STD and Violin plot of read length after UMI correction.
     tuple val(meta), path("${outdir}/input/*.csv"),           emit: stat_raw_meta
     path "${outdir}/input/*.csv",                             emit: stat_raw
