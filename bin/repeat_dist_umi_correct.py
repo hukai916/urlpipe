@@ -21,6 +21,7 @@ bin_number  = sys.argv[5]
 
 repeat_length_mean = {}
 repeat_length_mode = {}
+repeat_length_ld   = {} # least distance approach
 
 with open(csv, "r") as f:
     for line in f:
@@ -37,18 +38,18 @@ with open(csv, "r") as f:
             else:
                 repeat_length_mode[mode] += 1
 # output to stat:
-outfile_mean = os.path.join(outdir, "stat_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".csv")
+outfile_mean = os.path.join(outdir, "mean", "stat_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".csv")
 with open(outfile_mean, "w") as f:
     for k in sorted(repeat_length_mean.keys()):
         f.write(str(k) + ',' + str(repeat_length_mean[k]) + '\n')
-outfile_mode = os.path.join(outdir, "stat_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".csv")
+outfile_mode = os.path.join(outdir, "mode", "stat_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".csv")
 with open(outfile_mode, "w") as f:
     for k in sorted(repeat_length_mode.keys()):
         f.write(str(k) + ',' + str(repeat_length_mode[k]) + '\n')
 
 # output to plot:
-outplot_mean = os.path.join(outdir, "plot_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
+outplot_mean = os.path.join(outdir, "mean", "plot_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
 plot_repeat_dist(outfile_mean, outplot_mean, sample_name, N, bin_number)
 
-outplot_mode = os.path.join(outdir, "plot_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
+outplot_mode = os.path.join(outdir, "mode", "plot_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
 plot_repeat_dist(outfile_mode, outplot_mode, sample_name, N, bin_number)

@@ -11,14 +11,14 @@ process REPEAT_DIST_UMI_CORRECT {
     val outdir
 
     output:
-    path "*/cutoff_*/*",                    emit: cutoff // not if "*/cutoff_1", the resume is problematic
-    tuple val(meta), path("*/frac_*/*.csv"),emit: frac_meta
-    path "*/frac_*/*.csv",                  emit: frac
+    path "*/cutoff_*/*/*",                        emit: cutoff // not if "*/cutoff_1", the resume is problematic
+    tuple val(meta), path("*/frac_*/mode/*.csv"), emit: frac_meta_mode
+    path "*/frac_*/mode/*.csv",                   emit: frac_mode
+    path "*/cutoff_*/mode/stat_mode*.csv",        emit: cutoff_mode_stat
 
-    path "*/plot_read_length_std/*",                    emit: plot // STD and Violin plot of read length after UMI correction.
+    path "*/plot_read_length_std/*",              emit: plot // STD and Violin plot of read length after UMI correction.
     tuple val(meta), path("${outdir}/input/*.csv"),           emit: stat_raw_meta
     path "${outdir}/input/*.csv",                             emit: stat_raw
-    path "*/cutoff_*/stat_mode*.csv",       emit: cutoff_mode_stat
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100 // this won't work, may cause a weird issue, could be Nextflow's problem.
     path  "versions.yml",      emit: versions
 
@@ -46,7 +46,11 @@ process REPEAT_DIST_UMI_CORRECT {
       mkdir -p ${outdir}/cutoff_\$i ${outdir}/frac_\$i
 
       repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_\$i \$i $args
-      calculate_frac.py $prefix ${outdir}/cutoff_\$i/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_\$i \$i "$args_frac"
+
+      calculate_frac.py $prefix ${outdir}/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_\$i/mode \$i "$args_frac"
+      calculate_frac.py $prefix ${outdir}/cutoff_\$i/mean/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_\$i/mean \$i "$args_frac"
+      #calculate_frac.py $prefix ${outdir}/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_\$i/ls \$i "$args_frac"
+
     done
 
     ## PLOT2: plot std of read lengths vs UMI cutoffs

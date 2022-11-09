@@ -370,11 +370,14 @@ workflow URLPIPE {
     // // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
     // //
     // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
-    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac.collect(), "5d_r1_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
-    params.umi_cutoffs ) // subdir: frac_xxx
+    // CAT_STAT_CUTOFF is specifically designed for mode
+    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(), "5d_r1_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    params.umi_cutoffs,
+    "mode" ) // subdir: frac_xxx
 
     CAT_STAT_CUTOFF_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac.collect(), "5d_merge_repeat_dist_umi_correct", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
-    params.umi_cutoffs ) // subdir: frac_xxx
+    params.umi_cutoffs,
+    "mode" ) // subdir: frac_xxx
 
     // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
     PLOT_FRAC_4D_R1 (
@@ -423,7 +426,7 @@ workflow URLPIPE {
     // MODULE: plot above/below fraction at different UMI cutoffs
     PLOT_FRAC_UMI_CUTOFF_R1 (
       REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
-      REPEAT_DIST_UMI_CORRECT_R1.out.frac_meta,
+      REPEAT_DIST_UMI_CORRECT_R1.out.frac_meta_mode,
       params.umi_cutoffs,
       "5d_r1_repeat_dist_umi_correct/plot_frac_umi_cutoff"
     )
