@@ -48,6 +48,7 @@ process REPEAT_DIST_UMI_CORRECT {
     for i in "\${umi_cutoffs_array[@]}"
     do
       mkdir -p ${outdir}/cutoff_\$i ${outdir}/frac_\$i
+      mkdir ${outdir}/cutoff_\$i/mode ${outdir}/cutoff_\$i/mean ${outdir}/cutoff_\$i/ld
       mkdir ${outdir}/frac_\$i/mode ${outdir}/frac_\$i/mean ${outdir}/frac_\$i/ld
 
       repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_\$i \$i $args
