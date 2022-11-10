@@ -23,7 +23,6 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
         _dict[str(df.iloc[i, 0])] = df.iloc[i, 1]
 
     # determine max count:
-    print(df.iloc[:,0])
     max_count = max([int(i) for i in df.iloc[:,0] if str(i).replace(".", "").isdigit()])
     # plus, problem = 0, 0
     # for i, v in enumerate(df.iloc[:, 0]):
@@ -64,6 +63,9 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
         myticks = myticks + [bin_n + 2* N]
 
     # plot:
+    print(x)
+    print(y)
+    
     n, bins, patches = plt.hist(x, weights = y, bins = bin_n + 2 * N, range = (0, bin_n + 2 * N))
     plt.xticks(myticks, mylabels, rotation = 85)
     plt.tick_params(labelsize = 8)
