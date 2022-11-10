@@ -81,22 +81,20 @@ for x in files:
     p = Path(x)
     sample = p.stem.replace(".stat", "")
     sample_list.append(sample)
-try:
-    plt.violinplot(raw_list, positions = list(range(1, len(sample_list) + 1)),
-                   vert = False,
-                   showextrema = False)
-    fig = plt.gcf()
-    fig.patch.set_facecolor('xkcd:white')
-    fig.set_size_inches(6, 6)
 
-    plt.xlim(0, 200)
-    locs, labels = plt.xticks()
-    plt.yticks(ticks = list(range(1, len(sample_list) + 1)), labels = sample_list, fontsize = 8)
-    plt.tick_params(axis="y",direction="in", pad=-130)
-    plt.axvline(x = 151, color = 'r', linewidth = 1, linestyle = "dotted")
-    plt.axvline(x = 166, color = 'r', linewidth = 1, linestyle = "dotted")
-    plt.savefig(outfile2_raw, dpi = 600)
-    plt.xlim(130, 180)
-    plt.savefig(outfile2_zoom, dpi = 600)
-except:
-    pass
+plt.violinplot(raw_list, positions = list(range(1, len(sample_list) + 1)),
+               vert = False,
+               showextrema = False)
+fig = plt.gcf()
+fig.patch.set_facecolor('xkcd:white')
+fig.set_size_inches(6, 6)
+
+plt.xlim(0, 200)
+locs, labels = plt.xticks()
+plt.yticks(ticks = list(range(1, len(sample_list) + 1)), labels = sample_list, fontsize = 8)
+plt.tick_params(axis="y",direction="in", pad=-130)
+plt.axvline(x = 151, color = 'r', linewidth = 1, linestyle = "dotted")
+plt.axvline(x = 166, color = 'r', linewidth = 1, linestyle = "dotted")
+plt.savefig(outfile2_raw, dpi = 600)
+plt.xlim(130, 180)
+plt.savefig(outfile2_zoom, dpi = 600)
