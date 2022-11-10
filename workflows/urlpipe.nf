@@ -371,7 +371,7 @@ workflow URLPIPE {
 
     CAT_STAT5_MERGE (
       REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
-      "4d_repeat_distribution_distance/frac_merge",
+      "4d_merge_repeat_distribution_distance/frac_merge",
       "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT5_MERGE.out.versions)
@@ -412,7 +412,7 @@ workflow URLPIPE {
       CAT_STAT5_MERGE.out.stat,
       REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
       Channel.value(0),
-      "4d_repeat_distribution_distance/plot_merge_frac"
+      "4d_merge_repeat_distribution_distance/plot_merge_frac"
     )
 
     PLOT_FRAC_CUTOFF_R1 (
