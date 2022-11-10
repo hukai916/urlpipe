@@ -62,7 +62,8 @@ with open(output_stat, "w") as f:
         if len(ld_ls) == 1:
             ld = ld_ls[0]
         else:
-            ld = mean(ld_ls)
+            # ld = mean(ld_ls) # mean is not a good choice since it creates many float values for downstream analysis
+            ld = sorted(ld_ls)[int(len(ld_ls)/2)] # take the median, if tie, take the smaller value
 
         # print(d_umi[k])
         res = ",".join([k, str(len(d_umi[k])), str(mean(d_umi[k])), str(mode), str(ld)]) + "\n"
