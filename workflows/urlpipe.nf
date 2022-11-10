@@ -486,14 +486,14 @@ workflow URLPIPE {
       REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
       REPEAT_DIST_UMI_CORRECT_R1.out.frac_meta_mode,
       params.umi_cutoffs,
-      "5d_r1_repeat_dist_umi_correct/plot_frac_umi_cutoff"
+      "5d_r1_repeat_dist_umi_correct/plot_frac_umi_cutoff_mode"
     )
 
     PLOT_FRAC_UMI_CUTOFF_MERGE (
       REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
       REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_meta_mode,
       params.umi_cutoffs,
-      "5d_merge_repeat_dist_umi_correct/plot_frac_umi_cutoff"
+      "5d_merge_repeat_dist_umi_correct/plot_frac_umi_cutoff_mode"
     )
 
     // for ld:
