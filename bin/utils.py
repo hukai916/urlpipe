@@ -22,7 +22,10 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
     print(df.iloc[:,0])
     for i in range(len(df.iloc[:,0])):
         print(df.iloc[i, 0])
-        _dict[str(round(float((df.iloc[i, 0]))))] = df.iloc[i, 1] # round the float to int, for plotting purpose below
+        if not df.iloc[i, 0] in ["plus", "problem"]:
+            _dict[str(round(float((df.iloc[i, 0]))))] = df.iloc[i, 1] # round the float to int, for plotting purpose below
+        else:
+            _dict[str(df.iloc[i, 0])] = df.iloc[i, 1]
 
     # determine max count:
     max_count = max([int(i) for i in df.iloc[:,0] if str(i).replace(".", "").isdigit()])
