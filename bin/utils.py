@@ -21,6 +21,7 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
     _dict = {"plus": 0, "problem": 0} # ensure that 'plus' and 'problem' are there
     print(df.iloc[:,0])
     for i in range(len(df.iloc[:,0])):
+        print(df.iloc[i, 0])
         _dict[str(round(df.iloc[i, 0]))] = df.iloc[i, 1] # round the float to int, for plotting purpose below
 
     # determine max count:
