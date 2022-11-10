@@ -16,11 +16,12 @@ sample_name = sys.argv[1]
 csv_no_correction = sys.argv[2]
 umi_cutoff  = sys.argv[3]
 outfile     = sys.argv[4]
+mode        = sys.argv[5] # "mode", "mean", "mode"
 
 umis = [x.strip() for x in umi_cutoff.split(",")]
 res = [sum(pd.read_csv(csv_no_correction, header = None).iloc[:, 1])]
 for umi in umis:
-    file = "stat_mode_" + sample_name + "_cutoff_" + umi + ".csv"
+    file = "stat_"  + mode + "_" + sample_name + "_cutoff_" + umi + ".csv"
     df = pd.read_csv(file, header = None)
     res.append(sum(df.iloc[:, 1]))
 res[0] = int(res[0]/10)

@@ -7,6 +7,7 @@ process PLOT_UMI_GROUPS {
     tuple val(meta), path(csv_no_correction) // this is without correction
     path stat_csv // with corretion at different cutoffs
     val umi_cutoffs
+    val mode
     val outdir
 
     output:
@@ -21,7 +22,7 @@ process PLOT_UMI_GROUPS {
 
     """
     mkdir -p ${outdir}
-    plot_umi_groups.py $prefix $csv_no_correction "$umi_cutoffs" ${outdir}/${prefix}.png
+    plot_umi_groups.py $prefix $csv_no_correction "$umi_cutoffs" ${outdir}/${prefix}.png $mode
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

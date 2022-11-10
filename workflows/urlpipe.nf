@@ -453,6 +453,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw_meta,
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat,
       params.umi_cutoffs,
+      "mode",
       "5d_r1_repeat_dist_umi_correct/plot_umi_groups_mode"
     )
 
@@ -460,6 +461,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw_meta,
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat,
       params.umi_cutoffs,
+      "mode",
       "5d_merge_repeat_dist_umi_correct/plot_umi_groups_mode"
     )
     // for ld:
@@ -467,6 +469,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw_meta,
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_ld_stat,
       params.umi_cutoffs,
+      "ld",
       "5d_r1_repeat_dist_umi_correct/plot_umi_groups_ld"
     )
 
@@ -474,6 +477,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw_meta,
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_ld_stat,
       params.umi_cutoffs,
+      "ld",
       "5d_merge_repeat_dist_umi_correct/plot_umi_groups_ld"
     )
 
