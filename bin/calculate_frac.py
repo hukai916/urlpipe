@@ -26,7 +26,7 @@ with open(csv, "r") as f:
     for line in f:
         length, c = line.strip().split(",")
         if not length in ["plus", "problem"]:
-            length, c = int(length), int(c)
+            length, c = int(float(length)), int(float(c))
             count_all = count_all + c
             if length < cutoff_below:
                 count_below += c
