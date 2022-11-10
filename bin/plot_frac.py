@@ -62,7 +62,7 @@ if int(umi_cutoff) == 0:
     path = r'*.stat.csv'
     files = sorted(glob.glob(path))
 else:
-    path = 'stat_mode_*cutoff_' + str(umi_cutoff) + ".csv"
+    path = 'stat_*_*cutoff_' + str(umi_cutoff) + ".csv"
     #r'*cutoff_*.csv'
     path = path.encode('unicode_escape').decode() # make it raw string
     files = sorted(glob.glob(path))
