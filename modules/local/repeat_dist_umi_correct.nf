@@ -20,7 +20,7 @@ process REPEAT_DIST_UMI_CORRECT {
     path "*/frac_*/ld/*.csv",                     emit: frac_ld
     path "*/cutoff_*/ld/stat_ld*.csv",            emit: cutoff_ld_stat
 
-    path "*/plot_read_length_std/*",              emit: plot // STD and Violin plot of read length after UMI correction.
+    path "*/plot_read_length_std*/*",             emit: plot // STD and Violin plot of read length after UMI correction.
     tuple val(meta), path("${outdir}/input/*.csv"),           emit: stat_raw_meta
     path "${outdir}/input/*.csv",                             emit: stat_raw
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100 // this won't work, may cause a weird issue, could be Nextflow's problem.
@@ -60,14 +60,25 @@ process REPEAT_DIST_UMI_CORRECT {
     done
 
     ## PLOT2: plot std of read lengths vs UMI cutoffs
-    mkdir -p ${outdir}/plot_read_length_std
+    mkdir -p ${outdir}/plot_read_length_std_mode
     stat_mode_csv=""
     for i in "\${umi_cutoffs_array[@]}"
     do
-      stat_mode_csv+=" ${outdir}/cutoff_\$i/stat_mode_${prefix}_cutoff_\$i.csv"
+      stat_mode_csv+=" ${outdir}/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv"
     done
 
-    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_read_length_std "$umi_cutoffs" $stat_raw \$stat_mode_csv
+    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_read_length_std_mode "$umi_cutoffs" $stat_raw \$stat_mode_csv
+
+    # for ld:
+    mkdir -p ${outdir}/plot_read_length_std_ld
+    stat_ld_csv=""
+    for i in "\${umi_cutoffs_array[@]}"
+    do
+      stat_ld_csv+=" ${outdir}/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv"
+    done
+
+    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_read_length_std_ld "$umi_cutoffs" $stat_raw \$stat_ld_csv
+
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
