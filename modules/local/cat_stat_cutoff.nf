@@ -26,7 +26,7 @@ process CAT_STAT_CUTOFF {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      mkdir -p ${outdir}/frac_\$i
+      mkdir -p ${outdir}/frac_\$i/${mode}
       (echo -e "$header" && cat *cutoff_\$i.csv | sort -n) > ${outdir}/frac_\$i/${mode}/all_sample_cutoff_\$i.csv
     done
 
