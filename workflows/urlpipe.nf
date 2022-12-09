@@ -332,6 +332,11 @@ workflow URLPIPE {
     // ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
 
     // Testing of UMI as a seperate parameter:
+    // subfolderds:
+      // plot_along_cutoffs/plot_read_length_std_ld
+      // plot_along_cutoffs/plot_read_length_std_mode
+      // read_length_distribution/cutoff_x
+      // frac_above_below/cutoff_x
     REPEAT_DIST_UMI_CORRECT_R1 (
       UMI_GROUP_STAT_R1.out.stat,
       UMI_GROUP_STAT_R1.out.stat_raw,
@@ -415,12 +420,13 @@ workflow URLPIPE {
       "4d_merge_repeat_distribution_distance/plot_merge_frac"
     )
 
+    // for mode:
     PLOT_FRAC_CUTOFF_R1 (
       CAT_STAT_CUTOFF.out.stat,
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
       "mode",
-      "5d_r1_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
+      "5d_r1_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
     )
 
     PLOT_FRAC_CUTOFF_MERGE (
@@ -428,7 +434,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
       "mode",
-      "5d_merge_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
+      "5d_merge_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
     )
 
     // for ld:
@@ -437,7 +443,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_ld_stat.collect(),
       params.umi_cutoffs,
       "ld",
-      "5d_r1_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
+      "5d_r1_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
     )
 
     PLOT_FRAC_CUTOFF_MERGE_2 (
@@ -445,7 +451,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_ld_stat.collect(),
       params.umi_cutoffs,
       "ld",
-      "5d_merge_repeat_dist_umi_correct" // plot_read_length_violin and plot_frac_barplot
+      "5d_merge_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
     )
 
     // MODULE: plot UMI groups at different UMI cutoffs
@@ -454,7 +460,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat,
       params.umi_cutoffs,
       "mode",
-      "5d_r1_repeat_dist_umi_correct/plot_umi_groups_mode"
+      "5d_r1_repeat_dist_umi_correct/plot_along_cutoffs/plot_umi_groups_mode"
     )
 
     PLOT_UMI_GROUPS_MERGE (
@@ -462,7 +468,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat,
       params.umi_cutoffs,
       "mode",
-      "5d_merge_repeat_dist_umi_correct/plot_umi_groups_mode"
+      "5d_merge_repeat_dist_umi_correct/plot_along_cutoffs/plot_umi_groups_mode"
     )
     // for ld:
     PLOT_UMI_GROUPS_R1_2 (
@@ -470,7 +476,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_ld_stat,
       params.umi_cutoffs,
       "ld",
-      "5d_r1_repeat_dist_umi_correct/plot_umi_groups_ld"
+      "5d_r1_repeat_dist_umi_correct/plot_along_cutoffs/plot_umi_groups_ld"
     )
 
     PLOT_UMI_GROUPS_MERGE_2 (
@@ -478,7 +484,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_ld_stat,
       params.umi_cutoffs,
       "ld",
-      "5d_merge_repeat_dist_umi_correct/plot_umi_groups_ld"
+      "5d_merge_repeat_dist_umi_correct/plot_along_cutoffs/plot_umi_groups_ld"
     )
 
     // MODULE: plot above/below fraction at different UMI cutoffs
@@ -486,14 +492,14 @@ workflow URLPIPE {
       REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
       REPEAT_DIST_UMI_CORRECT_R1.out.frac_meta_mode,
       params.umi_cutoffs,
-      "5d_r1_repeat_dist_umi_correct/plot_frac_umi_cutoff_mode"
+      "5d_r1_repeat_dist_umi_correct/plot_along_cutoffs/plot_frac_umi_cutoff_mode"
     )
 
     PLOT_FRAC_UMI_CUTOFF_MERGE (
       REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
       REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_meta_mode,
       params.umi_cutoffs,
-      "5d_merge_repeat_dist_umi_correct/plot_frac_umi_cutoff_mode"
+      "5d_merge_repeat_dist_umi_correct/plot_along_cutoffs/plot_frac_umi_cutoff_mode"
     )
 
     // for ld:
@@ -501,14 +507,14 @@ workflow URLPIPE {
       REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
       REPEAT_DIST_UMI_CORRECT_R1.out.frac_meta_ld,
       params.umi_cutoffs,
-      "5d_r1_repeat_dist_umi_correct/plot_frac_umi_cutoff_ld"
+      "5d_r1_repeat_dist_umi_correct/plot_along_cutoffs/plot_frac_umi_cutoff_ld"
     )
 
     PLOT_FRAC_UMI_CUTOFF_MERGE_2 (
       REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
       REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_meta_ld,
       params.umi_cutoffs,
-      "5d_merge_repeat_dist_umi_correct/plot_frac_umi_cutoff_ld"
+      "5d_merge_repeat_dist_umi_correct/plot_along_cutoffs/plot_frac_umi_cutoff_ld"
     )
 
 

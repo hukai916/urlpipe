@@ -11,7 +11,7 @@ process PLOT_FRAC_CUTOFF {
     val outdir
 
     output:
-    path "*/${mode}/*/all_sample_*.png",      emit: plot
+    path "**/${mode}/*/all_sample_*.png",      emit: plot
     path  "versions.yml",                     emit: versions
 
     when:

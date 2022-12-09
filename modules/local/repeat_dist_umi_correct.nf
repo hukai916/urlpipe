@@ -11,16 +11,16 @@ process REPEAT_DIST_UMI_CORRECT {
     val outdir
 
     output:
-    path "*/cutoff_*/*/*",                        emit: cutoff // not if "*/cutoff_1", the resume is problematic
+    path "*/read_length_distribution/cutoff_*/*/*",                        emit: cutoff // not if "*/cutoff_1", the resume is problematic
     tuple val(meta), path("*/frac_*/mode/*.csv"), emit: frac_meta_mode
-    path "*/frac_*/mode/*.csv",                   emit: frac_mode
-    path "*/cutoff_*/mode/stat_mode*.csv",        emit: cutoff_mode_stat
+    path "*/frac_above_below/frac_*/mode/*.csv",                   emit: frac_mode
+    path "*/read_length_distribution/cutoff_*/mode/stat_mode*.csv",        emit: cutoff_mode_stat
 
     tuple val(meta), path("*/frac_*/ld/*.csv"),   emit: frac_meta_ld
-    path "*/frac_*/ld/*.csv",                     emit: frac_ld
-    path "*/cutoff_*/ld/stat_ld*.csv",            emit: cutoff_ld_stat
+    path "*/frac_above_below/frac_*/ld/*.csv",                     emit: frac_ld
+    path "*/read_length_distribution/cutoff_*/ld/stat_ld*.csv",            emit: cutoff_ld_stat
 
-    path "*/plot_read_length_std*/*",             emit: plot // STD and Violin plot of read length after UMI correction.
+    path "*/plot_along_cutoffs/plot_read_length_std*/*",             emit: plot // STD and Violin plot of read length after UMI correction.
     tuple val(meta), path("${outdir}/input/*.csv"),           emit: stat_raw_meta
     path "${outdir}/input/*.csv",                             emit: stat_raw
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100 // this won't work, may cause a weird issue, could be Nextflow's problem.
@@ -47,15 +47,15 @@ process REPEAT_DIST_UMI_CORRECT {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      mkdir -p ${outdir}/cutoff_\$i ${outdir}/frac_\$i
-      mkdir ${outdir}/cutoff_\$i/mode ${outdir}/cutoff_\$i/mean ${outdir}/cutoff_\$i/ld
-      mkdir ${outdir}/frac_\$i/mode ${outdir}/frac_\$i/mean ${outdir}/frac_\$i/ld
+      mkdir -p ${outdir}/read_length_distribution/cutoff_\$i ${outdir}/frac_above_below/frac_above_below/frac_\$i
+      mkdir ${outdir}/read_length_distribution/cutoff_\$i/mode ${outdir}/read_length_distribution/cutoff_\$i/mean ${outdir}/read_length_distribution/cutoff_\$i/ld
+      mkdir ${outdir}/frac_above_below/frac_\$i/mode ${outdir}/frac_above_below/frac_above_below/frac_\$i/mean ${outdir}/frac_above_below/frac_above_below/frac_\$i/ld
 
-      repeat_dist_umi_correct.py $csv $prefix ${outdir}/cutoff_\$i \$i $args
+      repeat_dist_umi_correct.py $csv $prefix ${outdir}/read_length_distribution/cutoff_\$i \$i $args
 
-      calculate_frac.py $prefix ${outdir}/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_\$i/mode \$i "$args_frac"
-      calculate_frac.py $prefix ${outdir}/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_\$i/mean \$i "$args_frac"
-      calculate_frac.py $prefix ${outdir}/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_\$i/ld \$i "$args_frac"
+      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/frac_\$i/mode \$i "$args_frac"
+      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/frac_\$i/mean \$i "$args_frac"
+      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/frac_\$i/ld \$i "$args_frac"
 
     done
 
@@ -64,20 +64,20 @@ process REPEAT_DIST_UMI_CORRECT {
     stat_mode_csv=""
     for i in "\${umi_cutoffs_array[@]}"
     do
-      stat_mode_csv+=" ${outdir}/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv"
+      stat_mode_csv+=" ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv"
     done
 
-    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_read_length_std_mode "$umi_cutoffs" $stat_raw \$stat_mode_csv
+    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_along_cutoffs/plot_read_length_std_mode "$umi_cutoffs" $stat_raw \$stat_mode_csv
 
     # for ld:
     mkdir -p ${outdir}/plot_read_length_std_ld
     stat_ld_csv=""
     for i in "\${umi_cutoffs_array[@]}"
     do
-      stat_ld_csv+=" ${outdir}/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv"
+      stat_ld_csv+=" ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv"
     done
 
-    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_read_length_std_ld "$umi_cutoffs" $stat_raw \$stat_ld_csv
+    plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_along_cutoffs/plot_read_length_std_ld "$umi_cutoffs" $stat_raw \$stat_ld_csv
 
 
     cat <<-END_VERSIONS > versions.yml
