@@ -517,6 +517,14 @@ workflow URLPIPE {
       "5d_merge_repeat_dist_umi_correct/plot_along_cutoffs/plot_frac_umi_cutoff_ld"
     )
 
+    // MODULE: INDEL_READS_UMI_CORRECT
+    // UMI correct INDEL reads with difference UMI cutoffs
+    INDEL_READS_UMI_CORRECT (
+      CLASSIFY_INDEL.out.reads_indel_5p,
+      CLASSIFY_INDEL.out.reads_indel_3p,
+      params.umi_cutoffs,
+      "5e_indel_reads_umi_correct"
+    )
 
     //
     // MODULE: repeat distribution R1 distance

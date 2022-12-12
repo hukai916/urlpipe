@@ -47,9 +47,9 @@ process REPEAT_DIST_UMI_CORRECT {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      mkdir -p ${outdir}/read_length_distribution/cutoff_\$i ${outdir}/frac_above_below/frac_above_below/frac_\$i
+      mkdir -p ${outdir}/read_length_distribution/cutoff_\$i ${outdir}/frac_above_below/frac_\$i
       mkdir ${outdir}/read_length_distribution/cutoff_\$i/mode ${outdir}/read_length_distribution/cutoff_\$i/mean ${outdir}/read_length_distribution/cutoff_\$i/ld
-      mkdir ${outdir}/frac_above_below/frac_\$i/mode ${outdir}/frac_above_below/frac_above_below/frac_\$i/mean ${outdir}/frac_above_below/frac_above_below/frac_\$i/ld
+      mkdir ${outdir}/frac_above_below/frac_\$i/mode ${outdir}/frac_above_below/frac_\$i/mean ${outdir}/frac_above_below/frac_\$i/ld
 
       repeat_dist_umi_correct.py $csv $prefix ${outdir}/read_length_distribution/cutoff_\$i \$i $args
 
