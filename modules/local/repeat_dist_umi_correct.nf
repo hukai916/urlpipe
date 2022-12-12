@@ -60,7 +60,7 @@ process REPEAT_DIST_UMI_CORRECT {
     done
 
     ## PLOT2: plot std of read lengths vs UMI cutoffs
-    mkdir -p ${outdir}/plot_read_length_std_mode
+    mkdir -p ${outdir}/plot_along_cutoffs/plot_read_length_std_mode
     stat_mode_csv=""
     for i in "\${umi_cutoffs_array[@]}"
     do
