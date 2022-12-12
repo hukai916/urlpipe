@@ -388,22 +388,22 @@ workflow URLPIPE {
     // CAT_STAT_CUTOFF is specifically designed for mode
     CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(), "mode", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
-    "5d_merge_repeat_dist_umi_correct" ) // subdir: frac_xxx
+    "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     CAT_STAT_CUTOFF_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_mode.collect(), "mode", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
-    "5d_merge_repeat_dist_umi_correct" ) // subdir: frac_xxx
+    "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     // For ld
     CAT_STAT_CUTOFF_2 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_ld.collect(),
     "ld", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
-    "5d_r1_repeat_dist_umi_correct" ) // subdir: frac_xxx
+    "5d_r1_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     CAT_STAT_CUTOFF_MERGE_2 ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_ld.collect(),
     "ld", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
-    "5d_merge_repeat_dist_umi_correct" ) // subdir: frac_xxx
+    "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
     PLOT_FRAC_4D_R1 (

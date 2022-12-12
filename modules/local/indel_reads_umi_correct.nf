@@ -1,7 +1,7 @@
 process INDEL_READS_UMI_CORRECT {
     label 'process_low'
 
-    container "hukai916/miniconda3_bio:0.3"
+    container "hukai916/miniconda3_bio:0.4"
 
     input:
     tuple val(meta_5p), path(reads_5p)
@@ -17,10 +17,13 @@ process INDEL_READS_UMI_CORRECT {
     task.ext.when == null || task.ext.when
 
     script:
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def prefix = task.ext.prefix ?: "${meta_5p}"
 
     """
-    mkdir -p ${outdir}
+    mkdir -p ${outdir}/5p_3p ${outdir}/cutoffs
+
+    # merge 5p and 3p:
+    zcat $reads_5p $reads_3p > ${outdir}/5p_3p/${prefix}.fastq.gz
 
     # get umi count table:
 
