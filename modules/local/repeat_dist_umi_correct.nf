@@ -12,7 +12,7 @@ process REPEAT_DIST_UMI_CORRECT {
 
     output:
     path "*/read_length_distribution/cutoff_*/*/*",                        emit: cutoff // not if "*/cutoff_1", the resume is problematic
-    tuple val(meta), path("*/frac_*/mode/*.csv"), emit: frac_meta_mode
+    tuple val(meta), path("*/frac_*/frac_*/mode/*.csv"), emit: frac_meta_mode
     path "*/frac_above_below/frac_*/mode/*.csv",                   emit: frac_mode
     path "*/read_length_distribution/cutoff_*/mode/stat_mode*.csv",        emit: cutoff_mode_stat
 
