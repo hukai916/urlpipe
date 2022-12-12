@@ -70,7 +70,7 @@ process REPEAT_DIST_UMI_CORRECT {
     plot_sd_read_length_umi_cutoff.py $prefix ${outdir}/plot_along_cutoffs/plot_read_length_std_mode "$umi_cutoffs" $stat_raw \$stat_mode_csv
 
     # for ld:
-    mkdir -p ${outdir}/plot_read_length_std_ld
+    mkdir -p ${outdir}/plot_along_cutoffs/plot_read_length_std_ld
     stat_ld_csv=""
     for i in "\${umi_cutoffs_array[@]}"
     do
