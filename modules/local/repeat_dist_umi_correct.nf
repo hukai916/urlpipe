@@ -16,7 +16,7 @@ process REPEAT_DIST_UMI_CORRECT {
     path "*/frac_above_below/frac_*/mode/*.csv",                   emit: frac_mode
     path "*/read_length_distribution/cutoff_*/mode/stat_mode*.csv",        emit: cutoff_mode_stat
 
-    tuple val(meta), path("*/frac_*/ld/*.csv"),   emit: frac_meta_ld
+    tuple val(meta), path("*/frac_*/frac_*/ld/*.csv"),   emit: frac_meta_ld
     path "*/frac_above_below/frac_*/ld/*.csv",                     emit: frac_ld
     path "*/read_length_distribution/cutoff_*/ld/stat_ld*.csv",            emit: cutoff_ld_stat
 
