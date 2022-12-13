@@ -41,7 +41,8 @@ process READ_UMI_CORRECT {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      cat ${outdir}/fastq/cutoff_\$i/*.csv > ${outdir}/fastq/cutoff_\$i/all_sample.csv
+      cat ${outdir}/fastq/cutoff_\$i/ld/*.csv > ${outdir}/fastq/cutoff_\$i/ld/all_sample.csv
+      cat ${outdir}/fastq/cutoff_\$i/mode/*.csv > ${outdir}/fastq/cutoff_\$i/mode/all_sample.csv
     done
 
     cat <<-END_VERSIONS > versions.yml
