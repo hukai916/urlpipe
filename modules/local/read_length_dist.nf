@@ -9,13 +9,8 @@ process READ_LENGTH_DIST {
     val outdir
 
     output:
-    path "*/stat_r1/*.stat.csv",   emit: stat_raw
-    path "*/stat_r2/*.stat.csv",   emit: stat_r2
-    path "*/plot_r1/*.png",        emit: plot_r1
-    path "*/plot_r2/*.png",        emit: plot_r2
-    tuple val(meta), path("*/count_r1/*.csv"),       emit: count_r1
-    tuple val(meta), path("*/count_r2/*.csv"),       emit: count_r2
-    path  "versions.yml",                                        emit: versions
+    path "*/fastq",   emit: fastq
+    path  "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -26,9 +21,23 @@ process READ_LENGTH_DIST {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p ${outdir}/stat_r1 ${outdir}/stat_r2 ${outdir}/plot_r1 ${outdir}/plot_r2 ${outdir}/count_r1 ${outdir}/count_r2
-
     read_length_dist.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz ${prefix} ${outdir} $args
+
+    # add cutoff_0:
+    mkdir -p ${outdir}/fastq/cutoff_0
+    cp ${prefix}_1.fastq.gz ${outdir}/fastq/cutoff_0/
+    cp ${prefix}_2.fastq.gz ${outdir}/fastq/cutoff_0/
+    l=\$(zcat ${prefix}_1.fastq.gz | awk 'NR%4 == 0 {print}' | wc -l)
+    echo ${prefix},\$l > ${outdir}/fastq/cutoff_0/${prefix}.csv
+
+    # cat stat:
+    umi_cutoffs_str="0,"
+    umi_cutoffs_str+="$umi_cutoffs"
+    umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
+    for i in "\${umi_cutoffs_array[@]}"
+    do
+      cat ${outdir}/fastq/cutoff_\$i/*.csv > ${outdir}/fastq/cutoff_\$i/all_sample.csv
+    done
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -13,6 +13,7 @@ process CLASSIFY_INDEL {
     tuple val(meta), path("3a_classify_indel/indel_3p/*.fastq.gz"),    emit: reads_indel_3p
     tuple val(meta), path("3a_classify_indel/indel_5p_and_3p/*.fastq.gz"), emit: reads_indel_5p_3p
     tuple val(meta), path("3a_classify_indel/indel_5p_or_3p/*.fastq.gz"), emit: reads_indel_5p_or_3p
+    path "3a_classify_indel/indel_5p_or_3p/*.fastq.gz", emit: reads_indel_5p_or_3p_pure
     path "3a_classify_indel/stat/*.csv",             emit: stat
     path  "versions.yml",                            emit: versions
 

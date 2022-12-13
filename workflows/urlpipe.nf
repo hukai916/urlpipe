@@ -539,13 +539,24 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_INDEL.out.versions)
 
     // MODULE: UMI correct
-    REPEAT_DIST_UMI_CORRECT_INDEL (
+    // // if UMI cutoff filter results to 0 counts, the following module hicups, need more debugging
+    // REPEAT_DIST_UMI_CORRECT_INDEL (
+    //   UMI_GROUP_STAT_INDEL.out.stat,
+    //   UMI_GROUP_STAT_INDEL.out.stat_raw,
+    //   params.umi_cutoffs,
+    //   "5d_indel_read_length_dist_umi_correct"
+    //   )
+    // ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_INDEL.out.versions)
+
+    // MODULE: INDEL UMI correct
+    READ_UMI_CORRECT (
       UMI_GROUP_STAT_INDEL.out.stat,
-      UMI_GROUP_STAT_INDEL.out.stat_raw,
+      CLASSIFY_INDEL.out.reads_indel_5p_or_3p_pure.collect(),
       params.umi_cutoffs,
-      "5d_indel_read_length_dist_umi_correct"
+      "5e_indel_read_umi_correct"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_INDEL.out.versions)
+
 
 
     // MODULE: INDEL_READS_UMI_CORRECT
