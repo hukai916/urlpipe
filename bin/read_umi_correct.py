@@ -30,7 +30,7 @@ read2       = sys.argv[4]
 outdir      = sys.argv[5]
 cutoffs     = sys.argv[6]
 
-encoding = guess_type(r1)[1]  # uses file extension
+encoding = guess_type(read1)[1]  # uses file extension
 _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
 
 umi_dict = {}
