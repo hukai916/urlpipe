@@ -41,7 +41,7 @@ with open(csv, "r") as f:
         count, mean, mode, ld = int(count), float(mean), int(mode), float(ld)
         umi_dict[umi] = [count, mean, mode, ld]
 
-def process_cutoff(sample_name, cutoff, umi_dict):
+def process_cutoff(sample_name, cutoff, umi_dict, read1, read2):
     outfile_fastq_r1_mode = os.path.join(outdir, "cutoff_" + str(cutoff), "mode", sample_name + "_1.fastq")
     outfile_fastq_r2_mode = os.path.join(outdir, "cutoff_" + str(cutoff), "mode", sample_name + "_2.fastq")
     outfile_count_mode = os.path.join(outdir, "cutoff_" + str(cutoff), "mode", sample_name + ".csv")
@@ -67,6 +67,9 @@ def process_cutoff(sample_name, cutoff, umi_dict):
     with _open(read2) as f:
         for record in SeqIO.parse(f, 'fastq'):
             umi = record.name.split("_")[-1]
+            print(umi)
+            print(umi_dict_work)
+            print(umi)
             if umi in umi_dict_work:
                 if umi_dict_work[umi][0] >= cutoff and umi_dict_work[umi][3] == len(str(record.seq)):
                     record_ld_r2.append(record)
