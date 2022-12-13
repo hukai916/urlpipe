@@ -67,9 +67,6 @@ def process_cutoff(sample_name, cutoff, umi_dict, read1, read2):
     with _open(read2) as f:
         for record in SeqIO.parse(f, 'fastq'):
             umi = record.name.split("_")[-1]
-            print(umi)
-            print(umi_dict_work)
-            print(umi)
             if umi in umi_dict_work:
                 if umi_dict_work[umi][0] >= cutoff and umi_dict_work[umi][3] == len(str(record.seq)):
                     record_ld_r2.append(record)
@@ -87,7 +84,7 @@ def process_cutoff(sample_name, cutoff, umi_dict, read1, read2):
             umi = record.name.split("_")[-1]
             if umi in umi_dict_work:
                 if umi_dict_work[umi][0] >= cutoff and umi_dict_work[umi][2] == len(str(record.seq)):
-                    record_ld_r1.append(record)
+                    record_mode_r1.append(record)
                     del umi_dict_work[umi]
     umi_dict_work = copy.deepcopy(umi_dict)
     with _open(read2) as f:
@@ -95,7 +92,7 @@ def process_cutoff(sample_name, cutoff, umi_dict, read1, read2):
             umi = record.name.split("_")[-1]
             if umi in umi_dict_work:
                 if umi_dict_work[umi][0] >= cutoff and umi_dict_work[umi][2] == len(str(record.seq)):
-                    record_ld_r2.append(record)
+                    record_mode_r2.append(record)
                     del umi_dict_work[umi]
     SeqIO.write(record_mode_r1, outfile_fastq_r1_mode, "fastq")
     SeqIO.write(record_mode_r2, outfile_fastq_r2_mode, "fastq")
