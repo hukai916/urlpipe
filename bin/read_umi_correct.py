@@ -103,4 +103,4 @@ def process_cutoff(sample_name, cutoff, umi_dict, read1, read2):
         f.write(sample_name + "," + str(len(record_mode_r1)))
 
 for cutoff in cutoffs.split(","):
-    process_cutoff(sample_name, int(cutoff), umi_dict)
+    process_cutoff(sample_name, int(cutoff), umi_dict, read1, read2)
