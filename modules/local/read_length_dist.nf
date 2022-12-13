@@ -28,7 +28,7 @@ process READ_LENGTH_DIST {
     """
     mkdir -p ${outdir}/stat_r1 ${outdir}/stat_r2 ${outdir}/plot_r1 ${outdir}/plot_r2 ${outdir}/count_r1 ${outdir}/count_r2
 
-    read_length_dist.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz ${prefix} ${outdir}
+    read_length_dist.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz ${prefix} ${outdir} $args
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

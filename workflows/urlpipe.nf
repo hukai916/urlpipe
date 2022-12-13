@@ -538,7 +538,6 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_INDEL.out.versions)
 
 
-
     // MODULE: INDEL_READS_UMI_CORRECT
     // UMI correct INDEL reads with difference UMI cutoffs
     // INDEL_READS_UMI_CORRECT (
