@@ -556,7 +556,7 @@ workflow URLPIPE {
       params.umi_cutoffs,
       "5e_indel_read_umi_correct"
       )
-    ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_INDEL.out.versions)
+    ch_versions = ch_versions.mix(READ_UMI_CORRECT.out.versions)
 
 
 
