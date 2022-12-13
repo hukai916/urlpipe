@@ -33,9 +33,6 @@ bin_number = sys.argv[5]
 encoding = guess_type(r1)[1]  # uses file extension
 _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
 
-r1_dna = Seq(r1_flanking)
-r2_dna = Seq(r2_flanking)
-
 dict_repeat = {"problem": 0, "plus": 0}
 dict_count  = {}
 
@@ -80,26 +77,13 @@ dict_count  = {}
 
 with _open(r2) as f:
     for record in SeqIO.parse(f, 'fastq'):
-        r2_search = regex.search("(" + r2_flanking + ")" + "{s<=" + str(mismatch) + "}", str(record.seq))
-        r1_search = regex.search("(" + r1_flanking_rc + ")" + "{s<=" + str(mismatch) + "}", str(record.seq))
-        if not r2_search:
-            dict_repeat["problem"] += 1 # should not happen
-            dict_count[record.name] = "problem"
-        elif not r1_search:
-            dict_repeat["plus"] += 1
-            dict_count[record.name] = "plus"
-        else:
-            r2_match_start = r2_search.start()
-            r2_match_length = len(r2_search.captures()[0])
-            r1_match_end = r1_search.end()
-            r1_match_length = len(r1_search.captures()[0])
-            repeat_length = r1_match_end - r2_match_start - r2_match_length - r1_match_length
-            dict_count[record.name] = repeat_length
+        repeat_length = len(str(record.seq))
+        dict_count[record.name] = repeat_length
 
-            if not repeat_length in dict_repeat:
-                dict_repeat[repeat_length] = 1
-            else:
-                dict_repeat[repeat_length] += 1
+        if not repeat_length in dict_repeat:
+            dict_repeat[repeat_length] = 1
+        else:
+            dict_repeat[repeat_length] += 1
 keys = [x for x in dict_repeat.keys() if not x == "problem" and not x == "plus"]
 
 # output stat:
