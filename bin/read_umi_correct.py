@@ -42,16 +42,16 @@ with open(csv, "r") as f:
         umi_dict[umi] = [count, mean, mode, ld]
 
 def process_cutoff(sample_name, cutoff, umi_dict):
-    outfile_fastq_r1_mode = os.path.join(outdir, cutoff, "mode", sample_name, "_1.fastq.gz")
-    outfile_fastq_r2_mode = os.path.join(outdir, cutoff, "mode", sample_name, "_2.fastq.gz")
-    outfile_count_mode = os.path.join(outdir, cutoff, "mode", sample_name, ".csv")
+    outfile_fastq_r1_mode = os.path.join(outdir, str(cutoff), "mode", sample_name, "_1.fastq.gz")
+    outfile_fastq_r2_mode = os.path.join(outdir, str(cutoff), "mode", sample_name, "_2.fastq.gz")
+    outfile_count_mode = os.path.join(outdir, str(cutoff), "mode", sample_name, ".csv")
 
-    outfile_fastq_r1_ld = os.path.join(outdir, cutoff, "ld", sample_name, "_1.fastq.gz")
-    outfile_fastq_r2_ld = os.path.join(outdir, cutoff, "ld", sample_name, "_2.fastq.gz")
-    outfile_count_ld = os.path.join(outdir, cutoff, "ld", sample_name, ".csv")
+    outfile_fastq_r1_ld = os.path.join(outdir, str(cutoff), "ld", sample_name, "_1.fastq.gz")
+    outfile_fastq_r2_ld = os.path.join(outdir, str(cutoff), "ld", sample_name, "_2.fastq.gz")
+    outfile_count_ld = os.path.join(outdir, str(cutoff), "ld", sample_name, ".csv")
 
-    os.makedirs(os.path.join(outdir, cutoff, "mode"), exist_ok = True)
-    os.makedirs(os.path.join(outdir, cutoff, "ld"), exist_ok = True)
+    os.makedirs(os.path.join(outdir, str(cutoff), "mode"), exist_ok = True)
+    os.makedirs(os.path.join(outdir, str(cutoff), "ld"), exist_ok = True)
 
     record_ld_r1 = []
     record_ld_r2 = []
