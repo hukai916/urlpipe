@@ -74,6 +74,7 @@ include { UMI_GROUP_STAT as UMI_GROUP_STAT_MERGE } from '../modules/local/umi_gr
 include { UMI_GROUP_STAT as UMI_GROUP_STAT_INDEL } from '../modules/local/umi_group_stat'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../modules/local/repeat_dist_umi_correct'
+include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_INDEL } from '../modules/local/repeat_dist_umi_correct'
 
 include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
@@ -536,6 +537,15 @@ workflow URLPIPE {
       "5c_indel_umi_group_stat"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_INDEL.out.versions)
+
+    // MODULE: UMI correct
+    REPEAT_DIST_UMI_CORRECT_INDEL (
+      UMI_GROUP_STAT_INDEL.out.stat,
+      UMI_GROUP_STAT_INDEL.out.stat_raw,
+      params.umi_cutoffs,
+      "5d_indel_read_length_dist_umi_correct"
+      )
+    ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_INDEL.out.versions)
 
 
     // MODULE: INDEL_READS_UMI_CORRECT
