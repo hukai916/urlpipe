@@ -66,15 +66,15 @@ def process_cutoff(sample_name, cutoff, umi_dict, read1, read2):
     umi_dict_work = copy.deepcopy(umi_dict)
     with _open(read2) as f:
         for record in SeqIO.parse(f, 'fastq'):
-            umi = record.name.split("_")[-1]
-            if umi == "GACTTAGGGA":
-                print(umi_dict_work[umi])
-                print(len(str(record.seq)))
-            if umi in umi_dict_work:
-                if umi_dict_work[umi][0] >= cutoff and umi_dict_work[umi][3] == len(str(record.seq)):
+            for x in record_ld_r1:
+                if record.name == x.name:
                     record_ld_r2.append(record)
-                    del umi_dict_work[umi]
-    print("test: ", record_ld_r2)
+                    break
+            # umi = record.name.split("_")[-1]
+            # if umi in umi_dict_work:
+            #     if umi_dict_work[umi][0] >= cutoff and umi_dict_work[umi][3] == len(str(record.seq)):
+            #         record_ld_r2.append(record)
+            #         del umi_dict_work[umi]
     SeqIO.write(record_ld_r1, outfile_fastq_r1_ld, "fastq")
     SeqIO.write(record_ld_r2, outfile_fastq_r2_ld, "fastq")
     with open(outfile_count_ld, "w") as f:
@@ -93,11 +93,15 @@ def process_cutoff(sample_name, cutoff, umi_dict, read1, read2):
     umi_dict_work = copy.deepcopy(umi_dict)
     with _open(read2) as f:
         for record in SeqIO.parse(f, 'fastq'):
-            umi = record.name.split("_")[-1]
-            if umi in umi_dict_work:
-                if umi_dict_work[umi][0] >= cutoff and umi_dict_work[umi][2] == len(str(record.seq)):
+            for x in record_mode_r1:
+                if record.name == x.name:
                     record_mode_r2.append(record)
-                    del umi_dict_work[umi]
+                    break
+            # umi = record.name.split("_")[-1]
+            # if umi in umi_dict_work:
+            #     if umi_dict_work[umi][0] >= cutoff and umi_dict_work[umi][2] == len(str(record.seq)):
+            #         record_mode_r2.append(record)
+            #         del umi_dict_work[umi]
     SeqIO.write(record_mode_r1, outfile_fastq_r1_mode, "fastq")
     SeqIO.write(record_mode_r2, outfile_fastq_r2_mode, "fastq")
     with open(outfile_count_mode, "w") as f:
