@@ -69,6 +69,7 @@ include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_MERGE } f
 
 include { UMI_GROUP_STAT as UMI_GROUP_STAT_R1 } from '../modules/local/umi_group_stat'
 include { UMI_GROUP_STAT as UMI_GROUP_STAT_MERGE } from '../modules/local/umi_group_stat'
+include { UMI_GROUP_STAT as UMI_GROUP_STAT_INDEL } from '../modules/local/umi_group_stat'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../modules/local/repeat_dist_umi_correct'
 
@@ -517,6 +518,25 @@ workflow URLPIPE {
       "5d_merge_repeat_dist_umi_correct/plot_along_cutoffs/plot_frac_umi_cutoff_ld"
     )
 
+ // // For INDEL reads:
+
+    // MODULE: INDEL reads distribution:
+    READ_LENGTH_DIST (
+      CLASSIFY_INDEL.out.reads_indel_5p_or_3p,
+      "4d_indel_read_length_distribution"
+    )
+    ch_versions = ch_versions.mix(READ_LENGTH_DIST.out.versions)
+
+    // MODULE: INDEL reads UMI stat
+    UMI_GROUP_STAT_INDEL (
+      READ_LENGTH_DIST.out.count_r1,
+      READ_LENGTH_DIST.out.stat_raw, // stat_raw store the raw stat before UMI correction
+      "5c_indel_umi_group_stat"
+      )
+    ch_versions = ch_versions.mix(UMI_GROUP_STAT_INDEL.out.versions)
+
+    
+
     // MODULE: INDEL_READS_UMI_CORRECT
     // UMI correct INDEL reads with difference UMI cutoffs
     // INDEL_READS_UMI_CORRECT (
@@ -526,11 +546,6 @@ workflow URLPIPE {
     //   "5e_indel_reads_umi_correct"
     // )
 
-    // READ_LENGTH_DIST (
-    //   CLASSIFY_INDEL.out.reads_indel_5p_or_3p,
-    //   "4d_indel_read_length_distribution"
-    // )
-    // ch_versions = ch_versions.mix(READ_LENGTH_DIST.out.versions)
 
     //   REPEAT_DIST_DISTANCE (
     //     CLASSIFY_READTHROUGH.out.reads_through,
