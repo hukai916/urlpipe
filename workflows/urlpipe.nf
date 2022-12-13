@@ -64,6 +64,8 @@ include { BBMERGE                     } from '../modules/local/bbmerge'
 include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
 include { REPEAT_DIST_DISTANCE        } from '../modules/local/repeat_dist_distance'
 include { REPEAT_DIST_DISTANCE_MERGED } from '../modules/local/repeat_dist_distance_merged'
+include { READ_LENGTH_DIST            } from '../modules/local/read_length_dist'
+
 include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_R1 } from '../modules/local/repeat_dist_within_umi_group'
 include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_MERGE } from '../modules/local/repeat_dist_within_umi_group'
 
@@ -535,7 +537,7 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_INDEL.out.versions)
 
-    
+
 
     // MODULE: INDEL_READS_UMI_CORRECT
     // UMI correct INDEL reads with difference UMI cutoffs
