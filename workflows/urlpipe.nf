@@ -526,6 +526,24 @@ workflow URLPIPE {
     //   "5e_indel_reads_umi_correct"
     // )
 
+    // READ_LENGTH_DIST (
+    //   CLASSIFY_INDEL.out.reads_indel_5p,
+    // )
+    //
+    //   REPEAT_DIST_DISTANCE (
+    //     CLASSIFY_READTHROUGH.out.reads_through,
+    //     "4d_repeat_distribution_distance"
+    //     )
+    //   ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE.out.versions)
+    //
+
+    // UMI_GROUP_STAT_INDEL (
+    //   REPEAT_DIST_DISTANCE_MERGED.out.count,
+    //   REPEAT_DIST_DISTANCE_MERGED.out.stat_raw,
+    //   "5c_merge_umi_group_stat"
+    //   )
+    // ch_versions = ch_versions.mix(UMI_GROUP_STAT_MERGE.out.versions)
+    //
     //
     // MODULE: repeat distribution R1 distance
     //
