@@ -36,14 +36,14 @@ process READ_UMI_CORRECT {
     echo ${prefix},\$l > ${outdir}/fastq/cutoff_0/${prefix}.csv
 
     # cat stat:
-    umi_cutoffs_str="0,"
-    umi_cutoffs_str+="$umi_cutoffs"
+    umi_cutoffs_str="$umi_cutoffs"
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
       cat ${outdir}/fastq/cutoff_\$i/ld/*.csv > ${outdir}/fastq/cutoff_\$i/ld/all_sample.csv
       cat ${outdir}/fastq/cutoff_\$i/mode/*.csv > ${outdir}/fastq/cutoff_\$i/mode/all_sample.csv
     done
+    cat ${outdir}/fastq/cutoff_0/*.csv > ${outdir}/fastq/cutoff_0/all_sample.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

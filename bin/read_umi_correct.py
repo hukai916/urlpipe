@@ -74,7 +74,7 @@ def process_cutoff(sample_name, cutoff, umi_dict):
     SeqIO.write(record_ld_r1, outfile_fastq_r1_ld, "fastq")
     SeqIO.write(record_ld_r2, outfile_fastq_r2_ld, "fastq")
     with open(outfile_count_ld, "w") as f:
-        f.write(sample_name + "," + str(len(outfile_fastq_r1_ld)))
+        f.write(sample_name + "," + str(len(record_ld_r1)))
 
     record_mode_r1 = []
     record_mode_r2 = []
@@ -97,7 +97,7 @@ def process_cutoff(sample_name, cutoff, umi_dict):
     SeqIO.write(record_mode_r1, outfile_fastq_r1_mode, "fastq")
     SeqIO.write(record_mode_r2, outfile_fastq_r2_mode, "fastq")
     with open(outfile_count_mode, "w") as f:
-        f.write(sample_name + "," + str(len(outfile_fastq_r1_mode)))
+        f.write(sample_name + "," + str(len(record_mode_r1)))
 
 for cutoff in cutoffs.split(","):
     process_cutoff(sample_name, int(cutoff), umi_dict)
