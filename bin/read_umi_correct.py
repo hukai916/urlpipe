@@ -70,11 +70,11 @@ def process_cutoff(sample_name, cutoff, umi_dict, read1, read2):
             if umi == "GACTTAGGGA":
                 print(umi_dict_work[umi])
                 print(len(str(record.seq)))
-                exit()
             if umi in umi_dict_work:
                 if umi_dict_work[umi][0] >= cutoff and umi_dict_work[umi][3] == len(str(record.seq)):
                     record_ld_r2.append(record)
                     del umi_dict_work[umi]
+    print(record_ld_r2)
     SeqIO.write(record_ld_r1, outfile_fastq_r1_ld, "fastq")
     SeqIO.write(record_ld_r2, outfile_fastq_r2_ld, "fastq")
     with open(outfile_count_ld, "w") as f:
