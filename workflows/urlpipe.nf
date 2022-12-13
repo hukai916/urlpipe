@@ -75,6 +75,7 @@ include { UMI_GROUP_STAT as UMI_GROUP_STAT_INDEL } from '../modules/local/umi_gr
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../modules/local/repeat_dist_umi_correct'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_INDEL } from '../modules/local/repeat_dist_umi_correct'
+include { READ_UMI_CORRECT } from '../modules/local/read_umi_correct'
 
 include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
 include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
