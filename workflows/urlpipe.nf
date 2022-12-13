@@ -527,9 +527,11 @@ workflow URLPIPE {
     // )
 
     // READ_LENGTH_DIST (
-    //   CLASSIFY_INDEL.out.reads_indel_5p,
+    //   CLASSIFY_INDEL.out.reads_indel_5p_or_3p,
+    //   "4d_indel_read_length_distribution"
     // )
-    //
+    // ch_versions = ch_versions.mix(READ_LENGTH_DIST.out.versions)
+
     //   REPEAT_DIST_DISTANCE (
     //     CLASSIFY_READTHROUGH.out.reads_through,
     //     "4d_repeat_distribution_distance"

@@ -26,12 +26,13 @@ process CLASSIFY_INDEL {
     """
     mkdir -p 3a_classify_indel/no_indel 3a_classify_indel/indel_5p 3a_classify_indel/indel_3p 3a_classify_indel/indel_5p_3p 3a_classify_indel/stat
 
-    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 3a_classify_indel/no_indel 3a_classify_indel/indel_5p 3a_classify_indel/indel_3p 3a_classify_indel/indel_5p_3p 3a_classify_indel/stat ${prefix} $args
+    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 3a_classify_indel/no_indel 3a_classify_indel/indel_5p 3a_classify_indel/indel_3p 3a_classify_indel/indel_5p_and_3p 3a_classify_indel/indel_5p_or_3p 3a_classify_indel/stat ${prefix} $args
 
     gzip 3a_classify_indel/no_indel/*
     gzip 3a_classify_indel/indel_5p/*
     gzip 3a_classify_indel/indel_3p/*
-    gzip 3a_classify_indel/indel_5p_3p/*
+    gzip 3a_classify_indel/indel_5p_and_3p/*
+    gzip 3a_classify_indel/indel_5p_or_3p/*
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
