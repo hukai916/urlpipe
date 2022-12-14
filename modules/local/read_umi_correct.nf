@@ -33,14 +33,18 @@ process READ_UMI_CORRECT {
     echo ${prefix},\$l > ${outdir}/fastq/cutoff_0/${prefix}.csv
 
     # mv count.csv to count folder
-    umi_cutoffs="0,"
-    umi_cutoffs_str+="$umi_cutoffs"
+    umi_cutoffs_str="$umi_cutoffs"
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      mkdir -p ${outdir}/count/cutoff_\$i
-      mv ${outdir}/fastq/cutoff_\$i/*.csv ${outdir}/count/cutoff_\$i/
+      mkdir -p ${outdir}/count/cutoff_\$i/mode ${outdir}/count/cutoff_\$i/ld
+      mv ${outdir}/fastq/cutoff_\$i/mode/*.csv ${outdir}/count/cutoff_\$i/mode/
+      mv ${outdir}/fastq/cutoff_\$i/ld/*.csv ${outdir}/count/cutoff_\$i/ld/
     done
+    mkdir -p ${outdir}/count/cutoff_0
+    mv ${outdir}/count/cutoff_0/*.csv ${outdir}/fastq/cutoff_0/
+
+
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
