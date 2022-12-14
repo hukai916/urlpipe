@@ -567,15 +567,15 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(READ_UMI_CORRECT.out.versions)
 
-    CAT_STAT_CUTOFF_INDEL ( READ_UMI_CORRECT.out.count_ld.collect(), "ld", "sample_name,read_count",
-    "0," + params.umi_cutoffs,
-    "all_sample_indel",
-    "5e_indel_read_umi_correct/count" )
-
-    CAT_STAT_CUTOFF_INDEL_2 ( READ_UMI_CORRECT.out.count_mode.collect(), "mode", "sample_name,read_count",
-    "0," + params.umi_cutoffs,
-    "all_sample_indel",
-    "5e_indel_read_umi_correct/count" )
+    // CAT_STAT_CUTOFF_INDEL ( READ_UMI_CORRECT.out.count_ld.collect(), "ld", "sample_name,read_count",
+    // "0," + params.umi_cutoffs,
+    // "all_sample_indel",
+    // "5e_indel_read_umi_correct/count" )
+    //
+    // CAT_STAT_CUTOFF_INDEL_2 ( READ_UMI_CORRECT.out.count_mode.collect(), "mode", "sample_name,read_count",
+    // "0," + params.umi_cutoffs,
+    // "all_sample_indel",
+    // "5e_indel_read_umi_correct/count" )
 
     // MODULE: INDEL_READS_UMI_CORRECT
     // UMI correct INDEL reads with difference UMI cutoffs
