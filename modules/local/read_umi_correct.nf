@@ -11,8 +11,10 @@ process READ_UMI_CORRECT {
     val outdir
 
     output:
-    path "*/fastq/cutoff_*/*",   emit: fastq
-    path "*/count/cutoff_*/*",   emit: count
+
+    path "*/fastq/**/*.fastq.gz",     emit: fastq
+    path "*/count/*/ld/*.csv",        emit: count_ld
+    path "*/count/*/mode/*.csv",      emit: count_mode
     path "versions.yml",         emit: versions
 
     when:
@@ -41,10 +43,10 @@ process READ_UMI_CORRECT {
       mv ${outdir}/fastq/cutoff_\$i/mode/*.csv ${outdir}/count/cutoff_\$i/mode/
       mv ${outdir}/fastq/cutoff_\$i/ld/*.csv ${outdir}/count/cutoff_\$i/ld/
     done
-    mkdir -p ${outdir}/count/cutoff_0
-    mv ${outdir}/fastq/cutoff_0/*.csv ${outdir}/count/cutoff_0/
-
-
+    # for easy cat_stat_umi:
+    mkdir -p ${outdir}/count/cutoff_0/ld ${outdir}/count/cutoff_0/mode
+    copy ${outdir}/fastq/cutoff_0/*.csv ${outdir}/count/cutoff_0/ld/
+    mv ${outdir}/fastq/cutoff_0/*.csv ${outdir}/count/cutoff_0/mode/
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

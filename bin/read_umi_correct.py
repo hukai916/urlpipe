@@ -44,11 +44,11 @@ with open(csv, "r") as f:
 def process_cutoff(sample_name, cutoff, umi_dict, read1, read2):
     outfile_fastq_r1_mode = os.path.join(outdir, "cutoff_" + str(cutoff), "mode", sample_name + "_1.fastq")
     outfile_fastq_r2_mode = os.path.join(outdir, "cutoff_" + str(cutoff), "mode", sample_name + "_2.fastq")
-    outfile_count_mode = os.path.join(outdir, "cutoff_" + str(cutoff), "mode", sample_name + ".csv")
+    outfile_count_mode = os.path.join(outdir, "cutoff_" + str(cutoff), "mode", sample_name + "_cutoff_" + str(cutoff) + ".csv")
 
     outfile_fastq_r1_ld = os.path.join(outdir, "cutoff_" + str(cutoff), "ld", sample_name + "_1.fastq")
     outfile_fastq_r2_ld = os.path.join(outdir, "cutoff_" + str(cutoff), "ld", sample_name + "_2.fastq")
-    outfile_count_ld = os.path.join(outdir, "cutoff_" + str(cutoff), "ld", sample_name + ".csv")
+    outfile_count_ld = os.path.join(outdir, "cutoff_" + str(cutoff), "ld", sample_name + "_cutoff_" + str(cutoff) + ".csv")
 
     os.makedirs(os.path.join(outdir, "cutoff_" + str(cutoff), "mode"), exist_ok = True)
     os.makedirs(os.path.join(outdir, "cutoff_" + str(cutoff), "ld"), exist_ok = True)

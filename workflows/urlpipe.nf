@@ -56,6 +56,8 @@ include { CAT_STAT_CUTOFF             }   from '../modules/local/cat_stat_cutoff
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_2      }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE_2}   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL      }   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2}   from '../modules/local/cat_stat_cutoff'
 
 include { UMI_PATTERN; UMI_PATTERN as UMI_PATTERN2 } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
@@ -558,7 +560,13 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(READ_UMI_CORRECT.out.versions)
 
+    CAT_STAT_CUTOFF_INDEL ( READ_UMI_CORRECT.out.count_ld.collect(), "ld", "sample_name,read_count",
+    params.umi_cutoffs,
+    "5e_indel_read_umi_correct/count" )
 
+    CAT_STAT_CUTOFF_INDEL_2 ( READ_UMI_CORRECT.out.count_mode.collect(), "mode", "sample_name,read_count",
+    params.umi_cutoffs,
+    "5e_indel_read_umi_correct/count" )
 
     // MODULE: INDEL_READS_UMI_CORRECT
     // UMI correct INDEL reads with difference UMI cutoffs
