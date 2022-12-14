@@ -23,26 +23,28 @@ repeat_length_mean = {}
 repeat_length_mode = {}
 repeat_length_ld   = {} # least distance approach
 
-with open(csv, "r") as f:
-    for line in f:
-        umi, count, mean, mode, ld = line.split(",")
-        count, mean, mode, ld = int(count), float(mean), int(mode), float(ld)
-        if count >= cutoff:
-            if not mean in repeat_length_mean:
-                repeat_length_mean[mean] = 1
-            else:
-                repeat_length_mean[mean] += 1
+if os.path.getsize(csv) > 0:
+    with open(csv, "r") as f:
+        for line in f:
+            umi, count, mean, mode, ld = line.split(",")
+            count, mean, mode, ld = int(count), float(mean), int(mode), float(ld)
+            if count >= cutoff:
+                if not mean in repeat_length_mean:
+                    repeat_length_mean[mean] = 1
+                else:
+                    repeat_length_mean[mean] += 1
 
-            if not mode in repeat_length_mode:
-                repeat_length_mode[mode] = 1
-            else:
-                repeat_length_mode[mode] += 1
+                if not mode in repeat_length_mode:
+                    repeat_length_mode[mode] = 1
+                else:
+                    repeat_length_mode[mode] += 1
 
-            if not ld in repeat_length_ld:
-                repeat_length_ld[ld] = 1
-            else:
-                repeat_length_ld[ld] += 1
-
+                if not ld in repeat_length_ld:
+                    repeat_length_ld[ld] = 1
+                else:
+                    repeat_length_ld[ld] += 1
+else:
+    pass
 # output to stat:
 outfile_mean = os.path.join(outdir, "mean", "stat_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".csv")
 with open(outfile_mean, "w") as f:
