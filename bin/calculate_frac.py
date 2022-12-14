@@ -39,7 +39,7 @@ if os.path.getsize(csv) > 0:
                 count_all += int(c)
                 count_above += int(c)
 else:
-    count_below, below_frac, below_mean, below_std = "nan", "nan", "nan", "nan"
+    below_count, below_frac, below_mean, below_std = "nan", "nan", "nan", "nan"
     above_below, above_frac, above_mean, above_std = "nan", "nan", "nan", "nan"
 
 outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + umi_cutoff + ".csv")
