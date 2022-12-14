@@ -95,6 +95,8 @@ include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1    } from '../modules/
 include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE } from '../modules/local/plot_frac_umi_cutoff'
 include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1_2  } from '../modules/local/plot_frac_umi_cutoff'
 include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE_2 } from '../modules/local/plot_frac_umi_cutoff'
+include { COUNT_SUMMARY as COUNT_SUMMARY_LD                  } from '../modules/local/count_summary'
+include { COUNT_SUMMARY as COUNT_SUMMARY_MODE                } from '../modules/local/count_summary'
 
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
@@ -584,6 +586,17 @@ workflow URLPIPE {
     "0," + params.umi_cutoffs,
     "all_sample_indel",
     "5e_indel_read_umi_correct/count" )
+
+
+    // MODULE COUNT_SUMMARY: for ld
+    COUNT_SUMMARY_LD (
+      CAT_STAT5.out.stat,
+      CAT_STAT_CUTOFF_2.out.stat,
+      CAT_STAT_CUTOFF_INDEL.out.stat,
+      "0," + params.umi_cutoffs,
+      "ld",
+      "6a_count_summary"
+    )
 
     // MODULE: INDEL_READS_UMI_CORRECT
     // UMI correct INDEL reads with difference UMI cutoffs
