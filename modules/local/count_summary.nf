@@ -27,7 +27,6 @@ process COUNT_SUMMARY {
     for i in "\${umi_cutoffs_array[@]}"
     do
       mkdir -p ${outdir}/cutoff_\$i/${mode}
-      #(echo -e "$header" && cat *cutoff_\$i.csv | sort -n) > ${outdir}/cutoff_\$i/${mode}/${output_prefix}_cutoff_\$i.csv
     done
 
     cat <<-END_VERSIONS > versions.yml
