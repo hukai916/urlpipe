@@ -20,5 +20,5 @@ df = df_frac.join(df_indel, lsuffix='sample_name', rsuffix='sample_name')
 df = df.loc[:,~df.columns.duplicated()]
 df = df.rename(columns={"sample_namesample_name": "sample_name", "read_count": "indel_count"})
 
-df_res = df[["sample_name", "indel_count", "blew_count", "between_count", "above_count"]]
+df_res = df[["sample_name", "indel_count", "below_count", "between_count", "above_count"]]
 df_res.to_csv(outfile, index = False)
