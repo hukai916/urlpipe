@@ -32,8 +32,9 @@ width = 0.35
 label = ["Cutoff_" + x for x in umis]
 label = ["No_correction"] + label
 
-ax1.bar(label, res.iloc[:, 0], width)
-ax1.set_ylabel("Percentage")
+# ax1.bar(label, res.iloc[:, 0], width)
+ax1.scatter(label, res.iloc[:, 0] * 100)
+ax1.set_ylabel("Percentage (%)")
 ax1.set_title("Below cutoff: " + cutoff_below + " fraction")
 ax1.set_xticklabels(label, rotation = 25, fontsize = 8)
 
