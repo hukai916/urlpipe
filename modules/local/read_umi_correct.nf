@@ -12,7 +12,8 @@ process READ_UMI_CORRECT {
 
     output:
     path "*/fastq/cutoff_*/*",   emit: fastq
-    path  "versions.yml",        emit: versions
+    path "*/count/cutoff_*/*",   emit: count
+    path "versions.yml",         emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -31,13 +32,14 @@ process READ_UMI_CORRECT {
     l=\$(zcat ${prefix}_1.fastq.gz | awk 'NR%4 == 0 {print}' | wc -l)
     echo ${prefix},\$l > ${outdir}/fastq/cutoff_0/${prefix}.csv
 
-    # cat stat:
-    umi_cutoffs_str="$umi_cutoffs"
+    # mv count.csv to count folder
+    umi_cutoffs="0,"
+    umi_cutoffs_str+="$umi_cutoffs"
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      cat ${outdir}/fastq/cutoff_\$i/ld/*.csv > ${outdir}/fastq/cutoff_\$i/ld/all_sample.csv
-      cat ${outdir}/fastq/cutoff_\$i/mode/*.csv > ${outdir}/fastq/cutoff_\$i/mode/all_sample.csv
+      mkdir -p ${outdir}/count/cutoff_\$i
+      mv ${outdir}/fastq/cutoff_\$i/*.csv ${outdir}/count/cutoff_\$i/
     done
 
     cat <<-END_VERSIONS > versions.yml
