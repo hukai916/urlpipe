@@ -34,6 +34,7 @@ for file in input_files:
         ls_tem = [int(x) for x in data_tem]
         raw_list.append(ls_tem)
         sd_list.append(np.std(ls_tem))
+        print(file)
         _tem.append(file.split(".csv")[0].split("_")[-1])
         # file: 5d_merge_repeat_dist_umi_correct/read_length_distribution/cutoff_100/mode/stat_mode_9_cutoff_100.csv
 
