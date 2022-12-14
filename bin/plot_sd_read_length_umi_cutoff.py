@@ -35,7 +35,8 @@ for file in input_files:
         raw_list.append(ls_tem)
         sd_list.append(np.std(ls_tem))
         if file.endswith("stat.csv"):
-            _tem.append("Cutoff_0")
+            # _tem.append("Cutoff_0")
+            pass
         else:
             _cutoff = file.split(".csv")[0].split("_")[-1]
             _tem.append("Cutoff_" + _cutoff)
