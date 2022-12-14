@@ -43,15 +43,17 @@ else:
     above_below, above_frac, above_mean, above_std = "nan", "nan", "nan", "nan"
 
 outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + umi_cutoff + ".csv")
+
 with open(outfile, "w") as f:
-    below_count = str(count_below)
-    below_frac  = str(count_below/count_all)
-    below_mean  = str(np.mean(below_list))
-    below_std   = str(np.std(below_list))
-    above_count = str(count_above)
-    above_frac  = str(count_above/count_all)
-    above_mean  = str(np.mean(above_list))
-    above_std   = str(np.std(above_list))
+    if os.path.getsize(csv) > 0:
+        below_count = str(count_below)
+        below_frac  = str(count_below/count_all)
+        below_mean  = str(np.mean(below_list))
+        below_std   = str(np.std(below_list))
+        above_count = str(count_above)
+        above_frac  = str(count_above/count_all)
+        above_mean  = str(np.mean(above_list))
+        above_std   = str(np.std(above_list))
 
     res_list = [sample_name, below_count, below_frac, below_mean, below_std, above_count, above_frac, above_mean, above_std]
     res = ",".join(res_list) + "\n"
