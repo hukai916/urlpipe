@@ -61,6 +61,7 @@ with open(outfile_ld, "w") as f:
 
 # output to plot:
 outplot_mean = os.path.join(outdir, "mean", "plot_mean_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
+print(outfile_mean)
 plot_repeat_dist(outfile_mean, outplot_mean, sample_name, N, bin_number)
 
 outplot_mode = os.path.join(outdir, "mode", "plot_mode_" + sample_name + "_cutoff_" + str(cutoff) + ".png")
