@@ -20,7 +20,7 @@ cutoff = sys.argv[5] # below/above cutoff
 count_below, count_between, count_above, count_all = 0, 0, 0, 0
 cutoff_below, cutoff_above = cutoff.strip().split()
 cutoff_below, cutoff_above = int(cutoff_below), int(cutoff_above)
-below_list, between_list, above_list = [], []. []
+below_list, between_list, above_list = [], [], []
 
 if os.path.getsize(csv) > 0:
     with open(csv, "r") as f:
