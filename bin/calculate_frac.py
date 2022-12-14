@@ -22,21 +22,25 @@ cutoff_below, cutoff_above = cutoff.strip().split()
 cutoff_below, cutoff_above = int(cutoff_below), int(cutoff_above)
 below_list, above_list = [], []
 
-with open(csv, "r") as f:
-    for line in f:
-        length, c = line.strip().split(",")
-        if not length in ["plus", "problem"]:
-            length, c = int(float(length)), int(float(c))
-            count_all = count_all + c
-            if length < cutoff_below:
-                count_below += c
-                below_list = below_list + [length] * c
-            if length > cutoff_above:
-                count_above += c
-                above_list = above_list + [length] * c
-        elif length == "plus":
-            count_all += int(c)
-            count_above += int(c)
+if os.path.getsize(csv) > 0:
+    with open(csv, "r") as f:
+        for line in f:
+            length, c = line.strip().split(",")
+            if not length in ["plus", "problem"]:
+                length, c = int(float(length)), int(float(c))
+                count_all = count_all + c
+                if length < cutoff_below:
+                    count_below += c
+                    below_list = below_list + [length] * c
+                if length > cutoff_above:
+                    count_above += c
+                    above_list = above_list + [length] * c
+            elif length == "plus":
+                count_all += int(c)
+                count_above += int(c)
+else:
+    count_below, below_frac, below_mean, below_std = "nan", "nan", "nan", "nan"
+    above_below, above_frac, above_mean, above_std = "nan", "nan", "nan", "nan"
 
 outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + umi_cutoff + ".csv")
 with open(outfile, "w") as f:
