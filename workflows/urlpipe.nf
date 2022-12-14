@@ -410,7 +410,7 @@ workflow URLPIPE {
     CAT_STAT_CUTOFF_2 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_ld.collect(),
     "ld", "sample_name,blew_count,blew_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
-    "all_sample_frac"
+    "all_sample_frac",
     "5d_r1_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     CAT_STAT_CUTOFF_MERGE_2 ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_ld.collect(),
@@ -567,15 +567,15 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(READ_UMI_CORRECT.out.versions)
 
-    // CAT_STAT_CUTOFF_INDEL ( READ_UMI_CORRECT.out.count_ld.collect(), "ld", "sample_name,read_count",
-    // "0," + params.umi_cutoffs,
-    // "all_sample_indel",
-    // "5e_indel_read_umi_correct/count" )
-    //
-    // CAT_STAT_CUTOFF_INDEL_2 ( READ_UMI_CORRECT.out.count_mode.collect(), "mode", "sample_name,read_count",
-    // "0," + params.umi_cutoffs,
-    // "all_sample_indel",
-    // "5e_indel_read_umi_correct/count" )
+    CAT_STAT_CUTOFF_INDEL ( READ_UMI_CORRECT.out.count_ld.collect(), "ld", "sample_name,read_count",
+    "0," + params.umi_cutoffs,
+    "all_sample_indel",
+    "5e_indel_read_umi_correct/count" )
+
+    CAT_STAT_CUTOFF_INDEL_2 ( READ_UMI_CORRECT.out.count_mode.collect(), "mode", "sample_name,read_count",
+    "0," + params.umi_cutoffs,
+    "all_sample_indel",
+    "5e_indel_read_umi_correct/count" )
 
     // MODULE: INDEL_READS_UMI_CORRECT
     // UMI correct INDEL reads with difference UMI cutoffs
