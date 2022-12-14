@@ -23,19 +23,23 @@ output_sd_plot = os.path.join(outdir, sample_name + "_std.png")
 input_files = [cutoff_0] + cutoffs_file
 sd_list = []
 raw_list = []
+_tem = []
 
 for file in input_files:
-    print(file, input_files)
-    tem = pd.read_csv(file, header = None)
-    tem = tem[tem.iloc[:,0] != "problem"]
-    tem = tem[tem.iloc[:, 0] != "plus"]
-    data_tem = np.repeat(tem.iloc[:, 0], tem.iloc[:, 1])
-    ls_tem = [int(x) for x in data_tem]
-    raw_list.append(ls_tem)
-    sd_list.append(np.std(ls_tem))
+    if os.path.getsize(file) > 0:
+        tem = pd.read_csv(file, header = None)
+        tem = tem[tem.iloc[:,0] != "problem"]
+        tem = tem[tem.iloc[:, 0] != "plus"]
+        data_tem = np.repeat(tem.iloc[:, 0], tem.iloc[:, 1])
+        ls_tem = [int(x) for x in data_tem]
+        raw_list.append(ls_tem)
+        sd_list.append(np.std(ls_tem))
+        _tem.append(file.split(".csv")[0].split("_")[-1])
+        # file: 5d_merge_repeat_dist_umi_correct/read_length_distribution/cutoff_100/mode/stat_mode_9_cutoff_100.csv
+
 
 # X = ["No_correction", "Cutoff_1", "Cutoff_3", "Cutoff_10", "Cutoff_30", "Cutoff_100"]
-_tem = ["Cutoff_" + x.strip() for x in cutoffs_str.split(",")]
+# _tem = ["Cutoff_" + x.strip() for x in cutoffs_str.split(",")]
 X = ["No_correction"] + _tem
 Y = [round(x, 2) for x in sd_list]
 
