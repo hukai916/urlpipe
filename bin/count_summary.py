@@ -22,4 +22,3 @@ df = df.rename(columns={"sample_namesample_name": "sample_name", "read_count": "
 
 df_res = df[["sample_name", "indel_count", "blew_count", "between_count", "above_count"]]
 df_res.to_csv(outfile, index = False)
-​
