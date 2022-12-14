@@ -45,8 +45,8 @@ process READ_UMI_CORRECT {
     done
     # for easy cat_stat_umi:
     mkdir -p ${outdir}/count/cutoff_0/ld ${outdir}/count/cutoff_0/mode
-    cp ${outdir}/fastq/cutoff_0/*.csv ${outdir}/count/cutoff_0/ld/
-    mv ${outdir}/fastq/cutoff_0/*.csv ${outdir}/count/cutoff_0/mode/
+    cp ${outdir}/fastq/cutoff_0/*.csv ${outdir}/count/cutoff_0/ld/${prefix}_cutoff_0.csv
+    mv ${outdir}/fastq/cutoff_0/*.csv ${outdir}/count/cutoff_0/mode/${prefix}_cutoff_0.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

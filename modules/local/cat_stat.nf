@@ -6,10 +6,11 @@ process CAT_STAT {
     input:
     path stat
     val outdir
+    val output_prefix
     val header
 
     output:
-    path "**/all_sample.csv", emit: stat
+    path "*/*/*.csv",         emit: stat
     path  "versions.yml",     emit: versions
 
     when:
@@ -21,7 +22,7 @@ process CAT_STAT {
     """
     mkdir -p $outdir
 
-    (echo -e "$header" && cat *.csv | sort -n) > $outdir/all_sample.csv
+    (echo -e "$header" && cat *.csv | sort -n) > $outdir/${output_prefix}_cutoff_0.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

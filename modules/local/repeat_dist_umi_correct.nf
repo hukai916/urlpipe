@@ -11,20 +11,20 @@ process REPEAT_DIST_UMI_CORRECT {
     val outdir
 
     output:
-    path "*/read_length_distribution/cutoff_*/*/*",                        emit: cutoff // not if "*/cutoff_1", the resume is problematic
-    tuple val(meta), path("*/frac_*/frac_*/mode/*.csv"), emit: frac_meta_mode
-    path "*/frac_above_below/frac_*/mode/*.csv",                   emit: frac_mode
-    path "*/read_length_distribution/cutoff_*/mode/stat_mode*.csv",        emit: cutoff_mode_stat
+    path "*/frac_above_below/cutoff_*/ld/*.csv",                     emit: frac_ld
+    path "*/frac_above_below/cutoff_*/mode/*.csv",                   emit: frac_mode
+    tuple val(meta), path("*/frac_above_below/cutoff_*/ld/*.csv"),   emit: frac_meta_ld
+    tuple val(meta), path("*/frac_above_below/cutoff_*/mode/*.csv"), emit: frac_meta_mode
 
-    tuple val(meta), path("*/frac_*/frac_*/ld/*.csv"),   emit: frac_meta_ld
-    path "*/frac_above_below/frac_*/ld/*.csv",                     emit: frac_ld
-    path "*/read_length_distribution/cutoff_*/ld/stat_ld*.csv",            emit: cutoff_ld_stat
+    path "*/read_length_distribution/cutoff_*/*/*",                  emit: cutoff // not if "*/cutoff_1", the resume is problematic
+    path "*/read_length_distribution/cutoff_*/mode/stat_mode*.csv",  emit: cutoff_mode_stat
+    path "*/read_length_distribution/cutoff_*/ld/stat_ld*.csv",      emit: cutoff_ld_stat
 
     path "*/plot_along_cutoffs/plot_read_length_std*/*",             emit: plot // STD and Violin plot of read length after UMI correction.
-    tuple val(meta), path("${outdir}/input/*.csv"),           emit: stat_raw_meta
-    path "${outdir}/input/*.csv",                             emit: stat_raw
+    tuple val(meta), path("${outdir}/input/*.csv"),                  emit: stat_raw_meta
+    path "${outdir}/input/*.csv",                                    emit: stat_raw
     // path "5d_r1_repeat_dist_umi_correct/cutoff_100/frac/*.csv", emit: frac_100 // this won't work, may cause a weird issue, could be Nextflow's problem.
-    path  "versions.yml",      emit: versions
+    path  "versions.yml",                                            emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -47,15 +47,15 @@ process REPEAT_DIST_UMI_CORRECT {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      mkdir -p ${outdir}/read_length_distribution/cutoff_\$i ${outdir}/frac_above_below/frac_\$i
+      mkdir -p ${outdir}/read_length_distribution/cutoff_\$i ${outdir}/frac_above_below/cutoff_\$i
       mkdir ${outdir}/read_length_distribution/cutoff_\$i/mode ${outdir}/read_length_distribution/cutoff_\$i/mean ${outdir}/read_length_distribution/cutoff_\$i/ld
-      mkdir ${outdir}/frac_above_below/frac_\$i/mode ${outdir}/frac_above_below/frac_\$i/mean ${outdir}/frac_above_below/frac_\$i/ld
+      mkdir ${outdir}/frac_above_below/cutoff_\$i/mode ${outdir}/frac_above_below/cutoff_\$i/mean ${outdir}/frac_above_below/cutoff_\$i/ld
 
       repeat_dist_umi_correct.py $csv $prefix ${outdir}/read_length_distribution/cutoff_\$i \$i $args
 
-      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/frac_\$i/mode \$i "$args_frac"
-      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/frac_\$i/mean \$i "$args_frac"
-      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/frac_\$i/ld \$i "$args_frac"
+      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mode \$i "$args_frac"
+      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mean \$i "$args_frac"
+      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/ld \$i "$args_frac"
 
     done
 

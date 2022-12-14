@@ -367,7 +367,8 @@ workflow URLPIPE {
     CAT_STAT5 (
       REPEAT_DIST_DISTANCE.out.frac_r1.collect(),
       "4d_repeat_distribution_distance/frac_r1",
-      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
+      "all_sample_frac",
+      "sample_name,blew_count,blew_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT5.out.versions)
 
@@ -377,14 +378,16 @@ workflow URLPIPE {
     CAT_STAT6 (
       REPEAT_DIST_DISTANCE.out.frac_r2.collect(),
       "4d_repeat_distribution_distance/frac_r2",
-      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
+      "all_sample_frac",
+      "sample_name,blew_count,blew_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
 
     CAT_STAT5_MERGE (
       REPEAT_DIST_DISTANCE_MERGED.out.frac.collect(),
       "4d_merge_repeat_distribution_distance/frac_merge",
-      "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std" // header to be added
+      "all_sample_frac",
+      "sample_name,blew_count,blew_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT5_MERGE.out.versions)
 
@@ -393,23 +396,27 @@ workflow URLPIPE {
     // //
     // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
     // CAT_STAT_CUTOFF is specifically designed for mode
-    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(), "mode", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(), "mode", "sample_name,blew_count,blew_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
+    "all_sample_frac",
     "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
-    CAT_STAT_CUTOFF_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_mode.collect(), "mode", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    CAT_STAT_CUTOFF_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_mode.collect(), "mode", "sample_name,blew_count,blew_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
+    "all_sample_frac",
     "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     // For ld
     CAT_STAT_CUTOFF_2 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_ld.collect(),
-    "ld", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    "ld", "sample_name,blew_count,blew_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
+    "all_sample_frac"
     "5d_r1_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     CAT_STAT_CUTOFF_MERGE_2 ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_ld.collect(),
-    "ld", "sample_name,blew_count,blew_frac,below_mean,below_std,above_count,above_frac,above_mean,above_std",
+    "ld", "sample_name,blew_count,blew_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
     params.umi_cutoffs,
+    "all_sample_frac",
     "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
@@ -561,11 +568,13 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(READ_UMI_CORRECT.out.versions)
 
     CAT_STAT_CUTOFF_INDEL ( READ_UMI_CORRECT.out.count_ld.collect(), "ld", "sample_name,read_count",
-    params.umi_cutoffs,
+    "0," + params.umi_cutoffs,
+    "all_sample_indel",
     "5e_indel_read_umi_correct/count" )
 
     CAT_STAT_CUTOFF_INDEL_2 ( READ_UMI_CORRECT.out.count_mode.collect(), "mode", "sample_name,read_count",
-    params.umi_cutoffs,
+    "0," + params.umi_cutoffs,
+    "all_sample_indel",
     "5e_indel_read_umi_correct/count" )
 
     // MODULE: INDEL_READS_UMI_CORRECT

@@ -9,11 +9,12 @@ process CAT_STAT_CUTOFF {
     val header
     val umi_cutoffs
      // "mode", "mean", "ld"
+    val output_prefix
     val outdir
 
     output:
-    path "**/all_sample_cutoff_*.csv",     emit: stat
-    path  "versions.yml",                  emit: versions
+    path "*/**/*_cutoff_*.csv",     emit: stat
+    path  "versions.yml",           emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -27,7 +28,7 @@ process CAT_STAT_CUTOFF {
     for i in "\${umi_cutoffs_array[@]}"
     do
       mkdir -p ${outdir}/cutoff_\$i/${mode}
-      (echo -e "$header" && cat *cutoff_\$i.csv | sort -n) > ${outdir}/cutoff_\$i/${mode}/all_sample_cutoff_\$i.csv
+      (echo -e "$header" && cat *cutoff_\$i.csv | sort -n) > ${outdir}/cutoff_\$i/${mode}/${output_prefix}_cutoff_\$i.csv
     done
 
     cat <<-END_VERSIONS > versions.yml
