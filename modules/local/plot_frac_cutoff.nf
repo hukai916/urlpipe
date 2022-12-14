@@ -8,6 +8,7 @@ process PLOT_FRAC_CUTOFF {
     path stat_csv
     val umi_cutoffs
     val mode // mode, mean, ld
+    val csv_prefix
     val outdir
 
     output:
@@ -27,7 +28,7 @@ process PLOT_FRAC_CUTOFF {
       mkdir -p ${outdir}/${mode}/plot_frac_barplot
       mkdir -p ${outdir}/${mode}/plot_read_length_violin
       #csv: all_sample_cutoff_xxx.csv
-      plot_frac.py all_sample_cutoff_\$i.csv ${outdir}/${mode}/plot_frac_barplot/all_sample_frac_barplot_cutoff_\$i.png ${outdir}/${mode}/plot_read_length_violin/all_sample_read_length_violin_cutoff_\$i.png "\$i"
+      plot_frac.py ${csv_prefix}_cutoff_\$i.csv ${outdir}/${mode}/plot_frac_barplot/all_sample_frac_barplot_cutoff_\$i.png ${outdir}/${mode}/plot_read_length_violin/all_sample_read_length_violin_cutoff_\$i.png "\$i"
     done
 
     cat <<-END_VERSIONS > versions.yml

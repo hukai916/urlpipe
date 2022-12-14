@@ -444,6 +444,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
       "mode",
+      "all_sample_frac",
       "5d_r1_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
     )
 
@@ -452,6 +453,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
       "mode",
+      "all_sample_frac",
       "5d_merge_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
     )
 
@@ -461,6 +463,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_ld_stat.collect(),
       params.umi_cutoffs,
       "ld",
+      "all_sample_frac",
       "5d_r1_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
     )
 
@@ -469,6 +472,7 @@ workflow URLPIPE {
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_ld_stat.collect(),
       params.umi_cutoffs,
       "ld",
+      "all_sample_frac",
       "5d_merge_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
     )
 
