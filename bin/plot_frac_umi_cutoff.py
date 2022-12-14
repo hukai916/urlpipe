@@ -38,7 +38,7 @@ ax1.set_ylabel("Percentage (%)")
 ax1.set_title("Below cutoff: " + cutoff_below + " fraction")
 ax1.set_xticklabels(label, rotation = 25, fontsize = 8)
 
-ax2.bar(label, res.iloc[:, 1], width)
+ax2.scatter(label, res.iloc[:, 1] * 100)
 ax2.set_ylabel("Percentage")
 ax2.set_title("Above cutoff: " + cutoff_above + " fraction")
 ax2.set_xticklabels(label, rotation = 25, fontsize = 8)
