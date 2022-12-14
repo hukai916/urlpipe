@@ -27,7 +27,7 @@ process CAT_STAT_CUTOFF {
     for i in "\${umi_cutoffs_array[@]}"
     do
       mkdir -p ${outdir}/cutoff_\$i/${mode}
-      (echo -e "$header" && cat *cutoff_\$i.csv | sort -n) > ${outdir}/frac_\$i/${mode}/all_sample_cutoff_\$i.csv
+      (echo -e "$header" && cat *cutoff_\$i.csv | sort -n) > ${outdir}/cutoff_\$i/${mode}/all_sample_cutoff_\$i.csv
     done
 
     cat <<-END_VERSIONS > versions.yml
