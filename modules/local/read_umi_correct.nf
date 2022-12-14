@@ -11,8 +11,8 @@ process READ_UMI_CORRECT {
     val outdir
 
     output:
-    path "*/fastq",   emit: fastq
-    path  "versions.yml",                                        emit: versions
+    path "*/fastq/cutoff_*/*",   emit: fastq
+    path  "versions.yml",        emit: versions
 
     when:
     task.ext.when == null || task.ext.when
