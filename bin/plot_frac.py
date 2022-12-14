@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 import glob
 from pathlib import Path
+import os
 
 csv = sys.argv[1]
 outfile1 = sys.argv[2] # bar plot_plot
@@ -21,7 +22,7 @@ outfile2_raw = outfile2.replace(".png", ".raw.png")
 outfile2_zoom = outfile2.replace(".png", ".zoom.png")
 umi_cutoff   = sys.argv[4] # if 0, means raw without UMI correction
 
-data=pd.read_csv(csv, sep=',')
+data = pd.read_csv(csv, sep=',')
 
 fig, (ax1, ax2, ax3) = plt.subplots(1,3)
 fig.set_size_inches(15,15)
@@ -71,12 +72,15 @@ raw_list = []
 sample_list = []
 
 for x in files:
-    tem = pd.read_csv(x, header = None)
-    tem = tem[tem.iloc[:,0] != "problem"]
-    tem = tem[tem.iloc[:, 0] != "plus"]
-    data_tem = np.repeat(tem.iloc[:, 0], tem.iloc[:, 1])
-    ls_tem = [int(x) for x in data_tem]
-    raw_list.append(ls_tem)
+    if os.path.getsize(x) > 0:
+        tem = pd.read_csv(x, header = None)
+        tem = tem[tem.iloc[:,0] != "problem"]
+        tem = tem[tem.iloc[:, 0] != "plus"]
+        data_tem = np.repeat(tem.iloc[:, 0], tem.iloc[:, 1])
+        ls_tem = [int(x) for x in data_tem]
+        raw_list.append(ls_tem)
+    else:
+        raw_list.append([0])
 
     p = Path(x)
     sample = p.stem.replace(".stat", "")

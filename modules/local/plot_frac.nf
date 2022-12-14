@@ -10,7 +10,7 @@ process PLOT_FRAC {
     val outdir
 
     output:
-    path "*/*/all_sample_*.png",  emit: plot
+    path "**/all_sample_*.png",  emit: plot
     path  "versions.yml",         emit: versions
 
     when:
