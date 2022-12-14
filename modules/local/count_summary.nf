@@ -12,8 +12,8 @@ process COUNT_SUMMARY {
     val outdir
 
     output:
-    path "*",     emit: stat
-    path  "versions.yml",           emit: versions
+    path "*/**/*.csv",     emit: count_summary
+    path  "versions.yml",  emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -27,6 +27,7 @@ process COUNT_SUMMARY {
     for i in "\${umi_cutoffs_array[@]}"
     do
       mkdir -p ${outdir}/cutoff_\$i/${mode}
+      count_summary.py *_frac_cutoff_\$i.csv *_indel_cutoff_$\i.csv ${outdir}/cutoff_\$i/${mode}/count_summary.csv
     done
 
     cat <<-END_VERSIONS > versions.yml
