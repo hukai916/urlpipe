@@ -7,7 +7,7 @@ Summarize the counts for reads: indel, below, between(unmodified), above
 
 import sys
 import os
-import numpy as np
+import pandas as pd
 
 frac    = sys.argv[1]
 indel   = sys.argv[2]
