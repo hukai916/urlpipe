@@ -169,6 +169,7 @@ workflow URLPIPE {
     CAT_STAT (
       MAP_LOCUS.out.stat.collect(),
       "1a_map_locus/stat",
+      "all_sample",
       "sample_name,locus,percent,misprimed,percent,problem,percent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT.out.versions)
@@ -196,6 +197,7 @@ workflow URLPIPE {
     CAT_STAT2 (
       CLASSIFY_INDEL.out.stat.collect(),
       "3a_classify_indel/stat",
+      "all_sample",
       "sample_name,no_indel,no_indel_percent,indel_5p,indel_5p_percent,indel_3p,indel_3p_percent,indel_5p_3p,indel_5p_3p_percent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT2.out.versions)
@@ -214,6 +216,7 @@ workflow URLPIPE {
     CAT_STAT3 (
       CLASSIFY_READTHROUGH.out.stat.collect(),
       "4a_classify_readthrough/stat",
+      "all_sample",
       "sample_name,count_readthrough,count_readthrough_percent,count_non_readthrough,p_count_non_readthrough_percent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT3.out.versions)
@@ -232,6 +235,7 @@ workflow URLPIPE {
     CAT_STAT4 (
       BBMERGE.out.stat.collect(),
       "4b_bbmerge/stat",
+      "all_sample",
       "sample_name,count_merge,count_non_merge" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT4.out.versions)
