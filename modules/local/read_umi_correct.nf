@@ -42,7 +42,7 @@ process READ_UMI_CORRECT {
       mv ${outdir}/fastq/cutoff_\$i/ld/*.csv ${outdir}/count/cutoff_\$i/ld/
     done
     mkdir -p ${outdir}/count/cutoff_0
-    mv ${outdir}/count/cutoff_0/*.csv ${outdir}/fastq/cutoff_0/
+    mv ${outdir}/fastq/cutoff_0/*.csv ${outdir}/count/cutoff_0/
 
 
 
