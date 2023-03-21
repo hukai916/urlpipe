@@ -105,6 +105,8 @@ class RowChecker:
         self._validate_fastq_format(row[self._first_col])
         print(self._first_col)
         print(self._length_cutoff_1_low)
+        print(self._length_cutoff_1_high)
+        print(self._second_col)
 
     def _validate_second(self, row):
         """Assert that the second FASTQ entry has the right format if it exists."""
