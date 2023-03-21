@@ -39,7 +39,7 @@ process REPEAT_DIST_DISTANCE_MERGED {
     # calculate fractions
     if [ $allele_number -eq 1 ]; then
       calculate_frac.py $prefix ${outdir}/stat/${prefix}.stat.csv ${outdir}/frac $length_cutoff_1_low $length_cutoff_1_high
-    else if [ $allele_number -eq 2 ]; then
+    elif [ $allele_number -eq 2 ]; then
       calculate_frac_2.py $prefix ${outdir}/stat/${prefix}.stat.csv ${outdir}/frac $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
     fi
 

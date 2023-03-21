@@ -44,7 +44,7 @@ process REPEAT_DIST_DISTANCE {
     if [ $allele_number -eq 1 ]; then
       calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 $length_cutoff_1_low $length_cutoff_1_high
       calculate_frac.py $prefix ${outdir}/stat_r2/${prefix}.stat.csv ${outdir}/frac_r2 $length_cutoff_1_low $length_cutoff_1_high
-    else if [ $allele_number -eq 2 ]; then
+    elif [ $allele_number -eq 2 ]; then
       calculate_frac_2.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
       calculate_frac_2.py $prefix ${outdir}/stat_r2/${prefix}.stat.csv ${outdir}/frac_r2 $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
     fi
