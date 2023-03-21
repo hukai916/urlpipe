@@ -34,7 +34,12 @@ class RowChecker:
         sample_col="sample",
         first_col="fastq_1",
         second_col="fastq_2",
+        length_cutoff_1_low="length_cutoff_1_low",
+        length_cutoff_1_high="length_cutoff_1_high",
+        length_cutoff_2_low="length_cutoff_2_low",
+        length_cutoff_2_high="length_cutoff_2_high",
         single_col="single_end",
+        allele_number=2,
         **kwargs,
     ):
         """
@@ -57,6 +62,11 @@ class RowChecker:
         self._first_col = first_col
         self._second_col = second_col
         self._single_col = single_col
+        self._length_cutoff_1_low = length_cutoff_1_low
+        self._length_cutoff_1_high = length_cutoff_1_high
+        self._length_cutoff_2_low = length_cutoff_2_low
+        self._length_cutoff_2_high = length_cutoff_2_high
+        self._allele_number = allele_number
         self._seen = set()
         self.modified = []
 
@@ -73,6 +83,11 @@ class RowChecker:
         self._validate_first(row)
         self._validate_second(row)
         self._validate_pair(row)
+        if self._allele_number == 1:
+            self._validate_length_cutoff_1(row)
+        elif self._allele_number == 2:
+            self._validate_length_cutoff_1(row)
+            self._validate_length_cutoff_2(row)
         self._seen.add((row[self._sample_col], row[self._first_col]))
         self.modified.append(row)
 
@@ -112,6 +127,28 @@ class RowChecker:
                 f"The FASTQ file has an unrecognized extension: {filename}\n"
                 f"It should be one of: {', '.join(self.VALID_FORMATS)}"
             )
+
+    def _validate_length_cutoff_1(self, row):
+        """Assert that the length_cutoff_1 are set and are positive integers."""
+        if len(row[self._length_cutoff_1_low]) <= 0:
+            raise AssertionError("length_cutoff_1_low must be set.")
+        if len(row[self._length_cutoff_1_high]) <= 0:
+            raise AssertionError("length_cutoff_1_high must be set.")
+        if row[self._length_cutoff_1_low] < 0 or row[self._length_cutoff_1_high] < 0 or row[self._length_cutoff_1_low] >= row[self._length_cutoff_1_high]:
+            raise AssertionError("length_cutoff_1_low must be lower than length_cutoff_1_high, and both should be positive integer.")
+        row[self._length_cutoff_1_low] = int(row[self._length_cutoff_1_low])
+        row[self._length_cutoff_1_high] = int(row[self._length_cutoff_1_high])
+
+    def _validate_length_cutoff_2(self, row):
+        """Assert that the length_cutoff_2 are set and are positive integers."""
+        if len(row[self._length_cutoff_2_low]) <= 0:
+            raise AssertionError("length_cutoff_2_low must be set.")
+        if len(row[self._length_cutoff_2_high]) <= 0:
+            raise AssertionError("length_cutoff_2_high must be set.")
+        if row[self._length_cutoff_2_low] < 0 or row[self._length_cutoff_2_high] < 0 or row[self._length_cutoff_2_low] >= row[self._length_cutoff_2_high]:
+            raise AssertionError("length_cutoff_2_low must be lower than length_cutoff_2_high, and both should be positive integer.")
+        row[self._length_cutoff_2_low] = int(row[self._length_cutoff_2_low])
+        row[self._length_cutoff_2_high] = int(row[self._length_cutoff_2_high])
 
     def validate_unique_samples(self):
         """
@@ -166,7 +203,7 @@ def sniff_format(handle):
     return dialect
 
 
-def check_samplesheet(file_in, file_out):
+def check_samplesheet(file_in, file_out, allele_number):
     """
     Check that the tabular samplesheet has the structure expected by nf-core pipelines.
 
@@ -178,12 +215,13 @@ def check_samplesheet(file_in, file_out):
             CSV, TSV, or any other format automatically recognized by ``csv.Sniffer``.
         file_out (pathlib.Path): Where the validated and transformed samplesheet should
             be created; always in CSV format.
+        allele_number: determines how many length_cutoffs are expected
 
     Example:
         This function checks that the samplesheet follows the following structure,
         see also the `viral recon samplesheet`_::
 
-            sample,fastq_1,fastq_2
+            sample,fastq_1,fastq_2,length_cutoff_1_low,length_cutoff_1_high,length_cutoff_2_low,length_cutoff_2_high
             SAMPLE_PE,SAMPLE_PE_RUN1_1.fastq.gz,SAMPLE_PE_RUN1_2.fastq.gz
             SAMPLE_PE,SAMPLE_PE_RUN2_1.fastq.gz,SAMPLE_PE_RUN2_2.fastq.gz
             SAMPLE_SE,SAMPLE_SE_RUN1_1.fastq.gz,
@@ -192,7 +230,13 @@ def check_samplesheet(file_in, file_out):
         https://raw.githubusercontent.com/nf-core/test-datasets/viralrecon/samplesheet/samplesheet_test_illumina_amplicon.csv
 
     """
-    required_columns = {"sample", "fastq_1", "fastq_2"}
+    if allele_number == 1:
+        required_columns = {"sample", "fastq_1", "fastq_2", "length_cutoff_1_low", "length_cutoff_1_high"}
+    elif allele_number == 2:
+        required_columns = {"sample", "fastq_1", "fastq_2", "length_cutoff_1_low", "length_cutoff_1_high", "length_cutoff_2_low", "length_cutoff_2_high"}
+    else:
+        logger.critical(f"The params.allele_number must be integer 1 or 2.")
+        sys.exit(1)
     # See https://docs.python.org/3.9/library/csv.html#id3 to read up on `newline=""`.
     with file_in.open(newline="") as in_handle:
         reader = csv.DictReader(in_handle)
@@ -202,7 +246,7 @@ def check_samplesheet(file_in, file_out):
             logger.critical(f"The sample sheet **must** contain these column headers: {req_cols}.")
             sys.exit(1)
         # Validate each row.
-        checker = RowChecker()
+        checker = RowChecker(allele_number = 1)
         for i, row in enumerate(reader):
             try:
                 checker.validate_and_transform(row)
@@ -239,6 +283,12 @@ def parse_args(argv=None):
         help="Transformed output samplesheet in CSV format.",
     )
     parser.add_argument(
+        "allele_number",
+        metavar="ALLELE_NUMBER",
+        type=int,
+        help="Allele number in integer.",
+    )
+    parser.add_argument(
         "-l",
         "--log-level",
         help="The desired log level (default WARNING).",
@@ -256,7 +306,7 @@ def main(argv=None):
         logger.error(f"The given input file {args.file_in} was not found!")
         sys.exit(2)
     args.file_out.parent.mkdir(parents=True, exist_ok=True)
-    check_samplesheet(args.file_in, args.file_out)
+    check_samplesheet(args.file_in, args.file_out, args.allele_number)
 
 
 if __name__ == "__main__":
