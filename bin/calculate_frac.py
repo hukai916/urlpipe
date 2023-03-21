@@ -17,6 +17,11 @@ csv = sys.argv[2]
 outdir = sys.argv[3]
 cutoff_below, cutoff_above = int(sys.argv[4]), int(sys.argv[5])
 
+# sample_name = "28"
+# csv = "4d_merge_repeat_distribution_distance/stat/28.stat.csv"
+# outdir =  "4d_merge_repeat_distribution_distance/frac"
+# cutoff_below, cutoff_above =  177, 187
+
 if os.path.getsize(csv) > 0:
     # csv = "30"
     df = pd.read_csv(csv, header = None, names = ["length", "frequency"])
@@ -29,11 +34,11 @@ if os.path.getsize(csv) > 0:
     # calculate count, fraction, mean, std:
     _total_count = df["frequency"].sum()
     df["weighted_length"] = df["length"] * df["frequency"]
-
     _count = df.groupby("bin")["frequency"].sum()
     _fraction = _count / _total_count
     _mean = df.groupby("bin")["weighted_length"].sum() / df.groupby("bin")["frequency"].sum()
-    _std = df.groupby("bin")["length"].agg(lambda x: np.sqrt(np.average((x - np.average(x, weights = df.loc[x.index, "frequency"])) ** 2, weights = df.loc[x.index, "frequency"])))
+    _std = df.groupby("bin")["length"].agg(lambda x: np.sqrt(np.average((x - np.average(x, weights = df.loc[x.index, "frequency"])) ** 2, weights = df.loc[x.index, "frequency"])) if len(x) > 0 else np.nan)
+
 
     res = ""
     for i in range(len(_count)):
