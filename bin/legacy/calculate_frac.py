@@ -14,8 +14,7 @@ import numpy as np
 sample_name = sys.argv[1]
 csv = sys.argv[2]
 outdir = sys.argv[3]
-umi_cutoff = sys.argv[4]
-cutoff_below, cutoff_above = int(sys.argv[5]), int(sys.argv[6])
+cutoff_below, cutoff_above = int(sys.argv[4]), int(sys.argv[5])
 
 count_below, count_between, count_above, count_all = 0, 0, 0, 0
 below_list, between_list, above_list = [], [], []
@@ -44,7 +43,7 @@ else:
     above_count, above_frac, above_mean, above_std = "nan", "nan", "nan", "nan"
     between_count, between_frac, between_mean, between_std = "nan", "nan", "nan", "nan"
 
-outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + umi_cutoff + ".csv")
+outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + str(cutoff_below) + "_" + str(cutoff_above) + ".csv")
 
 with open(outfile, "w") as f:
     if os.path.getsize(csv) > 0:
@@ -64,3 +63,4 @@ with open(outfile, "w") as f:
     res_list = [sample_name, below_count, below_frac, below_mean, below_std, between_count, between_frac, between_mean, between_std, above_count, above_frac, above_mean, above_std]
     res = ",".join(res_list) + "\n"
     f.write(res)
+    print(res)

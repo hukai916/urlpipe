@@ -405,15 +405,19 @@ workflow URLPIPE {
     // //
     // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
     // CAT_STAT_CUTOFF is specifically designed for mode
-    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(), "mode", "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
-    params.umi_cutoffs,
-    "all_sample_frac",
-    "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
+    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(),
+                      "mode",
+                      "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
+                      params.umi_cutoffs,
+                      "all_sample_frac",
+                      "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
-    CAT_STAT_CUTOFF_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_mode.collect(), "mode", "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
-    params.umi_cutoffs,
-    "all_sample_frac",
-    "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
+    CAT_STAT_CUTOFF_MERGE ( REPEAT_DIST_UMI_CORRECT_MERGE.out.frac_mode.collect(),
+                            "mode",
+                            "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
+                            params.umi_cutoffs,
+                            "all_sample_frac",
+                            "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     // For ld
     CAT_STAT_CUTOFF_2 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_ld.collect(),
@@ -429,57 +433,63 @@ workflow URLPIPE {
     "5d_merge_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
-    PLOT_FRAC_4D_R1 (
-      CAT_STAT5.out.stat,
-      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
-      Channel.value(0),
-      "4d_repeat_distribution_distance/plot_r1_frac"
-    )
-
-    PLOT_FRAC_4D_MERGE (
-      CAT_STAT5_MERGE.out.stat,
-      REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
-      Channel.value(0),
-      "4d_merge_repeat_distribution_distance/plot_merge_frac"
-    )
+    // Below can be integrated into PLOT_FRAC_CUTOFF_R1
+    // PLOT_FRAC_4D_R1 (
+    //   CAT_STAT5.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
+    //   Channel.value(0),
+    //   "4d_repeat_distribution_distance/plot_r1_frac"
+    // )
+    //
+    // PLOT_FRAC_4D_MERGE (
+    //   CAT_STAT5_MERGE.out.stat,
+    //   REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
+    //   Channel.value(0),
+    //   "4d_merge_repeat_distribution_distance/plot_merge_frac"
+    // )
 
     // for mode:
     PLOT_FRAC_CUTOFF_R1 (
-      CAT_STAT_CUTOFF.out.stat,
+      CAT_STAT5.out.stat, // all_sample_frac_cutoff_0.csv
+      CAT_STAT_CUTOFF.out.stat, // all_sample_frac_cutoff_x.csv
+      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(), // individual stat without UMI correction
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
-      "mode",
       "all_sample_frac",
-      "5d_r1_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
+      "5d_r1_repeat_dist_umi_correct/plot_all_samples/mode" // plot_read_length_violin and plot_frac_barplot
     )
 
     PLOT_FRAC_CUTOFF_MERGE (
+      CAT_STAT5_MERGE.out.stat,
       CAT_STAT_CUTOFF_MERGE.out.stat,
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat.collect(),
       params.umi_cutoffs,
-      "mode",
       "all_sample_frac",
-      "5d_merge_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
+      "5d_merge_repeat_dist_umi_correct/plot_all_samples/mode" // plot_read_length_violin and plot_frac_barplot
     )
 
     // for ld:
     PLOT_FRAC_CUTOFF_R1_2 (
+      CAT_STAT5.out.stat,
       CAT_STAT_CUTOFF_2.out.stat,
+      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_ld_stat.collect(),
       params.umi_cutoffs,
-      "ld",
       "all_sample_frac",
-      "5d_r1_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
+      "5d_r1_repeat_dist_umi_correct/plot_all_samples/ld" // plot_read_length_violin and plot_frac_barplot
     )
 
     PLOT_FRAC_CUTOFF_MERGE_2 (
+      CAT_STAT5_MERGE.out.stat,
       CAT_STAT_CUTOFF_MERGE_2.out.stat,
+      REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_ld_stat.collect(),
       params.umi_cutoffs,
-      "ld",
       "all_sample_frac",
-      "5d_merge_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
+      "5d_merge_repeat_dist_umi_correct/plot_all_samples/ld" // plot_read_length_violin and plot_frac_barplot
     )
+
 
     // MODULE: plot UMI groups at different UMI cutoffs
     PLOT_UMI_GROUPS_R1 (
