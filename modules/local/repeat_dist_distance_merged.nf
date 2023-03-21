@@ -6,6 +6,7 @@ process REPEAT_DIST_DISTANCE_MERGED {
 
     input:
     tuple val(meta), path(reads)
+    val allele_number
     val outdir
 
     output:
@@ -22,8 +23,13 @@ process REPEAT_DIST_DISTANCE_MERGED {
 
     script:
     def args = task.ext.args ?: ''
-    def args_frac = task.ext.args_frac ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def length_cutoff_1_low  = "${meta.length_cutoff_1_low}"
+    def length_cutoff_1_high = "${meta.length_cutoff_1_high}"
+    def length_cutoff_2_low  = "${meta.length_cutoff_2_low}" ?: 1 // simply place holder
+    def length_cutoff_2_high = "${meta.length_cutoff_2_high}" ?: 2
+
+    // def args_frac = task.ext.args_frac ?: ''
+    def prefix = "${meta.id}"
 
     """
     mkdir -p ${outdir}/stat ${outdir}/plot ${outdir}/count ${outdir}/frac
@@ -31,10 +37,11 @@ process REPEAT_DIST_DISTANCE_MERGED {
     repeat_dist_distance_merged.py ${prefix}.fastq.gz ${prefix} ${outdir} $args
 
     # calculate fractions
-    tem="$args_frac"
-    suffix="\${tem// /_}"
-
-    calculate_frac.py $prefix ${outdir}/stat/${prefix}.stat.csv ${outdir}/frac 0 "$args_frac"
+    if [ $allele_number -eq 1 ]; then
+      calculate_frac.py $prefix ${outdir}/stat/${prefix}.stat.csv ${outdir}/frac 0 $length_cutoff_1_low $length_cutoff_1_high
+    else if [ $allele_number -eq 2 ]; then
+      calculate_frac_2.py $prefix ${outdir}/stat/${prefix}.stat.csv ${outdir}/frac 0 $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

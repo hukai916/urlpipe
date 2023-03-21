@@ -6,6 +6,7 @@ process REPEAT_DIST_DISTANCE {
 
     input:
     tuple val(meta), path(reads)
+    val allele_number
     val outdir
 
     output:
@@ -24,8 +25,13 @@ process REPEAT_DIST_DISTANCE {
 
     script:
     def args = task.ext.args ?: ''
-    def args_frac = task.ext.args_frac ?: ''
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    // def args_frac = task.ext.args_frac ?: ''
+    def length_cutoff_1_low  = "${meta.length_cutoff_1_low}"
+    def length_cutoff_1_high = "${meta.length_cutoff_1_high}"
+    def length_cutoff_2_low  = "${meta.length_cutoff_2_low}" ?: 1 // simply place holder
+    def length_cutoff_2_high = "${meta.length_cutoff_2_high}" ?: 2
+
+    def prefix = "${meta.id}"
 
     """
     mkdir -p ${outdir}/stat_r1 ${outdir}/stat_r2 ${outdir}/plot_r1 ${outdir}/plot_r2 ${outdir}/count_r1 ${outdir}/count_r2
@@ -33,12 +39,15 @@ process REPEAT_DIST_DISTANCE {
     repeat_dist_distance.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz ${prefix} ${outdir} $args
 
     # calculate fractions
-    tem="$args_frac"
-    suffix="\${tem// /_}"
     mkdir ${outdir}/frac_r1 ${outdir}/frac_r2
 
-    calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 0 "$args_frac"
-    calculate_frac.py $prefix ${outdir}/stat_r2/${prefix}.stat.csv ${outdir}/frac_r2 0 "$args_frac"
+    if [ $allele_number -eq 1 ]; then
+      calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 0 $length_cutoff_1_low $length_cutoff_1_high
+      calculate_frac.py $prefix ${outdir}/stat_r2/${prefix}.stat.csv ${outdir}/frac_r2 0 $length_cutoff_1_low $length_cutoff_1_high
+    else if [ $allele_number -eq 2 ]; then
+      calculate_frac_2.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 0 $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
+      calculate_frac_2.py $prefix ${outdir}/stat_r2/${prefix}.stat.csv ${outdir}/frac_r2 0 $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
+    fi
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

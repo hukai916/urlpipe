@@ -152,6 +152,8 @@ class RowChecker:
         if len(row[self._length_cutoff_2_high]) <= 0:
             raise AssertionError("length_cutoff_2_high must be set.")
         try:
+            row[self._length_cutoff_1_low] = int(row[self._length_cutoff_1_low])
+            row[self._length_cutoff_1_high] = int(row[self._length_cutoff_1_high])
             row[self._length_cutoff_2_low] = int(row[self._length_cutoff_2_low])
             row[self._length_cutoff_2_high] = int(row[self._length_cutoff_2_high])
         except ValueError as error:
@@ -160,6 +162,8 @@ class RowChecker:
 
         if row[self._length_cutoff_2_low] < 0 or row[self._length_cutoff_2_high] < 0 or row[self._length_cutoff_2_low] >= row[self._length_cutoff_2_high]:
             raise AssertionError("length_cutoff_2_low must be lower than length_cutoff_2_high, and both should be positive integer.")
+        if row[self._length_cutoff_2_low] < row[self._length_cutoff_1_high]:
+            raise AssertionError("The following must hold: length_cutoff_1_low < length_cutoff_1_high < length_cutoff_2_low < length_cutoff_2_high.")
 
     def validate_unique_samples(self):
         """

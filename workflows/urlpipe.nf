@@ -266,6 +266,7 @@ workflow URLPIPE {
     //
     REPEAT_DIST_DISTANCE (
       CLASSIFY_READTHROUGH.out.reads_through,
+      params.allele_number.
       "4d_repeat_distribution_distance"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE.out.versions)
@@ -275,6 +276,7 @@ workflow URLPIPE {
     //
     REPEAT_DIST_DISTANCE_MERGED (
       BBMERGE.out.reads_merged,
+      params.allele_number,
       "4d_merge_repeat_distribution_distance"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE_MERGED.out.versions)
