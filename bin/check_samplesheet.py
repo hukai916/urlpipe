@@ -249,6 +249,7 @@ def check_samplesheet(file_in, file_out, allele_number):
         checker = RowChecker(allele_number = 1)
         for i, row in enumerate(reader):
             try:
+                print(row)
                 checker.validate_and_transform(row)
             except AssertionError as error:
                 logger.critical(f"{str(error)} On line {i + 2}.")
