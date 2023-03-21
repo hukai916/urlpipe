@@ -28,7 +28,7 @@ def create_fastq_channel(LinkedHashMap row, allele_number) {
     meta.id         = row.sample
     meta.length_cutoff_1_low = row.length_cutoff_1_low
     meta.length_cutoff_1_high = row.length_cutoff_1_high
-    if allele_number == 2:
+    if (allele_number == 2):
       meta.length_cutoff_2_low = row.length_cutoff_2_low
       meta.length_cutoff_2_high = row.length_cutoff_2_high
 
