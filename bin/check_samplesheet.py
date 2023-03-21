@@ -62,11 +62,11 @@ class RowChecker:
         self._first_col = first_col
         self._second_col = second_col
         self._single_col = single_col
-        self._length_cutoff_1_low = length_cutoff_1_low
-        self._length_cutoff_1_high = length_cutoff_1_high
-        self._length_cutoff_2_low = length_cutoff_2_low
-        self._length_cutoff_2_high = length_cutoff_2_high
-        self._allele_number = allele_number
+        self._length_cutoff_1_low = int(length_cutoff_1_low)
+        self._length_cutoff_1_high = int(length_cutoff_1_high)
+        self._length_cutoff_2_low = int(length_cutoff_2_low)
+        self._length_cutoff_2_high = int(length_cutoff_2_high)
+        self._allele_number = int(allele_number)
         self._seen = set()
         self.modified = []
 
