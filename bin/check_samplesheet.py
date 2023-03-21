@@ -34,12 +34,12 @@ class RowChecker:
         sample_col="sample",
         first_col="fastq_1",
         second_col="fastq_2",
-        length_cutoff_1_low="length_cutoff_1_low",
-        length_cutoff_1_high="length_cutoff_1_high",
-        length_cutoff_2_low="length_cutoff_2_low",
-        length_cutoff_2_high="length_cutoff_2_high",
         single_col="single_end",
         allele_number=2,
+        length_cutoff_1_low=1,
+        length_cutoff_1_high=2,
+        length_cutoff_2_low=6,
+        length_cutoff_2_high=4,
         **kwargs,
     ):
         """
