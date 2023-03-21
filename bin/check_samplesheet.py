@@ -134,8 +134,14 @@ class RowChecker:
             raise AssertionError("length_cutoff_1_low must be set.")
         if len(row[self._length_cutoff_1_high]) <= 0:
             raise AssertionError("length_cutoff_1_high must be set.")
-        row[self._length_cutoff_1_low] = int(row[self._length_cutoff_1_low])
-        row[self._length_cutoff_1_high] = int(row[self._length_cutoff_1_high])
+
+        try:
+            row[self._length_cutoff_1_low] = int(row[self._length_cutoff_1_low])
+            row[self._length_cutoff_1_high] = int(row[self._length_cutoff_1_high])
+        except AssertionError as error:
+            logger.critical("length_cutoff_1 must be integer.")
+            sys.exit(1)
+
         if row[self._length_cutoff_1_low] < 0 or row[self._length_cutoff_1_high] < 0 or row[self._length_cutoff_1_low] >= row[self._length_cutoff_1_high]:
             raise AssertionError("length_cutoff_1_low must be lower than length_cutoff_1_high, and both should be positive integer.")
 
@@ -145,8 +151,12 @@ class RowChecker:
             raise AssertionError("length_cutoff_2_low must be set.")
         if len(row[self._length_cutoff_2_high]) <= 0:
             raise AssertionError("length_cutoff_2_high must be set.")
-        row[self._length_cutoff_2_low] = int(row[self._length_cutoff_2_low])
-        row[self._length_cutoff_2_high] = int(row[self._length_cutoff_2_high])
+        try:
+            row[self._length_cutoff_2_low] = int(row[self._length_cutoff_2_low])
+            row[self._length_cutoff_2_high] = int(row[self._length_cutoff_2_high])
+        except AssertionError as error:
+            logger.critical("length_cutoff_2 must be integer.")
+            sys.exit(1)
 
         if row[self._length_cutoff_2_low] < 0 or row[self._length_cutoff_2_high] < 0 or row[self._length_cutoff_2_low] >= row[self._length_cutoff_2_high]:
             raise AssertionError("length_cutoff_2_low must be lower than length_cutoff_2_high, and both should be positive integer.")
