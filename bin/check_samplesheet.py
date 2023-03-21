@@ -138,7 +138,7 @@ class RowChecker:
         try:
             row[self._length_cutoff_1_low] = int(row[self._length_cutoff_1_low])
             row[self._length_cutoff_1_high] = int(row[self._length_cutoff_1_high])
-        except AssertionError as error:
+        except ValueError as error:
             logger.critical("length_cutoff_1 must be integer.")
             sys.exit(1)
 
@@ -154,7 +154,7 @@ class RowChecker:
         try:
             row[self._length_cutoff_2_low] = int(row[self._length_cutoff_2_low])
             row[self._length_cutoff_2_high] = int(row[self._length_cutoff_2_high])
-        except AssertionError as error:
+        except ValueError as error:
             logger.critical("length_cutoff_2 must be integer.")
             sys.exit(1)
 
