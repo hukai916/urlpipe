@@ -134,16 +134,14 @@ class RowChecker:
 
     def _validate_length_cutoff_1(self, row):
         """Assert that the length_cutoff_1 are set and are positive integers."""
-        print(row)
-        print(self)
         if len(row[self._length_cutoff_1_low]) <= 0:
             raise AssertionError("length_cutoff_1_low must be set.")
         if len(row[self._length_cutoff_1_high]) <= 0:
             raise AssertionError("length_cutoff_1_high must be set.")
-        if row[self._length_cutoff_1_low] < 0 or row[self._length_cutoff_1_high] < 0 or row[self._length_cutoff_1_low] >= row[self._length_cutoff_1_high]:
-            raise AssertionError("length_cutoff_1_low must be lower than length_cutoff_1_high, and both should be positive integer.")
         row[self._length_cutoff_1_low] = int(row[self._length_cutoff_1_low])
         row[self._length_cutoff_1_high] = int(row[self._length_cutoff_1_high])
+        if row[self._length_cutoff_1_low] < 0 or row[self._length_cutoff_1_high] < 0 or row[self._length_cutoff_1_low] >= row[self._length_cutoff_1_high]:
+            raise AssertionError("length_cutoff_1_low must be lower than length_cutoff_1_high, and both should be positive integer.")
 
     def _validate_length_cutoff_2(self, row):
         """Assert that the length_cutoff_2 are set and are positive integers."""
@@ -151,10 +149,11 @@ class RowChecker:
             raise AssertionError("length_cutoff_2_low must be set.")
         if len(row[self._length_cutoff_2_high]) <= 0:
             raise AssertionError("length_cutoff_2_high must be set.")
-        if row[self._length_cutoff_2_low] < 0 or row[self._length_cutoff_2_high] < 0 or row[self._length_cutoff_2_low] >= row[self._length_cutoff_2_high]:
-            raise AssertionError("length_cutoff_2_low must be lower than length_cutoff_2_high, and both should be positive integer.")
         row[self._length_cutoff_2_low] = int(row[self._length_cutoff_2_low])
         row[self._length_cutoff_2_high] = int(row[self._length_cutoff_2_high])
+
+        if row[self._length_cutoff_2_low] < 0 or row[self._length_cutoff_2_high] < 0 or row[self._length_cutoff_2_low] >= row[self._length_cutoff_2_high]:
+            raise AssertionError("length_cutoff_2_low must be lower than length_cutoff_2_high, and both should be positive integer.")
 
     def validate_unique_samples(self):
         """
@@ -255,7 +254,6 @@ def check_samplesheet(file_in, file_out, allele_number):
         checker = RowChecker(allele_number = 1)
         for i, row in enumerate(reader):
             try:
-                print(row)
                 checker.validate_and_transform(row)
             except AssertionError as error:
                 logger.critical(f"{str(error)} On line {i + 2}.")
