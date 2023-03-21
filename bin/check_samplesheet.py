@@ -103,6 +103,8 @@ class RowChecker:
         if len(row[self._first_col]) <= 0:
             raise AssertionError("At least the first FASTQ file is required.")
         self._validate_fastq_format(row[self._first_col])
+        for x in self:
+            print(x)
 
     def _validate_second(self, row):
         """Assert that the second FASTQ entry has the right format if it exists."""
