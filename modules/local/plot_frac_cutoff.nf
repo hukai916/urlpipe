@@ -24,7 +24,6 @@ process PLOT_FRAC_CUTOFF {
     path stat_csv
     path stat_csv_cutoff
     val umi_cutoffs
-    val mode // mode, mean, ld
     val csv_prefix
     val outdir
 

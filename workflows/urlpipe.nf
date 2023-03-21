@@ -79,8 +79,8 @@ include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../mo
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_INDEL } from '../modules/local/repeat_dist_umi_correct'
 include { READ_UMI_CORRECT } from '../modules/local/read_umi_correct'
 
-include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
-include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
+// include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
+// include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
 include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1    } from '../modules/local/plot_frac_cutoff'
 include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE } from '../modules/local/plot_frac_cutoff'
 include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1_2    } from '../modules/local/plot_frac_cutoff'
@@ -266,7 +266,7 @@ workflow URLPIPE {
     //
     REPEAT_DIST_DISTANCE (
       CLASSIFY_READTHROUGH.out.reads_through,
-      params.allele_number.
+      params.allele_number,
       "4d_repeat_distribution_distance"
       )
     ch_versions = ch_versions.mix(REPEAT_DIST_DISTANCE.out.versions)
