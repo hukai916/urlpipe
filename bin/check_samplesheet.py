@@ -130,6 +130,7 @@ class RowChecker:
 
     def _validate_length_cutoff_1(self, row):
         """Assert that the length_cutoff_1 are set and are positive integers."""
+        print(row)
         if len(row[self._length_cutoff_1_low]) <= 0:
             raise AssertionError("length_cutoff_1_low must be set.")
         if len(row[self._length_cutoff_1_high]) <= 0:
