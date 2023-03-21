@@ -3,20 +3,18 @@ process PLOT_FRAC_CUTOFF {
 
     container "hukai916/miniconda3_bio:0.3"
 
-
-
-    PLOT_FRAC_CUTOFF_R1 (
-      CAT_STAT5.out.stat, // all_sample_frac_cutoff_0.csv
-      CAT_STAT_CUTOFF.out.stat, // all_sample_frac_cutoff_x.csv
-      REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(), // individual stat without UMI correction
-      REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
-      // params.umi_cutoffs,
-      params.allele_number,
-      "mode",
-      "all_sample_frac",
-      "5d_r1_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
-    )
-
+    // PLOT_FRAC_CUTOFF_R1 (
+    //   CAT_STAT5.out.stat, // all_sample_frac_cutoff_0.csv
+    //   CAT_STAT_CUTOFF.out.stat, // all_sample_frac_cutoff_x.csv
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(), // individual stat without UMI correction
+    //   REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_mode_stat.collect(),
+    //   // params.umi_cutoffs,
+    //   params.allele_number,
+    //   "mode",
+    //   "all_sample_frac",
+    //   "5d_r1_repeat_dist_umi_correct/plot_all_samples" // plot_read_length_violin and plot_frac_barplot
+    // )
+    //
 
     input:
     path all_sample_frac_cutoff_0_csv
