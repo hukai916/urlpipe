@@ -17,7 +17,7 @@ process PLOT_FRAC_CUTOFF {
     //
 
     input:
-    path all_sample_frac_cutoff_0_csv
+    // path all_sample_frac_cutoff_0_csv
     path all_sample_frac_cutoff_x_csv
     path stat_csv
     path stat_csv_cutoff
