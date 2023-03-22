@@ -15,7 +15,8 @@ import pandas as pd
 sample_name = sys.argv[1]
 csv = sys.argv[2]
 outdir = sys.argv[3]
-cutoff_below, cutoff_above = int(sys.argv[4]), int(sys.argv[5])
+umi_cutoff = sys.argv[4]
+cutoff_below, cutoff_above = int(sys.argv[5]), int(sys.argv[6])
 
 # sample_name = "28"
 # csv = "4d_merge_repeat_distribution_distance/stat/28.stat.csv"
@@ -48,7 +49,7 @@ if os.path.getsize(csv) > 0:
 else:
     res = ",".join(["nan"] * 12)
 
-outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + str(cutoff_below) + "_" + str(cutoff_below) + ".csv")
+outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + str(umi_cutoff) + ".csv")
 with open(outfile, "w") as f:
     f.write(res)
     # print(res)

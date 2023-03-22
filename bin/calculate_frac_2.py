@@ -17,7 +17,8 @@ import pandas as pd
 sample_name = sys.argv[1]
 csv = sys.argv[2]
 outdir = sys.argv[3]
-cutoff_below, cutoff_above, cutoff_below_2, cutoff_above_2 = int(sys.argv[4]), int(sys.argv[5]), int(sys.argv[6]), int(sys.argv[7])
+umi_cutoff = sys.argv[4]
+cutoff_below, cutoff_above, cutoff_below_2, cutoff_above_2 = int(sys.argv[5]), int(sys.argv[6]), int(sys.argv[7]), int(sys.argv[8])
 
 if os.path.getsize(csv) > 0:
     # csv = "30"
@@ -45,7 +46,7 @@ if os.path.getsize(csv) > 0:
 else:
     res = ",".join(["nan"] * 20)
 
-outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + str(cutoff_below) + "_" + str(cutoff_below) + ".csv")
+outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + str(umi_cutoff) + ".csv")
 with open(outfile, "w") as f:
     f.write(res)
     # print(res)
