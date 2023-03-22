@@ -8,6 +8,7 @@ process REPEAT_DIST_UMI_CORRECT {
     tuple val(meta), path(csv)
     path stat_raw
     val umi_cutoffs
+    val allele_number
     val outdir
 
     output:
@@ -16,7 +17,7 @@ process REPEAT_DIST_UMI_CORRECT {
     tuple val(meta), path("*/frac_above_below/cutoff_*/ld/*.csv"),   emit: frac_meta_ld
     tuple val(meta), path("*/frac_above_below/cutoff_*/mode/*.csv"), emit: frac_meta_mode
 
-    path "*/read_length_distribution/cutoff_*/*/*",                  emit: cutoff // not if "*/cutoff_1", the resume is problematic
+    path "*/read_length_distribution/cutoff_*/*/*",                  emit: cutoff // if "*/cutoff_1", the resume is problematic
     path "*/read_length_distribution/cutoff_*/mode/stat_mode*.csv",  emit: cutoff_mode_stat
     path "*/read_length_distribution/cutoff_*/ld/stat_ld*.csv",      emit: cutoff_ld_stat
 
@@ -32,18 +33,19 @@ process REPEAT_DIST_UMI_CORRECT {
     script:
     def args = task.ext.args ?: ''
     def args_frac = task.ext.args_frac ?: ''
+    def length_cutoff_1_low  = "${meta.length_cutoff_1_low}"
+    def length_cutoff_1_high = "${meta.length_cutoff_1_high}"
+    def length_cutoff_2_low  = "${meta.length_cutoff_2_low}" ?: 1 // simply place holder
+    def length_cutoff_2_high = "${meta.length_cutoff_2_high}" ?: 2
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    ## Dev notes:
-    ## remove all space from string: https://stackoverflow.com/questions/13659318/how-to-remove-space-from-string
-
     mkdir -p ${outdir}/input
     cp $stat_raw ${outdir}/input/
 
-    ## PLOT1: plot repeat length distribution with UMI cutoff
-    # calculate fractions
-    umi_cutoffs_str="$umi_cutoffs"
+    # Plot1: repeat length distribution with different UMI cutoffs
+      # calculate fractions
+    umi_cutoffs_str="0,$umi_cutoffs"
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
@@ -53,13 +55,18 @@ process REPEAT_DIST_UMI_CORRECT {
 
       repeat_dist_umi_correct.py $csv $prefix ${outdir}/read_length_distribution/cutoff_\$i \$i $args
 
-      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mode \$i "$args_frac"
-      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mean \$i "$args_frac"
-      calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/ld \$i "$args_frac"
-
+      if [ $allele_number -eq 1 ]; then
+        calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mode \$i $length_cutoff_1_low $length_cutoff_1_high
+        calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mean \$i $length_cutoff_1_low $length_cutoff_1_high
+        calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/ld \$i $length_cutoff_1_low $length_cutoff_1_high
+      elif [ $allele_number -eq 2 ]; then
+        calculate_frac_2.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mode \$i $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
+        calculate_frac_2.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mean \$i $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
+        calculate_frac_2.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/ld \$i $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
+      fi
     done
 
-    ## PLOT2: plot std of read lengths vs UMI cutoffs
+    # Plot2: plot std of read lengths vs UMI cutoffs
     mkdir -p ${outdir}/plot_along_cutoffs/plot_read_length_std_mode
     stat_mode_csv=""
     for i in "\${umi_cutoffs_array[@]}"
@@ -84,6 +91,10 @@ process REPEAT_DIST_UMI_CORRECT {
     "${task.process}":
         python: \$( python --version | sed -e "s/python //g" )
     END_VERSIONS
+
+    ## Dev notes:
+    ## remove all space from string: https://stackoverflow.com/questions/13659318/how-to-remove-space-from-string
+
 
     """
 }

@@ -28,21 +28,26 @@ if os.path.getsize(csv) > 0:
         for line in f:
             umi, count, mean, mode, ld = line.split(",")
             count, mean, mode, ld = int(count), float(mean), int(mode), float(ld)
+
+            # support cutoff_0: do not apply any correction
+            addon = 1
+            if cutoff == 0:
+                addon = count
             if count >= cutoff:
                 if not mean in repeat_length_mean:
-                    repeat_length_mean[mean] = 1
+                    repeat_length_mean[mean] = addon
                 else:
-                    repeat_length_mean[mean] += 1
+                    repeat_length_mean[mean] += addon
 
                 if not mode in repeat_length_mode:
-                    repeat_length_mode[mode] = 1
+                    repeat_length_mode[mode] = addon
                 else:
-                    repeat_length_mode[mode] += 1
+                    repeat_length_mode[mode] += addon
 
                 if not ld in repeat_length_ld:
-                    repeat_length_ld[ld] = 1
+                    repeat_length_ld[ld] = addon
                 else:
-                    repeat_length_ld[ld] += 1
+                    repeat_length_ld[ld] += addon
 else:
     pass
 # output to stat:
