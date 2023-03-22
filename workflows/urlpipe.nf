@@ -463,7 +463,7 @@ workflow URLPIPE {
     )
 
     PLOT_FRAC_CUTOFF_MERGE (
-      CAT_STAT5_MERGE.out.stat,
+      // CAT_STAT5_MERGE.out.stat,
       CAT_STAT_CUTOFF_MERGE.out.stat,
       REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_mode_stat.collect(),
@@ -474,7 +474,7 @@ workflow URLPIPE {
 
     // for ld:
     PLOT_FRAC_CUTOFF_R1_2 (
-      CAT_STAT5.out.stat,
+      // CAT_STAT5.out.stat,
       CAT_STAT_CUTOFF_2.out.stat,
       REPEAT_DIST_UMI_CORRECT_R1.out.stat_raw.collect(),
       REPEAT_DIST_UMI_CORRECT_R1.out.cutoff_ld_stat.collect(),
@@ -484,7 +484,7 @@ workflow URLPIPE {
     )
 
     PLOT_FRAC_CUTOFF_MERGE_2 (
-      CAT_STAT5_MERGE.out.stat,
+      // CAT_STAT5_MERGE.out.stat,
       CAT_STAT_CUTOFF_MERGE_2.out.stat,
       REPEAT_DIST_UMI_CORRECT_MERGE.out.stat_raw.collect(),
       REPEAT_DIST_UMI_CORRECT_MERGE.out.cutoff_ld_stat.collect(),
