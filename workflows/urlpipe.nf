@@ -130,11 +130,11 @@ workflow URLPIPE {
     //
     // MODULE: FastQC
     //
-    FASTQC (
-      CUTADAPT.out.reads,
-      "0d_fastqc"
-      )
-    ch_versions = ch_versions.mix(FASTQC.out.versions)
+    // FASTQC (
+    //   CUTADAPT.out.reads,
+    //   "0d_fastqc"
+    //   )
+    // ch_versions = ch_versions.mix(FASTQC.out.versions)
 
     //
     // MODULE: map locus
