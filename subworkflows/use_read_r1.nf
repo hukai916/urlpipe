@@ -9,8 +9,12 @@ include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modul
 
 include { UMI_PATTERN } from '../modules/local/umi_pattern'
 
-include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_INDEL } from '../modules/local/repeat_dist_umi_correct'
 include { READ_UMI_CORRECT } from '../modules/local/read_umi_correct'
+include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_R1 } from '../modules/local/repeat_dist_within_umi_group'
+
+include { UMI_GROUP_STAT } from '../modules/local/umi_group_stat'
+
+
 // include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
 // include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
 include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1    } from '../modules/local/plot_frac_cutoff'
@@ -72,19 +76,19 @@ workflow USE_READ_R1 {
     //
     // MODULE: UMI group stat: UMI read_count mean mode: 5c
     //
-    UMI_GROUP_STAT_R1 (
+    UMI_GROUP_STAT (
       REPEAT_DIST_DISTANCE_R1.out.count_r1,
       REPEAT_DIST_DISTANCE_R1.out.stat_raw, // stat_raw store the raw stat before UMI correction
       "5c_r1_umi_group_stat"
       )
-    ch_versions = ch_versions.mix(UMI_GROUP_STAT_R1.out.versions)
+    ch_versions = ch_versions.mix(UMI_GROUP_STAT.out.versions)
 
     //
     // MODULE: repeat dist UMI corrected: 5d
     //
     REPEAT_DIST_UMI_CORRECT_R1 (
-      UMI_GROUP_STAT_R1.out.stat,
-      UMI_GROUP_STAT_R1.out.stat_raw,
+      UMI_GROUP_STAT.out.stat,
+      UMI_GROUP_STAT.out.stat_raw,
       params.umi_cutoffs,
       params.allele_number,
       "5d_r1_repeat_dist_umi_correct"
