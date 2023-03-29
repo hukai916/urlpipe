@@ -28,7 +28,9 @@ include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1    } from '../modules/
 
 include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1_2  } from '../modules/local/plot_frac_umi_cutoff'
 
-
+include { CAT_STAT as CAT_STAT5 } from '../modules/local/cat_stat'
+include { CAT_STAT_CUTOFF             }   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_2      }   from '../modules/local/cat_stat_cutoff'
 
 workflow USE_READ_R1 {
     take:
