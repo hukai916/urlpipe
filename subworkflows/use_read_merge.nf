@@ -1,6 +1,8 @@
 //
 // if use_read == "merge"
 //
+include { FASTQC; FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
+// still need to load FASTQC1 module even if it has been loaded in urlpipe.nf
 
 include { BBMERGE                           } from '../modules/local/bbmerge'
 include { REPEAT_DIST_DISTANCE_MERGED       } from '../modules/local/repeat_dist_distance_merged'
