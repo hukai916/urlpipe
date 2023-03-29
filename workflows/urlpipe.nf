@@ -53,19 +53,13 @@ include { CUTADAPT                    } from '../modules/nf-core/modules/cutadap
 include { FASTQC; FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3 } from '../modules/local/cat_stat'
-include { CAT_STAT_CUTOFF             }   from '../modules/local/cat_stat_cutoff'
-
-include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_2      }   from '../modules/local/cat_stat_cutoff'
-
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL      }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2}   from '../modules/local/cat_stat_cutoff'
 
 include { UMI_PATTERN } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
-
-include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
-
+include { READ_UMI_CORRECT } from '../modules/local/read_umi_correct'
 include { READ_LENGTH_DIST            } from '../modules/local/read_length_dist'
 
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_INDEL } from '../modules/local/repeat_dist_umi_correct'
