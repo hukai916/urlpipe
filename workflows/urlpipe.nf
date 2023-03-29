@@ -36,7 +36,7 @@ ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath(params.multi
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
 include { INPUT_CHECK    } from '../subworkflows/input_check'
-include { USE_READ_R1    } from '../subworkflows/use_read_R1'
+include { USE_READ_R1    } from '../subworkflows/use_read_r1'
 include { USE_READ_MERGE } from '../subworkflows/use_read_merge'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
