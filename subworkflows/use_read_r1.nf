@@ -27,6 +27,7 @@ include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1_2  } from '../modules/
 workflow USE_READ_R1 {
     take:
     reads_through
+    ch_versions
 
     main:
     //
@@ -208,5 +209,6 @@ workflow USE_READ_R1 {
     stat5         = CAT_STAT5.out.stat
     cutoff_stat   = CAT_STAT_CUTOFF.out.stat
     cutoff2_stat  = CAT_STAT_CUTOFF_2.out.stat
+    ch_versions   = ch_versions
     // versions = SAMPLESHEET_CHECK.out.versions // channel: [ versions.yml ]
 }

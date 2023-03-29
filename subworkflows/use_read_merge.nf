@@ -22,6 +22,7 @@ include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE_2 } from '../module
 workflow USE_READ_MERGE {
     take:
     reads_through
+    ch_versions
 
     main:
     //
@@ -155,7 +156,6 @@ workflow USE_READ_MERGE {
       "5d_merge_repeat_dist_umi_correct/plot_along_cutoffs/plot_frac_umi_cutoff_ld"
     )
 
-    // emit:
-    // reads                                     // channel: [ val(meta), [ reads ] ]
-    // versions = SAMPLESHEET_CHECK.out.versions // channel: [ versions.yml ]
+    emit:
+    ch_versions = ch_versions
 }
