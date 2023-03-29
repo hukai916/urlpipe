@@ -1,6 +1,8 @@
 //
 // if use_read == "R1"
 //
+include { FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
+// still need to load FASTQC1 module even if it has been loaded in urlpipe.nf
 
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 
@@ -19,6 +21,7 @@ include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_R1_2    } from '../modules/local/pl
 include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1    } from '../modules/local/plot_frac_umi_cutoff'
 
 include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_R1_2  } from '../modules/local/plot_frac_umi_cutoff'
+
 
 
 workflow USE_READ_R1 {
