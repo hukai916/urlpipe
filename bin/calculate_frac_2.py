@@ -20,6 +20,7 @@ outdir = sys.argv[3]
 umi_cutoff = sys.argv[4]
 cutoff_below, cutoff_above, cutoff_below_2, cutoff_above_2 = int(sys.argv[5]), int(sys.argv[6]), int(sys.argv[7]), int(sys.argv[8])
 
+
 if os.path.getsize(csv) > 0:
     # csv = "30"
     df = pd.read_csv(csv, header = None, names = ["length", "frequency"])
@@ -28,7 +29,7 @@ if os.path.getsize(csv) > 0:
     df.dropna(subset=["length"], inplace = True)
     bins = [0, cutoff_below, cutoff_above, cutoff_below_2, cutoff_above_2, np.inf]
     df["bin"] = pd.cut(df["length"], bins=bins)
-
+    res = str(sample_name) + ","
     # calculate count, fraction, mean, std:
     _total_count = df["frequency"].sum()
     df["weighted_length"] = df["length"] * df["frequency"]
@@ -38,7 +39,6 @@ if os.path.getsize(csv) > 0:
     _mean = df.groupby("bin")["weighted_length"].sum() / df.groupby("bin")["frequency"].sum()
     _std = df.groupby("bin")["length"].agg(lambda x: np.sqrt(np.average((x - np.average(x, weights = df.loc[x.index, "frequency"])) ** 2, weights = df.loc[x.index, "frequency"])))
 
-    res = ""
     for i in range(len(_count)):
         res = res + ",".join([str(_count.iloc[i]), str(_fraction.iloc[i]), str(_mean.iloc[i]), str(_std.iloc[i])])
         if not i == len(_count) - 1:
