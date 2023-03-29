@@ -31,6 +31,6 @@ df_res['total'] = df_res.sum(axis=1)
 for col in df_res.columns[:-1]:
     df_res[col + '_frac'] = df_res[col] / df_res['total']
 
-cols_in_order = ["indel", "indel_frac", "below", "below_frac", "allele_1", "allele_1_frac", "above", "above_frac", "total"]
+cols_in_order = ["sample_name", "indel", "indel_frac", "below", "below_frac", "allele_1", "allele_1_frac", "above", "above_frac", "total"]
 df_res = df_res[cols_in_order]
 df_res.to_csv(outfile, index = False)
