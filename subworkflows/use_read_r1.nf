@@ -3,12 +3,12 @@
 //
 include { FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
 // still need to load FASTQC1 module even if it has been loaded in urlpipe.nf
+include { REPEAT_DIST_DISTANCE_R1     } from '../modules/local/repeat_dist_distance_r1'
 
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_INDEL } from '../modules/local/repeat_dist_umi_correct'
 include { READ_UMI_CORRECT } from '../modules/local/read_umi_correct'
-
 // include { PLOT_FRAC as PLOT_FRAC_4D_R1    } from '../modules/local/plot_frac'
 // include { PLOT_FRAC as PLOT_FRAC_4D_MERGE } from '../modules/local/plot_frac'
 include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_R1    } from '../modules/local/plot_frac_cutoff'
