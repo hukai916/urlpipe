@@ -74,7 +74,7 @@ sample_list = []
 for x in files:
     if os.path.getsize(x) > 0:
         tem = pd.read_csv(x, header = None)
-        tem = tem[tem.iloc[:,0] != "problem"]
+        tem = tem[tem.iloc[:, 0] != "problem"]
         tem = tem[tem.iloc[:, 0] != "plus"]
         data_tem = np.repeat(tem.iloc[:, 0], tem.iloc[:, 1])
         ls_tem = [int(x) for x in data_tem]
