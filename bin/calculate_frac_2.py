@@ -48,5 +48,5 @@ else:
 
 outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + str(umi_cutoff) + ".csv")
 with open(outfile, "w") as f:
-    f.write(res)
+    f.write(res + "\n")
     # print(res)
