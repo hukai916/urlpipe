@@ -2,7 +2,6 @@
 // if use_read == "merge"
 //
 
-include { USE_READ_MERGE } from '../subworkflows/use_read_merge'
 include { BBMERGE                           } from '../modules/local/bbmerge'
 include { REPEAT_DIST_DISTANCE_MERGED       } from '../modules/local/repeat_dist_distance_merged'
 include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_MERGE } from '../modules/local/repeat_dist_within_umi_group'
