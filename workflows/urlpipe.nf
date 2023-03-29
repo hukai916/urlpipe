@@ -60,12 +60,12 @@ include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_2      }   from '../modules/local/c
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL      }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2}   from '../modules/local/cat_stat_cutoff'
 
-include { UMI_PATTERN; UMI_PATTERN as UMI_PATTERN2 } from '../modules/local/umi_pattern'
+include { UMI_PATTERN } from '../modules/local/umi_pattern'
 include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 
 include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
-include { REPEAT_DIST_DISTANCE_R1     } from '../modules/local/repeat_dist_distance_r1'
+
 include { READ_LENGTH_DIST            } from '../modules/local/read_length_dist'
 
 include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_R1 } from '../modules/local/repeat_dist_within_umi_group'
