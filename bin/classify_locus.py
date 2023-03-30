@@ -77,7 +77,7 @@ with _open(r1) as f:
             r1_off_target.append(record)
 
 SeqIO.write(r1_on_target, out_on_target_r1, "fastq")
-SeqIO.write(r1_off_target, out_on_target_r1, "fastq")
+SeqIO.write(r1_off_target, out_off_target_r1, "fastq")
 SeqIO.write(r1_problem, out_problem_r1, "fastq")
 
 r2_on_target = []
@@ -92,7 +92,7 @@ with _open(r2) as f:
         elif r_match[record.name] == 0:
             r2_off_target.append(record)
 SeqIO.write(r2_on_target, out_on_target_r2, "fastq")
-SeqIO.write(r2_off_target, out_on_target_r2, "fastq")
+SeqIO.write(r2_off_target, out_off_target_r2, "fastq")
 SeqIO.write(r2_problem, out_problem_r2, "fastq")
 
 # print some stats:
@@ -102,11 +102,10 @@ try:
 except:
     pass
 
-
 with open(stat_dir, "w") as f:
     name = os.path.basename(r1).split("_1.fastq.gz")[0]
-    p2 = str(res[2]/(sum([res[2], res[1], res[0]])))
-    p1 = str(res[1]/(sum([res[2], res[1], res[0]])))
-    p0 = str(res[0]/(sum([res[2], res[1], res[0]])))
+    p2 = str(res[2]/(sum([res[2], res[1], res[0]]))) # on target
+    p1 = str(res[1]/(sum([res[2], res[1], res[0]]))) # problem
+    p0 = str(res[0]/(sum([res[2], res[1], res[0]]))) # off target
 
-    f.write(name + "," + str(res[2]) + "," + p2 + "," + str(res[1]) + "," + p1 + "," + str(res[0]) + "," + p0 + "\n")
+    f.write(name + "," + str(res[2]) + "," + p2 + "," + str(res[0]) + "," + p0 + str(res[1]) + "," + p1 + "," + "\n")
