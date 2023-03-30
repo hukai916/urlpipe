@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 
 """
-To annotate reads into htt, misprimed, and problem reads:
-    if both ends match: htt_locus;
-    if no end matches: problem_reads (off_targets)
+To annotate reads on_target, off_target, and problem
+    on_target: both ends match
+    off_target: neither ends match
+    problem (mis_primed): one end matches
+
 Usage:
-    python map_locus.py r1.fastq r2.fastq dir_to_store_htt dir_to_store_misprimed dir_to_store_problem output_stat_file r1_flanking r2_flanking
+    python map_locus.py r1.fastq r2.fastq on_target_dir off_target_dir problem_dir stat_dir r1_flanking r2_flanking
 """
 
 from Bio import SeqIO
@@ -19,10 +21,10 @@ import regex
 
 r1 = sys.argv[1]
 r2 = sys.argv[2]
-htt_locus_dir = sys.argv[3]
-misprimed_locus_dir = sys.argv[4]
-problem_reads_dir = sys.argv[5]
-output_stat_file  = sys.argv[6]
+on_targe_dir = sys.argv[3]
+off_target_dir = sys.argv[4]
+problem_dir = sys.argv[5]
+stat_dir    = sys.argv[6]
 r1_flanking = sys.argv[7]
 r2_flanking = sys.argv[8]
 error       = sys.argv[9]
@@ -52,54 +54,52 @@ for k in r1_match:
     r_match[k] = r1_match[k] + r2_match[k]
 
 # output:
-out_htt_r1 = os.path.join(htt_locus_dir, os.path.basename(r1).split(".gz")[0])
-out_htt_r2 = os.path.join(htt_locus_dir, os.path.basename(r2).split(".gz")[0])
-out_mis_r1 = os.path.join(misprimed_locus_dir, os.path.basename(r1).split(".gz")[0])
-out_mis_r2 = os.path.join(misprimed_locus_dir, os.path.basename(r2).split(".gz")[0])
-out_problem_r1 = os.path.join(problem_reads_dir, os.path.basename(r1).split(".gz")[0])
-out_problem_r2 = os.path.join(problem_reads_dir, os.path.basename(r2).split(".gz")[0])
+out_on_target_r1  = os.path.join(on_target_dir, os.path.basename(r1).split(".gz")[0])
+out_on_target_r2  = os.path.join(on_targe_dir, os.path.basename(r2).split(".gz")[0])
+out_off_target_r1 = os.path.join(off_target_dir, os.path.basename(r1).split(".gz")[0])
+out_off_target_r2 = os.path.join(off_target_dir, os.path.basename(r2).split(".gz")[0])
+out_problem_r1 = os.path.join(problem_dir, os.path.basename(r1).split(".gz")[0])
+out_problem_r2 = os.path.join(problem_dir, os.path.basename(r2).split(".gz")[0])
 
-os.makedirs(os.path.dirname(out_htt_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_htt_r2), exist_ok=True)
-os.makedirs(os.path.dirname(out_mis_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_mis_r2), exist_ok=True)
-os.makedirs(os.path.dirname(out_problem_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_problem_r2), exist_ok=True)
+for dir in [out_on_target_r1, out_on_target_r2, out_off_target_r1, out_off_target_r2, out_problem_r1, out_problem_r2]:
+    os.makedirs(os.path.dirname(dir), exist_ok=True)
 
-r1_htt = []
-r1_mis = []
+r1_on_target = []
+r1_off_target = []
 r1_problem = []
 with _open(r1) as f:
     for record in SeqIO.parse(f, 'fastq'):
         if r_match[record.name] == 2:
-            r1_htt.append(record)
+            r1_on_target.append(record)
         elif r_match[record.name] == 1:
-            r1_mis.append(record)
-        elif r_match[record.name] == 0:
             r1_problem.append(record)
+        elif r_match[record.name] == 0:
+            r1_off_target.append(record)
 
-SeqIO.write(r1_htt, out_htt_r1, "fastq")
-SeqIO.write(r1_mis, out_mis_r1, "fastq")
+SeqIO.write(r1_on_target, out_on_target_r1, "fastq")
+SeqIO.write(r1_off_target, out_on_target_r1, "fastq")
 SeqIO.write(r1_problem, out_problem_r1, "fastq")
 
-r2_htt = []
-r2_mis = []
+r2_on_target = []
+r2_off_target = []
 r2_problem = []
 with _open(r2) as f:
     for record in SeqIO.parse(f, 'fastq'):
         if r_match[record.name] == 2:
-            r2_htt.append(record)
+            r2_on_target.append(record)
         elif r_match[record.name] == 1:
-            r2_mis.append(record)
-        elif r_match[record.name] == 0:
             r2_problem.append(record)
-SeqIO.write(r2_htt, out_htt_r2, "fastq")
-SeqIO.write(r2_mis, out_mis_r2, "fastq")
+        elif r_match[record.name] == 0:
+            r2_off_target.append(record)
+SeqIO.write(r2_on_target, out_on_target_r2, "fastq")
+SeqIO.write(r2_off_target, out_on_target_r2, "fastq")
 SeqIO.write(r2_problem, out_problem_r2, "fastq")
 
 # print some stats:
 res = Counter(r_match.values())
-with open(output_stat_file, "w") as f:
+
+os.makedirs(os.path.dirname(stat_dir), exist_ok = True)
+with open(stat_dir, "w") as f:
     name = os.path.basename(r1).split("_1.fastq.gz")[0]
     p2 = str(res[2]/(sum([res[2], res[1], res[0]])))
     p1 = str(res[1]/(sum([res[2], res[1], res[0]])))
