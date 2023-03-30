@@ -100,7 +100,7 @@ workflow URLPIPE {
       INPUT_CHECK.out.reads
       )
     ch_versions = ch_versions.mix(CAT_FASTQ.out.versions)
-    CAT_FASTQ.out.reads.view()
+
     //
     // MODULE: UMI extract
     //
