@@ -9,12 +9,12 @@ process CUTADAPT {
     container "hukai916/cutadapt_xenial:0.1"
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(reads, stageAs: "input_fastq/*")
 
     output:
-    tuple val(meta), path('0c_cutadapt/*.fastq.gz'), emit: reads
-    tuple val(meta), path('0c_cutadapt/*.log'),      emit: log
-    path "versions.yml",                             emit: versions
+    tuple val(meta), path('*.fastq.gz'), emit: reads
+    tuple val(meta), path('*.log'),      emit: log
+    path "versions.yml",                 emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,15 +22,14 @@ process CUTADAPT {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def trimmed  = meta.single_end ? "-o 0c_cutadapt/${prefix}.fastq.gz" : "-o 0c_cutadapt/${prefix}_1.fastq.gz -p 0c_cutadapt/${prefix}_2.fastq.gz"
+    def trimmed  = meta.single_end ? "-o ${prefix}.fastq.gz" : "-o ${prefix}_1.fastq.gz -p ${prefix}_2.fastq.gz"
     """
-    mkdir 0c_cutadapt
     cutadapt \\
         --cores $task.cpus \\
         $args \\
         $trimmed \\
         $reads \\
-        > 0c_cutadapt/${prefix}.cutadapt.log
+        > ${prefix}.cutadapt.log
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

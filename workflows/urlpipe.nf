@@ -111,7 +111,7 @@ workflow URLPIPE {
 
     //
     // MODULE: cutadapt
-    // preprocess/0b_umi_extract
+    // preprocess/0c_cutadapt
     CUTADAPT (
       UMI_EXTRACT.out.reads
       )

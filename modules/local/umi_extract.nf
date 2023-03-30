@@ -22,18 +22,17 @@ process UMI_EXTRACT {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir 0b_umi_extract
 
     # extract UMI from start of the R1 read
-    umi_tools extract $args -I input_fastq/${prefix}_1.fastq.gz -L log_${prefix}_1.txt -S 0b_umi_extract/${prefix}_1.fastq.gz
+    umi_tools extract $args -I input_fastq/${prefix}_1.fastq.gz -L log_${prefix}_1.txt -S ${prefix}_1.fastq.gz
 
     # match altered read name in R2, otherwise cutadapt complains
-    zcat 0b_umi_extract/${prefix}_1.fastq.gz > ${prefix}_1.fastq
+    zcat ${prefix}_1.fastq.gz > ${prefix}_1.fastq
     zcat ${prefix}_2.fastq.gz > ${prefix}_2.fastq
 
     umi_length=\$(awk 'NR==1 {n = split(\$1, array, "_"); print length(array[n]); exit}' ${prefix}_1.fastq)
 
-    awk -v umi_length="\$umi_length" 'NR == FNR { if (NR % 4 ==1) {umi_dict[substr(\$1, 1, length(\$1) - umi_length - 1)] = substr(\$1, length(\$1) - umi_length + 1, length(\$1))}; next } { if (NR %4 == 1) { print \$1 "_" umi_dict[\$1] " " \$2 } else { print \$0}}' ${prefix}_1.fastq ${prefix}_2.fastq | gzip > 0b_umi_extract/${prefix}_2.fastq.gz
+    awk -v umi_length="\$umi_length" 'NR == FNR { if (NR % 4 ==1) {umi_dict[substr(\$1, 1, length(\$1) - umi_length - 1)] = substr(\$1, length(\$1) - umi_length + 1, length(\$1))}; next } { if (NR %4 == 1) { print \$1 "_" umi_dict[\$1] " " \$2 } else { print \$0}}' ${prefix}_1.fastq ${prefix}_2.fastq | gzip > ${prefix}_2.fastq.gz
 
     rm *.fastq
 
