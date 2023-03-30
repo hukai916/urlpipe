@@ -49,8 +49,8 @@ workflow USE_READ_MERGE {
     // MODULE: FastQC
     //
     FASTQC_SINGLE (
-      BBMERGE.out.reads_merged,
-      "4c_merge_fastqc"
+      BBMERGE.out.reads_merged
+      // "4c_merge_fastqc"
       )
     ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
 
