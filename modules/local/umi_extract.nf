@@ -25,7 +25,7 @@ process UMI_EXTRACT {
     mkdir 0b_umi_extract
 
     # extract UMI from start of the R1 read
-    umi_tools extract $args -I $input_fastq/${prefix}_1.fastq.gz -L log_${prefix}_1.txt -S 0b_umi_extract/${prefix}_1.fastq.gz
+    umi_tools extract $args -I input_fastq/${prefix}_1.fastq.gz -L log_${prefix}_1.txt -S 0b_umi_extract/${prefix}_1.fastq.gz
 
     # match altered read name in R2, otherwise cutadapt complains
     zcat 0b_umi_extract/${prefix}_1.fastq.gz > ${prefix}_1.fastq
