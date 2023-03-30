@@ -3,7 +3,7 @@
 """
 To annotate reads into htt, misprimed, and problem reads:
     if both ends match: htt_locus;
-    if no end matches: problem_reads
+    if no end matches: problem_reads (off_targets)
 Usage:
     python map_locus.py r1.fastq r2.fastq dir_to_store_htt dir_to_store_misprimed dir_to_store_problem output_stat_file r1_flanking r2_flanking
 """
