@@ -28,7 +28,7 @@ process UMI_EXTRACT {
 
     # match altered read name in R2, otherwise cutadapt complains
     zcat ${prefix}_1.fastq.gz > ${prefix}_1.fastq
-    zcat ${prefix}_2.fastq.gz > ${prefix}_2.fastq
+    zcat input_fastq/${prefix}_2.fastq.gz > ${prefix}_2.fastq
 
     umi_length=\$(awk 'NR==1 {n = split(\$1, array, "_"); print length(array[n]); exit}' ${prefix}_1.fastq)
 
