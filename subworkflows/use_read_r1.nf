@@ -9,7 +9,6 @@ include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modul
 
 include { UMI_PATTERN } from '../modules/local/umi_pattern'
 
-include { READ_UMI_CORRECT } from '../modules/local/read_umi_correct'
 include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_R1 } from '../modules/local/repeat_dist_within_umi_group'
 
 include { UMI_GROUP_STAT } from '../modules/local/umi_group_stat'
@@ -42,8 +41,8 @@ workflow USE_READ_R1 {
     // MODULE: FastQC
     //
     FASTQC1 (
-      reads_through,
-      "4c_r1_r2_fastqc"
+      reads_through
+      // "4c_r1_r2_fastqc"
       )
     ch_versions = ch_versions.mix(FASTQC1.out.versions)
 
