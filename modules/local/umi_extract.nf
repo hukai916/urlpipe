@@ -10,8 +10,8 @@ process UMI_EXTRACT {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("0b_umi_extract/*.fastq.gz"), emit: reads
-    path  "versions.yml"                   , emit: versions
+    tuple val(meta), path("*.fastq.gz"),  emit: reads
+    path  "versions.yml",                 emit: versions
 
     when:
     task.ext.when == null || task.ext.when
