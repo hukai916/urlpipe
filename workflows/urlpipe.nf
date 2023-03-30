@@ -135,7 +135,6 @@ workflow URLPIPE {
       )
     ch_versions = ch_versions.mix(FASTQC_CUTADAPT.out.versions)
 
-
     //
     // MODULE: map locus
     //
