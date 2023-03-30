@@ -12,7 +12,7 @@ process CAT_FASTQ {
     tuple val(meta), path(reads, stageAs: "input_fastq/*")
 
     output:
-    tuple val(meta), path("*/*.fastq.gz")       , emit: reads
+    tuple val(meta), path("input_fastq/*.fastq.gz")       , emit: reads
     path "versions.yml"                       , emit: versions
 
     when:
