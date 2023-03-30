@@ -1,4 +1,4 @@
-sample,fastq_1,fastq_2,length_cutoff_1_low,length_cutoff_1_high,length_cutoff_2_low,length_cutoff_2_high
+sample,fastq_1,fastq_2,start_allele_1,end_allele_1,start_allele_2,end_allele_2
 1,/home/kai.hu-umw/pi/michael.brodsky-umw/2022_08_HTT_CAG_repeat_Michael_Brodsky/data/2022_12_13/Tail-5396-NT-UMI01_R1_001.fastq.gz,/home/kai.hu-umw/pi/michael.brodsky-umw/2022_08_HTT_CAG_repeat_Michael_Brodsky/data/2022_12_13/Tail-5396-NT-UMI01_R2_001.fastq.gz,151,156,,
 2,/home/kai.hu-umw/pi/michael.brodsky-umw/2022_08_HTT_CAG_repeat_Michael_Brodsky/data/2022_12_13/Str-5396-D10A-ROSA-UMI01_R1_001.fastq.gz,/home/kai.hu-umw/pi/michael.brodsky-umw/2022_08_HTT_CAG_repeat_Michael_Brodsky/data/2022_12_13/Str-5396-D10A-ROSA-UMI01_R2_001.fastq.gz,151,156,,
 3,/home/kai.hu-umw/pi/michael.brodsky-umw/2022_08_HTT_CAG_repeat_Michael_Brodsky/data/2022_12_13/Str-6712-D10A-5pR3-3pR3-UMI01_R1_001.fastq.gz,/home/kai.hu-umw/pi/michael.brodsky-umw/2022_08_HTT_CAG_repeat_Michael_Brodsky/data/2022_12_13/Str-6712-D10A-5pR3-3pR3-UMI01_R2_001.fastq.gz,151,156,,
