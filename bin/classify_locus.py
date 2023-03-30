@@ -108,4 +108,4 @@ with open(stat_dir, "w") as f:
     p1 = str(res[1]/(sum([res[2], res[1], res[0]]))) # problem
     p0 = str(res[0]/(sum([res[2], res[1], res[0]]))) # off target
 
-    f.write(name + "," + str(res[2]) + "," + p2 + "," + str(res[0]) + "," + p0 + str(res[1]) + "," + p1 + "," + "\n")
+    f.write(name + "," + str(res[2]) + "," + p2 + "," + str(res[0]) + "," + p0 + "," + str(res[1]) + "," + p1 + "\n")
