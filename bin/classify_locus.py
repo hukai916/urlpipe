@@ -21,7 +21,7 @@ import regex
 
 r1 = sys.argv[1]
 r2 = sys.argv[2]
-on_targe_dir = sys.argv[3]
+on_target_dir = sys.argv[3]
 off_target_dir = sys.argv[4]
 problem_dir = sys.argv[5]
 stat_dir    = sys.argv[6]
