@@ -24,7 +24,7 @@ r2 = sys.argv[2]
 on_target_dir = sys.argv[3]
 off_target_dir = sys.argv[4]
 problem_dir = sys.argv[5]
-stat_dir    = sys.argv[6]
+stat_dir    = sys.argv[6] # either dir or dir/filename.csv
 r1_flanking = sys.argv[7]
 r2_flanking = sys.argv[8]
 error       = sys.argv[9]
@@ -97,8 +97,12 @@ SeqIO.write(r2_problem, out_problem_r2, "fastq")
 
 # print some stats:
 res = Counter(r_match.values())
+try:
+    os.makedirs(os.path.dirname(stat_dir), exist_ok = True)
+except:
+    pass
 
-os.makedirs(os.path.dirname(stat_dir), exist_ok = True)
+
 with open(stat_dir, "w") as f:
     name = os.path.basename(r1).split("_1.fastq.gz")[0]
     p2 = str(res[2]/(sum([res[2], res[1], res[0]])))
