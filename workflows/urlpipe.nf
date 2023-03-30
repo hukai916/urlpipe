@@ -92,7 +92,7 @@ workflow URLPIPE {
         params.allele_number
     )
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-
+    log.view(INPUT_CHECK.out.reads)
     //
     // MODULE: Cat Fastq
     // preprocess/0a_lane_merge
