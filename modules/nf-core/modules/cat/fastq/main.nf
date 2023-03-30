@@ -9,10 +9,10 @@ process CAT_FASTQ {
     container "hukai916/pigz_xenial:0.1"
 
     input:
-    tuple val(meta), path(reads, stageAs: "*")
+    tuple val(meta), path(reads, stageAs: "input_fastq/*")
 
     output:
-    tuple val(meta), path("*.fastq.gz")       , emit: reads
+    tuple val(meta), path("*/*.fastq.gz")       , emit: reads
     path "versions.yml"                       , emit: versions
 
     when:
