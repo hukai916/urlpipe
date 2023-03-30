@@ -103,7 +103,7 @@ workflow URLPIPE {
 
     //
     // MODULE: UMI extract
-    //
+    // preprocess/0b_umi_extract
     UMI_EXTRACT (
       CAT_FASTQ.out.reads
       )
@@ -111,7 +111,7 @@ workflow URLPIPE {
 
     //
     // MODULE: cutadapt
-    //
+    // preprocess/0b_umi_extract
     CUTADAPT (
       UMI_EXTRACT.out.reads
       )

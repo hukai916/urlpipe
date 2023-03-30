@@ -7,7 +7,7 @@ process UMI_EXTRACT {
     // ref: let awk access bash variables: https://stackoverflow.com/questions/19075671/how-do-i-use-shell-variables-in-an-awk-script
 
     input:
-    tuple val(meta), path(reads)
+    tuple val(meta), path(reads, stageAs: "input_fastq/*")
 
     output:
     tuple val(meta), path("*.fastq.gz"),  emit: reads
@@ -25,7 +25,7 @@ process UMI_EXTRACT {
     mkdir 0b_umi_extract
 
     # extract UMI from start of the R1 read
-    umi_tools extract $args -I ${prefix}_1.fastq.gz -L log_${prefix}_1.txt -S 0b_umi_extract/${prefix}_1.fastq.gz
+    umi_tools extract $args -I $input_fastq/${prefix}_1.fastq.gz -L log_${prefix}_1.txt -S 0b_umi_extract/${prefix}_1.fastq.gz
 
     # match altered read name in R2, otherwise cutadapt complains
     zcat 0b_umi_extract/${prefix}_1.fastq.gz > ${prefix}_1.fastq
