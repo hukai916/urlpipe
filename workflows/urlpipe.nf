@@ -96,6 +96,14 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
     //
+    // MODULE: FASTQC_RAW
+    // quality_control/fastqc/01_raw
+    FASTQC_RAW (
+      INPUT_CHECK.out.reads
+      )
+    ch_versions = ch_versions.mix(FASTQC_RAW.out.versions)
+
+    //
     // MODULE: Cat Fastq
     // preprocess/01_lane_merge
     CAT_FASTQ (
@@ -121,11 +129,6 @@ workflow URLPIPE {
 
     //
     // MODULE: FastQC
-    // quality_control/fastqc/01_raw
-    FASTQC_RAW (
-      INPUT_CHECK.out.reads
-      )
-    ch_versions = ch_versions.mix(FASTQC_RAW.out.versions)
     // quality_control/fastqc/02_after_cutadapt
     FASTQC_CUTADAPT (
       CUTADAPT.out.reads
