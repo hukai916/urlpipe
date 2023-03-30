@@ -108,7 +108,7 @@ workflow URLPIPE {
       CAT_FASTQ.out.reads
       )
     ch_versions = ch_versions.mix(UMI_EXTRACT.out.versions)
-
+    CAT_FASTQ.out.reads.view()
     //
     // MODULE: cutadapt
     //
@@ -209,7 +209,6 @@ workflow URLPIPE {
 
  // // For INDEL reads:
     // MODULE: INDEL reads distribution:
-    CLASSIFY_INDEL.out.reads_indel_5p_or_3p.view()
     READ_LENGTH_DIST (
       CLASSIFY_INDEL.out.reads_indel_5p_or_3p,
       "4d_indel_read_length_distribution"
