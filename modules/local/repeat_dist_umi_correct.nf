@@ -33,10 +33,10 @@ process REPEAT_DIST_UMI_CORRECT {
     script:
     def args = task.ext.args ?: ''
     def args_frac = task.ext.args_frac ?: ''
-    def length_cutoff_1_low  = "${meta.length_cutoff_1_low}"
-    def length_cutoff_1_high = "${meta.length_cutoff_1_high}"
-    def length_cutoff_2_low  = "${meta.length_cutoff_2_low}" ?: 1 // simply place holder
-    def length_cutoff_2_high = "${meta.length_cutoff_2_high}" ?: 2
+    def start_allele_1  = "${meta.start_allele_1}"
+    def end_allele_1 = "${meta.end_allele_1}"
+    def start_allele_2  = "${meta.start_allele_2}" ?: 1 // simply place holder
+    def end_allele_2 = "${meta.end_allele_2}" ?: 2
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
@@ -56,13 +56,13 @@ process REPEAT_DIST_UMI_CORRECT {
       repeat_dist_umi_correct.py $csv $prefix ${outdir}/read_length_distribution/cutoff_\$i \$i $args
 
       if [ $allele_number -eq 1 ]; then
-        calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mode \$i $length_cutoff_1_low $length_cutoff_1_high
-        calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mean \$i $length_cutoff_1_low $length_cutoff_1_high
-        calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/ld \$i $length_cutoff_1_low $length_cutoff_1_high
+        calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mode \$i $start_allele_1 $end_allele_1
+        calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mean \$i $start_allele_1 $end_allele_1
+        calculate_frac.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/ld \$i $start_allele_1 $end_allele_1
       elif [ $allele_number -eq 2 ]; then
-        calculate_frac_2.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mode \$i $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
-        calculate_frac_2.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mean \$i $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
-        calculate_frac_2.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/ld \$i $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
+        calculate_frac_2.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mode/stat_mode_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mode \$i $start_allele_1 $end_allele_1 $start_allele_2 $end_allele_2
+        calculate_frac_2.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/mean/stat_mean_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/mean \$i $start_allele_1 $end_allele_1 $start_allele_2 $end_allele_2
+        calculate_frac_2.py $prefix ${outdir}/read_length_distribution/cutoff_\$i/ld/stat_ld_${prefix}_cutoff_\$i.csv ${outdir}/frac_above_below/cutoff_\$i/ld \$i $start_allele_1 $end_allele_1 $start_allele_2 $end_allele_2
       fi
     done
 

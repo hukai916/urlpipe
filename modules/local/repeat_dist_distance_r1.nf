@@ -22,10 +22,10 @@ process REPEAT_DIST_DISTANCE_R1 {
     script:
     def args = task.ext.args ?: ''
     // def args_frac = task.ext.args_frac ?: ''
-    def length_cutoff_1_low  = "${meta.length_cutoff_1_low}"
-    def length_cutoff_1_high = "${meta.length_cutoff_1_high}"
-    def length_cutoff_2_low  = "${meta.length_cutoff_2_low}" ?: 1 // simply place holder
-    def length_cutoff_2_high = "${meta.length_cutoff_2_high}" ?: 2
+    def start_allele_1  = "${meta.start_allele_1}"
+    def end_allele_1 = "${meta.end_allele_1}"
+    def start_allele_2  = "${meta.start_allele_2}" ?: 1 // simply place holder
+    def end_allele_2 = "${meta.end_allele_2}" ?: 2
 
     def prefix = "${meta.id}"
 
@@ -36,9 +36,9 @@ process REPEAT_DIST_DISTANCE_R1 {
 
     # calculate fractions
     if [ $allele_number -eq 1 ]; then
-      calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 0 $length_cutoff_1_low $length_cutoff_1_high
+      calculate_frac.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 0 $start_allele_1 $end_allele_1
     elif [ $allele_number -eq 2 ]; then
-      calculate_frac_2.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 0 $length_cutoff_1_low $length_cutoff_1_high $length_cutoff_2_low $length_cutoff_2_high
+      calculate_frac_2.py $prefix ${outdir}/stat_r1/${prefix}.stat.csv ${outdir}/frac_r1 0 $start_allele_1 $end_allele_1 $start_allele_2 $end_allele_2
     fi
 
     cat <<-END_VERSIONS > versions.yml

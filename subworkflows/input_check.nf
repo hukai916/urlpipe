@@ -26,11 +26,11 @@ def create_fastq_channel(LinkedHashMap row, allele_number) {
     // create meta map
     def meta = [:]
     meta.id         = row.sample
-    meta.length_cutoff_1_low = row.length_cutoff_1_low
-    meta.length_cutoff_1_high = row.length_cutoff_1_high
+    meta.start_allele_1 = row.start_allele_1
+    meta.end_allele_1 = row.end_allele_1
     if (allele_number == 2) {
-      meta.length_cutoff_2_low = row.length_cutoff_2_low
-      meta.length_cutoff_2_high = row.length_cutoff_2_high
+      meta.start_allele_2 = row.start_allele_2
+      meta.end_allele_2 = row.end_allele_2
     }
     meta.single_end = row.single_end.toBoolean()
 
