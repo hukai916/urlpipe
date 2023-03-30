@@ -55,7 +55,7 @@ for k in r1_match:
 
 # output:
 out_on_target_r1  = os.path.join(on_target_dir, os.path.basename(r1).split(".gz")[0])
-out_on_target_r2  = os.path.join(on_targe_dir, os.path.basename(r2).split(".gz")[0])
+out_on_target_r2  = os.path.join(on_target_dir, os.path.basename(r2).split(".gz")[0])
 out_off_target_r1 = os.path.join(off_target_dir, os.path.basename(r1).split(".gz")[0])
 out_off_target_r2 = os.path.join(off_target_dir, os.path.basename(r2).split(".gz")[0])
 out_problem_r1 = os.path.join(problem_dir, os.path.basename(r1).split(".gz")[0])
