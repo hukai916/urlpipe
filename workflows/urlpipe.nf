@@ -86,7 +86,7 @@ workflow URLPIPE {
 
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
+    // pipeline_info
     INPUT_CHECK (
         ch_input,
         params.allele_number
@@ -95,7 +95,7 @@ workflow URLPIPE {
 
     //
     // MODULE: Cat Fastq
-    //
+    // preprocess/0a_lane_merge
     CAT_FASTQ (
       INPUT_CHECK.out.reads
       )
