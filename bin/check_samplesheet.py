@@ -31,41 +31,43 @@ class RowChecker:
 
     def __init__(
         self,
-        sample_col="sample",
-        first_col="fastq_1",
-        second_col="fastq_2",
-        single_col="single_end",
-        allele_number="allele_number",
-        length_cutoff_1_low="length_cutoff_1_low",
-        length_cutoff_1_high="length_cutoff_1_high",
-        length_cutoff_2_low="length_cutoff_2_low",
-        length_cutoff_2_high="length_cutoff_2_high",
+        sample          = "sample",
+        fastq_1         = "fastq_1",
+        fastq_2         = "fastq_2",
+        single_col      = "single_end",
+        allele_number   = "allele_number",
+        start_allele_1  = "start_allele_1",
+        end_allele_1    = "end_allele_1",
+        start_allele_2  = "start_allele_2",
+        end_allele_2    = "end_allele_2",
         **kwargs,
     ):
         """
         Initialize the row checker with the expected column names.
 
         Args:
-            sample_col (str): The name of the column that contains the sample name
-                (default "sample").
-            first_col (str): The name of the column that contains the first (or only)
-                FASTQ file path (default "fastq_1").
-            second_col (str): The name of the column that contains the second (if any)
-                FASTQ file path (default "fastq_2").
+            sample (str): the name of the column that contains the sample name.
+            fastq_1 (str): the name of the column that contains the first (or only) FASTQ file path.
+            fastq_2 (str): the name of the column that contains the second (if any).
+            start_allele_1 (int): the lower cutoff of the first allele repeat length cutoff.
+            end_allele_1 (int): the higher cutoff of the first allele repeat length cutoff.
+            start_allele_2 (int): the lower cutoff of the second (if any) allele repeat length cutoff.
+            end_allele_2 (int): the higher cutoff of the second allele (if any) repeat length cutoff.
+            allele_number (int [1|2]): if 1, 2 repeat length cutoffs are needed; if 2, 4 cutoffs are needed.
             single_col (str): The name of the new column that will be inserted and
                 records whether the sample contains single- or paired-end sequencing
-                reads (default "single_end").
+                reads (default "single_end"). Not used.
 
         """
         super().__init__(**kwargs)
-        self._sample_col = sample_col
-        self._first_col = first_col
-        self._second_col = second_col
+        self._sample = sample
+        self._fastq_1 = fastq_1
+        self._fastq_2 = fastq_2
         self._single_col = single_col
-        self._length_cutoff_1_low = length_cutoff_1_low
-        self._length_cutoff_1_high = length_cutoff_1_high
-        self._length_cutoff_2_low = length_cutoff_2_low
-        self._length_cutoff_2_high = length_cutoff_2_high
+        self._start_allele_1 = start_allele_1
+        self._end_allele_1 = end_allele_1
+        self._start_allele_2 = start_allele_2
+        self._end_allele_2 = end_allele_2
         self._allele_number = allele_number
         self._seen = set()
         self.modified = []
@@ -88,34 +90,34 @@ class RowChecker:
         elif self._allele_number == 2:
             self._validate_length_cutoff_1(row)
             self._validate_length_cutoff_2(row)
-        self._seen.add((row[self._sample_col], row[self._first_col]))
+        self._seen.add((row[self._sample], row[self._fastq_1]))
         self.modified.append(row)
 
     def _validate_sample(self, row):
         """Assert that the sample name exists and convert spaces to underscores."""
-        if len(row[self._sample_col]) <= 0:
+        if len(row[self._sample]) <= 0:
             raise AssertionError("Sample input is required.")
         # Sanitize samples slightly.
-        row[self._sample_col] = row[self._sample_col].replace(" ", "_")
+        row[self._sample] = row[self._sample].replace(" ", "_")
 
     def _validate_first(self, row):
         """Assert that the first FASTQ entry is non-empty and has the right format."""
-        if len(row[self._first_col]) <= 0:
+        if len(row[self._fastq_1]) <= 0:
             raise AssertionError("At least the first FASTQ file is required.")
-        self._validate_fastq_format(row[self._first_col])
+        self._validate_fastq_format(row[self._fastq_1])
 
     def _validate_second(self, row):
         """Assert that the second FASTQ entry has the right format if it exists."""
-        if len(row[self._second_col]) > 0:
-            self._validate_fastq_format(row[self._second_col])
+        if len(row[self._fastq_2]) > 0:
+            self._validate_fastq_format(row[self._fastq_2])
 
     def _validate_pair(self, row):
         """Assert that read pairs have the same file extension. Report pair status."""
-        if row[self._first_col] and row[self._second_col]:
+        if row[self._fastq_1] and row[self._fastq_2]:
             row[self._single_col] = False
-            first_col_suffix = Path(row[self._first_col]).suffixes[-2:]
-            second_col_suffix = Path(row[self._second_col]).suffixes[-2:]
-            if first_col_suffix != second_col_suffix:
+            fastq_1_suffix = Path(row[self._fastq_1]).suffixes[-2:]
+            fastq_2_suffix = Path(row[self._fastq_2]).suffixes[-2:]
+            if fastq_1_suffix != fastq_2_suffix:
                 raise AssertionError("FASTQ pairs must have the same file extensions.")
         else:
             row[self._single_col] = True
@@ -130,40 +132,40 @@ class RowChecker:
 
     def _validate_length_cutoff_1(self, row):
         """Assert that the length_cutoff_1 are set and are positive integers."""
-        if len(row[self._length_cutoff_1_low]) <= 0:
-            raise AssertionError("length_cutoff_1_low must be set.")
-        if len(row[self._length_cutoff_1_high]) <= 0:
-            raise AssertionError("length_cutoff_1_high must be set.")
+        if len(row[self._start_allele_1]) <= 0:
+            raise AssertionError("start_allele_1 must be set.")
+        if len(row[self._end_allele_1]) <= 0:
+            raise AssertionError("end_allele_1 must be set.")
 
         try:
-            row[self._length_cutoff_1_low] = int(row[self._length_cutoff_1_low])
-            row[self._length_cutoff_1_high] = int(row[self._length_cutoff_1_high])
+            row[self._start_allele_1] = int(row[self._start_allele_1])
+            row[self._end_allele_1] = int(row[self._end_allele_1])
         except ValueError as error:
             logger.critical("length_cutoff_1 must be integer.")
             sys.exit(1)
 
-        if row[self._length_cutoff_1_low] < 0 or row[self._length_cutoff_1_high] < 0 or row[self._length_cutoff_1_low] >= row[self._length_cutoff_1_high]:
-            raise AssertionError("length_cutoff_1_low must be lower than length_cutoff_1_high, and both should be positive integer.")
+        if row[self._start_allele_1] < 0 or row[self._end_allele_1] < 0 or row[self._start_allele_1] >= row[self._end_allele_1]:
+            raise AssertionError("start_allele_1 must be lower than end_allele_1, and both should be positive integer.")
 
     def _validate_length_cutoff_2(self, row):
         """Assert that the length_cutoff_2 are set and are positive integers."""
-        if len(row[self._length_cutoff_2_low]) <= 0:
-            raise AssertionError("length_cutoff_2_low must be set.")
-        if len(row[self._length_cutoff_2_high]) <= 0:
-            raise AssertionError("length_cutoff_2_high must be set.")
+        if len(row[self._start_allele_2]) <= 0:
+            raise AssertionError("start_allele_2 must be set.")
+        if len(row[self._end_allele_2]) <= 0:
+            raise AssertionError("end_allele_2 must be set.")
         try:
-            row[self._length_cutoff_1_low] = int(row[self._length_cutoff_1_low])
-            row[self._length_cutoff_1_high] = int(row[self._length_cutoff_1_high])
-            row[self._length_cutoff_2_low] = int(row[self._length_cutoff_2_low])
-            row[self._length_cutoff_2_high] = int(row[self._length_cutoff_2_high])
+            # row[self._start_allele_1] = int(row[self._start_allele_1])
+            # row[self._end_allele_1] = int(row[self._end_allele_1])
+            row[self._start_allele_2] = int(row[self._start_allele_2])
+            row[self._end_allele_2] = int(row[self._end_allele_2])
         except ValueError as error:
             logger.critical("length_cutoff_2 must be integer.")
             sys.exit(1)
 
-        if row[self._length_cutoff_2_low] < 0 or row[self._length_cutoff_2_high] < 0 or row[self._length_cutoff_2_low] >= row[self._length_cutoff_2_high]:
-            raise AssertionError("length_cutoff_2_low must be lower than length_cutoff_2_high, and both should be positive integer.")
-        if row[self._length_cutoff_2_low] < row[self._length_cutoff_1_high]:
-            raise AssertionError("The following must hold: length_cutoff_1_low < length_cutoff_1_high < length_cutoff_2_low < length_cutoff_2_high.")
+        if row[self._start_allele_2] < 0 or row[self._end_allele_2] < 0 or row[self._start_allele_2] >= row[self._end_allele_2]:
+            raise AssertionError("start_allele_2 must be lower than end_allele_2, and both should be positive integer.")
+        if row[self._start_allele_2] < row[self._end_allele_1]:
+            raise AssertionError("The following must hold: start_allele_1 < end_allele_1 < start_allele_2 < end_allele_2.")
 
     def validate_unique_samples(self):
         """
@@ -177,10 +179,10 @@ class RowChecker:
             raise AssertionError("The pair of sample name and FASTQ must be unique.")
         seen = Counter()
         for row in self.modified:
-            sample = row[self._sample_col]
+            sample = row[self._sample]
             seen[sample] += 1
-            # row[self._sample_col] = f"{sample}_T{seen[sample]}"
-            row[self._sample_col] = f"{sample}"
+            # row[self._sample] = f"{sample}_T{seen[sample]}"
+            row[self._sample] = f"{sample}"
 
 
 def read_head(handle, num_lines=10):
@@ -236,7 +238,7 @@ def check_samplesheet(file_in, file_out, allele_number):
         This function checks that the samplesheet follows the following structure,
         see also the `viral recon samplesheet`_::
 
-            sample,fastq_1,fastq_2,length_cutoff_1_low,length_cutoff_1_high,length_cutoff_2_low,length_cutoff_2_high
+            sample,fastq_1,fastq_2,start_allele_1,end_allele_1,start_allele_2,end_allele_2
             SAMPLE_PE,SAMPLE_PE_RUN1_1.fastq.gz,SAMPLE_PE_RUN1_2.fastq.gz
             SAMPLE_PE,SAMPLE_PE_RUN2_1.fastq.gz,SAMPLE_PE_RUN2_2.fastq.gz
             SAMPLE_SE,SAMPLE_SE_RUN1_1.fastq.gz,
@@ -246,9 +248,9 @@ def check_samplesheet(file_in, file_out, allele_number):
 
     """
     if allele_number == 1:
-        required_columns = {"sample", "fastq_1", "fastq_2", "length_cutoff_1_low", "length_cutoff_1_high"}
+        required_columns = {"sample", "fastq_1", "fastq_2", "start_allele_1", "end_allele_1"}
     elif allele_number == 2:
-        required_columns = {"sample", "fastq_1", "fastq_2", "length_cutoff_1_low", "length_cutoff_1_high", "length_cutoff_2_low", "length_cutoff_2_high"}
+        required_columns = {"sample", "fastq_1", "fastq_2", "start_allele_1", "end_allele_1", "start_allele_2", "end_allele_2"}
     else:
         logger.critical(f"The params.allele_number must be integer 1 or 2.")
         sys.exit(1)
@@ -261,7 +263,7 @@ def check_samplesheet(file_in, file_out, allele_number):
             logger.critical(f"The sample sheet **must** contain these column headers: {req_cols}.")
             sys.exit(1)
         # Validate each row.
-        checker = RowChecker(allele_number = 1)
+        checker = RowChecker(allele_number = allele_number)
         for i, row in enumerate(reader):
             try:
                 checker.validate_and_transform(row)
