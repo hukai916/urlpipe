@@ -53,7 +53,7 @@ include { CUTADAPT                    } from '../modules/nf-core/modules/cutadap
 include { FASTQC as FASTQC_RAW        } from '../modules/nf-core/modules/fastqc/main'
 include { FASTQC as FASTQC_CUTADAPT   } from '../modules/nf-core/modules/fastqc/main'
 
-include { MAP_LOCUS                   } from '../modules/local/map_locus'
+include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3 } from '../modules/local/cat_stat'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL      }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2}   from '../modules/local/cat_stat_cutoff'
@@ -137,18 +137,18 @@ workflow URLPIPE {
 
     //
     // MODULE: map locus
-    //
-    MAP_LOCUS (
+    // read_category/CLASSIFY_LOCUS
+    CLASSIFY_LOCUS (
       CUTADAPT.out.reads
       )
-    ch_versions = ch_versions.mix(MAP_LOCUS.out.versions)
+    ch_versions = ch_versions.mix(CLASSIFY_LOCUS.out.versions)
 
     //
-    // MODULE: combine MAP_LOCUS.out.stat into one file
+    // MODULE: combine CLASSIFY_LOCUS.out.stat into one file
     //
     CAT_STAT (
-      MAP_LOCUS.out.stat.collect(),
-      "1a_map_locus/stat",
+      CLASSIFY_LOCUS.out.stat.collect(),
+      "1a_CLASSIFY_LOCUS/stat",
       "all_sample",
       "sample_name,locus,percent,misprimed,percent,problem,percent" // header to be added
       )
@@ -167,7 +167,7 @@ workflow URLPIPE {
     // MODULE: classify INDEL
     //
     CLASSIFY_INDEL (
-      MAP_LOCUS.out.reads_locus
+      CLASSIFY_LOCUS.out.reads_locus
       )
     ch_versions = ch_versions.mix(CLASSIFY_INDEL.out.versions)
 

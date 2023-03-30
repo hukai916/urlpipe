@@ -1,4 +1,4 @@
-process MAP_LOCUS {
+process CLASSIFY_LOCUS {
     tag "$meta.id"
     label 'process_medium'
 
@@ -8,10 +8,10 @@ process MAP_LOCUS {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("1a_map_locus/locus/*.fastq.gz"),     emit: reads_locus
-    tuple val(meta), path("1a_map_locus/misprimed/*.fastq.gz"), emit: reads_misprimed
-    tuple val(meta), path("1a_map_locus/problem/*.fastq.gz"),   emit: reads_problem
-    path "1a_map_locus/stat/*.csv",                             emit: stat
+    tuple val(meta), path("locus/*.fastq.gz"),     emit: reads_locus
+    tuple val(meta), path("misprimed/*.fastq.gz"), emit: reads_misprimed
+    tuple val(meta), path("problem/*.fastq.gz"),   emit: reads_problem
+    path "stat/*.csv",                             emit: stat
     path  "versions.yml",                                       emit: versions
 
     when:
@@ -23,10 +23,10 @@ process MAP_LOCUS {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p 1a_map_locus/locus 1a_map_locus/misprimed 1a_map_locus/problem 1a_map_locus/stat
+    mkdir locus misprimed problem 1a_map_locus/stat
     touch 1a_map_locus/stat/${prefix}.csv
 
-    map_locus.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 1a_map_locus/locus 1a_map_locus/misprimed 1a_map_locus/problem 1a_map_locus/stat/${prefix}.csv $args
+    classify_locus.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 1a_map_locus/locus 1a_map_locus/misprimed 1a_map_locus/problem 1a_map_locus/stat/${prefix}.csv $args
     gzip 1a_map_locus/locus/*
     gzip 1a_map_locus/misprimed/*
     gzip 1a_map_locus/problem/*
