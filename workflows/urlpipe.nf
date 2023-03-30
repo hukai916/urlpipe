@@ -50,7 +50,9 @@ include { USE_READ_MERGE } from '../subworkflows/use_read_merge'
 include { CAT_FASTQ                   } from '../modules/nf-core/modules/cat/fastq/main'
 include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
 include { CUTADAPT                    } from '../modules/nf-core/modules/cutadapt/main'
-include { FASTQC; FASTQC as FASTQC1   } from '../modules/nf-core/modules/fastqc/main'
+include { FASTQC as FASTQC_RAW        } from '../modules/nf-core/modules/fastqc/main'
+include { FASTQC as FASTQC_CUTADAPT   } from '../modules/nf-core/modules/fastqc/main'
+
 include { MAP_LOCUS                   } from '../modules/local/map_locus'
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3 } from '../modules/local/cat_stat'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL      }   from '../modules/local/cat_stat_cutoff'
@@ -95,7 +97,7 @@ workflow URLPIPE {
 
     //
     // MODULE: Cat Fastq
-    // preprocess/0a_lane_merge
+    // preprocess/01_lane_merge
     CAT_FASTQ (
       INPUT_CHECK.out.reads
       )
@@ -103,7 +105,7 @@ workflow URLPIPE {
 
     //
     // MODULE: UMI extract
-    // preprocess/0b_umi_extract
+    // preprocess/02_umi_extract
     UMI_EXTRACT (
       CAT_FASTQ.out.reads
       )
@@ -111,7 +113,7 @@ workflow URLPIPE {
 
     //
     // MODULE: cutadapt
-    // preprocess/0c_cutadapt
+    // preprocess/03_cutadapt
     CUTADAPT (
       UMI_EXTRACT.out.reads
       )
@@ -119,12 +121,17 @@ workflow URLPIPE {
 
     //
     // MODULE: FastQC
-    //
-    // FASTQC (
-    //   CUTADAPT.out.reads,
-    //   "0d_fastqc"
-    //   )
-    // ch_versions = ch_versions.mix(FASTQC.out.versions)
+    // quality_control/fastqc/01_raw
+    FASTQC_RAW (
+      CUTADAPT.out.reads
+      )
+    ch_versions = ch_versions.mix(FASTQC.out.versions)
+    // quality_control/fastqc/02_after_cutadapt
+    FASTQC_CUTADAPT (
+      CUTADAPT.out.reads
+      )
+    ch_versions = ch_versions.mix(FASTQC.out.versions)
+
 
     //
     // MODULE: map locus
