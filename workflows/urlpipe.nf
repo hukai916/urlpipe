@@ -92,7 +92,7 @@ workflow URLPIPE {
         params.allele_number
     )
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    INPUT_CHECK.out.reads.view()
+
     //
     // MODULE: Cat Fastq
     // preprocess/0a_lane_merge
@@ -209,6 +209,7 @@ workflow URLPIPE {
 
  // // For INDEL reads:
     // MODULE: INDEL reads distribution:
+    CLASSIFY_INDEL.out.reads_indel_5p_or_3p.view()
     READ_LENGTH_DIST (
       CLASSIFY_INDEL.out.reads_indel_5p_or_3p,
       "4d_indel_read_length_distribution"
