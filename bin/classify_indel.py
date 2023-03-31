@@ -59,17 +59,6 @@ for k in r1_match:
     r_match[k] = r1_match[k] + r2_match[k]
 
 # output:
-# out_no_indel_r1 = os.path.join(no_indel_dir, sample_name + "_1.fastq")
-# out_no_indel_r2 = os.path.join(no_indel_dir, sample_name + "_2.fastq")
-# out_indel_5p_r1 = os.path.join(indel_5p_dir, sample_name + "_1.fastq")
-# out_indel_5p_r2 = os.path.join(indel_5p_dir, sample_name + "_2.fastq")
-# out_indel_3p_r1 = os.path.join(indel_3p_dir, sample_name + "_1.fastq")
-# out_indel_3p_r2 = os.path.join(indel_3p_dir, sample_name + "_2.fastq")
-# out_indel_5p_and_3p_r1 = os.path.join(indel_5p_and_3p_dir, sample_name + "_1.fastq")
-# out_indel_5p_and_3p_r2 = os.path.join(indel_5p_and_3p_dir, sample_name + "_2.fastq")
-# out_indel_5p_or_3p_r1 = os.path.join(indel_5p_or_3p_dir, sample_name + "_1.fastq")
-# out_indel_5p_or_3p_r2 = os.path.join(indel_5p_or_3p_dir, sample_name + "_2.fastq")
-
 output_dirs = {
     "no_indel": no_indel_dir,
     "indel_5p": indel_5p_dir,
@@ -85,26 +74,9 @@ for output_type, output_dir in output_dirs.items():
         "r2": os.path.join(output_dir, sample_name + "_2.fastq")
     }
 
-for output_dir in output_dirs:
-    output_dirs[output_dir] = {
-
-    }
-
-dir_paths = [
-    os.path.dirname(out_no_indel_r1),
-    os.path.dirname(out_no_indel_r2),
-    os.path.dirname(out_indel_5p_r1),
-    os.path.dirname(out_indel_5p_r2),
-    os.path.dirname(out_indel_3p_r1),
-    os.path.dirname(out_indel_3p_r2),
-    os.path.dirname(out_indel_5p_and_3p_r1),
-    os.path.dirname(out_indel_5p_and_3p_r2),
-    os.path.dirname(out_indel_5p_or_3p_r1),
-    os.path.dirname(out_indel_5p_or_3p_r2),
-    os.path.dirname(indel_stat_dir) ]
-
-for dir_path in dir_paths:
-    os.makedirs(dir_path, exist_ok=True)
+for outfile in output_files:
+    os.makedirs(output_files[outfile]["r1"], exist_ok = True)
+    os.makedirs(output_files[outfile]["r2"], exist_ok = True)
 
 count_5p = 0
 count_3p = 0
@@ -129,12 +101,12 @@ with _open(r1) as f:
         elif r_match[record.name] == 0:
             r1_indel_5p_and_3p.append(record)
             r1_indel_5p_or_3p.append(record)
-SeqIO.write(r1_no_indel, out_no_indel_r1, "fastq")
-SeqIO.write(r1_indel_5p, out_indel_5p_r1, "fastq")
-SeqIO.write(r1_indel_3p, out_indel_3p_r1, "fastq")
-SeqIO.write(r1_indel_5p_and_3p, out_indel_5p_and_3p_r1, "fastq")
-SeqIO.write(r1_indel_5p_or_3p, out_indel_5p_or_3p_r1, "fastq")
+_res = [r1_no_indel, r1_indel_5p, r1_indel_3p, r1_indel_5p_and_3p, r1_indel_5p_or_3p]
+_out_file = [output_files["no_indel"]["r1"], output_files["indel_5p"]["r1"], output_files["indel_3p"]["r1"], output_files["indel_5p_and_3p"]["r1"], output_files["indel_5p_or_3p"]["r1"]]
 
+for res, out_file in zip(_res, _out_file):
+    with open(outfile, "w") as f:
+        SeqIO.write(res, f, "fastq")
 
 r2_no_indel = []
 r2_indel_5p = []
@@ -154,11 +126,13 @@ with _open(r2) as f:
         elif r_match[record.name] == 0:
             r2_indel_5p_and_3p.append(record)
             r2_indel_5p_or_3p.append(record)
-SeqIO.write(r2_no_indel, out_no_indel_r2, "fastq")
-SeqIO.write(r2_indel_5p, out_indel_5p_r2, "fastq")
-SeqIO.write(r2_indel_3p, out_indel_3p_r2, "fastq")
-SeqIO.write(r2_indel_5p_and_3p, out_indel_5p_and_3p_r2, "fastq")
-SeqIO.write(r2_indel_5p_or_3p, out_indel_5p_or_3p_r2, "fastq")
+
+_res = [r2_no_indel, r2_indel_5p, r2_indel_3p, r2_indel_5p_and_3p, r2_indel_5p_or_3p]
+_out_file = [output_files["no_indel"]["r2"], output_files["indel_5p"]["r2"], output_files["indel_3p"]["r2"], output_files["indel_5p_and_3p"]["r2"], output_files["indel_5p_or_3p"]["r2"]]
+
+for res, out_file in zip(_res, _out_file):
+    with open(outfile, "w") as f:
+        SeqIO.write(res, f, "fastq")
 
 # print some stats:
 res = Counter(r_match.values())
