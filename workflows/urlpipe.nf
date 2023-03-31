@@ -53,7 +53,7 @@ include { CUTADAPT                    } from '../modules/nf-core/modules/cutadap
 include { FASTQC as FASTQC_RAW        } from '../modules/nf-core/modules/fastqc/main'
 include { FASTQC as FASTQC_CUTADAPT   } from '../modules/nf-core/modules/fastqc/main'
 include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
-include { STAT as STAT_LOCUS          } from '../modules/local/cat_stat'
+include { STAT as STAT_LOCUS          } from '../modules/local/stat'
 
 
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3 } from '../modules/local/cat_stat'
