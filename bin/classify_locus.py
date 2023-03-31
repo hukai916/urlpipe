@@ -76,9 +76,13 @@ with _open(r1) as f:
         elif r_match[record.name] == 0:
             r1_off_target.append(record)
 
-SeqIO.write(r1_on_target, out_on_target_r1, "fastq")
-SeqIO.write(r1_off_target, out_off_target_r1, "fastq")
-SeqIO.write(r1_problem, out_problem_r1, "fastq")
+# create empty files first to pass Nextflow check: use open() function.
+_res = [r1_on_target, r1_off_target, r1_problem]
+_res_outfile = [out_on_target_r1, out_off_target_r1, out_problem_r1]
+
+for res, outfile in zip(_res, _res_outfile):
+    with open(outfile) as f:
+        SeqIO.write(res, f, "fastq")
 
 r2_on_target = []
 r2_off_target = []
@@ -91,9 +95,13 @@ with _open(r2) as f:
             r2_problem.append(record)
         elif r_match[record.name] == 0:
             r2_off_target.append(record)
-SeqIO.write(r2_on_target, out_on_target_r2, "fastq")
-SeqIO.write(r2_off_target, out_off_target_r2, "fastq")
-SeqIO.write(r2_problem, out_problem_r2, "fastq")
+
+_res = [r2_on_target, r2_off_target, r2_problem]
+_res_outfile = [out_on_target_r2, out_off_target_r2, out_problem_r2]
+
+for res, outfile in zip(_res, _res_outfile):
+    with open(outfile) as f:
+        SeqIO.write(res, f, "fastq")
 
 # print some stats:
 res = Counter(r_match.values())

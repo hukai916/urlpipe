@@ -12,8 +12,8 @@ process CLASSIFY_LOCUS {
 
     output:
     tuple val(meta), path("on_target_locus/*.fastq.gz"),  emit: reads_locus
-    tuple val(meta), path("off_target_locus"),            emit: reads_problem // skip fastq.gz in case no such reads generated and Nextflow complains
-    tuple val(meta), path("problem_locus"),               emit: reads_misprimed
+    tuple val(meta), path("off_target_locus/*.fastq.gz"), emit: reads_problem
+    tuple val(meta), path("problem_locus/*.fastq.gz"),    emit: reads_misprimed
     path "stat/*.csv",                                    emit: stat
     path "versions.yml",                                  emit: versions
 
