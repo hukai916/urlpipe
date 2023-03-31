@@ -115,5 +115,6 @@ with open(stat_dir, "w") as f:
     p2 = str(res[2]/(sum([res[2], res[1], res[0]]))) # on target
     p1 = str(res[1]/(sum([res[2], res[1], res[0]]))) # problem
     p0 = str(res[0]/(sum([res[2], res[1], res[0]]))) # off target
-
-    f.write(name + "," + str(res[2]) + "," + p2 + "," + str(res[0]) + "," + p0 + "," + str(res[1]) + "," + p1 + "\n")
+    res = ",".join([name, str(res[2]), str(res[0]), str(res[1]), p2, p0, p1]) + "\n"
+    # on_target_locus_reads,off_target_locus_reads,problem_target_locus_counts,on_target_locus_percent,off_target_locus_percent,problem_target_locus_percent
+    f.write(res)

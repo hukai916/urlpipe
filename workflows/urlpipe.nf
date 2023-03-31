@@ -52,8 +52,10 @@ include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
 include { CUTADAPT                    } from '../modules/nf-core/modules/cutadapt/main'
 include { FASTQC as FASTQC_RAW        } from '../modules/nf-core/modules/fastqc/main'
 include { FASTQC as FASTQC_CUTADAPT   } from '../modules/nf-core/modules/fastqc/main'
-
 include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
+include { STAT as STAT_LOCUS          } from '../modules/local/cat_stat'
+
+
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3 } from '../modules/local/cat_stat'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL      }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2}   from '../modules/local/cat_stat_cutoff'
@@ -146,13 +148,10 @@ workflow URLPIPE {
     //
     // MODULE: combine CLASSIFY_LOCUS.out.stat into one file
     //
-    CAT_STAT (
-      CLASSIFY_LOCUS.out.stat.collect(),
-      "1a_CLASSIFY_LOCUS/stat",
-      "all_sample",
-      "sample_name,locus,percent,misprimed,percent,problem,percent" // header to be added
+    STAT_LOCUS (
+      CLASSIFY_LOCUS.out.stat.collect()
       )
-    ch_versions = ch_versions.mix(CAT_STAT.out.versions)
+    ch_versions = ch_versions.mix(STAT_LOCUS.out.versions)
 
     //
     // MODULE: UMI pattern: 2a
