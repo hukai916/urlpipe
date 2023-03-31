@@ -81,7 +81,7 @@ _res = [r1_on_target, r1_off_target, r1_problem]
 _res_outfile = [out_on_target_r1, out_off_target_r1, out_problem_r1]
 
 for res, outfile in zip(_res, _res_outfile):
-    with open(outfile) as f:
+    with open(outfile, "w") as f:
         SeqIO.write(res, f, "fastq")
 
 r2_on_target = []
@@ -100,7 +100,7 @@ _res = [r2_on_target, r2_off_target, r2_problem]
 _res_outfile = [out_on_target_r2, out_off_target_r2, out_problem_r2]
 
 for res, outfile in zip(_res, _res_outfile):
-    with open(outfile) as f:
+    with open(outfile, "w") as f:
         SeqIO.write(res, f, "fastq")
 
 # print some stats:
