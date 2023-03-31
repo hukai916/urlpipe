@@ -8,14 +8,14 @@ process CLASSIFY_INDEL {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("3a_classify_indel/no_indel/*.fastq.gz"),    emit: reads_no_indel
-    tuple val(meta), path("3a_classify_indel/indel_5p/*.fastq.gz"),    emit: reads_indel_5p
-    tuple val(meta), path("3a_classify_indel/indel_3p/*.fastq.gz"),    emit: reads_indel_3p
-    tuple val(meta), path("3a_classify_indel/indel_5p_and_3p/*.fastq.gz"), emit: reads_indel_5p_3p
-    tuple val(meta), path("3a_classify_indel/indel_5p_or_3p/*.fastq.gz"), emit: reads_indel_5p_or_3p
-    path "3a_classify_indel/indel_5p_or_3p/*.fastq.gz", emit: reads_indel_5p_or_3p_pure
-    path "3a_classify_indel/stat/*.csv",             emit: stat
-    path  "versions.yml",                            emit: versions
+    tuple val(meta), path("no_indel/*.fastq.gz"),         emit: reads_no_indel
+    tuple val(meta), path("indel_5p/*.fastq.gz"),         emit: reads_indel_5p
+    tuple val(meta), path("indel_3p/*.fastq.gz"),         emit: reads_indel_3p
+    tuple val(meta), path("indel_5p_and_3p/*.fastq.gz"),  emit: reads_indel_5p_3p
+    tuple val(meta), path("indel_5p_or_3p/*.fastq.gz"),   emit: reads_indel_5p_or_3p
+    path "indel_5p_or_3p/*.fastq.gz",                     emit: reads_indel_5p_or_3p_pure
+    path "stat/*.csv",                                    emit: stat
+    path  "versions.yml",                                 emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -25,15 +25,11 @@ process CLASSIFY_INDEL {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p 3a_classify_indel/no_indel 3a_classify_indel/indel_5p 3a_classify_indel/indel_3p 3a_classify_indel/indel_5p_3p 3a_classify_indel/stat
+    mkdir -p no_indel indel_5p indel_3p indel_5p_3p stat
 
-    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 3a_classify_indel/no_indel 3a_classify_indel/indel_5p 3a_classify_indel/indel_3p 3a_classify_indel/indel_5p_and_3p 3a_classify_indel/indel_5p_or_3p 3a_classify_indel/stat ${prefix} $args
+    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz no_indel indel_5p indel_3p indel_5p_and_3p indel_5p_or_3p stat ${prefix} $args
 
-    gzip 3a_classify_indel/no_indel/*
-    gzip 3a_classify_indel/indel_5p/*
-    gzip 3a_classify_indel/indel_3p/*
-    gzip 3a_classify_indel/indel_5p_and_3p/*
-    gzip 3a_classify_indel/indel_5p_or_3p/*
+    gzip */*.fastq
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

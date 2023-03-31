@@ -13,7 +13,7 @@ process CLASSIFY_LOCUS {
     output:
     tuple val(meta), path("on_target_locus/*.fastq.gz"),  emit: reads_locus
     tuple val(meta), path("off_target_locus/*.fastq.gz"), emit: reads_problem
-    tuple val(meta), path("problem_locus/*.fastq.gz"),    emit: reads_misprimed
+    tuple val(meta), path("problem_reads/*.fastq.gz"),    emit: reads_misprimed
     path "stat/*.csv",                                    emit: stat
     path "versions.yml",                                  emit: versions
 
@@ -26,7 +26,7 @@ process CLASSIFY_LOCUS {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    classify_locus.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz on_target_locus off_target_locus problem_locus stat/${prefix}.csv $args
+    classify_locus.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz on_target_locus off_target_locus problem_reads stat/${prefix}.csv $args
 
     gzip */*.fastq
 

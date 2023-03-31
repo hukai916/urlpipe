@@ -59,28 +59,52 @@ for k in r1_match:
     r_match[k] = r1_match[k] + r2_match[k]
 
 # output:
-out_no_indel_r1 = os.path.join(no_indel_dir, sample_name + "_1.fastq")
-out_no_indel_r2 = os.path.join(no_indel_dir, sample_name + "_2.fastq")
-out_indel_5p_r1 = os.path.join(indel_5p_dir, sample_name + "_1.fastq")
-out_indel_5p_r2 = os.path.join(indel_5p_dir, sample_name + "_2.fastq")
-out_indel_3p_r1 = os.path.join(indel_3p_dir, sample_name + "_1.fastq")
-out_indel_3p_r2 = os.path.join(indel_3p_dir, sample_name + "_2.fastq")
-out_indel_5p_and_3p_r1 = os.path.join(indel_5p_and_3p_dir, sample_name + "_1.fastq")
-out_indel_5p_and_3p_r2 = os.path.join(indel_5p_and_3p_dir, sample_name + "_2.fastq")
-out_indel_5p_or_3p_r1 = os.path.join(indel_5p_or_3p_dir, sample_name + "_1.fastq")
-out_indel_5p_or_3p_r2 = os.path.join(indel_5p_or_3p_dir, sample_name + "_2.fastq")
+# out_no_indel_r1 = os.path.join(no_indel_dir, sample_name + "_1.fastq")
+# out_no_indel_r2 = os.path.join(no_indel_dir, sample_name + "_2.fastq")
+# out_indel_5p_r1 = os.path.join(indel_5p_dir, sample_name + "_1.fastq")
+# out_indel_5p_r2 = os.path.join(indel_5p_dir, sample_name + "_2.fastq")
+# out_indel_3p_r1 = os.path.join(indel_3p_dir, sample_name + "_1.fastq")
+# out_indel_3p_r2 = os.path.join(indel_3p_dir, sample_name + "_2.fastq")
+# out_indel_5p_and_3p_r1 = os.path.join(indel_5p_and_3p_dir, sample_name + "_1.fastq")
+# out_indel_5p_and_3p_r2 = os.path.join(indel_5p_and_3p_dir, sample_name + "_2.fastq")
+# out_indel_5p_or_3p_r1 = os.path.join(indel_5p_or_3p_dir, sample_name + "_1.fastq")
+# out_indel_5p_or_3p_r2 = os.path.join(indel_5p_or_3p_dir, sample_name + "_2.fastq")
 
-os.makedirs(os.path.dirname(out_no_indel_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_no_indel_r2), exist_ok=True)
-os.makedirs(os.path.dirname(out_indel_5p_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_indel_5p_r2), exist_ok=True)
-os.makedirs(os.path.dirname(out_indel_3p_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_indel_3p_r2), exist_ok=True)
-os.makedirs(os.path.dirname(out_indel_5p_and_3p_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_indel_5p_and_3p_r2), exist_ok=True)
-os.makedirs(os.path.dirname(out_indel_5p_or_3p_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_indel_5p_or_3p_r2), exist_ok=True)
-os.makedirs(os.path.dirname(indel_stat_dir), exist_ok=True)
+output_dirs = {
+    "no_indel": no_indel_dir,
+    "indel_5p": indel_5p_dir,
+    "indel_3p": indel_3p_dir,
+    "indel_5p_and_3p": indel_5p_and_3p_dir,
+    "indel_5p_or_3p": indel_5p_or_3p_dir
+}
+output_files = {}
+
+for output_type, output_dir in output_dirs.items():
+    output_files[output_type] = {
+        "r1": os.path.join(output_dir, sample_name + "_1.fastq"),
+        "r2": os.path.join(output_dir, sample_name + "_2.fastq")
+    }
+
+for output_dir in output_dirs:
+    output_dirs[output_dir] = {
+
+    }
+
+dir_paths = [
+    os.path.dirname(out_no_indel_r1),
+    os.path.dirname(out_no_indel_r2),
+    os.path.dirname(out_indel_5p_r1),
+    os.path.dirname(out_indel_5p_r2),
+    os.path.dirname(out_indel_3p_r1),
+    os.path.dirname(out_indel_3p_r2),
+    os.path.dirname(out_indel_5p_and_3p_r1),
+    os.path.dirname(out_indel_5p_and_3p_r2),
+    os.path.dirname(out_indel_5p_or_3p_r1),
+    os.path.dirname(out_indel_5p_or_3p_r2),
+    os.path.dirname(indel_stat_dir) ]
+
+for dir_path in dir_paths:
+    os.makedirs(dir_path, exist_ok=True)
 
 count_5p = 0
 count_3p = 0
@@ -143,5 +167,6 @@ with open(os.path.join(indel_stat_dir, sample_name + ".csv"), "w") as f:
     p_5p = str(count_5p/(sum([res[2], res[1], res[0]])))
     p_3p = str(count_3p/(sum([res[2], res[1], res[0]])))
     p0 = str(res[0]/(sum([res[2], res[1], res[0]])))
+    res = ",".join([sample_name, str(res[2], str(count_5p), str(count_3p), str(res[0]), p2, p_5p, p_3p]) + "\n"
 
-    f.write(sample_name + "," + str(res[2]) + "," + p2 + "," + str(count_5p) + "," + p_5p + "," + str(count_3p) + "," + p_3p + "," + str(res[0]) + "," + p0 + "\n")
+    f.write(res)

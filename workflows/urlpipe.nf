@@ -54,6 +54,8 @@ include { FASTQC as FASTQC_RAW        } from '../modules/nf-core/modules/fastqc/
 include { FASTQC as FASTQC_CUTADAPT   } from '../modules/nf-core/modules/fastqc/main'
 include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
 include { STAT as STAT_LOCUS          } from '../modules/local/stat'
+include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
+include { STAT as STAT_INDEL          } from '../modules/local/stat'
 
 
 include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3 } from '../modules/local/cat_stat'
@@ -61,7 +63,7 @@ include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL      }   from '../modules/loc
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2}   from '../modules/local/cat_stat_cutoff'
 
 include { UMI_PATTERN } from '../modules/local/umi_pattern'
-include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
+
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { READ_UMI_CORRECT } from '../modules/local/read_umi_correct'
 include { READ_LENGTH_DIST            } from '../modules/local/read_length_dist'
@@ -138,48 +140,28 @@ workflow URLPIPE {
     ch_versions = ch_versions.mix(FASTQC_CUTADAPT.out.versions)
 
     //
-    // MODULE: map locus
+    // MODULE: classify locus and stat
     // read_category/CLASSIFY_LOCUS
     CLASSIFY_LOCUS (
       CUTADAPT.out.reads
       )
     ch_versions = ch_versions.mix(CLASSIFY_LOCUS.out.versions)
-
-    //
-    // MODULE: combine CLASSIFY_LOCUS.out.stat into one file
-    //
     STAT_LOCUS (
       CLASSIFY_LOCUS.out.stat.collect()
       )
     ch_versions = ch_versions.mix(STAT_LOCUS.out.versions)
 
     //
-    // MODULE: UMI pattern: 2a
-    //
-    UMI_PATTERN (
-      CUTADAPT.out.reads,
-      "2a_umi_pattern"
-      )
-    ch_versions = ch_versions.mix(UMI_PATTERN.out.versions)
-
-    //
-    // MODULE: classify INDEL
+    // MODULE: classify INDEL and stat
     //
     CLASSIFY_INDEL (
       CLASSIFY_LOCUS.out.reads_locus
       )
     ch_versions = ch_versions.mix(CLASSIFY_INDEL.out.versions)
-
-    //
-    // MODULE: combine CLASSIFY_INDEL.out.stat into one file
-    //
-    CAT_STAT2 (
-      CLASSIFY_INDEL.out.stat.collect(),
-      "3a_classify_indel/stat",
-      "all_sample",
-      "sample_name,no_indel,no_indel_percent,indel_5p,indel_5p_percent,indel_3p,indel_3p_percent,indel_5p_3p,indel_5p_3p_percent" // header to be added
+    STAT_INDEL (
+      CLASSIFY_INDEL.out.stat.collect()
       )
-    ch_versions = ch_versions.mix(CAT_STAT2.out.versions)
+    ch_versions = ch_versions.mix(STAT_INDEL.out.versions)
 
     //
     // MODULE: classify_readthrough
@@ -199,6 +181,16 @@ workflow URLPIPE {
       "sample_name,count_readthrough,count_readthrough_percent,count_non_readthrough,p_count_non_readthrough_percent" // header to be added
       )
     ch_versions = ch_versions.mix(CAT_STAT3.out.versions)
+
+
+    //
+    // MODULE: UMI pattern: 2a
+    //
+    UMI_PATTERN (
+      CUTADAPT.out.reads,
+      "2a_umi_pattern"
+      )
+    ch_versions = ch_versions.mix(UMI_PATTERN.out.versions)
 
 
     if (params.use_read == "R1") {
