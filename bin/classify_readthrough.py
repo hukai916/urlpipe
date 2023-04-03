@@ -5,7 +5,7 @@ To classify reads into read through and non-read-through.
 As long as R1 or R2 contain both repeat flanking reads, the read pair will be treated as read-through read pair.
 
 Usage:
-    classify_readthrough.py 4a_classify_readthrough/readthrough 4a_classify_readthrough/non_readthrough 4a_classify_readthrough/stat sample_name $args
+    classify_readthrough.py readthrough non_readthrough stat sample_name $args
 
 """
 
@@ -19,6 +19,7 @@ import gzip
 from mimetypes import guess_type
 from functools import partial
 import regex
+import csv
 
 r1 = sys.argv[1]
 r2 = sys.argv[2]
@@ -65,11 +66,8 @@ out_readthrough_r2 = os.path.join(readthrough_dir, sample_name + "_2.fastq")
 out_non_readthrough_r1 = os.path.join(non_readthrough_dir, sample_name + "_1.fastq")
 out_non_readthrough_r2 = os.path.join(non_readthrough_dir, sample_name + "_2.fastq")
 
-os.makedirs(os.path.dirname(out_readthrough_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_readthrough_r2), exist_ok=True)
-os.makedirs(os.path.dirname(out_non_readthrough_r1), exist_ok=True)
-os.makedirs(os.path.dirname(out_non_readthrough_r2), exist_ok=True)
-os.makedirs(os.path.dirname(stat_dir), exist_ok=True)
+for dir in [out_readthrough_r1, out_readthrough_r2, out_non_readthrough_r1, out_non_readthrough_r2, stat_dir]:
+    os.makedirs(os.path.dirname(dir), exist_ok = True)
 
 r_readthrough_set = set()
 r_non_readthrough_set = set()
@@ -86,35 +84,26 @@ with _open(r2) as f:
         else:
             r_non_readthrough_set.add(record.name)
 
-output_r1_readthrough = open(out_readthrough_r1, "w")
-output_r1_non_readthrough = open(out_non_readthrough_r1, "w")
-output_r2_readthrough = open(out_readthrough_r2, "w")
-output_r2_non_readthrough = open(out_non_readthrough_r2, "w")
+with open(out_readthrough_r1, "w") as output_r1_readthrough, \
+     open(out_non_readthrough_r1, "w") as output_r1_non_readthrough, \
+     open(out_readthrough_r2, "w") as output_r2_readthrough, \
+     open(out_non_readthrough_r2, "w") as output_r2_non_readthrough:
 
-with _open(r1) as f:
-    for record in SeqIO.parse(f, 'fastq'):
-        if record.name in r_readthrough_set:
-            output_r1_readthrough.write(record.format("fastq"))
-        else:
-            output_r1_non_readthrough.write(record.format("fastq"))
-
-with _open(r2) as f:
-    for record in SeqIO.parse(f, 'fastq'):
-        if record.name in r_readthrough_set:
-            output_r2_readthrough.write(record.format("fastq"))
-        else:
-            output_r2_non_readthrough.write(record.format("fastq"))
-
-output_r1_readthrough.close()
-output_r1_non_readthrough.close()
-output_r2_readthrough.close()
-output_r2_non_readthrough.close()
+    with _open(r1) as f1, _open(r2) as f2:
+        for record_r1, record_r2 in zip(SeqIO.parse(f1, 'fastq'), SeqIO.parse(f2, 'fastq')):
+            if record_r1.name in r_readthrough_set:
+                output_r1_readthrough.write(record_r1.format("fastq"))
+                output_r2_readthrough.write(record_r2.format("fastq"))
+            else:
+                output_r1_non_readthrough.write(record_r1.format("fastq"))
+                output_r2_non_readthrough.write(record_r2.format("fastq"))
 
 # print some stats:
-with open(os.path.join(stat_dir, sample_name + ".csv"), "w") as f:
+with open(os.path.join(stat_dir, sample_name + ".csv"), "w", newline = '') as f:
+    writer = csv.writer(f)
     count_through = len(r_readthrough_set)
     count_non_through = len(r_non_readthrough_set)
     p_count_through = count_through/(sum([count_through, count_non_through]))
     p_count_non_through = count_non_through/(sum([count_through, count_non_through]))
 
-    f.write(sample_name + "," + str(count_through) + "," + str(p_count_through) + "," + str(count_non_through) + "," + str(p_count_non_through) + "\n")
+    writer.writerow([sample_name, count_through, count_non_through, p_count_through, p_count_non_through])

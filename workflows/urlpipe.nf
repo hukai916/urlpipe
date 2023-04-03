@@ -36,6 +36,9 @@ ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath(params.multi
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
 include { INPUT_CHECK    } from '../subworkflows/input_check'
+include { PREPROCESS_QC  } from '../subworkflows/preprocess_qc'
+include { CLASSIFY_READ  } from '../subworkflows/classify_read'
+
 include { USE_READ_R1    } from '../subworkflows/use_read_r1'
 include { USE_READ_MERGE } from '../subworkflows/use_read_merge'
 /*
@@ -47,24 +50,13 @@ include { USE_READ_MERGE } from '../subworkflows/use_read_merge'
 //
 // MODULE: Installed directly from nf-core/modules
 //
-include { CAT_FASTQ                   } from '../modules/nf-core/modules/cat/fastq/main'
-include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
-include { CUTADAPT                    } from '../modules/nf-core/modules/cutadapt/main'
-include { FASTQC as FASTQC_RAW        } from '../modules/nf-core/modules/fastqc/main'
-include { FASTQC as FASTQC_CUTADAPT   } from '../modules/nf-core/modules/fastqc/main'
-include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
-include { STAT as STAT_LOCUS          } from '../modules/local/stat'
-include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
-include { STAT as STAT_INDEL          } from '../modules/local/stat'
 
-
-include { CAT_STAT; CAT_STAT as CAT_STAT2; CAT_STAT as CAT_STAT3 } from '../modules/local/cat_stat'
+include { CAT_STAT; CAT_STAT as CAT_STAT2;} from '../modules/local/cat_stat'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL      }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2}   from '../modules/local/cat_stat_cutoff'
 
-include { UMI_PATTERN } from '../modules/local/umi_pattern'
 
-include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
+
 include { READ_UMI_CORRECT } from '../modules/local/read_umi_correct'
 include { READ_LENGTH_DIST            } from '../modules/local/read_length_dist'
 
@@ -99,109 +91,27 @@ workflow URLPIPE {
     )
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
-    //
-    // MODULE: FASTQC_RAW
-    // quality_control/fastqc/01_raw
-    FASTQC_RAW (
-      INPUT_CHECK.out.reads
+    PREPROCESS_QC (
+      INPUT_CHECK.out.reads,
+      ch_versions
       )
-    ch_versions = ch_versions.mix(FASTQC_RAW.out.versions)
+    ch_versions = ch_versions.mix(PREPROCESS_QC.out.versions)
 
-    //
-    // MODULE: Cat Fastq
-    // preprocess/01_lane_merge
-    CAT_FASTQ (
-      INPUT_CHECK.out.reads
+    CLASSIFY_READ (
+      PREPROCESS_QC.out.reads,
+      ch_versions
       )
-    ch_versions = ch_versions.mix(CAT_FASTQ.out.versions)
-
-    //
-    // MODULE: UMI extract
-    // preprocess/02_umi_extract
-    UMI_EXTRACT (
-      CAT_FASTQ.out.reads
-      )
-    ch_versions = ch_versions.mix(UMI_EXTRACT.out.versions)
-
-    //
-    // MODULE: cutadapt
-    // preprocess/03_cutadapt
-    CUTADAPT (
-      UMI_EXTRACT.out.reads
-      )
-    ch_versions = ch_versions.mix(CUTADAPT.out.versions)
-
-    //
-    // MODULE: FastQC
-    // quality_control/fastqc/02_after_cutadapt
-    FASTQC_CUTADAPT (
-      CUTADAPT.out.reads
-      )
-    ch_versions = ch_versions.mix(FASTQC_CUTADAPT.out.versions)
-
-    //
-    // MODULE: classify locus and stat
-    // read_category/CLASSIFY_LOCUS
-    CLASSIFY_LOCUS (
-      CUTADAPT.out.reads
-      )
-    ch_versions = ch_versions.mix(CLASSIFY_LOCUS.out.versions)
-    STAT_LOCUS (
-      CLASSIFY_LOCUS.out.stat.collect()
-      )
-    ch_versions = ch_versions.mix(STAT_LOCUS.out.versions)
-
-    //
-    // MODULE: classify INDEL and stat
-    //
-    CLASSIFY_INDEL (
-      CLASSIFY_LOCUS.out.reads_locus
-      )
-    ch_versions = ch_versions.mix(CLASSIFY_INDEL.out.versions)
-    STAT_INDEL (
-      CLASSIFY_INDEL.out.stat.collect()
-      )
-    ch_versions = ch_versions.mix(STAT_INDEL.out.versions)
-
-    //
-    // MODULE: classify_readthrough
-    //
-    CLASSIFY_READTHROUGH (
-      CLASSIFY_INDEL.out.reads_no_indel
-      )
-    ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
-
-    //
-    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
-    //
-    CAT_STAT3 (
-      CLASSIFY_READTHROUGH.out.stat.collect(),
-      "4a_classify_readthrough/stat",
-      "all_sample",
-      "sample_name,count_readthrough,count_readthrough_percent,count_non_readthrough,p_count_non_readthrough_percent" // header to be added
-      )
-    ch_versions = ch_versions.mix(CAT_STAT3.out.versions)
-
-
-    //
-    // MODULE: UMI pattern: 2a
-    //
-    UMI_PATTERN (
-      CUTADAPT.out.reads,
-      "2a_umi_pattern"
-      )
-    ch_versions = ch_versions.mix(UMI_PATTERN.out.versions)
-
+    ch_versions = ch_versions.mix(CLASSIFY_READ.out.versions)
 
     if (params.use_read == "R1") {
-      USE_READ_R1( CLASSIFY_READTHROUGH.out.reads_through, ch_versions )
+      USE_READ_R1( CLASSIFY_READ.out.reads_through, ch_versions )
       ch_versions = USE_READ_R1.out.ch_versions
     } else if (params.use_read == "R2") {
       // USE_READ_R2()
       // TODO
       exit 1, '--use_read R2 not implemented yet!'
     } else if (params.use_read == "merge") {
-      USE_READ_MERGE( CLASSIFY_READTHROUGH.out.reads_through, ch_versions )
+      USE_READ_MERGE( CLASSIFY_READ.out.reads_through, ch_versions )
       ch_versions = USE_READ_MERGE.out.ch_versions
     } else {
       exit 1, '--use_read must be from "R1", "R2", and "merge"!'
@@ -210,7 +120,7 @@ workflow URLPIPE {
  // // For INDEL reads:
     // MODULE: INDEL reads distribution:
     READ_LENGTH_DIST (
-      CLASSIFY_INDEL.out.reads_indel_5p_or_3p,
+      CLASSIFY_READ.out.reads_indel_5p_or_3p,
       "4d_indel_read_length_distribution"
     )
     ch_versions = ch_versions.mix(READ_LENGTH_DIST.out.versions)
@@ -236,7 +146,7 @@ workflow URLPIPE {
     // MODULE: INDEL UMI correct
     READ_UMI_CORRECT (
       UMI_GROUP_STAT_INDEL.out.stat,
-      CLASSIFY_INDEL.out.reads_indel_5p_or_3p_pure.collect(),
+      CLASSIFY_READ.out.reads_indel_5p_or_3p_pure.collect(),
       params.umi_cutoffs,
       "5e_indel_read_umi_correct"
       )
