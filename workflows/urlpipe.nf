@@ -105,14 +105,14 @@ workflow URLPIPE {
 
     if (params.use_read == "R1") {
       USE_READ_R1( CLASSIFY_READ.out.reads_through, ch_versions )
-      ch_versions = USE_READ_R1.out.ch_versions
+      ch_versions = USE_READ_R1.out.versions
     } else if (params.use_read == "R2") {
       // USE_READ_R2()
       // TODO
       exit 1, '--use_read R2 not implemented yet!'
     } else if (params.use_read == "merge") {
       USE_READ_MERGE( CLASSIFY_READ.out.reads_through, ch_versions )
-      ch_versions = USE_READ_MERGE.out.ch_versions
+      ch_versions = USE_READ_MERGE.out.versions
     } else {
       exit 1, '--use_read must be from "R1", "R2", and "merge"!'
     }
