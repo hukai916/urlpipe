@@ -8,7 +8,7 @@ To annotate reads into no_indel, indel_5p, indel_3p, and indel_5p_3p (flanking)
     # implementation: instead of perform mapping, simple search sub_string with python regex:
     regex.search("(xxgyy){s<=1}", "xxggyy") # https://stackoverflow.com/questions/2420412/search-for-string-allowing-for-one-mismatch-in-any-location-of-the-string, note, regex.search("xxgyy{s<=1}", "xxggyy") does not work.
 Usage:
-    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2s.fastq.gz 3a_classify_indel/no_indel 3a_classify_indel/indel_5p 3a_classify_indel/indel_3p 3a_classify_indel/indel_5p_3p 3a_classify_indel/stat sample_name $args
+    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2s.fastq.gz no_indel indel_5p indel_3p indel_5p_3p stat sample_name $args
 
 """
 
@@ -75,8 +75,8 @@ for output_type, output_dir in output_dirs.items():
     }
 
 for outfile in output_files:
-    os.makedirs(output_files[outfile]["r1"], exist_ok = True)
-    os.makedirs(output_files[outfile]["r2"], exist_ok = True)
+    os.makedirs(os.path.dirname(output_files[outfile]["r1"]), exist_ok = True)
+    os.makedirs(os.path.dirname(output_files[outfile]["r2"]), exist_ok = True)
 
 count_5p = 0
 count_3p = 0
@@ -102,10 +102,10 @@ with _open(r1) as f:
             r1_indel_5p_and_3p.append(record)
             r1_indel_5p_or_3p.append(record)
 _res = [r1_no_indel, r1_indel_5p, r1_indel_3p, r1_indel_5p_and_3p, r1_indel_5p_or_3p]
-_out_file = [output_files["no_indel"]["r1"], output_files["indel_5p"]["r1"], output_files["indel_3p"]["r1"], output_files["indel_5p_and_3p"]["r1"], output_files["indel_5p_or_3p"]["r1"]]
+_out_file = [output_files["no_indel"], output_files["indel_5p"], output_files["indel_3p"], output_files["indel_5p_and_3p"], output_files["indel_5p_or_3p"]]
 
 for res, out_file in zip(_res, _out_file):
-    with open(outfile, "w") as f:
+    with open(str(out_file["r1"]), "w") as f:
         SeqIO.write(res, f, "fastq")
 
 r2_no_indel = []
@@ -128,10 +128,9 @@ with _open(r2) as f:
             r2_indel_5p_or_3p.append(record)
 
 _res = [r2_no_indel, r2_indel_5p, r2_indel_3p, r2_indel_5p_and_3p, r2_indel_5p_or_3p]
-_out_file = [output_files["no_indel"]["r2"], output_files["indel_5p"]["r2"], output_files["indel_3p"]["r2"], output_files["indel_5p_and_3p"]["r2"], output_files["indel_5p_or_3p"]["r2"]]
 
 for res, out_file in zip(_res, _out_file):
-    with open(outfile, "w") as f:
+    with open(str(out_file["r2"]), "w") as f:
         SeqIO.write(res, f, "fastq")
 
 # print some stats:
