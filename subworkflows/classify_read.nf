@@ -42,5 +42,5 @@ workflow CLASSIFY_READ {
       reads_indel_5p_or_3p      = CLASSIFY_INDEL.out.reads_indel_5p_or_3p
       reads_indel_5p_or_3p_pure = CLASSIFY_INDEL.out.reads_indel_5p_or_3p_pure
       reads_through = CLASSIFY_READTHROUGH.out.reads_through
-      ch_versions   = ch_versions
+      versions      = ch_versions
 }

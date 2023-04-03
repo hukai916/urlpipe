@@ -49,6 +49,6 @@ workflow PREPROCESS_QC {
       ch_versions = ch_versions.mix(READ_PER_UMI.out.versions)
 
     emit:
-      reads       = CUTADAPT.out.reads
-      ch_versions = ch_versions
+      reads    = CUTADAPT.out.reads
+      versions = ch_versions
 }

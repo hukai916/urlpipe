@@ -160,5 +160,5 @@ workflow USE_READ_MERGE {
     )
 
     emit:
-    ch_versions = ch_versions
+    versions = ch_versions
 }
