@@ -7,7 +7,9 @@ include { REPEAT_DIST_DISTANCE_R1     } from '../modules/local/repeat_dist_dista
 
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 
-include { UMI_PATTERN } from '../modules/local/umi_pattern'
+// include { UMI_PATTERN } from '../modules/local/umi_pattern'
+include { READ_PER_UMI as READ_PER_UMI_R1 } from '../modules/local/read_per_umi'
+
 
 include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_R1 } from '../modules/local/repeat_dist_within_umi_group'
 
@@ -59,11 +61,10 @@ workflow USE_READ_R1 {
     //
     // MODULE: UMI pattern: 5a
     //
-    UMI_PATTERN (
-      reads_through,
-      "5a_umi_pattern"
+    READ_PER_UMI_R1 (
+      reads_through
       )
-    ch_versions = ch_versions.mix(UMI_PATTERN.out.versions)
+    ch_versions = ch_versions.mix(READ_PER_UMI_R1.out.versions)
 
     //
     // MODULE: repeat distribution within umi group

@@ -4,7 +4,7 @@ include { CLASSIFY_INDEL              } from '../modules/local/classify_indel'
 include { STAT as STAT_INDEL          } from '../modules/local/stat'
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { STAT as STAT_READTHROUGH    } from '../modules/local/stat'
-
+include { READ_PER_UMI as READ_PER_UMI_READTHROUGH } from '../modules/local/read_per_umi'
 
 workflow CLASSIFY_READ {
     take:
@@ -35,6 +35,8 @@ workflow CLASSIFY_READ {
       ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
       STAT_READTHROUGH ( CLASSIFY_READTHROUGH.out.stat.collect() )
       ch_versions = ch_versions.mix(STAT_READTHROUGH.out.versions)
+      READ_PER_UMI_READTHROUGH ( CLASSIFY_READTHROUGH.out.reads_through )
+      ch_versions = ch_versions.mix(READ_PER_UMI_READTHROUGH.out.versions)
 
     emit:
       reads_indel_5p_or_3p      = CLASSIFY_INDEL.out.reads_indel_5p_or_3p
