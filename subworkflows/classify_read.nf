@@ -36,7 +36,7 @@ workflow CLASSIFY_READ {
       ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
       STAT_READTHROUGH ( CLASSIFY_READTHROUGH.out.stat.collect() )
       ch_versions = ch_versions.mix(STAT_READTHROUGH.out.versions)
-      FASTQC_READTHROUGH ( reads_through )
+      FASTQC_READTHROUGH ( reads )
       ch_versions = ch_versions.mix(FASTQC_READTHROUGH.out.versions)
       READ_PER_UMI_READTHROUGH ( CLASSIFY_READTHROUGH.out.reads_through )
       ch_versions = ch_versions.mix(READ_PER_UMI_READTHROUGH.out.versions)
