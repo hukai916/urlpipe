@@ -32,40 +32,25 @@ ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath(params.multi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-//
-// SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
-//
 include { INPUT_CHECK    } from '../subworkflows/input_check'
 include { PREPROCESS_QC  } from '../subworkflows/preprocess_qc'
 include { CLASSIFY_READ  } from '../subworkflows/classify_read'
 
-include { USE_READ_R1    } from '../subworkflows/use_read_r1'
-include { USE_READ_MERGE } from '../subworkflows/use_read_merge'
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    IMPORT NF-CORE MODULES/SUBWORKFLOWS
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-//
-// MODULE: Installed directly from nf-core/modules
-//
-
-include { CAT_STAT; CAT_STAT as CAT_STAT2;} from '../modules/local/cat_stat'
-include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL      }   from '../modules/local/cat_stat_cutoff'
-include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2}   from '../modules/local/cat_stat_cutoff'
+include { REPEAT_STAT_DEFAULT } from '../subworkflows/repeat_stat_default'
+include { REPEAT_STAT_MERGE   } from '../subworkflows/repeat_stat_merge'
+// include { MODE_NANOPORE  } from '../subworkflows/mode_nanopore'
 
 
 
+include { CAT_STAT; CAT_STAT as CAT_STAT2; } from '../modules/local/cat_stat'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL   }   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2 }   from '../modules/local/cat_stat_cutoff'
 include { READ_UMI_CORRECT } from '../modules/local/read_umi_correct'
-include { READ_LENGTH_DIST            } from '../modules/local/read_length_dist'
-
+include { READ_LENGTH_DIST } from '../modules/local/read_length_dist'
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_INDEL } from '../modules/local/repeat_dist_umi_correct'
 include { UMI_GROUP_STAT as UMI_GROUP_STAT_INDEL } from '../modules/local/umi_group_stat'
-
 include { COUNT_SUMMARY as COUNT_SUMMARY_LD                  } from '../modules/local/count_summary'
 include { COUNT_SUMMARY as COUNT_SUMMARY_MODE                } from '../modules/local/count_summary'
-
 include { MULTIQC                     } from '../modules/nf-core/modules/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/dumpsoftwareversions/main'
 
@@ -84,44 +69,53 @@ workflow URLPIPE {
 
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    // pipeline_info
+    // 0_pipeline_info/samplesheet.valid.csv
     INPUT_CHECK (
         ch_input,
         params.allele_number
     )
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
+    //
+    // SUBWORKFLOW: preprocess and qc
+    // 1_preprocess and 2_qc_and_umi
     PREPROCESS_QC (
       INPUT_CHECK.out.reads,
       ch_versions
       )
     ch_versions = ch_versions.mix(PREPROCESS_QC.out.versions)
 
+    //
+    // SUBWORKFLOW: classify reads
+    // 3_read_category
     CLASSIFY_READ (
       PREPROCESS_QC.out.reads,
       ch_versions
       )
     ch_versions = ch_versions.mix(CLASSIFY_READ.out.versions)
 
-    if (params.use_read == "R1") {
-      USE_READ_R1( CLASSIFY_READ.out.reads_through, ch_versions )
-      ch_versions = USE_READ_R1.out.versions
-    } else if (params.use_read == "R2") {
-      // USE_READ_R2()
-      // TODO
-      exit 1, '--use_read R2 not implemented yet!'
-    } else if (params.use_read == "merge") {
-      USE_READ_MERGE( CLASSIFY_READ.out.reads_through, ch_versions )
-      ch_versions = USE_READ_MERGE.out.versions
+    if (params.mode == "default") {
+      //
+      // SUBWORKFLOW: obtain repeat statistics using default mode where individual R1 and R2 reads are used
+      // 4_repeat_statistics
+      REPEAT_STAT_DEFAULT ( CLASSIFY_READ.out.reads_through, ch_versions )
+      ch_versions = REPEAT_STAT_DEFAULT.out.versions
+    } else if (params.mode == "merge") {
+      // merge mode first merge R1 and R2 reads
+      REPEAT_STAT_MERGE ( CLASSIFY_READ.out.reads_through, ch_versions )
+      ch_versions = REPEAT_STAT_MERGE.out.versions
+    } else if (params.mode == "nanopore") {
+      // MODE_NANOPORE ()
+      exit 1, '--mode nanopore under development!'
     } else {
-      exit 1, '--use_read must be from "R1", "R2", and "merge"!'
+      exit 1, '--mode must be from "default", "merge", and "nanopore"!'
     }
 
  // // For INDEL reads:
     // MODULE: INDEL reads distribution:
     READ_LENGTH_DIST (
       CLASSIFY_READ.out.reads_indel_5p_or_3p,
-      "4d_indel_read_length_distribution"
+      "XXX_4d_indel_read_length_distribution"
     )
     ch_versions = ch_versions.mix(READ_LENGTH_DIST.out.versions)
 
@@ -129,7 +123,7 @@ workflow URLPIPE {
     UMI_GROUP_STAT_INDEL (
       READ_LENGTH_DIST.out.count_r1,
       READ_LENGTH_DIST.out.stat_raw, // stat_raw store the raw stat before UMI correction
-      "5c_indel_umi_group_stat"
+      "XXX_5c_indel_umi_group_stat"
       )
     ch_versions = ch_versions.mix(UMI_GROUP_STAT_INDEL.out.versions)
 
@@ -148,37 +142,37 @@ workflow URLPIPE {
       UMI_GROUP_STAT_INDEL.out.stat,
       CLASSIFY_READ.out.reads_indel_5p_or_3p_pure.collect(),
       params.umi_cutoffs,
-      "5e_indel_read_umi_correct"
+      "XXX_5e_indel_read_umi_correct"
       )
     ch_versions = ch_versions.mix(READ_UMI_CORRECT.out.versions)
 
     CAT_STAT_CUTOFF_INDEL ( READ_UMI_CORRECT.out.count_ld.collect(), "ld", "sample_name,read_count",
     "0," + params.umi_cutoffs,
     "all_sample_indel",
-    "5e_indel_read_umi_correct/count" )
+    "XXX_5e_indel_read_umi_correct/count" )
 
     CAT_STAT_CUTOFF_INDEL_2 ( READ_UMI_CORRECT.out.count_mode.collect(), "mode", "sample_name,read_count",
     "0," + params.umi_cutoffs,
     "all_sample_indel",
-    "5e_indel_read_umi_correct/count" )
+    "XXX_5e_indel_read_umi_correct/count" )
 
     // MODULE: COUNT_SUMMARY: for mode
     COUNT_SUMMARY_MODE (
-      USE_READ_R1.out.stat5,
-      USE_READ_R1.out.cutoff_stat,
+      REPEAT_STAT_DEFAULT.out.stat5,
+      REPEAT_STAT_DEFAULT.out.cutoff_stat,
       CAT_STAT_CUTOFF_INDEL_2.out.stat,
       "0," + params.umi_cutoffs,
       "mode",
-      "6a_count_summary"
+      "XXX_6a_count_summary"
     )
     // MODULE COUNT_SUMMARY: for ld
     COUNT_SUMMARY_LD (
-      USE_READ_R1.out.stat5,
-      USE_READ_R1.out.cutoff_stat,
+      REPEAT_STAT_DEFAULT.out.stat5,
+      REPEAT_STAT_DEFAULT.out.cutoff_stat,
       CAT_STAT_CUTOFF_INDEL.out.stat,
       "0," + params.umi_cutoffs,
       "ld",
-      "6a_count_summary"
+      "XXX_6a_count_summary"
     )
 
     //

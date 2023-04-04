@@ -4,6 +4,7 @@ from matplotlib import colors
 from matplotlib.ticker import PercentFormatter
 import os
 import pandas as pd
+from Bio.Seq import Seq
 
 def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
     """
@@ -77,3 +78,7 @@ def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
 
 def print_test():
     return("inside here")
+
+def reverse_complement(seq):
+    dna = Seq(seq)
+    return str(dna.reverse_complement())

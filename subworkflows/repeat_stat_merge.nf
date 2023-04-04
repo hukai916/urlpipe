@@ -1,5 +1,5 @@
 //
-// if use_read == "merge"
+// if mode == "merge"
 //
 
 // still need to load FASTQC1 module even if it has been loaded in urlpipe.nf
@@ -22,7 +22,7 @@ include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE }   from '../modules/local/ca
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE_2}   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT as CAT_STAT5; CAT_STAT as CAT_STAT4 } from '../modules/local/cat_stat'
 
-workflow USE_READ_MERGE {
+workflow REPEAT_STAT_MERGE {
     take:
     reads_through
     ch_versions

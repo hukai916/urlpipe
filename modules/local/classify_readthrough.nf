@@ -8,10 +8,10 @@ process CLASSIFY_READTHROUGH {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("4a_classify_readthrough/readthrough/*.fastq.gz"),        emit: reads_through
-    tuple val(meta), path("4a_classify_readthrough/non_readthrough/*.fastq.gz"),    emit: reads_nonethrough
-    path "4a_classify_readthrough/stat/*.csv",                    emit: stat
-    path  "versions.yml",                                         emit: versions
+    tuple val(meta), path("readthrough/*.fastq.gz"),     emit: reads_through
+    tuple val(meta), path("non_readthrough/*.fastq.gz"), emit: reads_nonethrough
+    path "stat/*.csv",    emit: stat
+    path  "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,12 +21,11 @@ process CLASSIFY_READTHROUGH {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p 4a_classify_readthrough/readthrough 4a_classify_readthrough/non_readthrough 4a_classify_readthrough/stat
+    mkdir readthrough non_readthrough stat
 
-    classify_readthrough.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz 4a_classify_readthrough/readthrough 4a_classify_readthrough/non_readthrough 4a_classify_readthrough/stat ${prefix} $args
+    classify_readthrough.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz readthrough non_readthrough stat ${prefix} $args
 
-    gzip 4a_classify_readthrough/readthrough/*
-    gzip 4a_classify_readthrough/non_readthrough/*
+    gzip */*.fastq
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
