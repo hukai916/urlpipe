@@ -156,24 +156,24 @@ workflow URLPIPE {
     "all_sample_indel",
     "XXX_5e_indel_read_umi_correct/count" )
 
-    // MODULE: COUNT_SUMMARY: for mode
-    COUNT_SUMMARY_MODE (
-      REPEAT_STAT_DEFAULT.out.stat5,
-      REPEAT_STAT_DEFAULT.out.cutoff_stat,
-      CAT_STAT_CUTOFF_INDEL_2.out.stat,
-      "0," + params.umi_cutoffs,
-      "mode",
-      "XXX_6a_count_summary"
-    )
-    // MODULE COUNT_SUMMARY: for ld
-    COUNT_SUMMARY_LD (
-      REPEAT_STAT_DEFAULT.out.stat5,
-      REPEAT_STAT_DEFAULT.out.cutoff_stat,
-      CAT_STAT_CUTOFF_INDEL.out.stat,
-      "0," + params.umi_cutoffs,
-      "ld",
-      "XXX_6a_count_summary"
-    )
+    // 1 // MODULE: COUNT_SUMMARY: for mode
+    // COUNT_SUMMARY_MODE (
+    //   REPEAT_STAT_DEFAULT.out.stat5,
+    //   REPEAT_STAT_DEFAULT.out.cutoff_stat,
+    //   CAT_STAT_CUTOFF_INDEL_2.out.stat,
+    //   "0," + params.umi_cutoffs,
+    //   "mode",
+    //   "XXX_6a_count_summary"
+    // )
+    // 2 // MODULE COUNT_SUMMARY: for ld
+    // COUNT_SUMMARY_LD (
+    //   REPEAT_STAT_DEFAULT.out.stat5,
+    //   REPEAT_STAT_DEFAULT.out.cutoff_stat,
+    //   CAT_STAT_CUTOFF_INDEL.out.stat,
+    //   "0," + params.umi_cutoffs,
+    //   "ld",
+    //   "XXX_6a_count_summary"
+    // )
 
     //
     // MODULE: MultiQC

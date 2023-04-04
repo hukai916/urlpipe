@@ -41,48 +41,48 @@ workflow REPEAT_STAT_DEFAULT {
     REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads )
     ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.versions)
 
-    //
-    // MODULE: repeat distribution within umi group
-    //
-    REPEAT_DIST_WITHIN_UMI_GROUP_R1 (
-      REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.count_r1,
-      "5b_r1_repeat_dist_within_umi_group"
-      )
-    ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP_R1.out.versions)
+    // // 1
+    // // MODULE: repeat distribution within umi group
+    // //
+    // REPEAT_DIST_WITHIN_UMI_GROUP_R1 (
+    //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.count_r1,
+    //   "5b_r1_repeat_dist_within_umi_group"
+    //   )
+    // ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP_R1.out.versions)
 
-    //
-    // MODULE: UMI group stat: UMI read_count mean mode: 5c
-    //
-    UMI_GROUP_STAT (
-      REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.count_r1,
-      REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.stat_raw, // stat_raw store the raw stat before UMI correction
-      "5c_r1_umi_group_stat"
-      )
-    ch_versions = ch_versions.mix(UMI_GROUP_STAT.out.versions)
+    // // 2
+    // // MODULE: UMI group stat: UMI read_count mean mode: 5c
+    // //
+    // UMI_GROUP_STAT (
+    //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.count_r1,
+    //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.stat_raw, // stat_raw store the raw stat before UMI correction
+    //   "5c_r1_umi_group_stat"
+    //   )
+    // ch_versions = ch_versions.mix(UMI_GROUP_STAT.out.versions)
 
-    //
-    // MODULE: repeat dist UMI corrected: 5d
-    //
-    REPEAT_DIST_UMI_CORRECT_R1 (
-      UMI_GROUP_STAT.out.stat,
-      UMI_GROUP_STAT.out.stat_raw,
-      params.umi_cutoffs,
-      params.allele_number,
-      "5d_r1_repeat_dist_umi_correct"
-      )
-    ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
+    // // 3
+    // // MODULE: repeat dist UMI corrected: 5d
+    // //
+    // REPEAT_DIST_UMI_CORRECT_R1 (
+    //   UMI_GROUP_STAT.out.stat,
+    //   UMI_GROUP_STAT.out.stat_raw,
+    //   params.umi_cutoffs,
+    //   params.allele_number,
+    //   "5d_r1_repeat_dist_umi_correct"
+    //   )
+    // ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
 
-    //
-    // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
-    //
-    // REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.frac_r1.collect().view()
-    CAT_STAT5 (
-      REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.frac_r1.collect(),
-      "4d_r1_repeat_distribution_distance/frac_r1",
-      "all_sample_frac",
-      "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std" // header to be added
-      )
-    ch_versions = ch_versions.mix(CAT_STAT5.out.versions)
+    // // 4
+    // // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
+    // //
+    // // REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.frac_r1.collect().view()
+    // CAT_STAT5 (
+    //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.frac_r1.collect(),
+    //   "4d_r1_repeat_distribution_distance/frac_r1",
+    //   "all_sample_frac",
+    //   "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std" // header to be added
+    //   )
+    // ch_versions = ch_versions.mix(CAT_STAT5.out.versions)
 
     //
     // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
@@ -96,24 +96,24 @@ workflow REPEAT_STAT_DEFAULT {
     // ch_versions = ch_versions.mix(CAT_STAT6.out.versions)
 
 
-    // //
-    // // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
-    // //
-    // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
-    // CAT_STAT_CUTOFF is specifically designed for mode
-    CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(),
-                      "mode",
-                      "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
-                      params.umi_cutoffs,
-                      "all_sample_frac",
-                      "5d_r1_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
+    // // // 5
+    // // // MODULE: combine REPEAT_DIST_UMI_CORRECT_R1.out.frac_x into one file
+    // // //
+    // // // REPEAT_DIST_UMI_CORRECT_R1.out.frac_1.collect().view()
+    // // CAT_STAT_CUTOFF is specifically designed for mode
+    // CAT_STAT_CUTOFF ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_mode.collect(),
+    //                   "mode",
+    //                   "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
+    //                   params.umi_cutoffs,
+    //                   "all_sample_frac",
+    //                   "5d_r1_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
-    // For ld
-    CAT_STAT_CUTOFF_2 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_ld.collect(),
-    "ld", "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
-    params.umi_cutoffs,
-    "all_sample_frac",
-    "5d_r1_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
+    // // For ld 6
+    // CAT_STAT_CUTOFF_2 ( REPEAT_DIST_UMI_CORRECT_R1.out.frac_ld.collect(),
+    // "ld", "sample_name,below_count,below_frac,below_mean,below_std,between_count,between_frac,beetween_mean,beetween_std,above_count,above_frac,above_mean,above_std",
+    // params.umi_cutoffs,
+    // "all_sample_frac",
+    // "5d_r1_repeat_dist_umi_correct/frac_above_below" ) // subdir: frac_xxx
 
     // MODULE: plot the mean, std, and frac of all_sample.csv for frac stat.
     // Below has be integrated into PLOT_FRAC_CUTOFF_R1
@@ -189,9 +189,9 @@ workflow REPEAT_STAT_DEFAULT {
     // )
 
     emit:
-    stat5         = CAT_STAT5.out.stat
-    cutoff_stat   = CAT_STAT_CUTOFF.out.stat
-    cutoff2_stat  = CAT_STAT_CUTOFF_2.out.stat
+    // stat5         = CAT_STAT5.out.stat
+    // cutoff_stat   = CAT_STAT_CUTOFF.out.stat
+    // cutoff2_stat  = CAT_STAT_CUTOFF_2.out.stat
     versions      = ch_versions
     // versions = SAMPLESHEET_CHECK.out.versions // channel: [ versions.yml ]
 }
