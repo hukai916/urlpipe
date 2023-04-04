@@ -6,7 +6,6 @@ process REPEAT_LENGTH_DISTRIBUTION_DEFAULT {
 
     input:
     tuple val(meta), path(reads)
-    val allele_number
 
     output:
     tuple val(meta), path("raw_*.csv"),                 emit: raw_repeat_length_per_read_default

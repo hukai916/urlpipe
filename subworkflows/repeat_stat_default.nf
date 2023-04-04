@@ -38,11 +38,7 @@ workflow REPEAT_STAT_DEFAULT {
     //
     // MODULE: repeat distribution distance with R1/R2 reads
     //
-    REPEAT_LENGTH_DISTRIBUTION_DEFAULT (
-      reads,
-      params.allele_number,
-      "4d_r1_repeat_distribution_distance"
-      )
+    REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads )
     ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.versions)
 
     //
