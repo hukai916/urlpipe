@@ -42,7 +42,7 @@ workflow REPEAT_STAT_DEFAULT {
     REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads )
     ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.versions)
 
-    STAT_REPEAT_LENGTH_COUNT_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default.collect())
+    STAT_REPEAT_LENGTH_COUNT_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default_pure.collect())
 
     // // 1
     // // MODULE: repeat distribution within umi group

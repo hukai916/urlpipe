@@ -4,7 +4,7 @@ process STAT_REPEAT_LENGTH_COUNT_DEFAULT {
     container "hukai916/miniconda3_bio:0.3"
 
     input:
-    tuple val(meta), path(stat)
+    path stat
 
     output:
     path "*.csv",         emit: stat

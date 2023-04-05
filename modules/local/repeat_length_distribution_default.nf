@@ -11,6 +11,7 @@ process REPEAT_LENGTH_DISTRIBUTION_DEFAULT {
     tuple val(meta), path("raw_*.csv"),                 emit: raw_repeat_length_per_read_default
     tuple val(meta), path("repeat_length_per_*.csv"),   emit: repeat_length_per_read_default
     tuple val(meta), path("repeat_length_count_*.csv"), emit: repeat_length_count_default
+    path "repeat_length_count_*.csv",                   emit: repeat_length_count_default_pure
     tuple val(meta), path("diagnosis_*.csv"),           emit: diagnosis_repeat_length_count_default
     path  "versions.yml",                       emit: versions
 
