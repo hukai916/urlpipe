@@ -82,3 +82,6 @@ def print_test():
 def reverse_complement(seq):
     dna = Seq(seq)
     return str(dna.reverse_complement())
+
+def get_sample_name(x, prefix, suffix):
+    return(x.split(prefix)[1].split(suffix)[0])

@@ -15,11 +15,9 @@ process STAT_REPEAT_LENGTH_COUNT_DEFAULT {
 
     script:
     def args = task.ext.args ?: ''
-    def outfile = task.ext.outfile ?: ''
-    def header = task.ext.header ?: ''
 
     """
-    (echo -e "$header" && cat *.csv | sort -n) > $outfile
+    stat_repeat_length_count_default.py *.csv repeat_length_count_default_umi_0.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
