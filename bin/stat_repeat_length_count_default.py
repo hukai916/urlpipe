@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys
 from utils import get_sample_name
 import pandas as pd
