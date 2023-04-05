@@ -37,9 +37,11 @@ workflow REPEAT_STAT_DEFAULT {
     main:
     //
     // MODULE: repeat distribution distance with R1/R2 reads
-    //
+    // 4_repeat_statistics/4a_repeat_length_distribution
     REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads )
     ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.versions)
+
+    // STAT_REPEAT_LENGTH_COUNT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.)
 
     // // 1
     // // MODULE: repeat distribution within umi group

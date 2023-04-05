@@ -65,8 +65,9 @@ out_readthrough_r1 = os.path.join(readthrough_dir, sample_name + "_1.fastq")
 out_readthrough_r2 = os.path.join(readthrough_dir, sample_name + "_2.fastq")
 out_non_readthrough_r1 = os.path.join(non_readthrough_dir, sample_name + "_1.fastq")
 out_non_readthrough_r2 = os.path.join(non_readthrough_dir, sample_name + "_2.fastq")
+stat_outfile = os.path.join(stat_dir, sample_name + ".csv")
 
-for dir in [out_readthrough_r1, out_readthrough_r2, out_non_readthrough_r1, out_non_readthrough_r2, stat_dir]:
+for dir in [out_readthrough_r1, out_readthrough_r2, out_non_readthrough_r1, out_non_readthrough_r2, stat_outfile]:
     os.makedirs(os.path.dirname(dir), exist_ok = True)
 
 r_readthrough_set = set()
@@ -99,7 +100,7 @@ with open(out_readthrough_r1, "w") as output_r1_readthrough, \
                 output_r2_non_readthrough.write(record_r2.format("fastq"))
 
 # print some stats:
-with open(os.path.join(stat_dir, sample_name + ".csv"), "w", newline = '') as f:
+with open(stat_outfile, "w", newline = '') as f:
     writer = csv.writer(f)
     count_through = len(r_readthrough_set)
     count_non_through = len(r_non_readthrough_set)
