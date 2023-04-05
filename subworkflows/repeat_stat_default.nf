@@ -4,6 +4,7 @@
 
 // include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT     } from '../modules/local/REPEAT_LENGTH_DISTRIBUTION_DEFAULT'
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT  } from '../modules/local/repeat_length_distribution_default'
+include { STAT_REPEAT_LENGTH_COUNT            } from '../modules/local/stat_repeat_length_count'
 
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 
@@ -41,7 +42,7 @@ workflow REPEAT_STAT_DEFAULT {
     REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads )
     ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.versions)
 
-    // STAT_REPEAT_LENGTH_COUNT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.)
+    // STAT_REPEAT_LENGTH_COUNT_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default.collect())
 
     // // 1
     // // MODULE: repeat distribution within umi group
