@@ -49,7 +49,7 @@ workflow REPEAT_STAT_DEFAULT {
     // 1
     // MODULE: repeat distribution within umi group
     //
-    REPEAT_LENGTH_DISTRIBUTION_PER_UMI_DEFAULT ( REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default,
+    REPEAT_LENGTH_DISTRIBUTION_PER_UMI ( REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default,
     params.umi_cutoffs )
 
     // REPEAT_DIST_WITHIN_UMI_GROUP_R1 (
