@@ -24,7 +24,7 @@ process REPEAT_LENGTH_DISTRIBUTION_PER_UMI {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      echo "repeat_length_distribution_per_umi.py $csv \$i repeat_length_distribution_per_umi_\${i}_${prefix}.csv $args"
+      repeat_length_distribution_per_umi.py $csv \$i repeat_length_distribution_per_umi_\${i}_${prefix}.csv $args
     done
 
     cat <<-END_VERSIONS > versions.yml

@@ -15,7 +15,7 @@ csv = sys.argv[1]
 cutoff      = sys.argv[2]
 outfile_html = sys.argv[3]
 
-df = pd.read_csv(csv, )
+df = pd.read_csv(csv, header = None)
 df_res.to_csv(outfile_csv, index = False)
 
 # 2. output repeat_length_count_default_umi_0.html
