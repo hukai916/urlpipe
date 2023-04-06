@@ -7,6 +7,9 @@ include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT  } from '../modules/local/repeat_le
 include { STAT_REPEAT_LENGTH_COUNT_DEFAULT    } from '../modules/local/stat_repeat_length_count_default'
 include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/repeat_length_distribution_per_umi'
 
+
+
+
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 
 include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_R1 } from '../modules/local/repeat_dist_within_umi_group'
@@ -50,7 +53,7 @@ workflow REPEAT_STAT_DEFAULT {
     // 1
     // MODULE: repeat distribution within umi group
     //
-    REPEAT_LENGTH_DISTRIBUTION_PER_UMI ( REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default,
+    REPEAT_LENGTH_DISTRIBUTION_PER_UMI ( REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default,
     params.umi_cutoffs )
 
     // REPEAT_DIST_WITHIN_UMI_GROUP_R1 (
