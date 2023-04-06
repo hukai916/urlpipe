@@ -5,6 +5,7 @@
 // include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT     } from '../modules/local/REPEAT_LENGTH_DISTRIBUTION_DEFAULT'
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT  } from '../modules/local/repeat_length_distribution_default'
 include { STAT_REPEAT_LENGTH_COUNT_DEFAULT    } from '../modules/local/stat_repeat_length_count_default'
+include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/repeat_length_distribution_per_umi'
 
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
 
