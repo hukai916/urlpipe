@@ -74,7 +74,7 @@ for line in open(csv):
         else:
             d_umi[umi].append(int(length))
 
-with open(output_stat, "w") as f:
+with open(outfile, "w") as f:
     if umi_correction_method == "least_distance":
         res = get_least_distance(d_umi)
     elif umi_correction_method == "mode":
