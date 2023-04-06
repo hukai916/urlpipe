@@ -8,7 +8,7 @@ include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT    } from '../modules/local/st
 include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/repeat_length_distribution_per_umi'
 include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/plot_repeat_length_distribution_per_umi'
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT } from '../modules/local/repeat_length_distribution_default_umi_correct'
-
+include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT    } from '../modules/local/stat_repeat_length_distribution_default_umi_correct'
 
 
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
@@ -68,8 +68,8 @@ workflow REPEAT_STAT_DEFAULT {
       params.umi_correction_method,
       params.umi_cutoffs)
     // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_default_umi_x.csv|html
-    // STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.repeat_length_count_default_umi_correct.collect(),
-    // params.umi_cutoffs)
+    STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.repeat_length_count_default_umi_correct.collect(),
+    params.umi_cutoffs)
 
 
 // 4a_repeat_length_distribution
