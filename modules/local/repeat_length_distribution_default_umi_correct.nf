@@ -32,7 +32,7 @@ process REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT {
     for i in "\${umi_cutoffs_array[@]}"
     do
       echo "test"
-
+      repeat_length_distribution_default_umi_correct.py UMI_ReadCount_ReadLengthCorrected_${prefix}.csv \$i repeat_length_count_default_${prefix}_umi_\$i.csv
     done
 
     cat <<-END_VERSIONS > versions.yml
