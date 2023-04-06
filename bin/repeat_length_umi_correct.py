@@ -18,20 +18,17 @@ csv = sys.argv[1]
 umi_correction_method = sys.argv[2]
 outfile = sys.argv[3]
 
-def get_mode(d_umi):
+def get_mode(d_umi_k):
     """
     When tie, randomly choose one mode.
     """
-    mode = []
-    for k in d_umi:
-        _data = Counter(d_umi[k])
-        mode_freq = _data.most_common()[0][1]  # Returns the highest occurring item frequency
-        mode_ls = []
-        for x in _data.most_common(): # in terms of tie, randomly choose one
-            if x[1] == mode_freq:
-                mode_ls.append(x[0])
-        mode.append(",".join([k, str(len(d_umi[k])), str(random.choice(mode_ls))]))
-    return(mode)
+    _data = Counter(d_umi_k)
+    mode_freq = _data.most_common()[0][1]  # Returns the highest occurring item frequency
+    mode_ls = []
+    for x in _data.most_common(): # in terms of tie, randomly choose one
+        if x[1] == mode_freq:
+            mode_ls.append(x[0])
+    return(",".join([k, str(len(d_umi[k])), str(random.choice(mode_ls))]))
 
 def get_least_distance(d_umi_k):
     """
@@ -57,10 +54,8 @@ def get_least_distance(d_umi_k):
         ld = sorted(ld_ls)[int(len(ld_ls)/2)] # take the median, if tie, take the smaller value
     return(",".join([k, str(len(d_umi[k])), str(ld)]))
 
-def get_mean(d_umi):
-    res = []
-    for k in d_umi:
-        res.append(",".join([k, str(len(d_umi[k])), str(mean(d_umi[k]))]))
+def get_mean(d_umi_k):
+    return(append(",".join([k, str(len(d_umi_k)), str(mean(d_umi_k))])))
 
 # read csv into dict
 d_umi = {}
@@ -78,9 +73,8 @@ with open(outfile, "w") as f:
     for k in d_umi:
         if umi_correction_method == "least_distance":
             res = get_least_distance(d_umi[k])
-            print(res)
         elif umi_correction_method == "mode":
-            res = get_mode(d_umi)
+            res = get_mode(d_umi[k])
         elif umi_correction_method == "mean":
-            res = get_mean(d_umi)
+            res = get_mean(d_umi[k])
         f.write(res + "\n")
