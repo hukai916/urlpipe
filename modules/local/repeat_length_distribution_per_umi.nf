@@ -25,7 +25,7 @@ process REPEAT_LENGTH_DISTRIBUTION_PER_UMI {
     for i in "\${umi_cutoffs_array[@]}"
     do
       mkdir -p umi_\$i
-      repeat_length_distribution_per_umi.py $csv \$i repeat_length_distribution_per_umi_\$i_${prefix}.csv $args
+      repeat_length_distribution_per_umi.py $csv \$i repeat_length_distribution_per_umi_\${i}_${prefix}.csv $args
     done
 
     cat <<-END_VERSIONS > versions.yml
