@@ -78,6 +78,7 @@ with open(outfile, "w") as f:
     for k in d_umi:
         if umi_correction_method == "least_distance":
             res = get_least_distance(d_umi[k])
+            print(res)
         elif umi_correction_method == "mode":
             res = get_mode(d_umi)
         elif umi_correction_method == "mean":
