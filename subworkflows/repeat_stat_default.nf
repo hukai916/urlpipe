@@ -4,10 +4,10 @@
 
 // include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT     } from '../modules/local/REPEAT_LENGTH_DISTRIBUTION_DEFAULT'
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT  } from '../modules/local/repeat_length_distribution_default'
-include { STAT_REPEAT_LENGTH_COUNT_DEFAULT    } from '../modules/local/stat_repeat_length_count_default'
+include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT    } from '../modules/local/stat_repeat_length_distribution_default'
 include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/repeat_length_distribution_per_umi'
 include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/plot_repeat_length_distribution_per_umi'
-
+include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT } from '../modules/local/repeat_length_distribution_default_umi_correct'
 
 
 
@@ -42,30 +42,43 @@ workflow REPEAT_STAT_DEFAULT {
 
     main:
     //
-    // MODULE: repeat distribution distance with R1/R2 reads
+    // MODULE: repeat length distribution determined with R1/R2 reads
     // not published
     REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads )
     ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.versions)
     //
-    // MODULE: stat repeat distribution distance with R1/R2 reads
-    // 4_repeat_statistics/repeat_length_count_default_umi_0.csv|pdf
-    STAT_REPEAT_LENGTH_COUNT_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default_pure.collect())
+    // MODULE: stat repeat length count with R1/R2 reads
+    // 4_repeat_statistics/repeat_length_count_default_umi_0.csv|html
+    STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default_pure.collect())
 
     //
-    // MODULE: repeat distribution per umi group
+    // MODULE: repeat length count distribution per umi group
     // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/csv
     REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
       REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default,
     params.umi_cutoffs )
+    // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/html
     PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
       REPEAT_LENGTH_DISTRIBUTION_PER_UMI.out.csv,
       params.umi_cutoffs )
 
-    // REPEAT_DIST_WITHIN_UMI_GROUP_R1 (
-    //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.count_r1,
-    //   "5b_r1_repeat_dist_within_umi_group"
-    //   )
-    // ch_versions = ch_versions.mix(REPEAT_DIST_WITHIN_UMI_GROUP_R1.out.versions)
+    //
+    // MODULE: repeat length count per umi group corrected
+    // test_not_publish
+    REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (
+      REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default,
+      params.umi_correction_method,
+      params.umi_cutoffs
+      )
+
+// 4a_repeat_length_distribution
+
+    //
+    // MODULE: repeat length per umi group
+    // 4_repeat_statistics/4b_repeat_length_per_umi/
+
+
+
 
     // // 2
     // // MODULE: UMI group stat: UMI read_count mean mode: 5c

@@ -1,4 +1,4 @@
-process STAT_REPEAT_LENGTH_COUNT_DEFAULT {
+process STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT {
     label 'process_low'
 
     container "hukai916/bioinfo:0.1"

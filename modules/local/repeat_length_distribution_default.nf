@@ -27,7 +27,7 @@ process REPEAT_LENGTH_DISTRIBUTION_DEFAULT {
     repeat_length_per_read_default.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz raw_repeat_length_per_read_default_${prefix}.csv $args
 
     # 2. output repeat_length_count_xxx.csv and diagnosis_repeat_length_count_xxx.csv:
-    repeat_length_count_default.py raw_repeat_length_per_read_default_${prefix}.csv repeat_length_per_read_default_${prefix}.csv repeat_length_count_${prefix}.csv diagnosis_repeat_length_count_${prefix}.csv
+    repeat_length_distribution_default.py raw_repeat_length_per_read_default_${prefix}.csv repeat_length_per_read_default_${prefix}.csv repeat_length_count_${prefix}.csv diagnosis_repeat_length_count_${prefix}.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
