@@ -2,7 +2,7 @@ process PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI {
     tag "$meta.id"
     label 'process_low'
 
-    container "hukai916/miniconda3_bio:0.3"
+    container "hukai916/bioinfo:0.1"
 
     input:
     tuple val(meta), path(csv)
