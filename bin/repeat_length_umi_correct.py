@@ -39,8 +39,6 @@ def get_least_distance(d_umi_k):
     """
     ld_ls = []
     _tem = {} # store the height and its distance
-    if len(res_ls) % 1000 == 1:
-        print(len(res_ls))
     _data = Counter(d_umi_k)
     for height in _data: # height is the count, distance is nucleotide distance
         distance = 0
