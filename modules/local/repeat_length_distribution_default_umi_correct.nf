@@ -10,9 +10,9 @@ process REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT {
     val umi_cutoffs
 
     output:
-    tuple val(meta), path("${outdir}/*.csv"),       emit: stat
-    path "*/input/*.csv",                           emit: stat_raw
-    path  "versions.yml",                           emit: versions
+    tupel val(meta), path("UMI_ReadCount_ReadLengthCorrected_*"), emit: umi_readcount_readlenth_corrected
+    path "repeat_length_count_default_*", emit: repeat_length_count_default_umi_correct
+    path  "versions.yml",                 emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -25,13 +25,11 @@ process REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT {
     # 1. obtain master table: UMI,read_count,repeat_length_corrected (by corresponding method)
     repeat_length_umi_correct.py $csv $umi_correction_method UMI_ReadCount_ReadLengthCorrected_${prefix}.csv
 
-
     # 2. obtain corrected table using various UMI cutoffs:
     umi_cutoffs_str="$umi_cutoffs"
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      echo "test"
       repeat_length_distribution_default_umi_correct.py UMI_ReadCount_ReadLengthCorrected_${prefix}.csv \$i repeat_length_count_default_${prefix}_umi_\$i.csv
     done
 
