@@ -16,23 +16,14 @@ cutoff      = sys.argv[2]
 outfile_html = sys.argv[3]
 
 df = pd.read_csv(csv, header = None)
-df_res.to_csv(outfile_csv, index = False)
+df.columns = ["UMI", "Repeat_length"]
+grouped_df = df.groupby('UMI')['Repeat_length']
 
-# 2. output repeat_length_count_default_umi_0.html
-    # create bar charts using frequencies
-bars = [go.Bar(x = df["repeat_length"],
-               y = df[col_sample],
-               name = col_sample,
-               width = 2,
-               marker = dict(opacity = 0.5),
-               visible = True if i == 0 else "legendonly"
-               ) for i, col_sample in enumerate(df.columns[1:])]
+fig = go.Figure()
 
-fig = go.Figure(data = bars)
+for UMI, Repeat_length in grouped_df:
+    fig.add_trace(go.Histogram(x = Repeat_length, name = UMI))
 
-fig.update_layout(title = "Repeat Length Count Distribution",
-                  xaxis_title = "Repeat Length (nt)",
-                  yaxis_title = "Read Count")
-outfile_html = "test.html"
-# Save the plot as an interactive HTML file
+fig.update_layout(title='Repeat Length Distribution per Selected UMI group', xaxis_title = 'Repeat Length', yaxis_title = 'Count')
+
 pyo.plot(fig, filename = outfile_html)

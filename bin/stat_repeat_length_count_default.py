@@ -41,6 +41,6 @@ fig = go.Figure(data = bars)
 fig.update_layout(title = "Repeat Length Count Distribution",
                   xaxis_title = "Repeat Length (nt)",
                   yaxis_title = "Read Count")
-outfile_html = "test.html"
+                  
 # Save the plot as an interactive HTML file
 pyo.plot(fig, filename = outfile_html)
