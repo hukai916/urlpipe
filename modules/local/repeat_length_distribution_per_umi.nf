@@ -7,7 +7,6 @@ process REPEAT_LENGTH_DISTRIBUTION_PER_UMI {
     input:
     tuple val(meta), path(csv)
     val umi_cutoffs
-    val outdir
 
     output:
     path "*.csv",         emit: csv
