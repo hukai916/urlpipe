@@ -1,4 +1,4 @@
-process REPEAT_LENGTH_DISTRIBUTION_PER_UMI {
+process PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI {
     tag "$meta.id"
     label 'process_low'
 
@@ -9,8 +9,8 @@ process REPEAT_LENGTH_DISTRIBUTION_PER_UMI {
     val umi_cutoffs
 
     output:
-    tuple val(meta), path("*.csv"), emit: csv
-    path  "versions.yml",           emit: versions
+    path "*.html",        emit: html
+    path  "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -24,7 +24,7 @@ process REPEAT_LENGTH_DISTRIBUTION_PER_UMI {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      echo "repeat_length_distribution_per_umi.py $csv \$i repeat_length_distribution_per_umi_\${i}_${prefix}.csv $args"
+      plot_repeat_length_distribution_per_umi.py $csv \$i repeat_length_distribution_per_umi_\${i}_${prefix}.html
     done
 
     cat <<-END_VERSIONS > versions.yml

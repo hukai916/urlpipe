@@ -6,6 +6,7 @@
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT  } from '../modules/local/repeat_length_distribution_default'
 include { STAT_REPEAT_LENGTH_COUNT_DEFAULT    } from '../modules/local/stat_repeat_length_count_default'
 include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/repeat_length_distribution_per_umi'
+include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/plot_repeat_length_distribution_per_umi'
 
 
 
@@ -50,11 +51,15 @@ workflow REPEAT_STAT_DEFAULT {
     // 4_repeat_statistics/repeat_length_count_default_umi_0.csv|pdf
     STAT_REPEAT_LENGTH_COUNT_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default_pure.collect())
 
-    // 1
-    // MODULE: repeat distribution within umi group
     //
-    REPEAT_LENGTH_DISTRIBUTION_PER_UMI ( REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default,
+    // MODULE: repeat distribution per umi group
+    // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/csv
+    REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
+      REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default,
     params.umi_cutoffs )
+    PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
+      REPEAT_LENGTH_DISTRIBUTION_PER_UMI.out.csv,
+      params.umi_cutoffs )
 
     // REPEAT_DIST_WITHIN_UMI_GROUP_R1 (
     //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.count_r1,
