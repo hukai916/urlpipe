@@ -10,7 +10,7 @@ process REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT {
     val umi_cutoffs
 
     output:
-    tupel val(meta), path("UMI_ReadCount_ReadLengthCorrected_*"), emit: umi_readcount_readlength_corrected
+    tupel val(meta), path("UMI_ReadCount_ReadLengthCorrected_*"), emit: test
     path "repeat_length_count_default_*", emit: repeat_length_count_default_umi_correct
     path  "versions.yml",                 emit: versions
 
