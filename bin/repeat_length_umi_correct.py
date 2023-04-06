@@ -55,7 +55,7 @@ def get_least_distance(d_umi_k):
     return(",".join([k, str(len(d_umi[k])), str(ld)]))
 
 def get_mean(d_umi_k):
-    return(append(",".join([k, str(len(d_umi_k)), str(mean(d_umi_k))])))
+    return(",".join([k, str(len(d_umi_k)), str(mean(d_umi_k))]))
 
 # read csv into dict
 d_umi = {}
