@@ -7,7 +7,8 @@ process STAT_REPEAT_LENGTH_COUNT_DEFAULT {
     path stat
 
     output:
-    path "*.csv",         emit: stat
+    path "*.csv",         emit: csv
+    path "*.html",        emit: html
     path  "versions.yml", emit: versions
 
     when:
@@ -17,7 +18,7 @@ process STAT_REPEAT_LENGTH_COUNT_DEFAULT {
     def args = task.ext.args ?: ''
 
     """
-    stat_repeat_length_count_default.py *.csv repeat_length_count_default_umi_0.csv
+    stat_repeat_length_count_default.py *.csv repeat_length_count_default_umi_0.csv repeat_length_count_default_umi_0.html
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
