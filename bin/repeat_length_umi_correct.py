@@ -33,34 +33,31 @@ def get_mode(d_umi):
         mode.append(",".join([k, str(len(d_umi[k])), str(random.choice(mode_ls))]))
     return(mode)
 
-def get_least_distance(d_umi):
+def get_least_distance(d_umi_k):
     """
     take the median, if tie, take the smaller value
     """
-    res_ls = []
     ld_ls = []
     _tem = {} # store the height and its distance
-    for k in d_umi:
-        if len(res_ls) % 1000 == 1:
-            print(len(res_ls))
-        _data = Counter(d_umi[k])
-        for height in _data: # height is the count, distance is nucleotide distance
-            distance = 0
-            for height2 in _data:
-                distance += _data[height2] * abs(int(height2) - int(height)) # height * distance
-            _tem[height] = distance
-        sorted_x = OrderedDict(sorted(_tem.items(), key=itemgetter(1)))
-        min_d    = list(sorted_x.values())[0]
-        for height in sorted_x:
-            if sorted_x[height] == min_d:
-                ld_ls.append(height)
-        if len(ld_ls) == 1:
-            ld = ld_ls[0]
-        else:
-            # ld = mean(ld_ls) # mean is not a good choice since it creates many float values for downstream analysis
-            ld = sorted(ld_ls)[int(len(ld_ls)/2)] # take the median, if tie, take the smaller value
-            res_ls.append(",".join([k, str(len(d_umi[k])), str(ld)]))
-    return(res_ls)
+    if len(res_ls) % 1000 == 1:
+        print(len(res_ls))
+    _data = Counter(d_umi_k)
+    for height in _data: # height is the count, distance is nucleotide distance
+        distance = 0
+        for height2 in _data:
+            distance += _data[height2] * abs(int(height2) - int(height)) # height * distance
+        _tem[height] = distance
+    sorted_x = OrderedDict(sorted(_tem.items(), key=itemgetter(1)))
+    min_d    = list(sorted_x.values())[0]
+    for height in sorted_x:
+        if sorted_x[height] == min_d:
+            ld_ls.append(height)
+    if len(ld_ls) == 1:
+        ld = ld_ls[0]
+    else:
+        # ld = mean(ld_ls) # mean is not a good choice since it creates many float values for downstream analysis
+        ld = sorted(ld_ls)[int(len(ld_ls)/2)] # take the median, if tie, take the smaller value
+        return(",".join([k, str(len(d_umi[k])), str(ld)]))
 
 def get_mean(d_umi):
     res = []
@@ -80,12 +77,11 @@ for i, line in enumerate(open(csv)):
                 d_umi[umi].append(int(length))
 
 with open(outfile, "w") as f:
-    if umi_correction_method == "least_distance":
-        res = get_least_distance(d_umi)
-    elif umi_correction_method == "mode":
-        res = get_mode(d_umi)
-    elif umi_correction_method == "mean":
-        res = get_mean(d_umi)
-
-    for line in res:
-        f.write(line + "\n")
+    for k in d_umi:
+        if umi_correction_method == "least_distance":
+            res = get_least_distance(d_umi)
+        elif umi_correction_method == "mode":
+            res = get_mode(d_umi)
+        elif umi_correction_method == "mean":
+            res = get_mean(d_umi)
+        f.write(res + "\n")
