@@ -67,7 +67,7 @@ workflow REPEAT_STAT_DEFAULT {
       REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default,
       params.umi_correction_method,
       params.umi_cutoffs)
-    // 4_repeat_statistics/repeat_length_count_default_umi_0.csv|html
+    // 4_repeat_statistics/repeat_length_count_default_umi_x.csv|html
     // STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.repeat_length_count_default_umi_correct.collect(),
     // params.umi_cutoffs)
 
