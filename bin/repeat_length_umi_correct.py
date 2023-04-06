@@ -57,7 +57,7 @@ def get_least_distance(d_umi):
         else:
             # ld = mean(ld_ls) # mean is not a good choice since it creates many float values for downstream analysis
             ld = sorted(ld_ls)[int(len(ld_ls)/2)] # take the median, if tie, take the smaller value
-        res_ld.append(",".join([k, str(len(d_umi[k])), str(ld)]))
+            res_ld.append(",".join([k, str(len(d_umi[k])), str(ld)]))
     return(res_ld)
 
 def get_mean(d_umi):
