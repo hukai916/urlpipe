@@ -65,14 +65,15 @@ def get_mean(d_umi):
 
 # read csv into dict
 d_umi = {}
-for line in open(csv):
-    umi, length = line.strip().split(",")
-    umi = umi.split("_")[1]
-    if str(length).isdigit():
-        if not umi in d_umi:
-            d_umi[umi] = [int(length)]
-        else:
-            d_umi[umi].append(int(length))
+for i, line in enumerate(open(csv)):
+    if not i == 0:
+        umi, length = line.strip().split(",")
+        umi = umi.split("_")[1]
+        if str(length).isdigit():
+            if not umi in d_umi:
+                d_umi[umi] = [int(length)]
+            else:
+                d_umi[umi].append(int(length))
 
 with open(outfile, "w") as f:
     if umi_correction_method == "least_distance":
