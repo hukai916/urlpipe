@@ -40,22 +40,24 @@ def get_least_distance(d_umi):
     res_ls = []
     ld_ls = []
     _tem = {} # store the height and its distance
-    for height in _data: # height is the count, distance is nucleotide distance
-        distance = 0
-        for height2 in _data:
-            distance += _data[height2] * abs(int(height2) - int(height)) # height * distance
-        _tem[height] = distance
-    sorted_x = OrderedDict(sorted(_tem.items(), key=itemgetter(1)))
-    min_d    = list(sorted_x.values())[0]
-    for height in sorted_x:
-        if sorted_x[height] == min_d:
-            ld_ls.append(height)
-    if len(ld_ls) == 1:
-        ld = ld_ls[0]
-    else:
-        # ld = mean(ld_ls) # mean is not a good choice since it creates many float values for downstream analysis
-        ld = sorted(ld_ls)[int(len(ld_ls)/2)] # take the median, if tie, take the smaller value
-    res_ld.append(",".join([k, str(len(d_umi[k])), str(ld)]))
+    for k in d_umi:
+        _data = Counter(d_umi[k])
+        for height in _data: # height is the count, distance is nucleotide distance
+            distance = 0
+            for height2 in _data:
+                distance += _data[height2] * abs(int(height2) - int(height)) # height * distance
+            _tem[height] = distance
+        sorted_x = OrderedDict(sorted(_tem.items(), key=itemgetter(1)))
+        min_d    = list(sorted_x.values())[0]
+        for height in sorted_x:
+            if sorted_x[height] == min_d:
+                ld_ls.append(height)
+        if len(ld_ls) == 1:
+            ld = ld_ls[0]
+        else:
+            # ld = mean(ld_ls) # mean is not a good choice since it creates many float values for downstream analysis
+            ld = sorted(ld_ls)[int(len(ld_ls)/2)] # take the median, if tie, take the smaller value
+        res_ld.append(",".join([k, str(len(d_umi[k])), str(ld)]))
     return(res_ld)
 
 def get_mean(d_umi):
