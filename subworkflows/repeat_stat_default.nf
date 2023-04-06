@@ -46,10 +46,12 @@ workflow REPEAT_STAT_DEFAULT {
     // 4_repeat_statistics/repeat_length_count_default_umi_0.csv|pdf
     STAT_REPEAT_LENGTH_COUNT_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default_pure.collect())
 
+    // 1
+    // MODULE: repeat distribution within umi group
+    //
+    REPEAT_LENGTH_DISTRIBUTION_PER_UMI_DEFAULT ( REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default,
+    params.umi_cutoffs )
 
-    // // 1
-    // // MODULE: repeat distribution within umi group
-    // //
     // REPEAT_DIST_WITHIN_UMI_GROUP_R1 (
     //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.count_r1,
     //   "5b_r1_repeat_dist_within_umi_group"

@@ -1,7 +1,7 @@
 process STAT_REPEAT_LENGTH_COUNT_DEFAULT {
     label 'process_low'
 
-    container "hukai916/miniconda3_bio:0.3"
+    container "hukai916/bioinfo:0.1"
 
     input:
     path stat
