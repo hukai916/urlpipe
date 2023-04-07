@@ -40,6 +40,15 @@ bars = [go.Bar(x = df_res["repeat_length"],
 
 fig = go.Figure(data = bars)
 
+x_range = [min(df["repeat_length"]) - 1, max(df["repeat_length"]) + 100]
+nbinsx  = x_range[1] - x_range[0] + 1
+x_ticks  = int(nbinsx / 5)
+
+fig.update_xaxes(
+    range  = x_range,
+    nticks = x_ticks
+)
+
 fig.update_layout(title = "Repeat Length Count Distribution",
                   xaxis_title = "Repeat Length (nt)",
                   yaxis_title = "Read Count")

@@ -26,7 +26,7 @@ else:
 
     fig = go.Figure()
 
-    x_range = [min(df["Repeat_length"]) - 1, max(df["Repeat_length"]) + 10]
+    x_range = [min(df["Repeat_length"]) - 1, max(df["Repeat_length"]) + 100]
     nbinsx  = x_range[1] - x_range[0] + 1
     x_ticks  = int(nbinsx / 5)
 
