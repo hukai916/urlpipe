@@ -8,6 +8,7 @@ include { COUNT_SUMMARY as COUNT_SUMMARY_MODE                } from '../modules/
 workflow INDEL_STAT {
     take:
       reads
+      reads_pure
       umi_cutoffs
       ch_versions
 
@@ -41,7 +42,7 @@ workflow INDEL_STAT {
     // MODULE: INDEL UMI correct
     READ_UMI_CORRECT (
       UMI_GROUP_STAT_INDEL.out.stat,
-      CLASSIFY_READ.out.reads_indel_5p_or_3p_pure.collect(),
+      reads_pure.collect(),
       params.umi_cutoffs,
       "XXX_5e_indel_read_umi_correct"
       )

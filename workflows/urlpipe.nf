@@ -118,7 +118,7 @@ workflow URLPIPE {
     // 
     // SUBWORKFLOW: generate statistics for INDEL reads
     // 5_indel_statistics
-    INDEL_STAT ( CLASSIFY_READ.out.reads_indel_5p_or_3p, params.umi_cutoffs, ch_versions )
+    INDEL_STAT ( CLASSIFY_READ.out.reads_indel_5p_or_3p, CLASSIFY_READ.out.reads_indel_5p_or_3p_pure, params.umi_cutoffs, ch_versions )
     ch_versions = INDEL_STAT.out.versions
 
     // 1 // MODULE: COUNT_SUMMARY: for mode
