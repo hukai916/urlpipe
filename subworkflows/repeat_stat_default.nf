@@ -78,7 +78,7 @@ workflow REPEAT_STAT_DEFAULT {
       // just to obtain the sample meta info:
       REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.umi_readcount_readlength_corrected,
       // master table for umi_0:
-      STAT_REPEAT_LENGTH_COUNT_DEFAULT.out.csv,
+      STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.csv,
       // master table for umi_x:
       STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.csv
       )
