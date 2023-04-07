@@ -19,14 +19,17 @@ process REPEAT_LENGTH_FRACTION {
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def start_allele_1  = "${meta.start_allele_1}"
+    def end_allele_1 = "${meta.end_allele_1}"
+    def start_allele_2  = "${meta.start_allele_2}" ?: 1 // simply place holder
+    def end_allele_2 = "${meta.end_allele_2}" ?: 2
 
     """
     umi_cutoffs_str="$umi_cutoffs"
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      touch test.csv
-      echo "test"
+      repeat_length_frac.py ${allele_number} ${prefix} repeat_length_count_default_umi_\$i.csv repeat_length_fraction_umi_\$i.csv $start_allele_1 $end_allele_1 $start_allele_2 $end_allele_2
     done
 
     cat <<-END_VERSIONS > versions.yml
