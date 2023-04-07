@@ -85,3 +85,13 @@ def reverse_complement(seq):
 
 def get_sample_name(x, prefix, suffix):
     return(x.split(prefix)[1].split(suffix)[0])
+
+def get_std(x):
+    """
+    Return weighted std. If empty input, return na.
+    """
+    try:
+        _average = np.average((x - np.average(x, weights = df.loc[x.index, sample_name])) ** 2, weights = df.loc[x.index, sample_name])
+    except:
+        _average = np.nan
+    return(np.sqrt(_average))
