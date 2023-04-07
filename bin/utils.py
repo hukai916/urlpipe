@@ -95,3 +95,23 @@ def get_std(x):
     except:
         _average = np.nan
     return(np.sqrt(_average))
+
+def indel_filter(indel, no_indel, add = False):
+    """
+    For indel reads belong to UMI groups that also have reads in no_indel, move them out from the indel category.
+    Both indel and no_indel are lists containing Bio.Seq record objects.
+
+    If add = True, will add moved records from indel to no_indel and return [indel_res, no_indel_res]; otherwise return indel_res only.
+    """
+    no_indel_umi = set([record.name.split("_")[1] for record in no_indel])
+    indel_res = []
+    for record in indel:
+        umi = record.name.split("_")[1]
+        if umi not in no_indel_umi:
+            indel_res.append(record)
+        if add:
+            no_indel.append(record)
+    if not add:
+        return(indel_res)
+    else:
+        return([indel_res, no_indel])

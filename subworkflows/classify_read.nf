@@ -41,6 +41,12 @@ workflow CLASSIFY_READ {
       READ_PER_UMI_READTHROUGH ( CLASSIFY_READTHROUGH.out.reads_through )
       ch_versions = ch_versions.mix(READ_PER_UMI_READTHROUGH.out.versions)
 
+      // MODULE: classify reads into alleles based on SNP
+      // TODO module
+      // if params.allele_number == 2:
+      //   CLASSIFY_ALLELE ()
+
+
     emit:
       reads_indel_5p_or_3p      = CLASSIFY_INDEL.out.reads_indel_5p_or_3p
       reads_indel_5p_or_3p_pure = CLASSIFY_INDEL.out.reads_indel_5p_or_3p_pure

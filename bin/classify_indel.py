@@ -20,6 +20,7 @@ import regex
 import gzip
 from mimetypes import guess_type
 from functools import partial
+from utils import indel_filter
 
 r1 = sys.argv[1]
 r2 = sys.argv[2]
@@ -101,7 +102,13 @@ with _open(r1) as f:
         elif r_match[record.name] == 0:
             r1_indel_5p_and_3p.append(record)
             r1_indel_5p_or_3p.append(record)
-_res = [r1_no_indel, r1_indel_5p, r1_indel_3p, r1_indel_5p_and_3p, r1_indel_5p_or_3p]
+
+r1_indel_3p_filter = indel_filter(r1_indel_3p, r1_no_indel)
+r1_indel_5p_filter = indel_filter(r1_indel_5p, r1_no_indel)
+r1_indel_5p_and_3p_filter = indel_filter(r1_indel_5p_and_3p, r1_no_indel)
+r1_indel_5p_or_3p_filter, r1_no_indel_filter = indel_filter(r1_indel_5p_or_3p, r1_no_indel, add = True)
+
+_res = [r1_no_indel_filter, r1_indel_5p_filter, r1_indel_3p_filter, r1_indel_5p_and_3p_filter, r1_indel_5p_or_3p_filter]
 _out_file = [output_files["no_indel"], output_files["indel_5p"], output_files["indel_3p"], output_files["indel_5p_and_3p"], output_files["indel_5p_or_3p"]]
 
 for res, out_file in zip(_res, _out_file):
@@ -127,7 +134,12 @@ with _open(r2) as f:
             r2_indel_5p_and_3p.append(record)
             r2_indel_5p_or_3p.append(record)
 
-_res = [r2_no_indel, r2_indel_5p, r2_indel_3p, r2_indel_5p_and_3p, r2_indel_5p_or_3p]
+r2_indel_3p_filter = indel_filter(r2_indel_3p, r2_no_indel)
+r2_indel_5p_filter = indel_filter(r2_indel_5p, r2_no_indel)
+r2_indel_5p_and_3p_filter = indel_filter(r2_indel_5p_and_3p, r2_no_indel)
+r2_indel_5p_or_3p_filter, r2_no_indel_filter = indel_filter(r2_indel_5p_or_3p, r2_no_indel, add = True)
+
+_res = [r2_no_indel_filter, r2_indel_5p_filter, r2_indel_3p_filter, r2_indel_5p_and_3p_filter, r2_indel_5p_or_3p_filter]
 
 for res, out_file in zip(_res, _out_file):
     with open(str(out_file["r2"]), "w") as f:
