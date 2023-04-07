@@ -7,7 +7,7 @@ import plotly.graph_objs as go
 import plotly.offline as pyo
 
 
-csv = sys.argv[1:-2]
+csv = sys.argv[1:-5]
 outfile_csv = sys.argv[-4]
 outfile_html = sys.argv[-3]
 prefix = sys.argv[-2]
