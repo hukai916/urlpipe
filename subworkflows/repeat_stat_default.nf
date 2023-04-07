@@ -9,6 +9,7 @@ include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/repeat_le
 include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI  } from '../modules/local/plot_repeat_length_distribution_per_umi'
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT } from '../modules/local/repeat_length_distribution_default_umi_correct'
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT    } from '../modules/local/stat_repeat_length_distribution_default_umi_correct'
+include { REPEAT_LENGTH_FRACTION } from '../modules/local/repeat_length_fraction'
 
 
 include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_R1 } from '../modules/local/repeat_dist_umi_correct'
@@ -71,37 +72,16 @@ workflow REPEAT_STAT_DEFAULT {
     STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.repeat_length_count_default_umi_correct.collect(),
     params.umi_cutoffs)
 
-
-// 4a_repeat_length_distribution
-
     //
-    // MODULE: repeat length per umi group
-    // 4_repeat_statistics/4b_repeat_length_per_umi/
-
-
-
-
-    // // 2
-    // // MODULE: UMI group stat: UMI read_count mean mode: 5c
-    // //
-    // UMI_GROUP_STAT (
-    //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.count_r1,
-    //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.stat_raw, // stat_raw store the raw stat before UMI correction
-    //   "5c_r1_umi_group_stat"
-    //   )
-    // ch_versions = ch_versions.mix(UMI_GROUP_STAT.out.versions)
-
-    // // 3
-    // // MODULE: repeat dist UMI corrected: 5d
-    // //
-    // REPEAT_DIST_UMI_CORRECT_R1 (
-    //   UMI_GROUP_STAT.out.stat,
-    //   UMI_GROUP_STAT.out.stat_raw,
-    //   params.umi_cutoffs,
-    //   params.allele_number,
-    //   "5d_r1_repeat_dist_umi_correct"
-    //   )
-    // ch_versions = ch_versions.mix(REPEAT_DIST_UMI_CORRECT_R1.out.versions)
+    //  MODULE: obtain fraction above and below for each sample at each cutoff
+    REPEAT_LENGTH_FRACTION (
+      // just to obtain the sample meta info:
+      REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.umi_readcount_readlength_corrected,
+      // master table for umi_0:
+      STAT_REPEAT_LENGTH_COUNT_DEFAULT.out.csv,
+      // master table for umi_x:
+      STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.csv
+      )
 
     // // 4
     // // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
