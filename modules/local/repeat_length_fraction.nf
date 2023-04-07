@@ -7,6 +7,7 @@ process REPEAT_LENGTH_FRACTION {
     tuple val(meta), path(csv_token)
     path csv_umi_0
     path csv_umi_x
+    val allele_number
     val umi_cutoffs
 
     output:

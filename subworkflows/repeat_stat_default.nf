@@ -80,7 +80,9 @@ workflow REPEAT_STAT_DEFAULT {
       // master table for umi_0:
       STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.csv,
       // master table for umi_x:
-      STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.csv
+      STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.csv,
+      params.allele_number,
+      params.umi_cutoff,
       )
 
     // // 4
