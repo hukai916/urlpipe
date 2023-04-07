@@ -23,7 +23,7 @@ process STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      stat_repeat_length_count_default.py repeat_length_count_default_*_umi_\$i.csv repeat_length_count_default_umi_\$i.csv repeat_length_count_default_umi_\$i.html
+      stat_repeat_length_count_default.py repeat_length_count_default_*_umi_\$i.csv repeat_length_count_default_umi_\$i.csv repeat_length_count_default_umi_\$i.html "repeat_length_count_default_" "_umi_\$i.csv"
     done
 
     cat <<-END_VERSIONS > versions.yml
