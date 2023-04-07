@@ -4,6 +4,9 @@ include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_INDEL } from '../mo
 include { UMI_GROUP_STAT as UMI_GROUP_STAT_INDEL } from '../modules/local/umi_group_stat'
 include { COUNT_SUMMARY as COUNT_SUMMARY_LD                  } from '../modules/local/count_summary'
 include { COUNT_SUMMARY as COUNT_SUMMARY_MODE                } from '../modules/local/count_summary'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL   }   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2 }   from '../modules/local/cat_stat_cutoff'
+
 
 workflow INDEL_STAT {
     take:
