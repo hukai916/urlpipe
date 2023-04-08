@@ -9,7 +9,7 @@ process READ_COUNT_PER_UMI_CUTOFF {
     val umi_cutoffs
 
     output:
-    tuple val(meta), path("read_count_per_umi_*.csv"),  emit: csv
+    tuple val(meta), path("read_count_*.csv"),  emit: csv
     path "versions.yml",                                emit: versions
 
     when:
