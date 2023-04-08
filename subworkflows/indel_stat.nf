@@ -14,7 +14,6 @@ workflow INDEL_STAT {
     take:
       reads
       reads_pure
-      umi_cutoffs
       ch_versions
 
     main:
@@ -32,7 +31,7 @@ workflow INDEL_STAT {
     // 
     STAT_READ_COUNT_PER_UMI_CUTOFF (
       READ_COUNT_PER_UMI_CUTOFF.out.csv.collect(),
-      umi_cutoffs
+      params.umi_cutoffs
     )
 
     // MODULE: INDEL reads distribution:
