@@ -13,7 +13,7 @@ outfile    = sys.argv[3]
 
 df = pd.read_csv(umi_reads, header = None, names = ["umi", "read_count"])
 df_res = df[df["read_count"] >= umi_cutoff]
-res = df_res["read_count"].sum()
+res = len(df_res["read_count"])
 
 with open(outfile, "w") as f:
     f.write(str(res))
