@@ -23,7 +23,7 @@ process STAT_READ_COUNT_PER_UMI_CUTOFF {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      stat_repeat_length_count_default.py repeat_length_count_default_*_umi_\$i.csv repeat_length_count_default_umi_\$i.csv repeat_length_count_default_umi_\$i.html "repeat_length_count_default_" "_umi_\$i.csv"
+      stat_read_count_per_umi_cutoff.py read_count_*_umi_cutoff_\$i.csv read_count_*_umi_cutoff_\$i.html  "read_count_" "_umi_cutoff_\$i.csv"
     done
 
     cat <<-END_VERSIONS > versions.yml

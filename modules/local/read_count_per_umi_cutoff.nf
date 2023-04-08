@@ -9,8 +9,8 @@ process READ_COUNT_PER_UMI_CUTOFF {
     val umi_cutoffs
 
     output:
-    path "read_count_per_umi_*.csv",  emit: csv
-    path "versions.yml",              emit: versions
+    tuple val(meta), path("read_count_per_umi_*.csv"),  emit: csv
+    path "versions.yml",                                emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -29,7 +29,7 @@ process READ_COUNT_PER_UMI_CUTOFF {
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str#[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      read_count_per_umi_cutoff.py reads_per_umi_${prefix}.csv \$i read_count_per_umi_${prefix}_umi_cutoff_\$i.csv
+      read_count_per_umi_cutoff.py reads_per_umi_${prefix}.csv \$i read_count_${prefix}_umi_cutoff_\$i.csv
     done
 
     cat <<-END_VERSIONS > versions.yml
