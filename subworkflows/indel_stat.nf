@@ -7,7 +7,7 @@ include { COUNT_SUMMARY as COUNT_SUMMARY_MODE                } from '../modules/
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL   }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2 }   from '../modules/local/cat_stat_cutoff'
 
-include { READ_COUNT_PER_UMI_CUTOFF                  }   from '../module/local/read_count_per_umi_cutoff'
+include { READ_COUNT_PER_UMI_CUTOFF                  }   from '../modules/local/read_count_per_umi_cutoff'
 
 workflow INDEL_STAT {
     take:
