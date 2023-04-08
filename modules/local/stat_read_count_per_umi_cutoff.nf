@@ -4,7 +4,7 @@ process STAT_READ_COUNT_PER_UMI_CUTOFF {
     container "hukai916/bioinfo:0.1"
 
     input:
-    path csv
+    tuple val(meta), path(csv)
     val umi_cutoffs
 
     output:
