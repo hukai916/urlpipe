@@ -24,7 +24,7 @@ with _open(r1) as f:
         if not umi in d_umi:
             d_umi[umi] = 1
         else:
-            d_umi[umi] += 1
+            d_umi[umi] = d_umi[umi] + 1
 
 with open(outfile, "w") as f:
     for umi in d_umi:
