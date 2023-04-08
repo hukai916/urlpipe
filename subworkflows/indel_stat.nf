@@ -21,7 +21,7 @@ workflow INDEL_STAT {
 
     // 
     // MODULE: read count umi correct
-    // not published
+    // 5_indel_stat/5a_read_count_per_umi_cutoff/raw_csv
     READ_COUNT_PER_UMI_CUTOFF (
       reads,
       params.umi_cutoffs
@@ -30,10 +30,10 @@ workflow INDEL_STAT {
     // 
     // MODULE: stat read count umi correct
     // 
-    // STAT_READ_COUNT_PER_UMI_CUTOFF (
-    //   READ_COUNT_PER_UMI_CUTOFF.out.csv.collect().
-    //   params.umi_cutoffs
-    // )
+    STAT_READ_COUNT_PER_UMI_CUTOFF (
+      READ_COUNT_PER_UMI_CUTOFF.out.csv.collect().
+      params.umi_cutoffs
+    )
 
     // MODULE: INDEL reads distribution:
     READ_LENGTH_DIST (
