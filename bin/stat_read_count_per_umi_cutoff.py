@@ -18,20 +18,15 @@ sample_names = [get_sample_name(x, prefix, suffix) for x in csv]
 df_res = pd.DataFrame()
 
 for i in range(len(csv)):
-    print(csv[i])
     df = pd.read_csv(csv[i], header = None, names = [sample_names[i]])
-    print(df)
-    print(csv[i])
     df_res[sample_names[i]] = df[sample_names[i]]
 
-print("EST")
-print(df_res)
-
-df_res = df_res.sort_values('repeat_length')
-
+print(sample_names)
 # 1. output repeat_length_count_default_umi_0.csv
+print(df_res)
+print(outfile_csv)
 df_res.to_csv(outfile_csv, index = False)
-
+exit()
 # 2. output repeat_length_count_default_umi_0.html
     # create bar charts using frequencies
 bars = [go.Bar(x = df_res["repeat_length"],
