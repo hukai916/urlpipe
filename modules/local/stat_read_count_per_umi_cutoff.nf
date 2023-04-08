@@ -1,4 +1,4 @@
-process STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT {
+process STAT_READ_COUNT_PER_UMI_CUTOFF {
     label 'process_low'
 
     container "hukai916/bioinfo:0.1"
