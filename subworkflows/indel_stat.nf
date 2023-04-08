@@ -4,10 +4,11 @@ include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_INDEL } from '../mo
 include { UMI_GROUP_STAT as UMI_GROUP_STAT_INDEL } from '../modules/local/umi_group_stat'
 include { COUNT_SUMMARY as COUNT_SUMMARY_LD                  } from '../modules/local/count_summary'
 include { COUNT_SUMMARY as COUNT_SUMMARY_MODE                } from '../modules/local/count_summary'
-include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL   }   from '../modules/local/cat_stat_cutoff'
-include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2 }   from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL   } from '../modules/local/cat_stat_cutoff'
+include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2 } from '../modules/local/cat_stat_cutoff'
 
-include { READ_COUNT_PER_UMI_CUTOFF                  }   from '../modules/local/read_count_per_umi_cutoff'
+include { READ_COUNT_PER_UMI_CUTOFF                  } from '../modules/local/read_count_per_umi_cutoff'
+include { STAT_READ_COUNT_PER_UMI_CUTOFF             } from '../modules/local/stat_read_count_per_umi_cutoff'
 
 workflow INDEL_STAT {
     take:
@@ -20,11 +21,19 @@ workflow INDEL_STAT {
 
     // 
     // MODULE: read count umi correct
-    // 
+    // not published
     READ_COUNT_PER_UMI_CUTOFF (
       reads,
       params.umi_cutoffs
     )
+
+    // 
+    // MODULE: stat read count umi correct
+    // 
+    // STAT_READ_COUNT_PER_UMI_CUTOFF (
+    //   READ_COUNT_PER_UMI_CUTOFF.out.csv.collect().
+    //   params.umi_cutoffs
+    // )
 
     // MODULE: INDEL reads distribution:
     READ_LENGTH_DIST (

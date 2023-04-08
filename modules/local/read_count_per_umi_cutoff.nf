@@ -9,8 +9,8 @@ process READ_COUNT_PER_UMI_CUTOFF {
     val umi_cutoffs
 
     output:
-    tuple val(meta), path("reads_per_umi_*.csv"),  emit: csv
-    path "versions.yml",                           emit: versions
+    path "reads_per_umi_*.csv",  emit: csv
+    path "versions.yml",         emit: versions
 
     when:
     task.ext.when == null || task.ext.when
