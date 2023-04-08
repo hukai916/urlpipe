@@ -15,13 +15,17 @@ suffix = sys.argv[-1]
 
 sample_names = [get_sample_name(x, prefix, suffix) for x in csv]
 
-df_res = pd.DataFrame(columns = ["repeat_length"])
+df_res = pd.DataFrame()
 
 for i in range(len(csv)):
-    df = pd.read_csv(csv[i])
-    df = df.rename(columns={'count': sample_names[i]})
-    df_res = pd.merge(df_res, df, on='repeat_length', how='outer')
-    df_res.fillna(0, inplace = True)
+    print(csv[i])
+    df = pd.read_csv(csv[i], header = None, names = [sample_names[i]])
+    print(df)
+    print(csv[i])
+    df_res[sample_names[i]] = df[sample_names[i]]
+
+print("EST")
+print(df_res)
 
 df_res = df_res.sort_values('repeat_length')
 
