@@ -21,7 +21,6 @@ process READ_COUNT_PER_UMI_CUTOFF {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-
     # 1. obtain master table: UMI,read_count
     reads_per_umi.py ${prefix}_1.fastq.gz reads_per_umi_${prefix}.csv
 
