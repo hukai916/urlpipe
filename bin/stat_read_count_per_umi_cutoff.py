@@ -6,7 +6,6 @@ import pandas as pd
 import plotly.graph_objs as go
 import plotly.offline as pyo
 
-
 csv = sys.argv[1:-4]
 outfile_csv = sys.argv[-4]
 outfile_html = sys.argv[-3]
@@ -21,35 +20,20 @@ for i in range(len(csv)):
     df = pd.read_csv(csv[i], header = None, names = [sample_names[i]])
     df_res[sample_names[i]] = df[sample_names[i]]
 
-print(sample_names)
-# 1. output repeat_length_count_default_umi_0.csv
-print(df_res)
-print(outfile_csv)
+# 1. output read_count_umi_cutoff_x.csv
 df_res.to_csv(outfile_csv, index = False)
-exit()
-# 2. output repeat_length_count_default_umi_0.html
+
+# 2. output read_count_umi_cutoff_x.html
     # create bar charts using frequencies
-bars = [go.Bar(x = df_res["repeat_length"],
-               y = df_res[col_sample],
-               name = col_sample,
-               width = 2,
-               marker = dict(opacity = 0.5),
-               visible = True if i == 0 else "legendonly"
-               ) for i, col_sample in enumerate(df_res.columns[1:])]
+bars = [go.Bar(x = list(df_res.columns),
+               y = list(df_res.iloc[0]),
+               marker = dict(opacity = 0.5)
+               )]
 
 fig = go.Figure(data = bars)
 
-x_range = [min(df["repeat_length"]) - 1, max(df["repeat_length"]) + 100]
-nbinsx  = x_range[1] - x_range[0] + 1
-x_ticks  = int(nbinsx / 5)
-
-fig.update_xaxes(
-    range  = x_range,
-    nticks = x_ticks
-)
-
-fig.update_layout(title = "Repeat Length Count Distribution",
-                  xaxis_title = "Repeat Length (nt)",
+fig.update_layout(title = "Read Count at UMI cutoff" + str(),
+                  xaxis_title = "Sample Name",
                   yaxis_title = "Read Count")
 
 # Save the plot as an interactive HTML file

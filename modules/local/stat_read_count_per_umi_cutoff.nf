@@ -19,7 +19,7 @@ process STAT_READ_COUNT_PER_UMI_CUTOFF {
     def args = task.ext.args ?: ''
 
     """
-    umi_cutoffs_str="$umi_cutoffs"
+    umi_cutoffs_str="0,$umi_cutoffs"
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
