@@ -6,9 +6,7 @@ Take repead_length_per_read_default_xxx.csv, generate diagnosis stat and output 
 """
 
 import pandas as pd
-import numpy as np
 import sys
-import csv
 
 filename = sys.argv[1]
 outfile_repeat_length_per_read = sys.argv[2]

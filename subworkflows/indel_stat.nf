@@ -7,6 +7,7 @@ include { COUNT_SUMMARY as COUNT_SUMMARY_MODE                } from '../modules/
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL   }   from '../modules/local/cat_stat_cutoff'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL_2 }   from '../modules/local/cat_stat_cutoff'
 
+include { READ_COUNT_PER_UMI_CUTOFF                  } from '../module/local/read_count_per_umi_cutoff'
 
 workflow INDEL_STAT {
     take:
@@ -16,7 +17,15 @@ workflow INDEL_STAT {
       ch_versions
 
     main:
- // // For INDEL reads:
+
+    // 
+    // MODULE: read count umi correct
+    // 
+    READ_COUNT_PER_UMI_CUTOFF (
+      reads,
+      params.umi_cutoffs
+    )
+
     // MODULE: INDEL reads distribution:
     READ_LENGTH_DIST (
       reads,

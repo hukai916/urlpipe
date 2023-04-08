@@ -8,7 +8,7 @@ Dev notes:
 2. When determining the length, not simply use "left_start - right_end" because the adopted method is more robust for fuzzy match of the pattern.
 3. If allow mismatch 2, length determined from R2 will be systematically 12 nt longer because of the fuzzy match: GGAGGCGGCGGCGGCGGCGG CGGCGGTGGCGG
     Solution:
-        1. Use finditer(overlapped = True) to find all of the matchesthe
+        1. Use finditer(overlapped = True) to find all of the matches
         2. Use the one with no fuzzy_counts
         3. If 2 does not exist, use the right-most of the left match and left-most of the right match
         4. This would shrink to the minimal length
