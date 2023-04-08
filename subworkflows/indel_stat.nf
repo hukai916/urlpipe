@@ -30,7 +30,7 @@ workflow INDEL_STAT {
     // MODULE: stat read count umi correct
     // 
     STAT_READ_COUNT_PER_UMI_CUTOFF (
-      READ_COUNT_PER_UMI_CUTOFF.out.csv.collect(),
+      READ_COUNT_PER_UMI_CUTOFF.out.csv_pure.collect(),
       params.umi_cutoffs
     )
 
