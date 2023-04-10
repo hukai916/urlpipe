@@ -5,7 +5,7 @@ import pandas as pd
 
 frac_csv = sys.argv[1:-3]
 indel_csv = sys.argv[-3]
-allele_number = sys.argv[-2]
+allele_number = int(sys.argv[-2])
 outfile = sys.argv[-1]
 
 # frac_csv = "repeat_length_fraction_umi_1.csv"
@@ -33,7 +33,11 @@ elif allele_number == 2:
     df_res["allele_2_frac"] = df_res["allele_2"] / df_res["total_excluding_indel"]
     df_res["above_frac"] = df_res["above"] / df_res["total_excluding_indel"]
 
-df_res["indel"] = df_indel[str(df_res["sample_name"][0])]
+# add the indel column
+indel = []
+for sample in df_res["sample_name"]:
+    indel.append(df_indel[str(sample)][0])
+df_res["indel"] = indel
 df_res["indel_frac"] = df_res["indel"] / df_res["total_excluding_indel"]
 
 # reorder the colnames:
