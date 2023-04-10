@@ -25,7 +25,7 @@ process REPEAT_LENGTH_FRACTION {
     def end_allele_2 = "${meta.end_allele_2}" ?: 2
 
     """
-    umi_cutoffs_str="$umi_cutoffs"
+    umi_cutoffs_str="0,$umi_cutoffs"
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do

@@ -39,9 +39,9 @@ include { CLASSIFY_READ  } from '../subworkflows/classify_read'
 include { REPEAT_STAT_DEFAULT } from '../subworkflows/repeat_stat_default'
 include { REPEAT_STAT_MERGE   } from '../subworkflows/repeat_stat_merge'
 // include { MODE_NANOPORE  } from '../subworkflows/mode_nanopore'
-
 include { INDEL_STAT     } from '../subworkflows/indel_stat'
 
+include { GET_SUMMARY    } from '../subworkflows/get_summary'
 
 include { CAT_STAT; CAT_STAT as CAT_STAT2; } from '../modules/local/cat_stat'
 include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_INDEL   }   from '../modules/local/cat_stat_cutoff'
@@ -124,11 +124,14 @@ workflow URLPIPE {
     // 
     // SUBWORKFLOW: obtain summary table
     // 6_summary
-    REPEAT_STAT_DEFAULT.out.csv.view()
-    INDEL_STAT.out.csv.view()
-    // GET_SUMMARY (
-    //   REPEAT_STAT_DEFAULT.out.stat_table
-    // )
+    GET_SUMMARY (
+      REPEAT_STAT_DEFAULT.out.csv.
+      INDEL_STAT.out.csv,
+      params.umi_cutoffs,
+      params.allele_number,
+      ch_versions = ch_versions
+    )
+    ch_version = GET_SUMMARY.out.verions
 
     // 1 // MODULE: COUNT_SUMMARY: for mode
     // COUNT_SUMMARY_MODE (
