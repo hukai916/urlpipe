@@ -17,6 +17,7 @@ process GET_MASTER_TABLE {
       val allele_number
 
     output:
+      path "*.csv",         emit: csv
       path "versions.yml",  emit: versions
 
     when:
