@@ -33,7 +33,7 @@ elif allele_number == 2:
     df_res["allele_2_frac"] = df_res["allele_2"] / df_res["total_excluding_indel"]
     df_res["above_frac"] = df_res["above"] / df_res["total_excluding_indel"]
 
-df_res["indel"] = df_indel[str(df_frac["sample_name"][0])]
+df_res["indel"] = df_indel[str(df_res["sample_name"][0])]
 df_res["indel_frac"] = df_res["indel"] / df_res["total_excluding_indel"]
 
 # reorder the colnames:
