@@ -6,7 +6,7 @@ import pandas as pd
 frac_csv = sys.argv[1:-3]
 indel_csv = sys.argv[-3]
 allele_number = sys.argv[-2]
-outfile = sys.artv[-1]
+outfile = sys.argv[-1]
 
 # frac_csv = "repeat_length_fraction_umi_1.csv"
 # indel_csv = "read_count_umi_cutoff_1.csv"
