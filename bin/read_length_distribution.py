@@ -1,24 +1,12 @@
 #!/usr/bin/env python
 
-"""
-To count the repeat length by measuring distance.
-
-Dev notes:
-1. Nextflow won't resume if utils changes.
-
-"""
 
 from Bio import SeqIO
-from Bio.Seq import Seq
 import sys
 import os
-from collections import Counter
-import regex
 import gzip
 from mimetypes import guess_type
 from functools import partial
-import numpy as np
-import pandas as pd
 from utils import plot_repeat_dist
 
 r1 = sys.argv[1]
@@ -27,9 +15,6 @@ sample_name = sys.argv[3]
 output_dir  = sys.argv[4]
 bin_number = sys.argv[5]
 
-# r1_flanking = "TCGAGTCCCTCAAGTCCTTC"
-# r2_flanking = "CCGCCACCGCCGCCGCCGCC"
-# mismatch = 2
 encoding = guess_type(r1)[1]  # uses file extension
 _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
 

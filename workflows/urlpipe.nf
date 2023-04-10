@@ -121,6 +121,15 @@ workflow URLPIPE {
     INDEL_STAT ( CLASSIFY_READ.out.reads_indel_5p_or_3p, CLASSIFY_READ.out.reads_indel_5p_or_3p_pure, ch_versions )
     ch_versions = INDEL_STAT.out.versions
 
+    // 
+    // SUBWORKFLOW: obtain summary table
+    // 6_summary
+    REPEAT_STAT_DEFAULT.out.stat_table.view()
+    INDEL_STAT.out.stat_table.view()
+    // GET_SUMMARY (
+    //   REPEAT_STAT_DEFAULT.out.stat_table
+    // )
+
     // 1 // MODULE: COUNT_SUMMARY: for mode
     // COUNT_SUMMARY_MODE (
     //   REPEAT_STAT_DEFAULT.out.stat5,

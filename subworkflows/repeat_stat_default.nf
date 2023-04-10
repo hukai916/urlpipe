@@ -202,10 +202,15 @@ workflow REPEAT_STAT_DEFAULT {
     //   "5d_r1_repeat_dist_umi_correct/plot_along_cutoffs/plot_frac_umi_cutoff_ld"
     // )
 
+    stat_table = STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.csv.mix(
+      STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.csv
+    )
+
     emit:
     // stat5         = CAT_STAT5.out.stat
     // cutoff_stat   = CAT_STAT_CUTOFF.out.stat
     // cutoff2_stat  = CAT_STAT_CUTOFF_2.out.stat
-    versions      = ch_versions
+    csv      = stat_table
+    versions = ch_versions
     // versions = SAMPLESHEET_CHECK.out.versions // channel: [ versions.yml ]
 }
