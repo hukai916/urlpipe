@@ -30,7 +30,7 @@ process GET_MASTER_TABLE {
       umi_cutoffs_array=(\$(echo \${umi_cutoffs_str//[[:blank:]]/} | tr "," " "))
       for i in "\${umi_cutoffs_array[@]}"
       do
-        get_master_table.py repeat_length_fraction_umi_\${i}_*_.csv read_count_umi_cutoff_\${i}.csv $allele_number master_table_umi_\${i}_${prefix}.csv
+        get_master_table.py repeat_length_fraction_umi_\${i}_*_.csv read_count_umi_cutoff_\${i}.csv $allele_number master_table_umi_\${i}.csv
       done
 
       cat <<-END_VERSIONS > versions.yml
