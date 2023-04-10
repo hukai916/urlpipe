@@ -15,5 +15,5 @@ workflow GET_SUMMARY {
       GET_MASTER_TABLE (repeat_csv, indel_csv, umi_cutoffs, allele_number)
 
     emit:
-      versions = ch_versions  
+      versions = ch_version  
 }

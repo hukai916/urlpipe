@@ -32,15 +32,15 @@ df["bin"] = pd.cut(df["repeat_length"], bins = bins)
 # 2. calculate count, fraction, mean, std:
     # first deal with edge case:
 if allele_number == 1:
-    header = "start_allele_1,end_allele_1,below,allele_1,above"
+    header = "sample_name,start_allele_1,end_allele_1,below,allele_1,above"
 elif allele_number == 2:
-    header = "start_allele_1,end_allele_1,start_allele_2,end_allele_2,below,allele_1,between,allele_2,above"
+    header = "sample_name,start_allele_1,end_allele_1,start_allele_2,end_allele_2,below,allele_1,between,allele_2,above"
 _total_count = df[sample_name].sum()
 if _total_count == 0:
     if allele_number == 1:
-        res = header + "\n0,0,0,0,0"
+        res = header + "\n0," + sample_name + ",0,0,0,0"
     elif allele_number == 2:
-        res = header + "\n0,0,0,0,0,0,0,0,0"
+        res = header + "\n0," + sample_name + ",0,0,0,0,0,0,0,0"
     with open(outfile, "w") as f:
         f.write(res + "\n")
     sys.exit("Total count is 0!")
@@ -53,9 +53,9 @@ _std = df.groupby("bin")["repeat_length"].agg(lambda x: get_std(x))
 
 # 3. output to csv:
 if allele_number == 1:
-    res = str(start_allele_1) + "," + str(end_allele_1) + ","
+    res = sample_name + "," + str(start_allele_1) + "," + str(end_allele_1) + ","
 elif allele_number == 2:
-    res = str(start_allele_1) + "," + str(end_allele_1) + "," + str(start_allele_2) + "," + str(end_allele_2) + ","
+    res = sample_name + "," + str(start_allele_1) + "," + str(end_allele_1) + "," + str(start_allele_2) + "," + str(end_allele_2) + ","
     
 for i in range(len(_count)):
     # res = res + ",".join([str(_count.iloc[i]), str(_fraction.iloc[i]), str(_mean.iloc[i]), str(_std.iloc[i])])
