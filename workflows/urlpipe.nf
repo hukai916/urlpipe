@@ -124,8 +124,8 @@ workflow URLPIPE {
     // 
     // SUBWORKFLOW: obtain summary table
     // 6_summary
-    REPEAT_STAT_DEFAULT.out.stat_table.view()
-    INDEL_STAT.out.stat_table.view()
+    REPEAT_STAT_DEFAULT.out.csv.view()
+    INDEL_STAT.out.csv.view()
     // GET_SUMMARY (
     //   REPEAT_STAT_DEFAULT.out.stat_table
     // )

@@ -79,7 +79,7 @@ workflow INDEL_STAT {
     // "XXX_5e_indel_read_umi_correct/count" )
 
     emit:
-    stat_table = STAT_READ_COUNT_PER_UMI_CUTOFF.out.csv 
-    versions   = ch_versions
+    csv      = STAT_READ_COUNT_PER_UMI_CUTOFF.out.csv 
+    versions = ch_versions
 
 }
