@@ -131,7 +131,7 @@ workflow URLPIPE {
       params.allele_number,
       ch_versions = ch_versions
     )
-    ch_version = GET_SUMMARY.out.verions
+    ch_version = GET_SUMMARY.out.versions
 
     // 1 // MODULE: COUNT_SUMMARY: for mode
     // COUNT_SUMMARY_MODE (
