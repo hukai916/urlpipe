@@ -211,7 +211,7 @@ workflow REPEAT_STAT_DEFAULT {
     // cutoff_stat   = CAT_STAT_CUTOFF.out.stat
     // cutoff2_stat  = CAT_STAT_CUTOFF_2.out.stat
     csv      = stat_table
-    csv_frac = REPEAT_LENGTH_FRACTION.out.csv
+    csv_frac = REPEAT_LENGTH_FRACTION.out.csv.collect()
     versions = ch_versions
     // versions = SAMPLESHEET_CHECK.out.versions // channel: [ versions.yml ]
 }
