@@ -1,4 +1,4 @@
-include { GET_MASTER_TABLE from '../modules/local/get_master_table'
+include { GET_MASTER_TABLE } from '../modules/local/get_master_table'
 
 
 workflow GET_SUMMARY {
