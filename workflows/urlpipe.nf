@@ -125,7 +125,7 @@ workflow URLPIPE {
     // SUBWORKFLOW: obtain summary table
     // 6_summary
     GET_SUMMARY (
-      REPEAT_STAT_DEFAULT.out.csv,
+      REPEAT_LENGTH_FRACTION.out.csv_frac,
       INDEL_STAT.out.csv,
       params.umi_cutoffs,
       params.allele_number,
