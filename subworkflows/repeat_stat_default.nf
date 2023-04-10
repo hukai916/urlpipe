@@ -204,7 +204,7 @@ workflow REPEAT_STAT_DEFAULT {
 
     stat_table = STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.csv.mix(
       STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.csv
-    )
+    ).collect()
 
     emit:
     // stat5         = CAT_STAT5.out.stat
