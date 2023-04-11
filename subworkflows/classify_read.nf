@@ -46,7 +46,6 @@ workflow CLASSIFY_READ {
       // if params.allele_number == 2:
       //   CLASSIFY_ALLELE ()
 
-
     emit:
       reads_indel_5p_or_3p      = CLASSIFY_INDEL.out.reads_indel_5p_or_3p
       reads_indel_5p_or_3p_pure = CLASSIFY_INDEL.out.reads_indel_5p_or_3p_pure

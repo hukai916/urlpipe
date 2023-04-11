@@ -1,6 +1,6 @@
 {
-    "name": "test/urlpipe",
-    "homePage": "https://github.com/test/urlpipe",
+    "name": "urlpipe",
+    "homePage": "https://github.com/hukai916/urlpipe",
     "repos": {
         "nf-core/modules": {
             "git_url": "https://github.com/nf-core/modules.git",

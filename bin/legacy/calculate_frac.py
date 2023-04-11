@@ -10,57 +10,45 @@ sample_name, below_count, below_frac, below_mean, below_sd, above_count, above_f
 import sys
 import os
 import numpy as np
+import pandas as pd
 
 sample_name = sys.argv[1]
 csv = sys.argv[2]
 outdir = sys.argv[3]
-cutoff_below, cutoff_above = int(sys.argv[4]), int(sys.argv[5])
+umi_cutoff = sys.argv[4]
+cutoff_below, cutoff_above = int(sys.argv[5]), int(sys.argv[6])
 
-count_below, count_between, count_above, count_all = 0, 0, 0, 0
-below_list, between_list, above_list = [], [], []
+# sample_name = "28"
+# csv = "4d_merge_repeat_distribution_distance/stat/28.stat.csv"
+# outdir =  "4d_merge_repeat_distribution_distance/frac"
+# cutoff_below, cutoff_above =  177, 187
 
 if os.path.getsize(csv) > 0:
-    with open(csv, "r") as f:
-        for line in f:
-            length, c = line.strip().split(",")
-            if not length in ["plus", "problem"]:
-                length, c = int(float(length)), int(float(c))
-                count_all = count_all + c
-                if length < cutoff_below:
-                    count_below += c
-                    below_list = below_list + [length] * c
-                if length > cutoff_above:
-                    count_above += c
-                    above_list = above_list + [length] * c
-                if length >= cutoff_below and length <= cutoff_above:
-                    count_between += c
-                    between_list = between_list + [length] * c
-            elif length == "plus":
-                count_all += int(c)
-                count_above += int(c)
+    res = str(sample_name) + ","
+    # csv = "30"
+    df = pd.read_csv(csv, header = None, names = ["length", "frequency"])
+    # skip "plus" and "problem" reads because they make it tricky to calculate the mean length
+    df["length"] = pd.to_numeric(df["length"], errors = 'coerce')
+    df.dropna(subset=["length"], inplace = True)
+    bins = [0, cutoff_below, cutoff_above, np.inf]
+    df["bin"] = pd.cut(df["length"], bins=bins)
+
+    # calculate count, fraction, mean, std:
+    _total_count = df["frequency"].sum()
+    df["weighted_length"] = df["length"] * df["frequency"]
+    _count = df.groupby("bin")["frequency"].sum()
+    _fraction = _count / _total_count
+    _mean = df.groupby("bin")["weighted_length"].sum() / df.groupby("bin")["frequency"].sum()
+    _std = df.groupby("bin")["length"].agg(lambda x: np.sqrt(np.average((x - np.average(x, weights = df.loc[x.index, "frequency"])) ** 2, weights = df.loc[x.index, "frequency"])) if len(x) > 0 else np.nan)
+
+    for i in range(len(_count)):
+        res = res + ",".join([str(_count.iloc[i]), str(_fraction.iloc[i]), str(_mean.iloc[i]), str(_std.iloc[i])])
+        if not i == len(_count) - 1:
+            res = res + ","
 else:
-    below_count, below_frac, below_mean, below_std = "nan", "nan", "nan", "nan"
-    above_count, above_frac, above_mean, above_std = "nan", "nan", "nan", "nan"
-    between_count, between_frac, between_mean, between_std = "nan", "nan", "nan", "nan"
+    res = ",".join(["nan"] * 12)
 
-outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + str(cutoff_below) + "_" + str(cutoff_above) + ".csv")
-
+outfile = os.path.join(outdir, sample_name + "_frac_" + str(cutoff_below) + "_" + str(cutoff_above) + "_cutoff_" + str(umi_cutoff) + ".csv")
 with open(outfile, "w") as f:
-    if os.path.getsize(csv) > 0:
-        below_count = str(count_below)
-        below_frac  = str(count_below/count_all)
-        below_mean  = str(np.mean(below_list))
-        below_std   = str(np.std(below_list))
-        between_count = str(count_between)
-        between_frac  = str(count_between/count_all)
-        between_mean  = str(np.mean(between_list))
-        between_std   = str(np.std(between_list))
-        above_count = str(count_above)
-        above_frac  = str(count_above/count_all)
-        above_mean  = str(np.mean(above_list))
-        above_std   = str(np.std(above_list))
-
-    res_list = [sample_name, below_count, below_frac, below_mean, below_std, between_count, between_frac, between_mean, between_std, above_count, above_frac, above_mean, above_std]
-    res = ",".join(res_list) + "\n"
-    f.write(res)
-    print(res)
+    f.write(res + "\n")
+    # print(res)
