@@ -10,7 +10,7 @@ workflow INDEL_STAT {
     main:
       // 
       // MODULE: read count umi correct
-      // 5_indel_stat/5a_read_count_per_umi_cutoff/raw_csv
+      // 5_indel_stat_statistics/5a_read_count_per_umi_cutoff/raw_csv
       READ_COUNT_PER_UMI_CUTOFF (
         reads,
         params.umi_cutoffs
@@ -18,7 +18,7 @@ workflow INDEL_STAT {
 
       // 
       // MODULE: stat read count umi correct
-      // 5_indel_stat/5a_read_count_per_umi_cutoff/
+      // 5_indel_statistics/5a_read_count_per_umi_cutoff/
       STAT_READ_COUNT_PER_UMI_CUTOFF (
         READ_COUNT_PER_UMI_CUTOFF.out.csv_pure.collect(),
         params.umi_cutoffs
