@@ -15,7 +15,7 @@ outfile = sys.argv[-1]
 
 df_res = pd.DataFrame()
 for csv in frac_csv:
-    df_tem = pd.read_csv(csv)
+    df_tem = pd.read_csv(csv, dtype = {"sample_name": str})
     df_res = pd.concat([df_res, df_tem])
 
 df_indel = pd.read_csv(indel_csv)
