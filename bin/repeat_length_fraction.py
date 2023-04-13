@@ -7,10 +7,9 @@ Dev notes:
 """
 
 import sys
-import os
 import numpy as np
 import pandas as pd
-from utils import get_std
+# from utils import get_std
 
 allele_number  = int(sys.argv[1])
 sample_name    = sys.argv[2]
@@ -49,7 +48,7 @@ df["weighted_length"] = df["repeat_length"] * df[sample_name]
 _count = df.groupby("bin")[sample_name].sum()
 _fraction = _count / _total_count
 _mean = df.groupby("bin")["weighted_length"].sum() / df.groupby("bin")[sample_name].sum()
-_std = df.groupby("bin")["repeat_length"].agg(lambda x: get_std(x))
+# _std = df.groupby("bin")["repeat_length"].agg(lambda x: get_std(x))
 
 # 3. output to csv:
 if allele_number == 1:
