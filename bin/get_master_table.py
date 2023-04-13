@@ -20,31 +20,32 @@ for csv in frac_csv:
 
 df_indel = pd.read_csv(indel_csv)
 
-if allele_number == 1:
-    df_res["total_excluding_indel"] = df_res["below"] + df_res["allele_1"] + df_res["above"]
-    df_res["below_frac"] = df_res["below"] / df_res["total_excluding_indel"]
-    df_res["allele_1_frac"] = df_res["allele_1"] / df_res["total_excluding_indel"]
-    df_res["above_frac"] = df_res["above"] / df_res["total_excluding_indel"]
-elif allele_number == 2:
-    df_res["total_excluding_indel"] = df_res["below"] + df_res["allele_1"] + df_res["between"] + df_res["allele_2"] + df_res["above"]
-    df_res["below_frac"] = df_res["below"] / df_res["total_excluding_indel"]
-    df_res["allele_1_frac"] = df_res["allele_1"] / df_res["total_excluding_indel"]
-    df_res["between_frac"] = df_res["between"] / df_res["total_excluding_indel"]
-    df_res["allele_2_frac"] = df_res["allele_2"] / df_res["total_excluding_indel"]
-    df_res["above_frac"] = df_res["above"] / df_res["total_excluding_indel"]
-
 # add the indel column
 indel = []
 for sample in df_res["sample_name"]:
     indel.append(df_indel[str(sample)][0])
 df_res["indel"] = indel
-df_res["indel_frac"] = df_res["indel"] / df_res["total_excluding_indel"]
+
+# ad the total and frac columns
+if allele_number == 1:
+    df_res["total"] = df_res["below"] + df_res["allele_1"] + df_res["above"] + df_res["indel"]
+    df_res["below_frac"] = df_res["below"] / df_res["total"]
+    df_res["allele_1_frac"] = df_res["allele_1"] / df_res["total"]
+    df_res["above_frac"] = df_res["above"] / df_res["total"]
+elif allele_number == 2:
+    df_res["total"] = df_res["below"] + df_res["allele_1"] + df_res["between"] + df_res["allele_2"] + df_res["above"] + df_res["indel"]
+    df_res["below_frac"] = df_res["below"] / df_res["total"]
+    df_res["allele_1_frac"] = df_res["allele_1"] / df_res["total"]
+    df_res["between_frac"] = df_res["between"] / df_res["total"]
+    df_res["allele_2_frac"] = df_res["allele_2"] / df_res["total"]
+    df_res["above_frac"] = df_res["above"] / df_res["total"]
+df_res["indel_frac"] = df_res["indel"] / df_res["total"]
 
 # reorder the colnames:
 if allele_number == 1:
-    new_column_order = ["sample_name", "start_allele_1", "end_allele_1", "total_excluding_indel", "below", "allele_1", "above", "indel", "below_frac", "allele_1_frac", "above_frac", "indel_frac"]
+    new_column_order = ["sample_name", "start_allele_1", "end_allele_1", "total", "below", "allele_1", "above", "indel", "below_frac", "allele_1_frac", "above_frac", "indel_frac"]
 elif allele_number == 2:
-    new_column_order = ["sample_name", "start_allele_1", "end_allele_1", "start_allele_2", "end_allele_2", "total_excluding_indel", "below", "allele_1", "between", "allele_2", "above", "indel", "below_frac", "allele_1_frac", "between_frac", "allele_2_frac", "above_frac", "indel_frac"]
+    new_column_order = ["sample_name", "start_allele_1", "end_allele_1", "start_allele_2", "end_allele_2", "total", "below", "allele_1", "between", "allele_2", "above", "indel", "below_frac", "allele_1_frac", "between_frac", "allele_2_frac", "above_frac", "indel_frac"]
 df_res = df_res.reindex(columns = new_column_order)
 
 with open(outfile, "w") as f:
