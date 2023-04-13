@@ -96,18 +96,35 @@ def get_std(x):
         _average = np.nan
     return(np.sqrt(_average))
 
-def indel_filter(indel, no_indel, add = False):
+def indel_filter(indel, no_indel, cutoff = 0.5, add = False):
     """
-    For indel reads belong to UMI groups that also have reads in no_indel, move them out from the indel category.
+    For indel reads belong to UMI groups that also have reads in no_indel:
+    if indel reads percentage is above 50% (cutoff > 0.5), move them out from the indel category.
     Both indel and no_indel are lists containing Bio.Seq record objects.
 
     If add = True, will add moved records from indel to no_indel and return [indel_res, no_indel_res]; otherwise return indel_res only.
     """
     no_indel_umi = set([record.name.split("_")[1] for record in no_indel])
+    
+    # keep track of reads per umi:
+    dict_umi = {} # [reads_per_umi_no_indel, reads_per_umi_indel]
+    for record in no_indel_umi:
+        umi = record.name.split("_")[1]
+        if not umi in dict_umi:
+            dict_umi[umi] = [1, 0]
+        else:
+            dict_umi[umi][0] += 1
+    for record in indel:
+        umi = record.name.split("_")[1]
+        if not umi in dict_umi:
+            dict_umi[umi] = [0, 1]
+        else:
+            dict_umi[umi][1] += 1
+    
     indel_res = []
     for record in indel:
         umi = record.name.split("_")[1]
-        if umi not in no_indel_umi:
+        if dict_umi[umi][1] / (dict_umi[umi][0] + dict_umi[umi][0]) > float(cutoff):
             indel_res.append(record)
         if add:
             no_indel.append(record)
