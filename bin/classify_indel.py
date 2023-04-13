@@ -34,6 +34,7 @@ sample_name = sys.argv[9]
 r1_flanking = sys.argv[10]
 r2_flanking = sys.argv[11]
 mismatch    = sys.argv[12]
+indel_cutoff = sys.argv[13]
 
 r1_match = {}
 r2_match = {}

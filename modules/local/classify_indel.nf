@@ -22,12 +22,13 @@ process CLASSIFY_INDEL {
 
     script:
     def args = task.ext.args ?: ''
+    def indel_cutoff = task.ext.indel_cutoff ?: 0.5
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
     mkdir -p no_indel indel_5p indel_3p indel_5p_3p stat
 
-    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz no_indel indel_5p indel_3p indel_5p_and_3p indel_5p_or_3p stat ${prefix} $args
+    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz no_indel indel_5p indel_3p indel_5p_and_3p indel_5p_or_3p stat ${prefix} $args $indel_cutoff
 
     gzip */*.fastq
 
