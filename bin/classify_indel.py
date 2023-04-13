@@ -34,7 +34,7 @@ sample_name = sys.argv[9]
 r1_flanking = sys.argv[10]
 r2_flanking = sys.argv[11]
 mismatch    = sys.argv[12]
-indel_cutoff = sys.argv[13]
+indel_cutoff = float(sys.argv[13])
 
 r1_match = {}
 r2_match = {}
@@ -135,10 +135,10 @@ with _open(r2) as f:
             r2_indel_5p_and_3p.append(record)
             r2_indel_5p_or_3p.append(record)
 
-r2_indel_3p_filter = indel_filter(r2_indel_3p, r2_no_indel)
-r2_indel_5p_filter = indel_filter(r2_indel_5p, r2_no_indel)
-r2_indel_5p_and_3p_filter = indel_filter(r2_indel_5p_and_3p, r2_no_indel)
-r2_indel_5p_or_3p_filter, r2_no_indel_filter = indel_filter(r2_indel_5p_or_3p, r2_no_indel, add = True)
+r2_indel_3p_filter = indel_filter(r2_indel_3p, r2_no_indel, indel_cutoff = indel_cutoff)
+r2_indel_5p_filter = indel_filter(r2_indel_5p, r2_no_indel, indel_cutoff = indel_cutoff)
+r2_indel_5p_and_3p_filter = indel_filter(r2_indel_5p_and_3p, r2_no_indel, indel_cutoff = indel_cutoff)
+r2_indel_5p_or_3p_filter, r2_no_indel_filter = indel_filter(r2_indel_5p_or_3p, r2_no_indel, add = True, indel_cutoff = indel_cutoff)
 
 _res = [r2_no_indel_filter, r2_indel_5p_filter, r2_indel_3p_filter, r2_indel_5p_and_3p_filter, r2_indel_5p_or_3p_filter]
 

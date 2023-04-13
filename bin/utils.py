@@ -86,17 +86,17 @@ def reverse_complement(seq):
 def get_sample_name(x, prefix, suffix):
     return(x.split(prefix)[1].split(suffix)[0])
 
-def get_std(x):
-    """
-    Return weighted std. If empty input, return na.
-    """
-    try:
-        _average = np.average((x - np.average(x, weights = df.loc[x.index, sample_name])) ** 2, weights = df.loc[x.index, sample_name])
-    except:
-        _average = np.nan
-    return(np.sqrt(_average))
+# def get_std(x):
+#     """
+#     Return weighted std. If empty input, return na.
+#     """
+#     try:
+#         _average = np.average((x - np.average(x, weights = df.loc[x.index, sample_name])) ** 2, weights = df.loc[x.index, sample_name])
+#     except:
+#         _average = np.nan
+#     return(np.sqrt(_average))
 
-def indel_filter(indel, no_indel, cutoff = 0.5, add = False):
+def indel_filter(indel, no_indel, indel_cutoff = 0.5, add = False):
     """
     For indel reads belong to UMI groups that also have reads in no_indel:
     if indel reads percentage is above 50% (cutoff > 0.5), move them out from the indel category.
@@ -104,11 +104,10 @@ def indel_filter(indel, no_indel, cutoff = 0.5, add = False):
 
     If add = True, will add moved records from indel to no_indel and return [indel_res, no_indel_res]; otherwise return indel_res only.
     """
-    no_indel_umi = set([record.name.split("_")[1] for record in no_indel])
     
     # keep track of reads per umi:
     dict_umi = {} # [reads_per_umi_no_indel, reads_per_umi_indel]
-    for record in no_indel_umi:
+    for record in no_indel:
         umi = record.name.split("_")[1]
         if not umi in dict_umi:
             dict_umi[umi] = [1, 0]
@@ -124,7 +123,7 @@ def indel_filter(indel, no_indel, cutoff = 0.5, add = False):
     indel_res = []
     for record in indel:
         umi = record.name.split("_")[1]
-        if dict_umi[umi][1] / (dict_umi[umi][0] + dict_umi[umi][0]) > float(cutoff):
+        if dict_umi[umi][1] / (dict_umi[umi][0] + dict_umi[umi][1]) > float(indel_cutoff):
             indel_res.append(record)
         if add:
             no_indel.append(record)
