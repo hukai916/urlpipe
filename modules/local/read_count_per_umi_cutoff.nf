@@ -9,8 +9,8 @@ process READ_COUNT_PER_UMI_CUTOFF {
     val umi_cutoffs
 
     output:
-    tuple val(meta), path("read_count_*.csv"),  emit: csv
-    path "read_count_*.csv",                    emit: csv_pure
+    tuple val(meta), path("raw_csv/read_count_*.csv"),  emit: csv
+    path "raw_csv/read_count_*.csv",                    emit: csv_pure
     path "fastq/*.gz",                          emit: fastq
     path "versions.yml",                        emit: versions
 
@@ -26,11 +26,12 @@ process READ_COUNT_PER_UMI_CUTOFF {
     reads_per_umi.py ${prefix}_1.fastq.gz reads_per_umi_${prefix}.csv
 
     # 2. obtain read count per different umi cutoff
+    mkdir raw_csv
     umi_cutoffs_str="0,$umi_cutoffs"
     umi_cutoffs_array=(\$(echo \${umi_cutoffs_str#[[:blank:]]/} | tr "," " "))
     for i in "\${umi_cutoffs_array[@]}"
     do
-      read_count_per_umi_cutoff.py reads_per_umi_${prefix}.csv \$i read_count_${prefix}_umi_cutoff_\$i.csv
+      read_count_per_umi_cutoff.py reads_per_umi_${prefix}.csv \$i raw_csv/read_count_${prefix}_umi_cutoff_\$i.csv
     done
 
     # 3. obtain reads after umi correction
