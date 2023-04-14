@@ -11,6 +11,7 @@ process READ_COUNT_PER_UMI_CUTOFF {
     output:
     tuple val(meta), path("read_count_*.csv"),  emit: csv
     path "read_count_*.csv",                    emit: csv_pure
+    path "fastq/*.gz",                          emit: fastq
     path "versions.yml",                        emit: versions
 
     when:
@@ -31,6 +32,14 @@ process READ_COUNT_PER_UMI_CUTOFF {
     do
       read_count_per_umi_cutoff.py reads_per_umi_${prefix}.csv \$i read_count_${prefix}_umi_cutoff_\$i.csv
     done
+
+    # 3. obtain reads after umi correction
+    mkdir fastq
+    for i in "\${umi_cutoffs_array[@]}"
+    do
+      get_reads_umi_cutoff.py \$i read_count_${prefix}_umi_cutoff_\$i.csv ${prefix}_1.fastq.gz reads_per_umi_${prefix}.csv fastq/indel_${prefix}_umi_\${i}_R1.fastq fastq/indel_${prefix}_umi_\${i}_R2.fastq
+    done
+    gzip fastq/*.fastq
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
