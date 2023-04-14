@@ -37,7 +37,7 @@ process READ_COUNT_PER_UMI_CUTOFF {
     mkdir fastq
     for i in "\${umi_cutoffs_array[@]}"
     do
-      get_reads_umi_cutoff.py \$i read_count_${prefix}_umi_cutoff_\$i.csv ${prefix}_1.fastq.gz reads_per_umi_${prefix}.csv fastq/indel_${prefix}_umi_\${i}_R1.fastq fastq/indel_${prefix}_umi_\${i}_R2.fastq
+      get_reads_umi_cutoff.py \$i read_count_${prefix}_umi_cutoff_\$i.csv ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz fastq/indel_${prefix}_umi_\${i}_R1.fastq fastq/indel_${prefix}_umi_\${i}_R2.fastq
     done
     gzip fastq/*.fastq
 
