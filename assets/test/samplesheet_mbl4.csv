@@ -41,4 +41,3 @@ sample,fastq_1,fastq_2,start_allele_1,end_allele_1,start_allele_2,end_allele_2
 40,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz/Q20-Str-8739-D10A-Rosa-UMI02_R1_001.fastq.gz,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz/Q20-Str-8739-D10A-Rosa-UMI02_R2_001.fastq.gz,55,62,,
 41,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz/Q20-Str-2558-D10A-Rosa-UMI02_R1_001.fastq.gz,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz/Q20-Str-2558-D10A-Rosa-UMI02_R2_001.fastq.gz,55,62,,
 42,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz/Q20-Str-2555-D10A-Rosa-UMI02_R1_001.fastq.gz,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz/Q20-Str-2555-D10A-Rosa-UMI02_R2_001.fastq.gz,55,62,,
-,,,,,,
