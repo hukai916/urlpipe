@@ -8,11 +8,11 @@ process REPEAT_LENGTH_DISTRIBUTION_MERGE {
     tuple val(meta), path(reads)
 
     output:
-    tuple val(meta), path("raw_*.csv"),                 emit: raw_repeat_length_per_read_default
-    tuple val(meta), path("repeat_length_per_*.csv"),   emit: repeat_length_per_read_default
-    tuple val(meta), path("repeat_length_count_*.csv"), emit: repeat_length_count_default
-    path "repeat_length_count_*.csv",                   emit: repeat_length_count_default_pure
-    tuple val(meta), path("diagnosis_*.csv"),           emit: diagnosis_repeat_length_count_default
+    tuple val(meta), path("raw_*.csv"),                 emit: raw_repeat_length_per_read_merge
+    tuple val(meta), path("repeat_length_per_*.csv"),   emit: repeat_length_per_read_merge
+    tuple val(meta), path("repeat_length_count_*.csv"), emit: repeat_length_count_merge
+    path "repeat_length_count_*.csv",                   emit: repeat_length_count_merge_pure
+    tuple val(meta), path("diagnosis_*.csv"),           emit: diagnosis_repeat_length_count_merge
     path  "versions.yml",                       emit: versions
 
     when:
@@ -23,7 +23,7 @@ process REPEAT_LENGTH_DISTRIBUTION_MERGE {
     def prefix = "${meta.id}"
 
     """
-    # 1. output repeat_length_per_read_default_xxx.csv:
+    # 1. output repeat_length_per_read_merge_xxx.csv:
     repeat_length_per_read_merge.py ${prefix}.fastq.gz raw_repeat_length_per_read_merge_${prefix}.csv $args
 
     # 2. output repeat_length_count_xxx.csv and diagnosis_repeat_length_count_xxx.csv:
