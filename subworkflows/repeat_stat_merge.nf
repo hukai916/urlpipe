@@ -214,6 +214,6 @@ workflow REPEAT_STAT_MERGE {
 
     emit:
       csv      = stat_table
-      csv_frac = REPEAT_LENGTH_FRACTION.out.csv.collect()
+      csv_frac = REPEAT_LENGTH_FRACTION_MERGE.out.csv.collect()
       versions = ch_versions
 }
