@@ -25,7 +25,6 @@ process FASTQC_SINGLE {
     if (meta) {
         """
         [ ! -f  ${prefix}.fastq.gz ] && ln -s $reads ${prefix}.fastq.gz
-        mkdir $outdir
         fastqc $args --threads $task.cpus ${prefix}.fastq.gz
 
         cat <<-END_VERSIONS > versions.yml
