@@ -90,6 +90,8 @@ def get_sample_name(x, prefix, suffix):
         return(x.split(suffix)[0])
     elif suffix == "":
         return(x.split(prefix)[1])
+    else:
+        return(x.split(prefix)[1].split(suffix)[0])
 
 # def get_std(x):
 #     """

@@ -12,6 +12,14 @@ outfile_html = sys.argv[-3]
 prefix = sys.argv[-2]
 suffix = sys.argv[-1]
 
+# import os 
+# # Get a list of all CSV files in the directory
+# csv = [f for f in os.listdir("./") if f.endswith('.csv')]
+# outfile_csv = "test.csv"
+# outfile_html = "test.html"
+# prefix = "repeat_length_count_"
+# suffix = ".csv"
+
 sample_names = [get_sample_name(x, prefix, suffix) for x in csv]
 
 df_res = pd.DataFrame(columns = ["repeat_length"])
