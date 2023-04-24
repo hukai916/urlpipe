@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Count the repeat length by measuring distance. Repeat for R1 and R2.
+Count the repeat length by measuring distance. Repeat for R1 and R2. When both R1 and R2 are read through reads, R2 results overwrite R1
 
 Dev notes:
 1. Nextflow won't resume if utils changes.
