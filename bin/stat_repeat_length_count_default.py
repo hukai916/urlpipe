@@ -6,7 +6,6 @@ import pandas as pd
 import plotly.graph_objs as go
 import plotly.offline as pyo
 
-
 csv = sys.argv[1:-4]
 outfile_csv = sys.argv[-4]
 outfile_html = sys.argv[-3]

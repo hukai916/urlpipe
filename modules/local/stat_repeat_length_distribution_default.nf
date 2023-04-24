@@ -18,8 +18,8 @@ process STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT {
     def args = task.ext.args ?: ''
 
     """
-    stat_repeat_length_count_default.py *.csv repeat_length_count_default_umi_0.csv repeat_length_count_default_umi_0.html "repeat_length_count_" ".csv"
-
+    stat_repeat_length_count_default.py *.csv $args
+    
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$( python --version | sed -e "s/python //g" )

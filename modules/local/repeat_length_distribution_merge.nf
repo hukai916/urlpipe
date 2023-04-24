@@ -13,7 +13,7 @@ process REPEAT_LENGTH_DISTRIBUTION_MERGE {
     tuple val(meta), path("repeat_length_count_*.csv"), emit: repeat_length_count_merge
     path "repeat_length_count_*.csv",                   emit: repeat_length_count_merge_pure
     tuple val(meta), path("diagnosis_*.csv"),           emit: diagnosis_repeat_length_count_merge
-    path  "versions.yml",                       emit: versions
+    path  "versions.yml",                               emit: versions
 
     when:
     task.ext.when == null || task.ext.when

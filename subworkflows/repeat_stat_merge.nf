@@ -3,7 +3,7 @@ include { STAT_CSV_MERGE } from '../modules/local/stat_csv_merge'
 include { FASTQC_SINGLE  } from '../modules/local/fastqc_single'
 include { FASTQC         } from '../modules/nf-core/modules/fastqc/main'
 include { REPEAT_LENGTH_DISTRIBUTION_MERGE } from '../modules/local/repeat_length_distribution_merge'
-include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT } from '../modules/local/stat_repeat_length_distribution_default'
+include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT as STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE } from '../modules/local/stat_repeat_length_distribution_default'
 
 //
 // if mode == "merge"
@@ -56,7 +56,7 @@ workflow REPEAT_STAT_MERGE {
       REPEAT_LENGTH_DISTRIBUTION_MERGE ( CLASSIFY_MERGE.out.reads )
       ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_MERGE.out.versions)
       // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_default_umi_0.csv|html
-      STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_count_merge_pure.collect())
+      STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE (REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_count_merge_pure.collect())
 
 
 
