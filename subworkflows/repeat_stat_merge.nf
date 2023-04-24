@@ -8,7 +8,7 @@ include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI } from '../modules/local/repeat_len
 include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI } from '../modules/local/plot_repeat_length_distribution_per_umi'
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT } from '../modules/local/repeat_length_distribution_default_umi_correct'
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT } from '../modules/local/stat_repeat_length_distribution_default_umi_correct'
-
+include { REPEAT_LENGTH_FRACTION } from '../modules/local/repeat_length_fraction'
 
 //
 // if mode == "merge"
@@ -85,7 +85,23 @@ workflow REPEAT_STAT_MERGE {
       STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT (REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.repeat_length_count_default_umi_correct.collect(),
       params.umi_cutoffs)
 
+      //
+      //  MODULE: obtain fraction above and below for each sample at each cutoff
+      // test_not_publish/4c
+      REPEAT_LENGTH_FRACTION (
+        // just to obtain the sample meta info:
+        REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.umi_readcount_readlength_corrected,
+        // master table for umi_0:
+        STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE.out.csv,
+        // master table for umi_x:
+        STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.csv,
+        params.allele_number,
+        params.umi_cutoffs,
+        )
 
+      // stat_table = STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE.out.csv.mix(
+      //   STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.csv
+      // ).collect()
 
 
 
