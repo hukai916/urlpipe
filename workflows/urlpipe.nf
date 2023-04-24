@@ -91,6 +91,7 @@ workflow URLPIPE {
       //
       // SUBWORKFLOW: obtain repeat statistics using default mode where individual R1 and R2 reads are used
       // 4_repeat_statistics
+      log.info "Using default mode!"
       REPEAT_STAT_DEFAULT ( CLASSIFY_READ.out.reads_through, ch_versions )
       ch_versions = REPEAT_STAT_DEFAULT.out.versions
     } else if (params.mode == "merge") {
