@@ -6,7 +6,6 @@ To visualize the repeat length distribution by UMI group.
 """
 
 import sys
-import os
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.offline as pyo
@@ -15,6 +14,11 @@ csv = sys.argv[1]
 cutoff      = sys.argv[2]
 outfile_html = sys.argv[3]
 
+
+# import os
+# csv = "repeat_length_distribution_per_umi_1_07.csv"
+# cutoff = 1
+# outfile_html = "test.html"
 
 try:
     df = pd.read_csv(csv, header = None)

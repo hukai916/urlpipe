@@ -6,23 +6,26 @@ To visualize the repeat length distribution by UMI group.
 """
 
 import sys
-import os
 import random
+import csv
 
-csv = sys.argv[1]
+csvfile = sys.argv[1]
 cutoff      = sys.argv[2]
 outfile_csv = sys.argv[3]
 group_num   = sys.argv[4]
 
 # read csv into dict
 d_umi = {}
-for line in open(csv):
-    umi, length = line.strip().split(",")
-    umi = umi.split("_")[1]
-    if not umi in d_umi:
-        d_umi[umi] = [length]
-    else:
-        d_umi[umi].append(length)
+with open(csvfile) as f:
+    reader = csv.reader(f)
+    header = next(reader) # skip header
+    for line in reader:
+        umi, length = line[0], line[1]
+        umi = umi.split("_")[1]
+        if not umi in d_umi:
+            d_umi[umi] = [length]
+        else:
+            d_umi[umi].append(length)
 
 # shuffle d_umi
 items = list(d_umi.items())
