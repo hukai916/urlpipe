@@ -117,7 +117,7 @@ workflow URLPIPE {
 
     // 
     // SUBWORKFLOW: obtain summary table
-    if (params.mode == "merge") {
+    if (params.mode == "default") {
       // 6_summary
       GET_SUMMARY (
         REPEAT_STAT_DEFAULT.out.csv_frac,
