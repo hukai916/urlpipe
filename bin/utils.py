@@ -84,7 +84,12 @@ def reverse_complement(seq):
     return str(dna.reverse_complement())
 
 def get_sample_name(x, prefix, suffix):
-    return(x.split(prefix)[1].split(suffix)[0])
+    if prefix == "" and suffix == "":
+        return(x)
+    elif prefix == "":
+        return(x.split(suffix)[0])
+    elif suffix == "":
+        return(x.split(prefix)[1])
 
 # def get_std(x):
 #     """
