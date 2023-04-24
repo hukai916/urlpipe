@@ -1,14 +1,15 @@
+// include non-repeat_stat_merge specific modules as XXX_MERGE in order not to be overwritten by other config files.
 include { CLASSIFY_MERGE } from '../modules/local/classify_merge'
 include { STAT_CSV_MERGE } from '../modules/local/stat_csv_merge'
-include { FASTQC_SINGLE  } from '../modules/local/fastqc_single'
-include { FASTQC         } from '../modules/nf-core/modules/fastqc/main'
+include { FASTQC_SINGLE as FASTQC_SINGLE_MERGE } from '../modules/local/fastqc_single'
+include { FASTQC as FASTQC_MERGE } from '../modules/nf-core/modules/fastqc/main'
 include { REPEAT_LENGTH_DISTRIBUTION_MERGE } from '../modules/local/repeat_length_distribution_merge'
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT as STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE } from '../modules/local/stat_repeat_length_distribution_default'
-include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI } from '../modules/local/repeat_length_distribution_per_umi'
-include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI } from '../modules/local/plot_repeat_length_distribution_per_umi'
+include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI as REPEAT_LENGTH_DISTRIBUTION_PER_UMI_MERGE } from '../modules/local/repeat_length_distribution_per_umi'
+include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI as PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI_MERGE } from '../modules/local/plot_repeat_length_distribution_per_umi'
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT } from '../modules/local/repeat_length_distribution_default_umi_correct'
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT } from '../modules/local/stat_repeat_length_distribution_default_umi_correct'
-include { REPEAT_LENGTH_FRACTION as REPEAT_LENGTH_FRACTION_TEST } from '../modules/local/repeat_length_fraction'
+include { REPEAT_LENGTH_FRACTION as REPEAT_LENGTH_FRACTION_MERGE } from '../modules/local/repeat_length_fraction'
 
 //
 // if mode == "merge"
@@ -49,11 +50,11 @@ workflow REPEAT_STAT_MERGE {
       //
       // MODULE: FastQC for merged and unmerged reads
       // 2_qc_and_umi/2a_fastqc/fastq_merge
-      FASTQC_SINGLE ( CLASSIFY_MERGE.out.reads )
-      ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
+      FASTQC_SINGLE_MERGE ( CLASSIFY_MERGE.out.reads )
+      ch_versions = ch_versions.mix(FASTQC_SINGLE_MERGE.out.versions)
       // 2_qc_and_umi/2a_fastqc/fastq_non_merge
-      FASTQC ( CLASSIFY_MERGE.out.reads_others )
-      ch_versions = ch_versions.mix(FASTQC.out.versions)
+      FASTQC_MERGE ( CLASSIFY_MERGE.out.reads_others )
+      ch_versions = ch_versions.mix(FASTQC_MERGE.out.versions)
 
       //
       // MODULE: repeat length distribution determined with merged reads
@@ -66,12 +67,12 @@ workflow REPEAT_STAT_MERGE {
       //
       // MODULE: repeat length count distribution per umi group
       // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/csv
-      REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
+      REPEAT_LENGTH_DISTRIBUTION_PER_UMI_MERGE (
         REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_per_read_merge,
       params.umi_cutoffs )
       // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/html
-      PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
-        REPEAT_LENGTH_DISTRIBUTION_PER_UMI.out.csv,
+      PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI_MERGE (
+        REPEAT_LENGTH_DISTRIBUTION_PER_UMI_MERGE.out.csv,
         params.umi_cutoffs )
 
       //
@@ -88,7 +89,7 @@ workflow REPEAT_STAT_MERGE {
       //
       //  MODULE: obtain fraction above and below for each sample at each cutoff
       // test_not_publish/4c
-      REPEAT_LENGTH_FRACTION_TEST (
+      REPEAT_LENGTH_FRACTION_MERGE (
         // just to obtain the sample meta info:
         REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.umi_readcount_readlength_corrected,
         // master table for umi_0:
