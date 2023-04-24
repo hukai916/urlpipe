@@ -100,9 +100,9 @@ workflow REPEAT_STAT_MERGE {
         params.umi_cutoffs,
         )
 
-      // stat_table = STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE.out.csv.mix(
-      //   STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.csv
-      // ).collect()
+      stat_table = STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE.out.csv.mix(
+        STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.csv
+      ).collect()
 
 
 
@@ -213,5 +213,7 @@ workflow REPEAT_STAT_MERGE {
     // )
 
     emit:
-    versions = ch_versions
+      csv      = stat_table
+      csv_frac = REPEAT_LENGTH_FRACTION.out.csv.collect()
+      versions = ch_versions
 }

@@ -108,26 +108,28 @@ workflow URLPIPE {
 
     // 
     // SUBWORKFLOW: generate statistics for INDEL reads
-    if (params.mode == "default") {
-      // 5_indel_statistics
+    // 5_indel_statistics
+    if (params.mode == "default" || params.mode == "merge") {
       INDEL_STAT ( CLASSIFY_READ.out.reads_indel_5p_or_3p, CLASSIFY_READ.out.reads_indel_5p_or_3p_pure, ch_versions )
       ch_versions = INDEL_STAT.out.versions
-    }
-
+    } 
 
     // 
     // SUBWORKFLOW: obtain summary table
+    // 6_summary
     if (params.mode == "default") {
-      // 6_summary
-      GET_SUMMARY (
-        REPEAT_STAT_DEFAULT.out.csv_frac,
-        INDEL_STAT.out.csv,
-        params.umi_cutoffs,
-        params.allele_number,
-        ch_versions = ch_versions
-      )
-      ch_version = GET_SUMMARY.out.versions
+        REPEAT_STAT_DEFAULT.out.csv_frac.set( {csv_frac} )
+    } else if (params.mode == "merge") {
+        REPEAT_STAT_MERGE.out.csv_frac.set( {csv_frac} )
     }
+    GET_SUMMARY (
+      csv_frac,
+      INDEL_STAT.out.csv,
+      params.umi_cutoffs,
+      params.allele_number,
+      ch_versions = ch_versions
+    )
+    ch_version = GET_SUMMARY.out.versions
 
 
 
