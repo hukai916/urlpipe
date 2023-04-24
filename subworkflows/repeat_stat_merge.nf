@@ -4,6 +4,8 @@ include { FASTQC_SINGLE  } from '../modules/local/fastqc_single'
 include { FASTQC         } from '../modules/nf-core/modules/fastqc/main'
 include { REPEAT_LENGTH_DISTRIBUTION_MERGE } from '../modules/local/repeat_length_distribution_merge'
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT as STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE } from '../modules/local/stat_repeat_length_distribution_default'
+include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI } from '../modules/local/repeat_length_distribution_per_umi'
+include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI } from '../modules/local/plot_repeat_length_distribution_per_umi'
 
 //
 // if mode == "merge"
@@ -55,9 +57,19 @@ workflow REPEAT_STAT_MERGE {
       // not published
       REPEAT_LENGTH_DISTRIBUTION_MERGE ( CLASSIFY_MERGE.out.reads )
       ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_MERGE.out.versions)
-      // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_default_umi_0.csv|html
+      // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_merge_umi_0.csv|html
       STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE (REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_count_merge_pure.collect())
 
+      //
+      // MODULE: repeat length count distribution per umi group
+      // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/csv
+      REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
+        REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_per_read_default,
+      params.umi_cutoffs )
+      // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/html
+      PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
+        REPEAT_LENGTH_DISTRIBUTION_PER_UMI.out.csv,
+        params.umi_cutoffs )
 
 
     // //
