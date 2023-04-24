@@ -14,7 +14,6 @@ csv = sys.argv[1]
 cutoff      = sys.argv[2]
 outfile_html = sys.argv[3]
 
-
 # import os
 # csv = "repeat_length_distribution_per_umi_1_07.csv"
 # cutoff = 1

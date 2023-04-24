@@ -6,6 +6,7 @@ include { REPEAT_LENGTH_DISTRIBUTION_MERGE } from '../modules/local/repeat_lengt
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT as STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE } from '../modules/local/stat_repeat_length_distribution_default'
 include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI } from '../modules/local/repeat_length_distribution_per_umi'
 include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI } from '../modules/local/plot_repeat_length_distribution_per_umi'
+include { REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT } from '../modules/local/repeat_length_distribution_merge_umi_correct'
 
 //
 // if mode == "merge"
@@ -70,6 +71,21 @@ workflow REPEAT_STAT_MERGE {
       PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
         REPEAT_LENGTH_DISTRIBUTION_PER_UMI.out.csv,
         params.umi_cutoffs )
+
+      //
+      // MODULE: repeat length count per umi group corrected
+      // test_not_publish
+      REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT (
+        REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_per_read_default,
+        params.umi_correction_method,
+        params.umi_cutoffs)
+      // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_default_umi_x.csv|html
+      // STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT (REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.repeat_length_count_default_umi_correct.collect(),
+      // params.umi_cutoffs)
+
+
+
+
 
 
     // //
