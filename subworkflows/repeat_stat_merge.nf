@@ -64,7 +64,7 @@ workflow REPEAT_STAT_MERGE {
       // MODULE: repeat length count distribution per umi group
       // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/csv
       REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
-        REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_per_read_default,
+        REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_per_read_merge,
       params.umi_cutoffs )
       // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/html
       PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
