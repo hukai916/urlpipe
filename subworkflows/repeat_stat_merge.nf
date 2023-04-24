@@ -7,23 +7,23 @@ include { STAT_CSV_MERGE } from '../modules/local/stat_csv_merge'
 //
 
 // still need to load FASTQC1 module even if it has been loaded in urlpipe.nf
-include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
+// include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
 
-include { REPEAT_DIST_DISTANCE_MERGED       } from '../modules/local/repeat_dist_distance_merged'
-include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_MERGE } from '../modules/local/repeat_dist_within_umi_group'
-include { UMI_GROUP_STAT as UMI_GROUP_STAT_MERGE } from '../modules/local/umi_group_stat'
+// include { REPEAT_DIST_DISTANCE_MERGED       } from '../modules/local/repeat_dist_distance_merged'
+// include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_MERGE } from '../modules/local/repeat_dist_within_umi_group'
+// include { UMI_GROUP_STAT as UMI_GROUP_STAT_MERGE } from '../modules/local/umi_group_stat'
 
-include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../modules/local/repeat_dist_umi_correct'
-include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE } from '../modules/local/plot_frac_cutoff'
-include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE_2 } from '../modules/local/plot_frac_cutoff'
-include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE   } from '../modules/local/plot_umi_groups'
-include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE_2 } from '../modules/local/plot_umi_groups'
-include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE } from '../modules/local/plot_frac_umi_cutoff'
-include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE_2 } from '../modules/local/plot_frac_umi_cutoff'
+// include { REPEAT_DIST_UMI_CORRECT as REPEAT_DIST_UMI_CORRECT_MERGE } from '../modules/local/repeat_dist_umi_correct'
+// include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE } from '../modules/local/plot_frac_cutoff'
+// include { PLOT_FRAC_CUTOFF as PLOT_FRAC_CUTOFF_MERGE_2 } from '../modules/local/plot_frac_cutoff'
+// include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE   } from '../modules/local/plot_umi_groups'
+// include { PLOT_UMI_GROUPS as PLOT_UMI_GROUPS_MERGE_2 } from '../modules/local/plot_umi_groups'
+// include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE } from '../modules/local/plot_frac_umi_cutoff'
+// include { PLOT_FRAC_UMI_CUTOFF as PLOT_FRAC_UMI_CUTOFF_MERGE_2 } from '../modules/local/plot_frac_umi_cutoff'
 
-include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE }   from '../modules/local/cat_stat_cutoff'
-include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE_2}   from '../modules/local/cat_stat_cutoff'
-include { CAT_STAT as CAT_STAT5; CAT_STAT as CAT_STAT4 } from '../modules/local/cat_stat'
+// include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE }   from '../modules/local/cat_stat_cutoff'
+// include { CAT_STAT_CUTOFF as CAT_STAT_CUTOFF_MERGE_2}   from '../modules/local/cat_stat_cutoff'
+// include { CAT_STAT as CAT_STAT5; CAT_STAT as CAT_STAT4 } from '../modules/local/cat_stat'
 
 workflow REPEAT_STAT_MERGE {
     take:
