@@ -76,7 +76,7 @@ workflow REPEAT_STAT_MERGE {
       // MODULE: repeat length count per umi group corrected
       // test_not_publish
       REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT (
-        REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_per_read_default,
+        REPEAT_LENGTH_DISTRIBUTION_MERGE.out.repeat_length_per_read_merge,
         params.umi_correction_method,
         params.umi_cutoffs)
       // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_default_umi_x.csv|html
