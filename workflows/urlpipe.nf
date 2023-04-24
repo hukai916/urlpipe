@@ -94,6 +94,7 @@ workflow URLPIPE {
       REPEAT_STAT_DEFAULT ( CLASSIFY_READ.out.reads_through, ch_versions )
       ch_versions = REPEAT_STAT_DEFAULT.out.versions
     } else if (params.mode == "merge") {
+      log.info "Merge mode is under development!" 
       // merge mode first merge R1 and R2 reads
       REPEAT_STAT_MERGE ( CLASSIFY_READ.out.reads_through, ch_versions )
       ch_versions = REPEAT_STAT_MERGE.out.versions
