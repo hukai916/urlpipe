@@ -1,13 +1,13 @@
 include { CLASSIFY_MERGE } from '../modules/local/classify_merge'
 include { STAT_CSV_MERGE } from '../modules/local/stat_csv_merge'
-
+include { FASTQC_SINGLE  } from '../modules/local/fastqc_single'
+include { FASTQC         } from '../modules/nf-core/modules/fastqc/main'
 
 //
 // if mode == "merge"
 //
 
 // still need to load FASTQC1 module even if it has been loaded in urlpipe.nf
-// include { FASTQC_SINGLE               } from '../modules/local/fastqc_single'
 
 // include { REPEAT_DIST_DISTANCE_MERGED       } from '../modules/local/repeat_dist_distance_merged'
 // include { REPEAT_DIST_WITHIN_UMI_GROUP as REPEAT_DIST_WITHIN_UMI_GROUP_MERGE } from '../modules/local/repeat_dist_within_umi_group'
@@ -39,28 +39,16 @@ workflow REPEAT_STAT_MERGE {
       // 3_read_category/3d_classify_merge/classify_merge.csv
       STAT_CSV_MERGE (CLASSIFY_MERGE.out.csv.collect())
 
+      //
+      // MODULE: FastQC for merged and unmerged reads
+      // 2_qc_and_umi/2a_fastqc/fastq_merge
+      FASTQC_SINGLE ( CLASSIFY_MERGE.out.reads )
+      ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
+      // 2_qc_and_umi/2a_fastqc/fastq_non_merge
+      FASTQC ( CLASSIFY_MERGE.out.reads_others )
+      ch_versions = ch_versions.mix(FASTQC.out.versions)
 
 
-
-    // //
-    // // MODULE: combine CLASSIFY_READTHROUGH.out.stat into one file
-    // //
-    // CAT_STAT4 (
-    //   BBMERGE.out.stat.collect(),
-    //   "4b_bbmerge/stat",
-    //   "all_sample",
-    //   "sample_name,count_merge,count_non_merge" // header to be added
-    //   )
-    // ch_versions = ch_versions.mix(CAT_STAT4.out.versions)
-
-    // //
-    // // MODULE: FastQC
-    // //
-    // FASTQC_SINGLE (
-    //   BBMERGE.out.reads_merged
-    //   // "4c_merge_fastqc"
-    //   )
-    // ch_versions = ch_versions.mix(FASTQC_SINGLE.out.versions)
 
     // //
     // // MODULE: repeat distribution distance with merged reads
