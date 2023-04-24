@@ -10,12 +10,10 @@ process FASTQC_SINGLE {
 
     input:
     tuple val(meta), path(reads)
-    val outdir
 
     output:
-    tuple val(meta), path("*/*.html"), emit: html
-    tuple val(meta), path("*/*.zip") , emit: zip
-    path  "versions.yml"             , emit: versions
+    tuple val(meta), path("*.html"), emit: html
+    path  "versions.yml",            emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -29,7 +27,6 @@ process FASTQC_SINGLE {
         [ ! -f  ${prefix}.fastq.gz ] && ln -s $reads ${prefix}.fastq.gz
         mkdir $outdir
         fastqc $args --threads $task.cpus ${prefix}.fastq.gz
-        mv *.html *.zip $outdir/
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
