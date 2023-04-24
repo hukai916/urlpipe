@@ -10,7 +10,7 @@ process CLASSIFY_MERGE {
     output:
     tuple val(meta), path("merged/*.fastq.gz"),     emit: reads
     tuple val(meta), path("non_merged/*.fastq.gz"), emit: reads_others
-    path "stat/*.csv",                              emit: stat
+    path "stat/*.csv",                              emit: csv
     path "versions.yml",                            emit: versions
 
     when:
