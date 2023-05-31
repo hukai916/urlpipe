@@ -136,14 +136,14 @@ workflow URLPIPE {
     } else if (params.mode == "merge") {
         REPEAT_STAT_MERGE.out.csv_frac.set( {csv_frac} )
     }
-    GET_SUMMARY (
-      csv_frac,
-      INDEL_STAT.out.csv,
-      params.umi_cutoffs,
-      params.allele_number,
-      ch_versions = ch_versions
-    )
-    ch_version = GET_SUMMARY.out.versions
+    // GET_SUMMARY (
+    //   csv_frac,
+    //   INDEL_STAT.out.csv,
+    //   params.umi_cutoffs,
+    //   params.allele_number,
+    //   ch_versions = ch_versions
+    // )
+    // ch_version = GET_SUMMARY.out.versions
 
 
 
