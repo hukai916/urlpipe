@@ -34,7 +34,7 @@ process CAT_FASTQ {
             """
         } else {
             """
-            ln -s ${readList.join(' ')} ./${prefix}.merged.fastq.gz
+            ln -s ${readList.join(' ')} ./${prefix}.fastq.gz
 
             cat <<-END_VERSIONS > versions.yml
             "${task.process}":
