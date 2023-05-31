@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 """
+Adapted from classify_indel.py.
 To annotate reads into no_indel, indel_5p, indel_3p, and indel_5p_3p (flanking)
     # align R1 to 20bp before CAG repeat, allow 1 mismatch: TCGAGTCCCTCAAGTCCTTC
     # align R2 to 20bp after CAG repeat, allow 1 mismatch: CCGCCACCGCCGCCGCCGCC (use rev comp)
@@ -8,7 +9,7 @@ To annotate reads into no_indel, indel_5p, indel_3p, and indel_5p_3p (flanking)
     # implementation: instead of perform mapping, simple search sub_string with python regex:
     regex.search("(xxgyy){s<=1}", "xxggyy") # https://stackoverflow.com/questions/2420412/search-for-string-allowing-for-one-mismatch-in-any-location-of-the-string, note, regex.search("xxgyy{s<=1}", "xxggyy") does not work.
 Usage:
-    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2s.fastq.gz no_indel indel_5p indel_3p indel_5p_3p stat sample_name $args
+    classify_indel.py ${prefix}_1.fastq.gz no_indel indel_5p indel_3p indel_5p_3p stat sample_name $args
 
 """
 
@@ -20,7 +21,7 @@ import regex
 import gzip
 from mimetypes import guess_type
 from functools import partial
-from utils import indel_filter
+# from utils import indel_filter
 
 r1 = sys.argv[1]
 no_indel_dir = sys.argv[2]
@@ -103,46 +104,19 @@ with _open(r1) as f:
             r1_indel_5p_and_3p.append(record)
             r1_indel_5p_or_3p.append(record)
 
-r1_indel_3p_filter = indel_filter(r1_indel_3p, r1_no_indel)
-r1_indel_5p_filter = indel_filter(r1_indel_5p, r1_no_indel)
-r1_indel_5p_and_3p_filter = indel_filter(r1_indel_5p_and_3p, r1_no_indel)
-r1_indel_5p_or_3p_filter, r1_no_indel_filter = indel_filter(r1_indel_5p_or_3p, r1_no_indel, add = True)
+# r1_indel_3p_filter = indel_filter(r1_indel_3p, r1_no_indel)
+# r1_indel_5p_filter = indel_filter(r1_indel_5p, r1_no_indel)
+# r1_indel_5p_and_3p_filter = indel_filter(r1_indel_5p_and_3p, r1_no_indel)
+# r1_indel_5p_or_3p_filter, r1_no_indel_filter = indel_filter(r1_indel_5p_or_3p, r1_no_indel, add = True)
 
-_res = [r1_no_indel_filter, r1_indel_5p_filter, r1_indel_3p_filter, r1_indel_5p_and_3p_filter, r1_indel_5p_or_3p_filter]
+# _res = [r1_no_indel_filter, r1_indel_5p_filter, r1_indel_3p_filter, r1_indel_5p_and_3p_filter, r1_indel_5p_or_3p_filter]
+
+_res = [r1_no_indel, r1_indel_5p, r1_indel_3p, r1_indel_5p_and_3p, r1_indel_5p_or_3p]
+
 _out_file = [output_files["no_indel"], output_files["indel_5p"], output_files["indel_3p"], output_files["indel_5p_and_3p"], output_files["indel_5p_or_3p"]]
 
 for res, out_file in zip(_res, _out_file):
     with open(str(out_file["r1"]), "w") as f:
-        SeqIO.write(res, f, "fastq")
-
-r2_no_indel = []
-r2_indel_5p = []
-r2_indel_3p = []
-r2_indel_5p_and_3p = []
-r2_indel_5p_or_3p = []
-with _open(r2) as f:
-    for record in SeqIO.parse(f, 'fastq'):
-        if r_match[record.name] == 2:
-            r2_no_indel.append(record)
-        elif r_match[record.name] == 1:
-            r2_indel_5p_or_3p.append(record)
-            if r2_match[record.name]:
-                r2_indel_5p.append(record)
-            else:
-                r2_indel_3p.append(record)
-        elif r_match[record.name] == 0:
-            r2_indel_5p_and_3p.append(record)
-            r2_indel_5p_or_3p.append(record)
-
-r2_indel_3p_filter = indel_filter(r2_indel_3p, r2_no_indel, indel_cutoff = indel_cutoff)
-r2_indel_5p_filter = indel_filter(r2_indel_5p, r2_no_indel, indel_cutoff = indel_cutoff)
-r2_indel_5p_and_3p_filter = indel_filter(r2_indel_5p_and_3p, r2_no_indel, indel_cutoff = indel_cutoff)
-r2_indel_5p_or_3p_filter, r2_no_indel_filter = indel_filter(r2_indel_5p_or_3p, r2_no_indel, add = True, indel_cutoff = indel_cutoff)
-
-_res = [r2_no_indel_filter, r2_indel_5p_filter, r2_indel_3p_filter, r2_indel_5p_and_3p_filter, r2_indel_5p_or_3p_filter]
-
-for res, out_file in zip(_res, _out_file):
-    with open(str(out_file["r2"]), "w") as f:
         SeqIO.write(res, f, "fastq")
 
 # print some stats:
