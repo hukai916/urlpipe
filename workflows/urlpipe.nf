@@ -34,6 +34,7 @@ ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath(params.multi
 include { INPUT_CHECK    } from '../subworkflows/input_check'
 include { PREPROCESS_QC  } from '../subworkflows/preprocess_qc'
 include { CLASSIFY_READ  } from '../subworkflows/classify_read'
+include { CLASSIFY_READ_NANOPORE  } from '../subworkflows/classify_read_nanopore'
 include { REPEAT_STAT_DEFAULT } from '../subworkflows/repeat_stat_default'
 include { REPEAT_STAT_MERGE   } from '../subworkflows/repeat_stat_merge'
 // include { REPEAT_STAT_NANOPORE } from '../subworkflows/repeat_stat_nanopore'
@@ -62,7 +63,8 @@ workflow URLPIPE {
     // 0_pipeline_info/samplesheet.valid.csv
     INPUT_CHECK (
         ch_input,
-        params.allele_number
+        params.allele_number,
+        params.mode
     )
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
@@ -71,18 +73,29 @@ workflow URLPIPE {
     // 1_preprocess and 2_qc_and_umi
     PREPROCESS_QC (
       INPUT_CHECK.out.reads,
+      params.mode,
       ch_versions
-      )
+    )
     ch_versions = ch_versions.mix(PREPROCESS_QC.out.versions)
 
     //
     // SUBWORKFLOW: classify reads
     // 3_read_category
-    CLASSIFY_READ (
-      PREPROCESS_QC.out.reads,
-      ch_versions
-      )
-    ch_versions = ch_versions.mix(CLASSIFY_READ.out.versions)
+    if (params.mode == "default" || params.mode = "merge") {
+      CLASSIFY_READ (
+        PREPROCESS_QC.out.reads,
+        params.mode,
+        ch_versions
+        )
+      ch_versions = ch_versions.mix(CLASSIFY_READ.out.versions)
+    } else if (params.mode == "nanopore") {
+      CLASSIFY_READ_NANOPORE (
+        PREPROCESS_QC.out.reads,
+        params.mode,
+        ch_versions
+        )
+      ch_versions = ch_versions.mix(CLASSIFY_READ_NANOPORE.out.versions)
+    }
 
     // 
     // SUBWORKFLOW: generate repeat statistics
@@ -91,15 +104,16 @@ workflow URLPIPE {
       //
       // SUBWORKFLOW: obtain repeat statistics using default mode where individual R1 and R2 reads are used
       // 4_repeat_statistics
-      log.info "Using default mode!"
+      log.info "Using 'default' mode!"
       REPEAT_STAT_DEFAULT ( CLASSIFY_READ.out.reads_through, ch_versions )
       ch_versions = REPEAT_STAT_DEFAULT.out.versions
     } else if (params.mode == "merge") {
-      log.info "Merge mode is under development!" 
+      log.info "Using 'merge' mode!" 
       // merge mode first merge R1 and R2 reads
       REPEAT_STAT_MERGE ( CLASSIFY_READ.out.reads_through, ch_versions )
       ch_versions = REPEAT_STAT_MERGE.out.versions
     } else if (params.mode == "nanopore") {
+      log.info "Using 'nanopore' mode!"
       // MODE_NANOPORE ()
       exit 1, '--mode nanopore under development!'
     } else {

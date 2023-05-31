@@ -10,6 +10,7 @@ include { READ_PER_UMI as READ_PER_UMI_READTHROUGH } from '../modules/local/read
 workflow CLASSIFY_READ {
     take:
       reads
+      mode
       ch_versions
 
     main:

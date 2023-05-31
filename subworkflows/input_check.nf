@@ -8,9 +8,10 @@ workflow INPUT_CHECK {
     take:
         samplesheet // file: /path/to/samplesheet.csv
         allele_number
+        mode // "default", "merge", "nanopore"
 
     main:
-        SAMPLESHEET_CHECK ( samplesheet, allele_number )
+        SAMPLESHEET_CHECK ( samplesheet, allele_number, mode )
             .csv
             .splitCsv ( header:true, sep:',' )
             .map { create_fastq_channel(it, allele_number) }
@@ -22,7 +23,7 @@ workflow INPUT_CHECK {
 }
 
 // Function to get list of [ meta, [ fastq_1, fastq_2 ] ]
-def create_fastq_channel(LinkedHashMap row, allele_number) {
+def create_fastq_channel(LinkedHashMap row, allele_number, mode) {
     // create meta map
     def meta = [:]
     meta.id         = row.sample
@@ -32,8 +33,12 @@ def create_fastq_channel(LinkedHashMap row, allele_number) {
       meta.start_allele_2 = row.start_allele_2
       meta.end_allele_2 = row.end_allele_2
     }
-    meta.single_end = row.single_end.toBoolean()
-
+    if (mode == "nanopore") {
+        meta.single_end = true
+    } else if (mode == "default" || mode == "merge") {
+        meta.single_end = false
+    }
+    
     // add path(s) of the fastq file(s) to the meta map
     def fastq_meta = []
     if (!file(row.fastq_1).exists()) {
