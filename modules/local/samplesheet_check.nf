@@ -8,6 +8,7 @@ process SAMPLESHEET_CHECK {
 
     input:
     path samplesheet
+    val mode
     val allele_number
 
     output:
