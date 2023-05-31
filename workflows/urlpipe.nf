@@ -81,7 +81,7 @@ workflow URLPIPE {
     //
     // SUBWORKFLOW: classify reads
     // 3_read_category
-    if (params.mode == "default" || params.mode = "merge") {
+    if (params.mode == "default" || params.mode == "merge") {
       CLASSIFY_READ (
         PREPROCESS_QC.out.reads,
         params.mode,
