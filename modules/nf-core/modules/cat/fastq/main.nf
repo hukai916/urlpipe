@@ -32,6 +32,15 @@ process CAT_FASTQ {
                 cat: \$(echo \$(cat --version 2>&1) | sed 's/^.*coreutils) //; s/ .*\$//')
             END_VERSIONS
             """
+        } else {
+            """
+            ln -s ${readList.join(' ')} ./${prefix}.merged.fastq.gz
+
+            cat <<-END_VERSIONS > versions.yml
+            "${task.process}":
+                cat: \$(echo \$(cat --version 2>&1) | sed 's/^.*coreutils) //; s/ .*\$//')
+            END_VERSIONS
+            """
         }
     } else {
         if (readList.size > 2) {
