@@ -115,7 +115,7 @@ workflow URLPIPE {
     } else if (params.mode == "nanopore") {
       log.info "Using 'nanopore' mode!"
       // MODE_NANOPORE ()
-      exit 1, '--mode nanopore under development!'
+      log.info '--mode nanopore under development!'
     } else {
       exit 1, '--mode must be from "default", "merge", and "nanopore"!'
     }
