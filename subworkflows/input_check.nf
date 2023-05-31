@@ -11,7 +11,7 @@ workflow INPUT_CHECK {
         mode // "default", "merge", "nanopore"
 
     main:
-        SAMPLESHEET_CHECK ( samplesheet, allele_number, mode )
+        SAMPLESHEET_CHECK ( samplesheet, allele_number )
             .csv
             .splitCsv ( header:true, sep:',' )
             .map { create_fastq_channel(it, allele_number) }
