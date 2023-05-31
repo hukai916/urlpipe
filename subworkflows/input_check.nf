@@ -14,7 +14,7 @@ workflow INPUT_CHECK {
         SAMPLESHEET_CHECK ( samplesheet, allele_number )
             .csv
             .splitCsv ( header:true, sep:',' )
-            .map { create_fastq_channel(it, allele_number) }
+            .map { create_fastq_channel(it, allele_number, mode) }
             .set { reads }
 
     emit:
