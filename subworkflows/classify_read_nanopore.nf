@@ -7,7 +7,7 @@ include { STAT as STAT_READTHROUGH    } from '../modules/local/stat'
 include { FASTQC as FASTQC_READTHROUGH} from '../modules/nf-core/modules/fastqc/main'
 include { READ_PER_UMI as READ_PER_UMI_READTHROUGH } from '../modules/local/read_per_umi'
 
-workflow CLASSIFY_READ {
+workflow CLASSIFY_READ_NANOPORE {
     take:
       reads
       mode
