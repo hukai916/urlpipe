@@ -42,7 +42,7 @@ workflow REPEAT_STAT_NANOPORE {
       // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_merge_umi_0.csv|html
       STAT_REPEAT_LENGTH_DISTRIBUTION_NANOPORE (REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.repeat_length_count_merge_pure.collect())
 
-       REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.raw_repeat_length_per_read_merge.view()
+      //  REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.raw_repeat_length_per_read_merge.view()
       // fraction:
       REPEAT_LENGTH_FRACTION_NANOPORE (
         // just to obtain the sample meta info:
