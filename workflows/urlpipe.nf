@@ -37,7 +37,7 @@ include { CLASSIFY_READ  } from '../subworkflows/classify_read'
 include { CLASSIFY_READ_NANOPORE  } from '../subworkflows/classify_read_nanopore'
 include { REPEAT_STAT_DEFAULT } from '../subworkflows/repeat_stat_default'
 include { REPEAT_STAT_MERGE   } from '../subworkflows/repeat_stat_merge'
-// include { REPEAT_STAT_NANOPORE } from '../subworkflows/repeat_stat_nanopore'
+include { REPEAT_STAT_NANOPORE } from '../subworkflows/repeat_stat_nanopore'
 include { INDEL_STAT     } from '../subworkflows/indel_stat'
 include { GET_SUMMARY    } from '../subworkflows/get_summary'
 
@@ -108,14 +108,17 @@ workflow URLPIPE {
       REPEAT_STAT_DEFAULT ( CLASSIFY_READ.out.reads_through, ch_versions )
       ch_versions = REPEAT_STAT_DEFAULT.out.versions
     } else if (params.mode == "merge") {
+      // merge mode: first merge R1 and R2 reads
       log.info "Using 'merge' mode!" 
-      // merge mode first merge R1 and R2 reads
       REPEAT_STAT_MERGE ( CLASSIFY_READ.out.reads_through, ch_versions )
       ch_versions = REPEAT_STAT_MERGE.out.versions
     } else if (params.mode == "nanopore") {
+      //
+      // SUBWORKFLOW: obtain repeat statistics using nanopore mode (single long read)
+      // 4_repeat_statistics
       log.info "Using 'nanopore' mode!"
-      // MODE_NANOPORE ()
-      log.info '--mode nanopore under development!'
+      REPEAT_STAT_NANOPORE ( CLASSIFY_READ_NANOPORE.out.reads_no_indel, ch_versions )
+      ch_versions = REPEAT_STAT_NANOPORE.out.versions
     } else {
       exit 1, '--mode must be from "default", "merge", and "nanopore"!'
     }
@@ -133,18 +136,27 @@ workflow URLPIPE {
     // 6_summary
     if (params.mode == "default") {
         REPEAT_STAT_DEFAULT.out.csv_frac.set( {csv_frac} )
+        GET_SUMMARY (
+          csv_frac,
+          INDEL_STAT.out.csv,
+          params.umi_cutoffs,
+          params.allele_number,
+          ch_versions = ch_versions
+        )
+        ch_version = GET_SUMMARY.out.versions
     } else if (params.mode == "merge") {
         REPEAT_STAT_MERGE.out.csv_frac.set( {csv_frac} )
+        GET_SUMMARY (
+          csv_frac,
+          INDEL_STAT.out.csv,
+          params.umi_cutoffs,
+          params.allele_number,
+          ch_versions = ch_versions
+        )
+        ch_version = GET_SUMMARY.out.versions
+    } else if (params.mode == "nanopore") {
+      log.info "get_summary::nanopore under construction!"
     }
-    // GET_SUMMARY (
-    //   csv_frac,
-    //   INDEL_STAT.out.csv,
-    //   params.umi_cutoffs,
-    //   params.allele_number,
-    //   ch_versions = ch_versions
-    // )
-    // ch_version = GET_SUMMARY.out.versions
-
 
 
     //

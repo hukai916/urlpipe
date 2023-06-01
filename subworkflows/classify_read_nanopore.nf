@@ -33,13 +33,14 @@ workflow CLASSIFY_READ_NANOPORE {
       //
       // MODULE: classify_readthrough
       // 3_read_category/3c_classify_readthrough
-      // CLASSIFY_READTHROUGH ( CLASSIFY_INDEL.out.reads_no_indel )
-      // ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
-      // STAT_READTHROUGH ( CLASSIFY_READTHROUGH.out.stat.collect() )
+      // CLASSIFY_READTHROUGH_NANOPORE ( CLASSIFY_INDEL_NANOPORE.out.reads_no_indel )
+      // ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH_NANOPORE.out.versions)
+      
+      // STAT_READTHROUGH ( CLASSIFY_READTHROUGH_NANOPORE.out.stat.collect() )
       // ch_versions = ch_versions.mix(STAT_READTHROUGH.out.versions)
       // FASTQC_READTHROUGH ( reads )
       // ch_versions = ch_versions.mix(FASTQC_READTHROUGH.out.versions)
-      // READ_PER_UMI_READTHROUGH ( CLASSIFY_READTHROUGH.out.reads_through )
+      // READ_PER_UMI_READTHROUGH ( CLASSIFY_READTHROUGH_NANOPORE.out.reads_through )
       // ch_versions = ch_versions.mix(READ_PER_UMI_READTHROUGH.out.versions)
 
       // MODULE: classify reads into alleles based on SNP
@@ -50,6 +51,6 @@ workflow CLASSIFY_READ_NANOPORE {
     emit:
       reads_indel_5p_or_3p      = CLASSIFY_INDEL_NANOPORE.out.reads_indel_5p_or_3p
       reads_indel_5p_or_3p_pure = CLASSIFY_INDEL_NANOPORE.out.reads_indel_5p_or_3p_pure
-      // reads_through = CLASSIFY_READTHROUGH.out.reads_through
+      reads_no_indel            = CLASSIFY_INDEL_NANOPORE.out.reads_no_indel
       versions      = ch_versions
 }
