@@ -68,7 +68,7 @@ workflow URLPIPE {
     )
     ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
-    INPUT_CHECK.out.reads.view()
+    // INPUT_CHECK.out.reads.view()
 
     //
     // SUBWORKFLOW: preprocess and qc
