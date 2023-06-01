@@ -7,7 +7,6 @@ Summarize UMI group stat: UMI read_count mean mode ld
 """
 
 import sys
-import os
 from collections import Counter
 from statistics import mean
 import random

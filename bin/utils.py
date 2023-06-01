@@ -1,7 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
-from matplotlib import colors
-from matplotlib.ticker import PercentFormatter
 import os
 import pandas as pd
 from Bio.Seq import Seq

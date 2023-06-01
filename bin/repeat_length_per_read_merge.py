@@ -8,16 +8,13 @@ Count the repeat length by measuring distance using the merged reads.
 
 from Bio import SeqIO
 import sys
-import os
-from collections import Counter
 import regex
 import gzip
 from mimetypes import guess_type
 from functools import partial
 import numpy as np
-import pandas as pd
 import csv
-from utils import reverse_complement, plot_repeat_dist
+from utils import reverse_complement
 
 read = sys.argv[1]
 outfile = sys.argv[2]

@@ -13,7 +13,6 @@ from Bio import SeqIO
 from Bio.Seq import Seq
 import sys
 import os
-from collections import Counter
 import regex
 import gzip
 from mimetypes import guess_type

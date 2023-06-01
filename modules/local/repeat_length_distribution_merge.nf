@@ -24,10 +24,10 @@ process REPEAT_LENGTH_DISTRIBUTION_MERGE {
 
     """
     # 1. output repeat_length_per_read_merge_xxx.csv:
-    repeat_length_per_read_merge.py ${prefix}.fastq.gz raw_repeat_length_per_read_merge_${prefix}.csv $args
+    repeat_length_per_read_merge.py ${prefix}.fastq.gz raw_repeat_length_per_read_${prefix}.csv $args
 
     # 2. output repeat_length_count_xxx.csv and diagnosis_repeat_length_count_xxx.csv:
-    repeat_length_distribution_default.py raw_repeat_length_per_read_merge_${prefix}.csv repeat_length_per_read_merge_${prefix}.csv repeat_length_count_${prefix}.csv diagnosis_repeat_length_count_${prefix}.csv
+    repeat_length_distribution_default.py raw_repeat_length_per_read_${prefix}.csv repeat_length_per_read_${prefix}.csv repeat_length_count_${prefix}.csv diagnosis_repeat_length_count_${prefix}.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -11,8 +11,6 @@ python get_reads_umi_cutoff.py umi_cutoff read_count_${prefix}_umi_cutoff_\$i.cs
 from Bio import SeqIO
 import pandas as pd
 import sys
-import os
-from collections import Counter
 import gzip
 from mimetypes import guess_type
 from functools import partial
