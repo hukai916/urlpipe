@@ -38,7 +38,7 @@ workflow REPEAT_STAT_NANOPORE {
       // MODULE: repeat length distribution determined with merged reads
       // not published
       REPEAT_LENGTH_DISTRIBUTION_NANOPORE ( reads )
-      ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_MERGE.out.versions)
+      ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.versions)
       // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_merge_umi_0.csv|html
       STAT_REPEAT_LENGTH_DISTRIBUTION_NANOPORE (REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.repeat_length_count_merge_pure.collect())
 
