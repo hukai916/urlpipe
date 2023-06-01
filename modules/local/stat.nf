@@ -19,7 +19,8 @@ process STAT {
     def header = task.ext.header ?: ''
 
     """
-    (echo -e "$header" && cat *.csv | sort -n) > $outfile
+    (echo -e "$header" && cat *.csv | sort -n) > ${outfile}.txt
+    mv ${outfile}.txt ${outfile}.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

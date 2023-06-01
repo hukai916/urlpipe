@@ -157,6 +157,6 @@ with open(os.path.join(indel_stat_dir, sample_name + ".csv"), "w") as f:
     p_5p = str(count_5p/(sum([res[2], res[1], res[0]])))
     p_3p = str(count_3p/(sum([res[2], res[1], res[0]])))
     p0 = str(res[0]/(sum([res[2], res[1], res[0]])))
-    res = ",".join([sample_name, str(res[2]), str(count_5p), str(count_3p), str(res[0]), p2, p_5p, p_3p]) + "\n"
+    res = ",".join([sample_name, str(res[2]), str(count_5p), str(count_3p), str(res[0]), p2, p_5p, p_3p, p0]) + "\n"
 
     f.write(res)
