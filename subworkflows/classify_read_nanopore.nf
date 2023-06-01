@@ -23,7 +23,7 @@ workflow CLASSIFY_READ_NANOPORE {
       // ch_versions = ch_versions.mix(STAT_LOCUS.out.versions)
 
       //
-      // MODULE: classify INDEL and stat
+      // MODULE: classify INDEL and stat: no need to perform read through
       // 3_read_category/3b_classify_indel
       CLASSIFY_INDEL_NANOPORE ( reads )
       ch_versions = ch_versions.mix(CLASSIFY_INDEL_NANOPORE.out.versions)
