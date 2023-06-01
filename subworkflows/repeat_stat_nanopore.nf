@@ -9,7 +9,7 @@ include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI as REPEAT_LENGTH_DISTRIBUTION_PER_U
 include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI as PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI_MERGE } from '../modules/local/plot_repeat_length_distribution_per_umi'
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT } from '../modules/local/repeat_length_distribution_default_umi_correct'
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT } from '../modules/local/stat_repeat_length_distribution_default_umi_correct'
-include { REPEAT_LENGTH_FRACTION as REPEAT_LENGTH_FRACTION_MERGE } from '../modules/local/repeat_length_fraction'
+include { REPEAT_LENGTH_FRACTION_NANOPORE } from '../modules/local/repeat_length_fraction_nanopore'
 
 workflow REPEAT_STAT_NANOPORE {
     take:
@@ -41,6 +41,20 @@ workflow REPEAT_STAT_NANOPORE {
       ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.versions)
       // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_merge_umi_0.csv|html
       STAT_REPEAT_LENGTH_DISTRIBUTION_NANOPORE (REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.repeat_length_count_merge_pure.collect())
+
+      // fraction:
+      REPEAT_LENGTH_FRACTION_NANOPORE (
+        // just to obtain the sample meta info:
+        // REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.umi_readcount_readlength_corrected,
+        REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.raw_repeat_length_per_read_merge,
+        // master table for umi_0:
+        STAT_REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.csv,
+        // master table for umi_x:
+        // STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.csv,
+        params.allele_number,
+        params.umi_cutoffs,
+      ) 
+
 
       //
       // MODULE: repeat length count distribution per umi group
