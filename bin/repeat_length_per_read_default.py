@@ -73,7 +73,7 @@ with _open(r1) as f1, _open(r2) as f2:
         # r1_right = next(regex.finditer("".join(["(", r2_flanking_rc, "){s<=", m, "}"]), search_seq_r1, overlapped = True), None)
 
         r2_left  = None
-        tem  = regex.finditer("".join(["(", r2_flanking, "){s<=", m, "}"]), search_seq_r2, overlapped = True)
+        tem  = regex.finditer("".join(["(", r2_flanking_rc, "){s<=", m, "}"]), search_seq_r2, overlapped = True)
         for match in tem:
             if match.fuzzy_counts == (0, 0, 0):
                 r2_left = match

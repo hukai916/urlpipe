@@ -50,7 +50,7 @@ with _open(r1) as f:
             r1_readthrough[record.name] = 0
 with _open(r2) as f:
     for record in SeqIO.parse(f, 'fastq'):
-        if regex.search("(" + r2_flanking + ")" + "{e<=" + str(mismatch) + "}", str(record.seq)) and regex.search("(" + r1_flanking_rc + ")" + "{e<=" + str(mismatch) + "}", str(record.seq)):
+        if regex.search("(" + r2_flanking_rc + ")" + "{e<=" + str(mismatch) + "}", str(record.seq)) and regex.search("(" + r1_flanking_rc + ")" + "{e<=" + str(mismatch) + "}", str(record.seq)):
             r2_readthrough[record.name] = 1
         else:
             r2_readthrough[record.name] = 0
