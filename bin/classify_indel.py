@@ -13,6 +13,7 @@ Usage:
 """
 
 from Bio import SeqIO
+from Bio.Seq import Seq
 import sys
 import os
 from collections import Counter
@@ -43,6 +44,9 @@ r_match  = {}
 encoding = guess_type(r1)[1]  # uses file extension
 _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
 
+r2_dna = Seq(r2_flanking)
+r2_flanking_rc = str(r2_dna.reverse_complement())
+
 with _open(r1) as f:
     for record in SeqIO.parse(f, 'fastq'):
         if regex.search("(" + r1_flanking + ")" + "{s<=" + str(mismatch) + "}", str(record.seq)):
@@ -51,7 +55,7 @@ with _open(r1) as f:
             r1_match[record.name] = 0
 with _open(r2) as f:
     for record in SeqIO.parse(f, 'fastq'):
-        if regex.search("(" + r2_flanking + ")" + "{s<=" + str(mismatch) + "}", str(record.seq)):
+        if regex.search("(" + r2_flanking_rc + ")" + "{s<=" + str(mismatch) + "}", str(record.seq)):
             r2_match[record.name] = 1
         else:
             r2_match[record.name] = 0
