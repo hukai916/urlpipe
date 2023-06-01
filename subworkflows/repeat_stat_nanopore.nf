@@ -11,7 +11,7 @@ include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as REPEAT_LENGTH_DISTRI
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT } from '../modules/local/stat_repeat_length_distribution_default_umi_correct'
 include { REPEAT_LENGTH_FRACTION as REPEAT_LENGTH_FRACTION_MERGE } from '../modules/local/repeat_length_fraction'
 
-workflow REPEAT_STAT_MERGE {
+workflow REPEAT_STAT_NANOPORE {
     take:
       reads 
       ch_versions
