@@ -9,9 +9,9 @@ def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 // Validate input parameters
 WorkflowUrlpipe.initialise(params, log)
 
-// Check input path parameters to see if they exist
+// Check input path parameters to see if they exist: the json only checks for if value supplied, not actual file exists or not
 // def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
-def checkPathParamList = []
+def checkPathParamList = [ params.multiqc_config ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 /*
