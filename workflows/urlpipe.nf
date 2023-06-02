@@ -13,9 +13,6 @@ WorkflowUrlpipe.initialise(params, log)
 def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
-// Check mandatory parameters
-if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     CONFIG FILES
@@ -70,6 +67,9 @@ workflow URLPIPE {
       PREPROCESS_NANOPORE ( ch_input, ch_versions )
 
     } else {
+      // Check mandatory parameters
+      if (params.input) { ch_input = file(params.input) } else { exit 1, 'Input samplesheet not specified!' }
+
       //
       // SUBWORKFLOW: read in samplesheet, validate and stage input files
       // 0_pipeline_info/samplesheet.valid.csv
