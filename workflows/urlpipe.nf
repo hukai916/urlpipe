@@ -11,7 +11,7 @@ WorkflowUrlpipe.initialise(params, log)
 
 // Check input path parameters to see if they exist: the json only checks for if value supplied, not actual file exists or not
 // def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
-def checkPathParamList = [ params.multiqc_config ]
+def checkPathParamList = []
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
 
 /*
@@ -59,8 +59,8 @@ workflow URLPIPE {
 
     if (params.mode == "nanopore_preprocess") {
       log.info "Using 'nanopore_preprocess' mode!"
-      // ch_input = if { file(params.input_nanopore_preprocess) } else { exit 1, 'Input nanopore fastq for preprocessing not specified!' }
-
+      ch_input = file(params.input_nanopore_preprocess, checkIfExists: true)
+      
       // 
       // SUBWORKFLOW: preprocess nanopore fastq file
       // 1_preprocess_nanopore
