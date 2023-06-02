@@ -59,8 +59,8 @@ workflow URLPIPE {
 
     if (params.mode == "nanopore_preprocess") {
       log.info "Using 'nanopore_preprocess' mode!"
-      ch_input = file(params.input_nanopore_preprocess, checkIfExists: true)
-      
+      ch_input = [ [:], [file(params.input_nanopore_preprocess, checkIfExists: true) ] ] // fake a meta value
+
       // 
       // SUBWORKFLOW: preprocess nanopore fastq file
       // 1_preprocess_nanopore
