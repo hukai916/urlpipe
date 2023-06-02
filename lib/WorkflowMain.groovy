@@ -74,9 +74,9 @@ class WorkflowMain {
         NfcoreTemplate.awsBatch(workflow, params)
 
         // Check input has been provided
-        if (!params.input && !params.input_nanopore_preprocess) {
-            log.error "Please provide an input samplesheet to the pipeline e.g. '--input samplesheet.csv' or '--input_nanopore_preprocess'"
-            System.exit(1)
-        }
+        // if (!params.input && !params.input_nanopore_preprocess) {
+        //     log.error "Please provide an input samplesheet to the pipeline e.g. '--input samplesheet.csv' or '--input_nanopore_preprocess'"
+        //     System.exit(1)
+        // }
     }
     }
