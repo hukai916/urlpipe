@@ -31,6 +31,7 @@ ch_multiqc_custom_config = params.multiqc_config ? Channel.fromPath(params.multi
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+include { PREPROCESS_NANOPORE } from '../subworkflows/preprocess_nanopore'
 include { INPUT_CHECK    } from '../subworkflows/input_check'
 include { PREPROCESS_QC  } from '../subworkflows/preprocess_qc'
 include { CLASSIFY_READ  } from '../subworkflows/classify_read'
@@ -58,107 +59,121 @@ workflow URLPIPE {
     ch_versions = Channel.empty()
     ch_args     = Channel.empty()
 
-    //
-    // SUBWORKFLOW: read in samplesheet, validate and stage input files
-    // 0_pipeline_info/samplesheet.valid.csv
-    INPUT_CHECK (
-        ch_input,
-        params.allele_number,
-        params.mode
-    )
-    ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
 
-    // INPUT_CHECK.out.reads.view()
+    if (params.mode == "nanopore_preprocess") {
+      log.info "Using 'nanopore_preprocess' mode!"
+      ch_input = if { file(params.input_nanopore_preprocess) } else { exit 1, 'Input nanopore fastq for preprocessing not specified!' }
 
-    //
-    // SUBWORKFLOW: preprocess and qc
-    // 1_preprocess and 2_qc_and_umi
-    PREPROCESS_QC (
-      INPUT_CHECK.out.reads,
-      params.mode,
-      ch_versions
-    )
-    ch_versions = ch_versions.mix(PREPROCESS_QC.out.versions)
+      // 
+      // SUBWORKFLOW: preprocess nanopore fastq file
+      // 1_preprocess_nanopore
+      PREPROCESS_NANOPORE ( ch_input, ch_versions )
 
-    //
-    // SUBWORKFLOW: classify reads
-    // 3_read_category
-    if (params.mode == "default" || params.mode == "merge") {
-      CLASSIFY_READ (
-        PREPROCESS_QC.out.reads,
-        params.mode,
-        ch_versions
-        )
-      ch_versions = ch_versions.mix(CLASSIFY_READ.out.versions)
-    } else if (params.mode == "nanopore") {
-      CLASSIFY_READ_NANOPORE (
-        PREPROCESS_QC.out.reads,
-        params.mode,
-        ch_versions
-        )
-      ch_versions = ch_versions.mix(CLASSIFY_READ_NANOPORE.out.versions)
-    }
-
-    // 
-    // SUBWORKFLOW: generate repeat statistics
-    // 4_repeat_statistics
-    if (params.mode == "default") {
-      //
-      // SUBWORKFLOW: obtain repeat statistics using default mode where individual R1 and R2 reads are used
-      // 4_repeat_statistics
-      log.info "Using 'default' mode!"
-      REPEAT_STAT_DEFAULT ( CLASSIFY_READ.out.reads_through, ch_versions )
-      ch_versions = REPEAT_STAT_DEFAULT.out.versions
-    } else if (params.mode == "merge") {
-      // merge mode: first merge R1 and R2 reads
-      log.info "Using 'merge' mode!" 
-      REPEAT_STAT_MERGE ( CLASSIFY_READ.out.reads_through, ch_versions )
-      ch_versions = REPEAT_STAT_MERGE.out.versions
-    } else if (params.mode == "nanopore") {
-      //
-      // SUBWORKFLOW: obtain repeat statistics using nanopore mode (single long read)
-      // 4_repeat_statistics
-      log.info "Using 'nanopore' mode!"
-      REPEAT_STAT_NANOPORE ( CLASSIFY_READ_NANOPORE.out.reads_no_indel, ch_versions )
-      ch_versions = REPEAT_STAT_NANOPORE.out.versions
     } else {
-      exit 1, '--mode must be from "default", "merge", and "nanopore"!'
+      //
+      // SUBWORKFLOW: read in samplesheet, validate and stage input files
+      // 0_pipeline_info/samplesheet.valid.csv
+      INPUT_CHECK (
+          ch_input,
+          params.allele_number,
+          params.mode
+      )
+      ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
+
+      // INPUT_CHECK.out.reads.view()
+
+      //
+      // SUBWORKFLOW: preprocess and qc
+      // 1_preprocess and 2_qc_and_umi
+      PREPROCESS_QC (
+        INPUT_CHECK.out.reads,
+        params.mode,
+        ch_versions
+      )
+      ch_versions = ch_versions.mix(PREPROCESS_QC.out.versions)
+
+      //
+      // SUBWORKFLOW: classify reads
+      // 3_read_category
+      if (params.mode == "default" || params.mode == "merge") {
+        CLASSIFY_READ (
+          PREPROCESS_QC.out.reads,
+          params.mode,
+          ch_versions
+          )
+        ch_versions = ch_versions.mix(CLASSIFY_READ.out.versions)
+      } else if (params.mode == "nanopore") {
+        CLASSIFY_READ_NANOPORE (
+          PREPROCESS_QC.out.reads,
+          params.mode,
+          ch_versions
+          )
+        ch_versions = ch_versions.mix(CLASSIFY_READ_NANOPORE.out.versions)
+      }
+
+      // 
+      // SUBWORKFLOW: generate repeat statistics
+      // 4_repeat_statistics
+      if (params.mode == "default") {
+        //
+        // SUBWORKFLOW: obtain repeat statistics using default mode where individual R1 and R2 reads are used
+        // 4_repeat_statistics
+        log.info "Using 'default' mode!"
+        REPEAT_STAT_DEFAULT ( CLASSIFY_READ.out.reads_through, ch_versions )
+        ch_versions = REPEAT_STAT_DEFAULT.out.versions
+      } else if (params.mode == "merge") {
+        // merge mode: first merge R1 and R2 reads
+        log.info "Using 'merge' mode!" 
+        REPEAT_STAT_MERGE ( CLASSIFY_READ.out.reads_through, ch_versions )
+        ch_versions = REPEAT_STAT_MERGE.out.versions
+      } else if (params.mode == "nanopore") {
+        //
+        // SUBWORKFLOW: obtain repeat statistics using nanopore mode (single long read)
+        // 4_repeat_statistics
+        log.info "Using 'nanopore' mode!"
+        REPEAT_STAT_NANOPORE ( CLASSIFY_READ_NANOPORE.out.reads_no_indel, ch_versions )
+        ch_versions = REPEAT_STAT_NANOPORE.out.versions
+      } else {
+        exit 1, '--mode must be from "default", "merge", and "nanopore"!'
+      }
+
+      // 
+      // SUBWORKFLOW: generate statistics for INDEL reads
+      // 5_indel_statistics
+      if (params.mode == "default" || params.mode == "merge") {
+        INDEL_STAT ( CLASSIFY_READ.out.reads_indel_5p_or_3p, CLASSIFY_READ.out.reads_indel_5p_or_3p_pure, ch_versions )
+        ch_versions = INDEL_STAT.out.versions
+      } 
+
+      // 
+      // SUBWORKFLOW: obtain summary table
+      // 6_summary
+      if (params.mode == "default") {
+          REPEAT_STAT_DEFAULT.out.csv_frac.set( {csv_frac} )
+          GET_SUMMARY (
+            csv_frac,
+            INDEL_STAT.out.csv,
+            params.umi_cutoffs,
+            params.allele_number,
+            ch_versions = ch_versions
+          )
+          ch_version = GET_SUMMARY.out.versions
+      } else if (params.mode == "merge") {
+          REPEAT_STAT_MERGE.out.csv_frac.set( {csv_frac} )
+          GET_SUMMARY (
+            csv_frac,
+            INDEL_STAT.out.csv,
+            params.umi_cutoffs,
+            params.allele_number,
+            ch_versions = ch_versions
+          )
+          ch_version = GET_SUMMARY.out.versions
+      } else if (params.mode == "nanopore") {
+        log.info "get_summary::nanopore under construction!"
+      }
+
     }
 
-    // 
-    // SUBWORKFLOW: generate statistics for INDEL reads
-    // 5_indel_statistics
-    if (params.mode == "default" || params.mode == "merge") {
-      INDEL_STAT ( CLASSIFY_READ.out.reads_indel_5p_or_3p, CLASSIFY_READ.out.reads_indel_5p_or_3p_pure, ch_versions )
-      ch_versions = INDEL_STAT.out.versions
-    } 
-
-    // 
-    // SUBWORKFLOW: obtain summary table
-    // 6_summary
-    if (params.mode == "default") {
-        REPEAT_STAT_DEFAULT.out.csv_frac.set( {csv_frac} )
-        GET_SUMMARY (
-          csv_frac,
-          INDEL_STAT.out.csv,
-          params.umi_cutoffs,
-          params.allele_number,
-          ch_versions = ch_versions
-        )
-        ch_version = GET_SUMMARY.out.versions
-    } else if (params.mode == "merge") {
-        REPEAT_STAT_MERGE.out.csv_frac.set( {csv_frac} )
-        GET_SUMMARY (
-          csv_frac,
-          INDEL_STAT.out.csv,
-          params.umi_cutoffs,
-          params.allele_number,
-          ch_versions = ch_versions
-        )
-        ch_version = GET_SUMMARY.out.versions
-    } else if (params.mode == "nanopore") {
-      log.info "get_summary::nanopore under construction!"
-    }
 
 
     //
