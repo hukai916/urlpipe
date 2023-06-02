@@ -12,6 +12,7 @@ process REPEAT_LENGTH_DISTRIBUTION_MERGE {
     tuple val(meta), path("repeat_length_per_*.csv"),   emit: repeat_length_per_read_merge
     tuple val(meta), path("repeat_length_count_*.csv"), emit: repeat_length_count_merge
     path "repeat_length_count_*.csv",                   emit: repeat_length_count_merge_pure
+    path "raw_repeat_length_per_read_*.csv",            emit: raw_repeat_length_per_read
     tuple val(meta), path("diagnosis_*.csv"),           emit: diagnosis_repeat_length_count_merge
     path  "versions.yml",                               emit: versions
 
