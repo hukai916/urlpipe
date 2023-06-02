@@ -57,10 +57,9 @@ workflow URLPIPE {
     ch_versions = Channel.empty()
     ch_args     = Channel.empty()
 
-
     if (params.mode == "nanopore_preprocess") {
       log.info "Using 'nanopore_preprocess' mode!"
-      ch_input = if { file(params.input_nanopore_preprocess) } else { exit 1, 'Input nanopore fastq for preprocessing not specified!' }
+      // ch_input = if { file(params.input_nanopore_preprocess) } else { exit 1, 'Input nanopore fastq for preprocessing not specified!' }
 
       // 
       // SUBWORKFLOW: preprocess nanopore fastq file
