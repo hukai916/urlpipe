@@ -24,10 +24,10 @@ workflow PREPROCESS_NANOPORE {
       // 
       // MODULE: CUTADAPT_NANOPORE_3END
       // 1_preprocess_nanopore/1a_cutadapt_3end
-      CUTADAPT_NANOPORE_3END ( reads )
+      CUTADAPT_NANOPORE_3END ( CUTADAPT_NANOPORE_5END.out.reads )
       ch_versions = ch_versions.mix(CUTADAPT_NANOPORE_3END.out.versions)
-     
 
+     
 
       //
       // MODULE: FASTQC_RAW
@@ -39,7 +39,7 @@ workflow PREPROCESS_NANOPORE {
       // // MODULE: Cat Fastq
       // // 1_preprocess/1a_lane_merge
       // CAT_FASTQ ( reads )
-      ch_versions = ch_versions.mix(CAT_FASTQ.out.versions)
+      // ch_versions = ch_versions.mix(CAT_FASTQ.out.versions)
 
       // if (mode != "nanopore") {
       //   //
