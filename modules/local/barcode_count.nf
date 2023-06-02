@@ -36,10 +36,10 @@ process BARCODE_COUNT {
     -o2 ${prefix}_without_bc_rc.fastq.gz 
 
     # some stats
-    count_with_bc=$(expr $(zcat ${prefix}_with_bc.fastq.gz | wc -l) / 4)
-    count_without_bc=$(expr $(zcat ${prefix}_without_bc.fastq.gz | wc -l) / 4)
-    count_with_bc_rc=$(expr $(zcat ${prefix}_with_bc_rc.fastq.gz | wc -l) / 4)
-    count_without_bc_rc=$(expr $(zcat ${prefix}_without_bc_rc.fastq.gz | wc -l) / 4)
+    count_with_bc=\$(expr \$(zcat ${prefix}_with_bc.fastq.gz | wc -l) / 4)
+    count_without_bc=\$(expr \$(zcat ${prefix}_without_bc.fastq.gz | wc -l) / 4)
+    count_with_bc_rc=\$(expr \$(zcat ${prefix}_with_bc_rc.fastq.gz | wc -l) / 4)
+    count_without_bc_rc=\$(expr \$(zcat ${prefix}_without_bc_rc.fastq.gz | wc -l) / 4)
     echo ${prefix},\$count_with_bc > ${prefix}_with_bc.csv
     echo ${prefix},\$count_without_bc > ${prefix}_without_bc.csv
     echo ${prefix},\$count_with_bc_rc > ${prefix}_with_bc_rc.csv
