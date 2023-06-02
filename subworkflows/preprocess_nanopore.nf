@@ -1,7 +1,6 @@
 include { CUTADAPT as CUTADAPT_NANOPORE_5END   } from '../modules/nf-core/modules/cutadapt/main'
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
-
-
+include { BARCODE_COUNT_WF                     } from '../subworkflows/barcode_count_wf'
 
 include { CAT_FASTQ                   } from '../modules/nf-core/modules/cat/fastq/main'
 include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
@@ -27,7 +26,18 @@ workflow PREPROCESS_NANOPORE {
       CUTADAPT_NANOPORE_3END ( CUTADAPT_NANOPORE_5END.out.reads )
       ch_versions = ch_versions.mix(CUTADAPT_NANOPORE_3END.out.versions)
 
-     
+      // 
+      // MODULE: BARCODE_COUNT_RAW
+      // 1_preprocess_nanopore/1b_barcode_count_raw 
+      BARCODE_COUNT_WF ( reads )
+      ch_versions = ch_versions.mix(BARCODE_COUNT_WF.out.versions)
+
+
+
+      //
+      // MODULE: BARCODE_COUNT_TRIM
+      // 1_preprocess_nanopore/1b_barcode_count_trim
+
 
       //
       // MODULE: FASTQC_RAW
