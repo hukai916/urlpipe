@@ -43,10 +43,10 @@ process BARCODE_COUNT {
     count_without_bc=\$(expr \$(zcat individual_fastq/${prefix}_without_bc.fastq.gz | wc -l) / 4)
     count_with_bc_rc=\$(expr \$(zcat individual_fastq/${prefix}_with_bc_rc.fastq.gz | wc -l) / 4)
     count_without_bc_rc=\$(expr \$(zcat individual_fastq/${prefix}_without_bc_rc.fastq.gz | wc -l) / 4)
-    echo ${prefix},\$count_with_bc > individual_csv/${prefix}_with_bc.csv
-    echo ${prefix},\$count_without_bc > individual_csv/${prefix}_without_bc.csv
-    echo ${prefix},\$count_with_bc_rc > individual_csv/${prefix}_with_bc_rc.csv
-    echo ${prefix},\$count_without_bc_rc > individual_csv/${prefix}_without_bc_rc.csv
+    echo ${prefix}_with_bc,\$count_with_bc > individual_csv/${prefix}_with_bc.csv
+    echo ${prefix}_without_bc,\$count_without_bc > individual_csv/${prefix}_without_bc.csv
+    echo ${prefix}_with_bc_rc,\$count_with_bc_rc > individual_csv/${prefix}_with_bc_rc.csv
+    echo ${prefix}_without_bc_rc,\$count_without_bc_rc > individual_csv/${prefix}_without_bc_rc.csv
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
