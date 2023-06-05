@@ -1,7 +1,6 @@
 include { BARCODE_COUNT_WF                     } from '../subworkflows/barcode_count_wf'
 include { GET_VALID_NANOPORE_READS             } from '../modules/local/get_valid_nanopore_reads'
 include { STAT_BARCODE                         } from '../modules/local/stat_barcode'
-include { GET_VALID_NANOPORE_READS             } from '../modules/local/get_valid_nanopore_reads'
 
 include { CUTADAPT as CUTADAPT_NANOPORE_5END   } from '../modules/nf-core/modules/cutadapt/main'
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
