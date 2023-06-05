@@ -4,11 +4,11 @@ process STAT_BARCODE {
     container "hukai916/bioinfo:0.1"
 
     input:
+    path reads
     path csv
 
     output:
-    path "*.csv",         emit: csv
-    path "*.html",        emit: html
+    path "barcode_counts.csv", emit: csv
     path  "versions.yml", emit: versions
 
     when:
@@ -18,8 +18,10 @@ process STAT_BARCODE {
     def args = task.ext.args ?: ''
 
     """
-    stat_csv_merge.py *.csv "sample_id,read_count_merge,read_count_non_merge" classify_merge.csv classify_merge.html "" ".csv"
-
+    count_total=\$(expr \$(zcat $reads | wc -l) / 4)
+    
+    cat *.csv | awk -v total=\$count_total 'BEGIN{FS=","; OFS="," } { print \$1,\$2,\$2/total }' > barcode_counts.csv
+    
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$( python --version | sed -e "s/python //g" )

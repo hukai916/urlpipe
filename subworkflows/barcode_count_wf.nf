@@ -37,5 +37,6 @@ workflow BARCODE_COUNT_WF {
       // STAT_BARCODE( ch_csv )
 
     emit:
+      csv      = ch_csv,
       versions = BARCODE_COUNT_BC1.out.versions
 }

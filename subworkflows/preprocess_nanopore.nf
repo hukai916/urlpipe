@@ -1,6 +1,9 @@
+include { BARCODE_COUNT_WF                     } from '../subworkflows/barcode_count_wf'
+include { GET_VALID_NANOPORE_READS             } from '../modules/local/get_valid_nanopore_reads'
+include { STAT_BARCODE                         } from '../modules/local/stat_barcode'
+
 include { CUTADAPT as CUTADAPT_NANOPORE_5END   } from '../modules/nf-core/modules/cutadapt/main'
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
-include { BARCODE_COUNT_WF                     } from '../subworkflows/barcode_count_wf'
 
 include { CAT_FASTQ                   } from '../modules/nf-core/modules/cat/fastq/main'
 include { UMI_EXTRACT                 } from '../modules/local/umi_extract'
@@ -16,10 +19,18 @@ workflow PREPROCESS_NANOPORE {
     main:
       // 
       // MODULE: BARCODE_COUNT: using raw reads
-      // 1_preprocess_nanopore/1a_barcode_count_raw 
+      // 1_preprocess_nanopore/1a_barcode_count
       BARCODE_COUNT_WF ( reads )
       ch_versions = ch_versions.mix(BARCODE_COUNT_WF.out.versions)
+      // 1_preprocess_nanopore/1a_barcode_count
+      STAT_BARCODE ( reads, BARCODE_COUNT_WF.out.csv )
 
+      // 
+      // MODULE: GET_VALID_READS: must contain both bc1 and bc2 or rc
+      // GET_VALID_NANOPORE_READS ( reads )
+
+      // GET_VALID_NANOPORE_READS -> reads & reads_rc
+      // 
 
       // 
       // MODULE: CUTADAPT_NANOPORE_5END
