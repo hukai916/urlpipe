@@ -1,6 +1,7 @@
 include { BARCODE_COUNT_WF                     } from '../subworkflows/barcode_count_wf'
 include { GET_VALID_NANOPORE_READS             } from '../modules/local/get_valid_nanopore_reads'
 include { STAT_BARCODE                         } from '../modules/local/stat_barcode'
+include { GET_VALID_NANOPORE_READS             } from '../modules/local/get_valid_nanopore_reads'
 
 include { CUTADAPT as CUTADAPT_NANOPORE_5END   } from '../modules/nf-core/modules/cutadapt/main'
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
@@ -26,11 +27,9 @@ workflow PREPROCESS_NANOPORE {
       STAT_BARCODE ( reads, BARCODE_COUNT_WF.out.csv )
 
       // 
-      // MODULE: GET_VALID_READS: must contain both bc1 and bc2 or rc
-      // GET_VALID_NANOPORE_READS ( reads )
-
-      // GET_VALID_NANOPORE_READS -> reads & reads_rc
-      // 
+      // MODULE: GET_VALID_READS: valid means that read must contain both bc1 and bc2 in a row or rc
+      // 1_preprocess_nanopore/1b_valid_reads
+      GET_VALID_NANOPORE_READS ( reads )
 
       // 
       // MODULE: CUTADAPT_NANOPORE_5END
