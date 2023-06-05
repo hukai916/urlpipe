@@ -61,13 +61,13 @@ workflow PREPROCESS_NANOPORE {
       // 
       // MODULE: CUTADAPT_NANOPORE_5END
       // 1_preprocess_nanopore/1b_cutadapt_5end
-      CUTADAPT_NANOPORE_5END ( reads )
-      ch_versions = ch_versions.mix(CUTADAPT_NANOPORE_5END.out.versions)
+      // CUTADAPT_NANOPORE_5END ( reads )
+      // ch_versions = ch_versions.mix(CUTADAPT_NANOPORE_5END.out.versions)
      
       // 
       // MODULE: CUTADAPT_NANOPORE_3END
       // 1_preprocess_nanopore/1b_cutadapt_3end
-      CUTADAPT_NANOPORE_3END ( CUTADAPT_NANOPORE_5END.out.reads )
+      // CUTADAPT_NANOPORE_3END ( CUTADAPT_NANOPORE_5END.out.reads )
 
 
 
