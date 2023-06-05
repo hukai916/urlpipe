@@ -20,6 +20,5 @@ workflow BARCODE_COUNT_WF {
 
     emit:
       reads = BARCODE_COUNT_BC1.out.fastq
-    //   // reads    = ch_out_reads
-    //   versions = ch_versions
+      versions = BARCODE_COUNT_BC1.out.versions
 }

@@ -18,19 +18,18 @@ workflow PREPROCESS_NANOPORE {
       // MODULE: CUTADAPT_NANOPORE_5END
       // 1_preprocess_nanopore/1a_cutadapt_5end
       CUTADAPT_NANOPORE_5END ( reads )
-      // ch_versions = ch_versions.mix(CUTADAPT_NANOPORE_5END.out.versions)
+      ch_versions = ch_versions.mix(CUTADAPT_NANOPORE_5END.out.versions)
      
       // 
       // MODULE: CUTADAPT_NANOPORE_3END
       // 1_preprocess_nanopore/1a_cutadapt_3end
       CUTADAPT_NANOPORE_3END ( CUTADAPT_NANOPORE_5END.out.reads )
-      // ch_versions = ch_versions.mix(CUTADAPT_NANOPORE_3END.out.versions)
 
       // 
       // MODULE: BARCODE_COUNT_RAW
       // 1_preprocess_nanopore/1b_barcode_count_raw 
       BARCODE_COUNT_WF ( reads )
-      // ch_versions = ch_versions.mix(BARCODE_COUNT_WF.out.versions)
+      ch_versions = ch_versions.mix(BARCODE_COUNT_WF.out.versions)
 
 
 
