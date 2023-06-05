@@ -16,6 +16,7 @@ process GET_VALID_NANOPORE_READS {
 
     when:
     task.ext.when == null || task.ext.when
+    def prefix = task.ext.prefix ?: "${meta.id}"
 
     script:
     def args = task.ext.args ?: ''
