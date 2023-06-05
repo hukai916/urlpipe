@@ -4,7 +4,7 @@ process STAT_BARCODE {
     container "hukai916/bioinfo:0.1"
 
     input:
-    path reads
+    tuple val(meta), path(reads)
     path csv
 
     output:
@@ -19,7 +19,7 @@ process STAT_BARCODE {
 
     """
     count_total=\$(expr \$(zcat $reads | wc -l) / 4)
-    
+
     cat *.csv | awk -v total=\$count_total 'BEGIN{FS=","; OFS="," } { print \$1,\$2,\$2/total }' > barcode_counts.csv
     
     cat <<-END_VERSIONS > versions.yml
