@@ -1,7 +1,7 @@
 process BARCODE_COUNT {
     label 'process_medium'
 
-    container "hukai916/bioinfo:0.1"
+    container "hukai916/scutls:0.1"
 
     input:
     tuple val(meta), path(reads)
@@ -45,7 +45,6 @@ process BARCODE_COUNT {
     echo ${prefix},\$count_with_bc_rc > ${prefix}_with_bc_rc.csv
     echo ${prefix},\$count_without_bc_rc > ${prefix}_without_bc_rc.csv
     
-
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$( python --version | sed -e "s/python //g" )
