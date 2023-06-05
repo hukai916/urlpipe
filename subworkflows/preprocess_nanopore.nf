@@ -23,7 +23,7 @@ workflow PREPROCESS_NANOPORE {
       BARCODE_COUNT_WF ( reads )
       ch_versions = ch_versions.mix(BARCODE_COUNT_WF.out.versions)
       // 1_preprocess_nanopore/1a_barcode_count
-      // STAT_BARCODE ( reads, BARCODE_COUNT_WF.out.csv )
+      STAT_BARCODE ( reads, BARCODE_COUNT_WF.out.csv )
 
       // 
       // MODULE: GET_VALID_READS: must contain both bc1 and bc2 or rc
