@@ -26,17 +26,17 @@ workflow BARCODE_COUNT_WF {
       // 
       // MODULE: merge all stat into a single csv file 
       // 1_preprocess_nanopore/1b_barcode_count
-      ch_csv = BARCODE_COUNT_BC1.out.count_csv
-                .mix( BARCODE_COUNT_BC2.out.count_csv )
-                .mix( BARCODE_COUNT_BC3_1.out.count_csv )
-                .mix( BARCODE_COUNT_BC3_2.out.count_csv )
-                .mix( BARCODE_COUNT_BC4_1.out.count_csv )
-                .mix( BARCODE_COUNT_BC4_2.out.count_csv )
-                .mix( BARCODE_COUNT_BC5.out.count_csv )
-                .collect()
+      // ch_csv = BARCODE_COUNT_BC1.out.count_csv
+      //           .mix( BARCODE_COUNT_BC2.out.count_csv )
+      //           .mix( BARCODE_COUNT_BC3_1.out.count_csv )
+      //           .mix( BARCODE_COUNT_BC3_2.out.count_csv )
+      //           .mix( BARCODE_COUNT_BC4_1.out.count_csv )
+      //           .mix( BARCODE_COUNT_BC4_2.out.count_csv )
+      //           .mix( BARCODE_COUNT_BC5.out.count_csv )
+      //           .collect()
       // STAT_BARCODE( ch_csv )
 
     emit:
-      csv      = ch_csv,
+      // csv      = ch_csv,
       versions = BARCODE_COUNT_BC1.out.versions
 }
