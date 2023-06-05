@@ -33,7 +33,7 @@ workflow PREPROCESS_NANOPORE {
       // MODULE: GET_VALID_READS: valid means that read must contain both bc1 and bc2 in a row or rc
       // 1_preprocess_nanopore/1b_valid_reads
       GET_VALID_NANOPORE_READS ( reads )
-      // STAT_VALID_READS ( reads, GET_VALID_NANOPORE_READS.out.csv )
+      STAT_VALID_READS ( reads, GET_VALID_NANOPORE_READS.out.csv )
 
       // 
       // MODULE: CUTADAPT: bc01
