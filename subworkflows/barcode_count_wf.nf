@@ -34,7 +34,6 @@ workflow BARCODE_COUNT_WF {
       //           .mix( BARCODE_COUNT_BC4_2.out.count_csv )
       //           .mix( BARCODE_COUNT_BC5.out.count_csv )
       //           .collect()
-      // STAT_BARCODE( ch_csv )
 
     emit:
       // csv      = ch_csv,

@@ -4,7 +4,8 @@ process STAT_BARCODE {
     container "hukai916/bioinfo:0.1"
 
     input:
-    tuple val(meta), path(reads)
+    // tuple val(meta), path(reads)
+    path reads
     path csv
 
     output:
