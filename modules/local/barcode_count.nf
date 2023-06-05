@@ -8,12 +8,12 @@ process BARCODE_COUNT {
     val prefix
 
     output:
-    path "*.fastq.gz", emit: fastq 
-    path "*_with_bc.csv", emit: count_with_bc 
-    path "*_without_bc.csv", emit: count_without_bc 
-    path "*_with_bc_rc.csv", emit: count_with_bc_rc 
-    path "*_without_bc_rc.csv", emit: count_without_bc_rc
-
+    path "individual_fastq/*.fastq.gz", emit: fastq 
+    path "individual_csv/*_with_bc.csv", emit: count_with_bc 
+    path "individual_csv/*_without_bc.csv", emit: count_without_bc 
+    path "individual_csv/*_with_bc_rc.csv", emit: count_with_bc_rc 
+    path "individual_csv/*_without_bc_rc.csv", emit: count_without_bc_rc
+    path "individual_csv/*.csv", emit: count_csv
     path "versions.yml", emit: versions
 
     when:
@@ -23,27 +23,30 @@ process BARCODE_COUNT {
     def args = task.ext.args ?: ''
 
     """
+    mkdir individual_fastq
+    mkdir individual_csv
+
     # using original barcode:
     scutls barcode -c $args -nproc $task.cpus \\
         --input $reads \\
-        -o ${prefix}_with_bc.fastq.gz \\
-        -o2 ${prefix}_without_bc.fastq.gz 
+        -o individual_fastq/${prefix}_with_bc.fastq.gz \\
+        -o2 individual_fastq/${prefix}_without_bc.fastq.gz 
 
     # using rc of barcode
     scutls barcode -rcb -c $args -nproc $task.cpus \\
     --input $reads \\
-    -o ${prefix}_with_bc_rc.fastq.gz \\
-    -o2 ${prefix}_without_bc_rc.fastq.gz 
+    -o individual_fastq/${prefix}_with_bc_rc.fastq.gz \\
+    -o2 individual_fastq/${prefix}_without_bc_rc.fastq.gz 
 
     # some stats
-    count_with_bc=\$(expr \$(zcat ${prefix}_with_bc.fastq.gz | wc -l) / 4)
-    count_without_bc=\$(expr \$(zcat ${prefix}_without_bc.fastq.gz | wc -l) / 4)
-    count_with_bc_rc=\$(expr \$(zcat ${prefix}_with_bc_rc.fastq.gz | wc -l) / 4)
-    count_without_bc_rc=\$(expr \$(zcat ${prefix}_without_bc_rc.fastq.gz | wc -l) / 4)
-    echo ${prefix},\$count_with_bc > ${prefix}_with_bc.csv
-    echo ${prefix},\$count_without_bc > ${prefix}_without_bc.csv
-    echo ${prefix},\$count_with_bc_rc > ${prefix}_with_bc_rc.csv
-    echo ${prefix},\$count_without_bc_rc > ${prefix}_without_bc_rc.csv
+    count_with_bc=\$(expr \$(zcat individual_fastq/${prefix}_with_bc.fastq.gz | wc -l) / 4)
+    count_without_bc=\$(expr \$(zcat individual_fastq/${prefix}_without_bc.fastq.gz | wc -l) / 4)
+    count_with_bc_rc=\$(expr \$(zcat individual_fastq/${prefix}_with_bc_rc.fastq.gz | wc -l) / 4)
+    count_without_bc_rc=\$(expr \$(zcat individual_fastq/${prefix}_without_bc_rc.fastq.gz | wc -l) / 4)
+    echo ${prefix},\$count_with_bc > individual_csv/${prefix}_with_bc.csv
+    echo ${prefix},\$count_without_bc > individual_csv/${prefix}_without_bc.csv
+    echo ${prefix},\$count_with_bc_rc > individual_csv/${prefix}_with_bc_rc.csv
+    echo ${prefix},\$count_without_bc_rc > individual_csv/${prefix}_without_bc_rc.csv
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
