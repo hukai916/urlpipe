@@ -7,11 +7,11 @@ process GET_VALID_NANOPORE_READS {
     tuple val(meta), path(reads)
 
     output:
-    path "*_valid.fastq.gz", emit: reads_valid 
-    path "*_invalid.fastq.gz", emit: reads_invalid
-    path "*_valid_rc.fastq.gz", emit: reads_valid_rc
-    path "*_invalid_rc.fastq.gz", emit: reads_invalid_rc
-    path "individual_csv/*.csv", emit: count_csv
+    tuple val(meta), path("*_valid.fastq.gz"), emit: reads_valid 
+    tuple val(meta), path("*_invalid.fastq.gz"), emit: reads_invalid
+    tuple val(meta), path("*_valid_rc.fastq.gz"), emit: reads_valid_rc
+    tuple val(meta), path("*_invalid_rc.fastq.gz"), emit: reads_invalid_rc
+    tuple val(meta), path("individual_csv/*.csv"), emit: count_csv
     path "versions.yml", emit: versions
 
     when:

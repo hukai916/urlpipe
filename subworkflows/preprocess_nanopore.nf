@@ -1,8 +1,13 @@
 include { BARCODE_COUNT_WF                     } from '../subworkflows/barcode_count_wf'
-include { GET_VALID_NANOPORE_READS             } from '../modules/local/get_valid_nanopore_reads'
 include { STAT_BARCODE                         } from '../modules/local/stat_barcode'
+include { GET_VALID_NANOPORE_READS             } from '../modules/local/get_valid_nanopore_reads'
+include { STAT_BARCODE as STAT_VALID_READS     } from '../modules/local/stat_barcode'
 
-include { CUTADAPT as CUTADAPT_NANOPORE_5END   } from '../modules/nf-core/modules/cutadapt/main'
+// to process forward reads:
+include { CUTADAPT as CUTADAPT_NANOPORE_BC01   } from '../modules/nf-core/modules/cutadapt/main'
+// include { DEMULPLEX }                            from '../modules/local/demultiplex'
+
+
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
 
 include { CAT_FASTQ                   } from '../modules/nf-core/modules/cat/fastq/main'
@@ -22,13 +27,36 @@ workflow PREPROCESS_NANOPORE {
       // 1_preprocess_nanopore/1a_barcode_count
       BARCODE_COUNT_WF ( reads )
       ch_versions = ch_versions.mix(BARCODE_COUNT_WF.out.versions)
-      // 1_preprocess_nanopore/1a_barcode_count
       STAT_BARCODE ( reads, BARCODE_COUNT_WF.out.csv )
 
       // 
       // MODULE: GET_VALID_READS: valid means that read must contain both bc1 and bc2 in a row or rc
       // 1_preprocess_nanopore/1b_valid_reads
       GET_VALID_NANOPORE_READS ( reads )
+      STAT_VALID_READS ( reads, GET_VALID_NANOPORE_READS.out.csv )
+
+      // 
+      // MODULE: CUTADAPT: bc01
+      // 1_preprocess_nanopore/1c_cutadapt_bc01
+      CUTADAPT_NANOPORE_BC01 ( GET_VALID_NANOPORE_READS.out.reads_valid )
+
+      // 
+      // MODULE: DEMULTIPLEX: using bc02
+      // 1_preprocess_nanopore/1d_demultiplex
+      // DEMULPLEX ( CUTADAPT_NANOPORE_BC01.out.reads )
+
+      // For reads with forward direction:
+      // TRIM 5END (BC1)
+      // DEMULPLEX using BC2
+      // TRIM 5END again (BC3)
+      // UMI_EXTRACT
+      // TRIM 5END (BC4) and 4END (BC5)
+      // GET_SOLID_READS: MODULE: both 5' 200bp and 3' 200bp are mapped to hs or mm
+      // got to DOWNSTREAM
+
+      // For reads with reverse direction: 5' and 3' all relative as forward reads
+      // TRIM 5END (reads_rc's 3END)
+      // DEMULTIPLEX using BC2
 
       // 
       // MODULE: CUTADAPT_NANOPORE_5END
