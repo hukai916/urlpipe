@@ -1,5 +1,5 @@
 process BARCODE_COUNT {
-    label 'process_medium'
+    label 'process_cpu'
 
     container "hukai916/scutls:0.1"
 
