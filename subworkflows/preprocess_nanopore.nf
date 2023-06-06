@@ -11,7 +11,7 @@ include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC02 } from '../modules/nf-core/mod
 include { UMI_EXTRACT_FASTQS                   } from '../modules/local/umi_extract_fastq'                   
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC04 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
-
+include { GET_SOLID_READS                } from '../modules/local/get_solid_reads'
 
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
 
@@ -70,6 +70,10 @@ workflow PREPROCESS_NANOPORE {
       CUTADAPT_FASTQS_BC03 ( UMI_EXTRACT_FASTQS.out.reads )
       CUTADAPT_FASTQS_BC04 ( CUTADAPT_FASTQS_BC03.out.reads )
       
+      // MODULE: GET_SOLID_READS: 200bp 5' and 200bp 3' all mapped and in the right direction
+      GET_SOLID_READS ( CUTADAPT_FASTQS_BC04.out.reads, file(params.ref) )
+
+
 
 
       DEMULTIPLEX_RC ( CUTADAPT_NANOPORE_BC01.out.reads, "1", "0:-24:" )
