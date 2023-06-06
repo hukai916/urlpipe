@@ -16,6 +16,8 @@ process CLASSIFY_INDEL_NANOPORE {
     tuple val(meta), path("indel_5p_or_3p/*.fastq.gz"),   emit: reads_indel_5p_or_3p
     path "indel_5p_or_3p/*.fastq.gz",                     emit: reads_indel_5p_or_3p_pure
     path "stat/*.csv",                                    emit: stat
+    path "*/*.bam",                                       emit: bam
+    path "*/*.bai",                                       emit: bam_index
     path  "versions.yml",                                 emit: versions
 
     when:
@@ -40,7 +42,7 @@ process CLASSIFY_INDEL_NANOPORE {
     bwa mem $ref indel_5p_and_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_and_3p/${prefix}.bam
     bwa mem $ref indel_5p_or_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_or_3p/${prefix}.bam
     
-    samtools index */*.bam
+    samtools index -M */*.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
