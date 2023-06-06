@@ -1,8 +1,11 @@
+#!/usr/bin/env python
+
 """
 Prepare json for pheniqs given barcodes info.
 
 Usage:
 python prep_pheniqs_json.py sequence.fastq.gz outfile_prefix_name_prefix rc(boolean) barcode_file
+
 """
 
 import json
