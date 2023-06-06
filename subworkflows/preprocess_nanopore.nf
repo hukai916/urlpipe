@@ -51,8 +51,8 @@ workflow PREPROCESS_NANOPORE {
       // 
       // MODULE: CUTADAPT: bc03
       // 1_preprocess_nanopore/1c_cutadapt_bc03
-      CUTADAPT_FASTQS_BC03_01 ( DEMULTIPLEX.out.reads )
-      CUTADAPT_FASTQS_BC03_02 ( CUTADAPT_FASTQS_BC03_01.out.reads )
+      CUTADAPT_FASTQS_BC03_1 ( DEMULTIPLEX.out.reads )
+      CUTADAPT_FASTQS_BC03_2 ( CUTADAPT_FASTQS_BC03_1.out.reads )
 
 
 
