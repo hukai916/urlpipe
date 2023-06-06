@@ -55,7 +55,6 @@ for bc_cond in bc_condition:
     config['sample']['codec']['@' + name]['output']  = [outfile_prefix + "_" + name + ".fastq.gz"]
     config['undetermined'] = {}
     config['undetermined']["output"] = [outfile_prefix + "_undetermined.fastq.gz"]
-ls
 
 with open(outfile_prefix + ".json", 'w') as outfile_prefix:
     json.dump(config, outfile_prefix, indent = 4)
