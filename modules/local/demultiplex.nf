@@ -1,51 +1,31 @@
 process DEMULTIPLEX {
     label 'process_medium'
 
-    container "hukai916/pheniqs:0.1"
+    container "hukai916/pheniqs:0.2"
 
     input:
     tuple val(meta), path(reads)
+    val reverse_complement
 
     output:
-    path "individual_fastq/*.fastq.gz", emit: fastq 
-    path "individual_csv/*_with_bc.csv", emit: count_with_bc 
-    path "individual_csv/*_without_bc.csv", emit: count_without_bc 
-    path "individual_csv/*_with_bc_rc.csv", emit: count_with_bc_rc 
-    path "individual_csv/*_without_bc_rc.csv", emit: count_without_bc_rc
-    path "individual_csv/*.csv", emit: count_csv
+    path "*.fastq.gz", emit: reads 
+    path "*_pheniqs_report.json", emit: pheniqs_log
     path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
 
     script:
+    def prefix = task.ext.prefix ?: "${meta.id}"
     def args = task.ext.args ?: ''
 
     """
-    mkdir individual_fastq
-    mkdir individual_csv
 
-    # using original barcode:
-    scutls barcode -c $args -nproc $task.cpus \\
-        --input $reads \\
-        -o individual_fastq/${prefix}_with_bc.fastq.gz \\
-        -o2 individual_fastq/${prefix}_without_bc.fastq.gz 
+    # Step1: prepare Pheniqs json file
+    prep_pheniqs_json.py $reads $prefix $reverse_complement $args
 
-    # using rc of barcode
-    scutls barcode -rcb -c $args -nproc $task.cpus \\
-    --input $reads \\
-    -o individual_fastq/${prefix}_with_bc_rc.fastq.gz \\
-    -o2 individual_fastq/${prefix}_without_bc_rc.fastq.gz 
-
-    # some stats
-    count_with_bc=\$(expr \$(zcat individual_fastq/${prefix}_with_bc.fastq.gz | wc -l) / 4)
-    count_without_bc=\$(expr \$(zcat individual_fastq/${prefix}_without_bc.fastq.gz | wc -l) / 4)
-    count_with_bc_rc=\$(expr \$(zcat individual_fastq/${prefix}_with_bc_rc.fastq.gz | wc -l) / 4)
-    count_without_bc_rc=\$(expr \$(zcat individual_fastq/${prefix}_without_bc_rc.fastq.gz | wc -l) / 4)
-    echo ${prefix}_with_bc,\$count_with_bc > individual_csv/${prefix}_with_bc.csv
-    echo ${prefix}_without_bc,\$count_without_bc > individual_csv/${prefix}_without_bc.csv
-    echo ${prefix}_with_bc_rc,\$count_with_bc_rc > individual_csv/${prefix}_with_bc_rc.csv
-    echo ${prefix}_without_bc_rc,\$count_without_bc_rc > individual_csv/${prefix}_without_bc_rc.csv
+    # Step2: perform Pheniqs demultiplexing
+    pheniqs mux --config *.json
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
