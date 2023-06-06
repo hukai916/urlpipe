@@ -9,7 +9,7 @@ include { DEMULTIPLEX                          } from '../modules/local/demultip
 include { DEMULTIPLEX as DEMULTIPLEX_RC        } from '../modules/local/demultiplex'
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03_1 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03_2 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
-
+include { UMI_EXTRACT_FASTQS                   } from '../modules/local/umi_extract_fastq'                   
 
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
 
@@ -50,11 +50,14 @@ workflow PREPROCESS_NANOPORE {
 
       // 
       // MODULE: CUTADAPT: bc03
-      // 1_preprocess_nanopore/1c_cutadapt_bc03
+      // 1_preprocess_nanopore/1e_cutadapt_bc03_1 (_2)
       CUTADAPT_FASTQS_BC03_1 ( DEMULTIPLEX.out.reads )
       CUTADAPT_FASTQS_BC03_2 ( CUTADAPT_FASTQS_BC03_1.out.reads )
-
-
+      
+      // 
+      // MODULE: UMI_EXTRACT_FASTQ
+      // 1_preprocess_nanopore/1f_umi_extract
+      UMI_EXTRACT_FASTQS ( CUTADAPT_FASTQS_BC03_2.out.reads )
 
 
       DEMULTIPLEX_RC ( CUTADAPT_NANOPORE_BC01.out.reads, "1", "0:-24:" )
