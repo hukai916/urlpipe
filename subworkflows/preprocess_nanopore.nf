@@ -8,11 +8,10 @@ include { CUTADAPT as CUTADAPT_NANOPORE_BC01   } from '../modules/nf-core/module
 include { DEMULTIPLEX                          } from '../modules/local/demultiplex'
 include { DEMULTIPLEX as DEMULTIPLEX_RC        } from '../modules/local/demultiplex'
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC02 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
-
-
-include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03_1 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
-include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03_2 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { UMI_EXTRACT_FASTQS                   } from '../modules/local/umi_extract_fastq'                   
+include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
+include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC04 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
+
 
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
 
@@ -51,6 +50,10 @@ workflow PREPROCESS_NANOPORE {
       // 1_preprocess_nanopore/1d_demultiplex/reads
       DEMULTIPLEX ( CUTADAPT_NANOPORE_BC01.out.reads, "0", "0::24" )
 
+
+// 
+// FOR forward reads
+// 
       // 
       // MODULE: CUTADAPT: bc02: bc02 is right after sample index
       // 1_preprocess_nanopore/1e_cutadapt_bc02
@@ -61,9 +64,11 @@ workflow PREPROCESS_NANOPORE {
       // 1_preprocess_nanopore/1f_umi_extract
       UMI_EXTRACT_FASTQS ( CUTADAPT_FASTQS_BC02.out.reads )
 
-
-      // CUTADAPT_FASTQS_BC03_1 ( DEMULTIPLEX.out.reads )
-      // CUTADAPT_FASTQS_BC03_2 ( CUTADAPT_FASTQS_BC03_1.out.reads )
+      // 
+      // MODULE: CUTADAPT: bc03: 2 versions; and bc04: 2 versions
+      // 1_preprocess_nanopore/1g_cutadapt_bc03
+      CUTADAPT_FASTQS_BC03 ( UMI_EXTRACT_FASTQS.out.reads )
+      CUTADAPT_FASTQS_BC04 ( CUTADAPT_FASTQS_BC03.out.reads )
       
 
 
