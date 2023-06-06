@@ -15,7 +15,8 @@ from Bio.Seq import Seq
 seq = sys.argv[1]
 outfile_prefix = sys.argv[2]
 rc = sys.argv[3]
-barcode_file = sys.argv[4]
+barcode_pos = sys.argv[4]
+barcode_file = sys.argv[5]
 
 if rc:
     outfile_prefix += "_rc"
@@ -42,7 +43,8 @@ config['sample']['algorithm'] = 'pamld'
 # config['sample']['confidence threshold'] = 0.99
 # config['sample']['noise'] = 0.01
 config['sample']['transform'] = {}
-config['sample']['transform']['token'] = ["0::24"]
+# config['sample']['transform']['token'] = ["0::24"]
+config['sample']['transform']['token'] = [barcode_pos]
 config['sample']['codec'] = {}
 
 for bc_cond in bc_condition:
@@ -50,9 +52,10 @@ for bc_cond in bc_condition:
     config['sample']['codec']['@' + name] = {}
     config['sample']['codec']['@' + name]['LB'] = name
     config['sample']['codec']['@' + name]['barcode'] = [bc_condition[bc_cond]]
-    config['sample']['codec']['@' + name]['output']  = [outfile_prefix + name + ".fastq.gz"]
+    config['sample']['codec']['@' + name]['output']  = [outfile_prefix + "_" + name + ".fastq.gz"]
     config['undetermined'] = {}
     config['undetermined']["output"] = [outfile_prefix + "_undetermined.fastq.gz"]
+ls
 
 with open(outfile_prefix + ".json", 'w') as outfile_prefix:
     json.dump(config, outfile_prefix, indent = 4)

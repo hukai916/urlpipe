@@ -6,6 +6,7 @@ process DEMULTIPLEX {
     input:
     tuple val(meta), path(reads)
     val reverse_complement
+    val barcode_pos
 
     output:
     path "*.fastq.gz", emit: reads 
@@ -22,7 +23,7 @@ process DEMULTIPLEX {
     """
 
     # Step1: prepare Pheniqs json file
-    prep_pheniqs_json.py $reads $prefix $reverse_complement $args
+    prep_pheniqs_json.py $reads $prefix $reverse_complement $barcode_pos $args
 
     # Step2: perform Pheniqs demultiplexing
     pheniqs mux --config *.json

@@ -7,6 +7,8 @@ include { STAT_BARCODE as STAT_VALID_READS     } from '../modules/local/stat_bar
 include { CUTADAPT as CUTADAPT_NANOPORE_BC01   } from '../modules/nf-core/modules/cutadapt/main'
 include { DEMULTIPLEX                          } from '../modules/local/demultiplex'
 include { DEMULTIPLEX as DEMULTIPLEX_RC        } from '../modules/local/demultiplex'
+include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03_1 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
+include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03_2 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 
 
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
@@ -44,10 +46,19 @@ workflow PREPROCESS_NANOPORE {
       // 
       // MODULE: DEMULTIPLEX: using bc02
       // 1_preprocess_nanopore/1d_demultiplex/reads
-      DEMULTIPLEX ( CUTADAPT_NANOPORE_BC01.out.reads, "0" )
+      DEMULTIPLEX ( CUTADAPT_NANOPORE_BC01.out.reads, "0", "0::24" )
+
+      // 
+      // MODULE: CUTADAPT: bc03
+      // 1_preprocess_nanopore/1c_cutadapt_bc03
+      CUTADAPT_FASTQS_BC03_01 ( DEMULTIPLEX.out.reads )
+      CUTADAPT_FASTQS_BC03_02 ( CUTADAPT_FASTQS_BC03_01.out.reads )
 
 
-      DEMULTIPLEX_RC ( CUTADAPT_NANOPORE_BC01.out.reads, "1" )
+
+
+      DEMULTIPLEX_RC ( CUTADAPT_NANOPORE_BC01.out.reads, "1", "0:-24:" )
+      
       // For reads with forward direction:
       // TRIM 5END (BC1)
       // DEMULPLEX using BC2
