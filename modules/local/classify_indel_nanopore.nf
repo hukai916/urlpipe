@@ -42,7 +42,11 @@ process CLASSIFY_INDEL_NANOPORE {
     bwa mem $ref indel_5p_and_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_and_3p/${prefix}.bam
     bwa mem $ref indel_5p_or_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_or_3p/${prefix}.bam
     
-    samtools index -M */*.bam
+    samtools index no_indel/*.bam
+    samtools index indel_5p/*.bam
+    samtools index indel_3p/*.bam
+    samtools index indel_5p_and_3p/*.bam
+    samtools index indel_5p_or_3p/*.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
