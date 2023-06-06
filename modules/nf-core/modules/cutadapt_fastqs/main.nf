@@ -1,5 +1,4 @@
 process CUTADAPT_FASTQS {
-    tag "$meta.id"
     label 'process_medium'
 
     // conda (params.enable_conda ? 'bioconda::cutadapt=3.4' : null)
