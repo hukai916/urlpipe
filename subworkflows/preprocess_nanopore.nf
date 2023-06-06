@@ -42,8 +42,8 @@ workflow PREPROCESS_NANOPORE {
 
       // 
       // MODULE: DEMULTIPLEX: using bc02
-      // 1_preprocess_nanopore/1d_demultiplex
-      // DEMULPLEX ( CUTADAPT_NANOPORE_BC01.out.reads )
+      // 1_preprocess_nanopore/1d_demultiplex/reads
+      DEMULPLEX ( CUTADAPT_NANOPORE_BC01.out.reads, "0" )
 
       // For reads with forward direction:
       // TRIM 5END (BC1)
