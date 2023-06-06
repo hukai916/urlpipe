@@ -18,7 +18,7 @@ rc = sys.argv[3]
 barcode_pos = sys.argv[4]
 barcode_file = sys.argv[5]
 
-if rc == 1:
+if int(rc) == 1:
     outfile_prefix += "_rc"
 
 bc_condition = {}
