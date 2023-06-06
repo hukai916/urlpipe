@@ -25,7 +25,7 @@ workflow CLASSIFY_READ_NANOPORE {
       //
       // MODULE: classify INDEL and stat: no need to perform read through
       // 3_read_category/3b_classify_indel
-      CLASSIFY_INDEL_NANOPORE ( reads )
+      CLASSIFY_INDEL_NANOPORE ( reads, file(params.ref) )
       ch_versions = ch_versions.mix(CLASSIFY_INDEL_NANOPORE.out.versions)
       STAT_INDEL ( CLASSIFY_INDEL_NANOPORE.out.stat.collect() )
       ch_versions = ch_versions.mix(STAT_INDEL.out.versions)
