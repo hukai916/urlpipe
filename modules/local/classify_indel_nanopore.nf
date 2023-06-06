@@ -2,10 +2,11 @@ process CLASSIFY_INDEL_NANOPORE {
     tag "$meta.id"
     label 'process_low'
 
-    container "hukai916/miniconda3_bio:0.3"
+    container "hukai916/miniconda3_bio:1.0"
 
     input:
     tuple val(meta), path(reads)
+    path ref
 
     output:
     tuple val(meta), path("no_indel/*.fastq.gz"),         emit: reads_no_indel
@@ -29,8 +30,17 @@ process CLASSIFY_INDEL_NANOPORE {
     mkdir -p no_indel indel_5p indel_3p indel_5p_3p stat
 
     classify_indel_nanopore.py ${prefix}.fastq.gz no_indel indel_5p indel_3p indel_5p_and_3p indel_5p_or_3p stat ${prefix} $args $indel_cutoff
-
     gzip */*.fastq
+
+    # Add bam files and indices:
+    bwa index $ref
+    bwa mem $ref no_indel/*.fastq.gz | samtools view -bS -o no_indel/${prefix}.bam
+    bwa mem $ref indel_5p/*.fastq.gz | samtools view -bS -o indel_5p/${prefix}.bam
+    bwa mem $ref indel_3p/*.fastq.gz | samtools view -bS -o indel_3p/${prefix}.bam
+    bwa mem $ref indel_5p_and_3p/*.fastq.gz | samtools view -bS -o indel_5p_and_3p/${prefix}.bam
+    bwa mem $ref indel_5p_or_3p/*.fastq.gz | samtools view -bS -o indel_5p_or_3p/${prefix}.bam
+    
+    samtools index */*.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

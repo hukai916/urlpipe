@@ -6,11 +6,12 @@ import pandas as pd
 import plotly.graph_objs as go
 import plotly.offline as pyo
 
-csv = sys.argv[1:-4]
-outfile_csv = sys.argv[-4]
-outfile_html = sys.argv[-3]
-prefix = sys.argv[-2]
-suffix = sys.argv[-1]
+csv = sys.argv[1:-5]
+outfile_csv = sys.argv[-5]
+outfile_html = sys.argv[-4]
+prefix = sys.argv[-3]
+suffix = sys.argv[-2]
+xlim   = sys.argv[-1]
 
 # import os 
 # # Get a list of all CSV files in the directory
@@ -47,7 +48,7 @@ bars = [go.Bar(x = df_res["repeat_length"],
 
 fig = go.Figure(data = bars)
 
-x_range = [min(df["repeat_length"]) - 1, max(df["repeat_length"]) + 100]
+x_range = [min(df["repeat_length"]) - 1, min(int(xlim), max(df["repeat_length"]) + 100 )]
 nbinsx  = x_range[1] - x_range[0] + 1
 x_ticks  = int(nbinsx / 5)
 

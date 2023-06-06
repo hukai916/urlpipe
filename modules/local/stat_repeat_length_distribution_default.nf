@@ -18,7 +18,8 @@ process STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT {
     def args = task.ext.args ?: ''
 
     """
-    stat_repeat_length_count_default.py *.csv $args
+    stat_repeat_length_count_default.py *.csv $args 500
+    # 500 is the xlimit
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
