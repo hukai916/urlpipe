@@ -40,6 +40,9 @@ workflow PREPROCESS_NANOPORE {
       GET_VALID_NANOPORE_READS ( reads )
       STAT_VALID_READS ( reads, GET_VALID_NANOPORE_READS.out.csv )
 
+// 
+// FOR forward reads
+// 
       // 
       // MODULE: CUTADAPT: bc01
       // 1_preprocess_nanopore/1c_cutadapt_bc01
@@ -49,11 +52,8 @@ workflow PREPROCESS_NANOPORE {
       // MODULE: DEMULTIPLEX: using sample index (not bc02)
       // 1_preprocess_nanopore/1d_demultiplex/reads
       DEMULTIPLEX ( CUTADAPT_NANOPORE_BC01.out.reads, "0", "0::24" )
-
-
-// 
-// FOR forward reads
-// 
+      // DEMULTIPLEX_RC ( CUTADAPT_NANOPORE_BC01.out.reads, "1", "0:-24:" )
+      
       // 
       // MODULE: CUTADAPT: bc02: bc02 is right after sample index
       // 1_preprocess_nanopore/1e_cutadapt_bc02
@@ -76,8 +76,7 @@ workflow PREPROCESS_NANOPORE {
 
 
 
-      DEMULTIPLEX_RC ( CUTADAPT_NANOPORE_BC01.out.reads, "1", "0:-24:" )
-      
+
       // For reads with forward direction:
       // TRIM 5END (BC1)
       // DEMULPLEX using BC2
