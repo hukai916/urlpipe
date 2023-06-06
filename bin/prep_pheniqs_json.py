@@ -28,7 +28,7 @@ with open(barcode_file) as f:
             sample_name, sample_barcode = line.strip().split(":")
             if not sample_name in bc_condition:
                 sample_barcode = sample_barcode.strip()
-                if rc:
+                if int(rc) == 1:
                    sample_barcode = str(Seq(sample_barcode).reverse_complement())
                 bc_condition[sample_name] = sample_barcode.strip()
                     
