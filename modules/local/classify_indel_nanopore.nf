@@ -36,11 +36,11 @@ process CLASSIFY_INDEL_NANOPORE {
 
     # Add bam files and indices:
     bwa index $ref
-    bwa mem $ref no_indel/*.fastq.gz | samtools view -bS | samtools sort -o no_indel/${prefix}.bam
-    bwa mem $ref indel_5p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p/${prefix}.bam
-    bwa mem $ref indel_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_3p/${prefix}.bam
-    bwa mem $ref indel_5p_and_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_and_3p/${prefix}.bam
-    bwa mem $ref indel_5p_or_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_or_3p/${prefix}.bam
+    bwa mem -t $task.cpu $ref no_indel/*.fastq.gz | samtools view -bS | samtools sort -o no_indel/${prefix}.bam
+    bwa mem -t $task.cpu $ref indel_5p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p/${prefix}.bam
+    bwa mem -t $task.cpu $ref indel_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_3p/${prefix}.bam
+    bwa mem -t $task.cpu $ref indel_5p_and_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_and_3p/${prefix}.bam
+    bwa mem -t $task.cpu  $ref indel_5p_or_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_or_3p/${prefix}.bam
     
     samtools index no_indel/*.bam
     samtools index indel_5p/*.bam
