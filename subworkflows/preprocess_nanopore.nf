@@ -7,7 +7,7 @@ include { STAT_BARCODE as STAT_VALID_READS     } from '../modules/local/stat_bar
 include { CUTADAPT as CUTADAPT_NANOPORE_BC01   } from '../modules/nf-core/modules/cutadapt/main'
 include { DEMULTIPLEX                          } from '../modules/local/demultiplex'
 include { DEMULTIPLEX as DEMULTIPLEX_RC        } from '../modules/local/demultiplex'
-include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC2 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
+include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC02 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 
 
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03_1 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
