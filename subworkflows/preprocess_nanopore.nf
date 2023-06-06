@@ -60,21 +60,21 @@ workflow PREPROCESS_NANOPORE {
       // 
       // MODULE: CUTADAPT: bc02: bc02 is right after sample index
       // 1_preprocess_nanopore/1e_cutadapt_bc02
-      CUTADAPT_FASTQS_BC02 ( DEMULTIPLEX.out.reads )
+      // CUTADAPT_FASTQS_BC02 ( DEMULTIPLEX.out.reads )
 
       // 
       // MODULE: UMI_EXTRACT_FASTQ
       // 1_preprocess_nanopore/1f_umi_extract
-      UMI_EXTRACT_FASTQS ( CUTADAPT_FASTQS_BC02.out.reads )
+      // UMI_EXTRACT_FASTQS ( CUTADAPT_FASTQS_BC02.out.reads )
 
       // 
       // MODULE: CUTADAPT: bc03: 2 versions; and bc04: 2 versions
       // 1_preprocess_nanopore/1g_cutadapt_bc03
-      CUTADAPT_FASTQS_BC03 ( UMI_EXTRACT_FASTQS.out.reads )
-      CUTADAPT_FASTQS_BC04 ( CUTADAPT_FASTQS_BC03.out.reads )
+      // CUTADAPT_FASTQS_BC03 ( UMI_EXTRACT_FASTQS.out.reads )
+      // CUTADAPT_FASTQS_BC04 ( CUTADAPT_FASTQS_BC03.out.reads )
       
       // MODULE: GET_SOLID_READS: 200bp 5' and 200bp 3' all mapped and in the right direction
-      GET_SOLID_READS ( CUTADAPT_FASTQS_BC04.out.reads, file(params.ref) )
+      // GET_SOLID_READS ( CUTADAPT_FASTQS_BC04.out.reads, file(params.ref) )
 
 
 
