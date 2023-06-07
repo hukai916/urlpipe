@@ -1,6 +1,6 @@
 process CLASSIFY_INDEL_NANOPORE {
     tag "$meta.id"
-    label 'process_low'
+    label 'process_medium'
 
     container "hukai916/miniconda3_bio:1.0"
 
