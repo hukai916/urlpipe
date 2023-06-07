@@ -48,7 +48,9 @@ bars = [go.Bar(x = df_res["repeat_length"],
 
 fig = go.Figure(data = bars)
 
-x_range = [min(df["repeat_length"]) - 1, min(int(xlim), max(df["repeat_length"]) + 100 )]
+# x_range = [min(df["repeat_length"]) - 1, min(int(xlim), max(df["repeat_length"]) + 100 )]
+x_range = [0, min(int(xlim), max(df["repeat_length"]) + 100 )]
+
 nbinsx  = x_range[1] - x_range[0] + 1
 x_ticks  = int(nbinsx / 5)
 
