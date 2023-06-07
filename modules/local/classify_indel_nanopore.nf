@@ -16,8 +16,10 @@ process CLASSIFY_INDEL_NANOPORE {
     tuple val(meta), path("indel_5p_or_3p/*.fastq.gz"),   emit: reads_indel_5p_or_3p
     path "indel_5p_or_3p/*.fastq.gz",                     emit: reads_indel_5p_or_3p_pure
     path "stat/*.csv",                                    emit: stat
-    path "*/*.bam",                                       emit: bam
-    path "*/*.bai",                                       emit: bam_index
+    path "no_indel/*.bam",                                emit: bam_no_indel
+    path "indel_5p/*.bam",                                emit: bam_indel_5p
+    
+    path "no_indel/*.bai",                                emit: bam_index_no_indel
     path  "versions.yml",                                 emit: versions
 
     when:
