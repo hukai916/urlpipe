@@ -1,7 +1,7 @@
 process BARCODE_COUNT {
     label 'process_cpu'
 
-    container "hukai916/scutls:0.1"
+    container "hukai916/scutls:0.3"
 
     input:
     tuple val(meta), path(reads)

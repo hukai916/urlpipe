@@ -1,7 +1,7 @@
 process GET_VALID_NANOPORE_READS {
     label 'process_cpu'
 
-    container "hukai916/scutls:0.2"
+    container "hukai916/scutls:0.3"
 
     input:
     tuple val(meta), path(reads)
