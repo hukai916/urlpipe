@@ -94,12 +94,12 @@ with _open(r1) as f:
             r1_no_indel.append(record)
         elif r_match[record.name] == 1:
             r1_indel_5p_or_3p.append(record)
-            if r1_match[record.name]:
-                r1_indel_3p.append(record)
-                count_3p += 1
-            else:
+            if r1_match[record.name] == 1:
                 r1_indel_5p.append(record)
                 count_5p += 1
+            else:
+                r1_indel_3p.append(record)
+                count_3p += 1
         elif r_match[record.name] == 0:
             r1_indel_5p_and_3p.append(record)
             r1_indel_5p_or_3p.append(record)
