@@ -1,4 +1,4 @@
-process STAT_BARCODE {
+process STAT_ADAPTOR {
     label 'process_low'
 
     container "hukai916/bioinfo:0.1"
@@ -9,7 +9,7 @@ process STAT_BARCODE {
     path csv
 
     output:
-    path "barcode_counts.csv", emit: csv
+    path "adaptor_counts.csv", emit: csv
     path  "versions.yml", emit: versions
 
     when:
@@ -21,7 +21,7 @@ process STAT_BARCODE {
     """
     count_total=\$(expr \$(zcat $reads | wc -l) / 4)
 
-    cat *.csv | awk -v total=\$count_total 'BEGIN{FS=","; OFS="," } { print \$1,\$2,\$2/total }' > barcode_counts.csv
+    cat *.csv | awk -v total=\$count_total 'BEGIN{FS=","; OFS="," } { print \$1,\$2,\$2/total }' > adaptor_counts.csv
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
