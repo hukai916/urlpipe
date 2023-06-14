@@ -76,6 +76,8 @@ workflow PREPROCESS_NANOPORE {
       // MODULE: GET_SOLID_READS: 200bp 5' and 200bp 3' all mapped and in the right direction
       // GET_SOLID_READS ( CUTADAPT_FASTQS_BC04.out.reads, file(params.ref) )
 
+      // GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_BC04.out.reads, file(params.ref) )
+
 
 
 
