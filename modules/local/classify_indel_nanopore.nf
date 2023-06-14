@@ -2,7 +2,7 @@ process CLASSIFY_INDEL_NANOPORE {
     tag "$meta.id"
     label 'process_medium'
 
-    container "hukai916/miniconda3_bio:1.0"
+    container "hukai916/urlpipe:0.1"
 
     input:
     tuple val(meta), path(reads)

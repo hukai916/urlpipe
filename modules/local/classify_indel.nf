@@ -2,7 +2,7 @@ process CLASSIFY_INDEL {
     tag "$meta.id"
     label 'process_low'
 
-    container "hukai916/miniconda3_bio:1.0"
+    container "hukai916/urlpipe:0.1"
 
     input:
     tuple val(meta), path(reads)
