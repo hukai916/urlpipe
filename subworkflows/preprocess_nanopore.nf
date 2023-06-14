@@ -1,18 +1,17 @@
-include { BARCODE_COUNT_WF                     } from '../subworkflows/barcode_count_wf'
-include { STAT_BARCODE                         } from '../modules/local/stat_barcode'
+include { ADAPTOR_COUNT_WF                     } from '../subworkflows/adaptor_count_wf'
+include { STAT_ADAPTOR                         } from '../modules/local/stat_adaptor'
 include { GET_VALID_NANOPORE_READS             } from '../modules/local/get_valid_nanopore_reads'
-include { STAT_BARCODE as STAT_VALID_READS     } from '../modules/local/stat_barcode'
+include { STAT_ADAPTOR as STAT_VALID_READS     } from '../modules/local/stat_adaptor'
 
 // to process forward reads:
-include { CUTADAPT as CUTADAPT_NANOPORE_BC01   } from '../modules/nf-core/modules/cutadapt/main'
-include { CUTADAPT as CUTADAPT_NANOPORE_BC01_RC   } from '../modules/nf-core/modules/cutadapt/main'
+include { CUTADAPT as CUTADAPT_NANOPORE_AP01   } from '../modules/nf-core/modules/cutadapt/main'
+include { CUTADAPT as CUTADAPT_NANOPORE_AP01_RC   } from '../modules/nf-core/modules/cutadapt/main'
 
 include { DEMULTIPLEX                          } from '../modules/local/demultiplex'
-include { DEMULTIPLEX as DEMULTIPLEX_RC        } from '../modules/local/demultiplex'
-include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC02 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
+include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP02 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { UMI_EXTRACT_FASTQS                   } from '../modules/local/umi_extract_fastq'                   
-include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC03 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
-include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_BC04 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
+include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP03 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
+include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP04 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { GET_SOLID_READS                } from '../modules/local/get_solid_reads'
 
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
@@ -30,14 +29,14 @@ workflow PREPROCESS_NANOPORE {
 
     main:
       // 
-      // MODULE: BARCODE_COUNT: using raw reads
-      // 1_preprocess_nanopore/1a_barcode_count
-      BARCODE_COUNT_WF ( reads )
-      ch_versions = ch_versions.mix(BARCODE_COUNT_WF.out.versions)
-      STAT_BARCODE ( reads, BARCODE_COUNT_WF.out.csv )
+      // MODULE: ADAPTOR_COUNT: using raw reads
+      // 1_preprocess_nanopore/1a_adaptor_count
+      ADAPTOR_COUNT_WF ( reads )
+      ch_versions = ch_versions.mix(ADAPTOR_COUNT_WF.out.versions)
+      STAT_ADAPTOR ( reads, ADAPTOR_COUNT_WF.out.csv )
 
       // 
-      // MODULE: GET_VALID_READS: valid means that read must contain both bc1 and bc2 in a row or rc
+      // MODULE: GET_VALID_READS: valid means that read must contain both AP1 and AP2 in a row or rc
       // 1_preprocess_nanopore/1b_valid_reads
       GET_VALID_NANOPORE_READS ( reads )
       STAT_VALID_READS ( reads, GET_VALID_NANOPORE_READS.out.csv )
@@ -46,51 +45,51 @@ workflow PREPROCESS_NANOPORE {
 // FOR forward reads combined with rc of rc_reads:
 // 
       // 
-      // MODULE: CUTADAPT: bc01
-      // 1_preprocess_nanopore/1c_cutadapt_bc01
-      CUTADAPT_NANOPORE_BC01 ( GET_VALID_NANOPORE_READS.out.reads_valid_combine )
-      // CUTADAPT_NANOPORE_BC01_RC ( GET_VALID_NANOPORE_READS.out.reads_valid_rc )
+      // MODULE: CUTADAPT: AP01
+      // 1_preprocess_nanopore/1c_cutadapt_AP01
+      CUTADAPT_NANOPORE_AP01 ( GET_VALID_NANOPORE_READS.out.reads_valid_combine )
+      // CUTADAPT_NANOPORE_AP01_RC ( GET_VALID_NANOPORE_READS.out.reads_valid_rc )
 
       // 
-      // MODULE: DEMULTIPLEX: using sample index (not bc02)
+      // MODULE: DEMULTIPLEX: using sample index (not AP02)
       // 1_preprocess_nanopore/1d_demultiplex/reads
-      DEMULTIPLEX ( CUTADAPT_NANOPORE_BC01.out.reads, "0", "0::24" )
+      DEMULTIPLEX ( CUTADAPT_NANOPORE_AP01.out.reads, "0", "0::24" )
 
       // 
-      // MODULE: CUTADAPT: bc02: bc02 is right after sample index
-      // 1_preprocess_nanopore/1e_cutadapt_bc02
-      CUTADAPT_FASTQS_BC02 ( DEMULTIPLEX.out.reads )
+      // MODULE: CUTADAPT: AP02: AP02 is right after sample index
+      // 1_preprocess_nanopore/1e_cutadapt_AP02
+      CUTADAPT_FASTQS_AP02 ( DEMULTIPLEX.out.reads )
 
       // 
       // MODULE: UMI_EXTRACT_FASTQ
       // 1_preprocess_nanopore/1f_umi_extract
-      UMI_EXTRACT_FASTQS ( CUTADAPT_FASTQS_BC02.out.reads )
+      UMI_EXTRACT_FASTQS ( CUTADAPT_FASTQS_AP02.out.reads )
 
       // 
-      // MODULE: CUTADAPT: bc03: 2 versions; and bc04: 2 versions
-      // 1_preprocess_nanopore/1g_cutadapt_bc03
-      // CUTADAPT_FASTQS_BC03 ( UMI_EXTRACT_FASTQS.out.reads )
-      // CUTADAPT_FASTQS_BC04 ( CUTADAPT_FASTQS_BC03.out.reads )
+      // MODULE: CUTADAPT: AP03: 2 versions; and AP04: 2 versions
+      // 1_preprocess_nanopore/1g_cutadapt_AP03
+      // CUTADAPT_FASTQS_AP03 ( UMI_EXTRACT_FASTQS.out.reads )
+      // CUTADAPT_FASTQS_AP04 ( CUTADAPT_FASTQS_AP03.out.reads )
       
       // MODULE: GET_SOLID_READS: 200bp 5' and 200bp 3' all mapped and in the right direction
-      // GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_BC04.out.reads, file(params.ref) )
+      // GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_AP04.out.reads, file(params.ref) )
 
 
 
 
 
       // For reads with forward direction:
-      // TRIM 5END (BC1)
-      // DEMULPLEX using BC2
-      // TRIM 5END again (BC3)
+      // TRIM 5END (AP1)
+      // DEMULPLEX using AP2
+      // TRIM 5END again (AP3)
       // UMI_EXTRACT
-      // TRIM 5END (BC4) and 4END (BC5)
+      // TRIM 5END (AP4) and 4END (AP5)
       // GET_SOLID_READS: MODULE: both 5' 200bp and 3' 200bp are mapped to hs or mm
       // got to DOWNSTREAM
 
       // For reads with reverse direction: 5' and 3' all relative as forward reads
       // TRIM 5END (reads_rc's 3END)
-      // DEMULTIPLEX using BC2
+      // DEMULTIPLEX using AP2
 
       // 
       // MODULE: CUTADAPT_NANOPORE_5END
@@ -107,8 +106,8 @@ workflow PREPROCESS_NANOPORE {
 
 
       //
-      // MODULE: BARCODE_COUNT_TRIM
-      // 1_preprocess_nanopore/1b_barcode_count_trim
+      // MODULE: adaptor_COUNT_TRIM
+      // 1_preprocess_nanopore/1b_adaptor_count_trim
 
 
       //

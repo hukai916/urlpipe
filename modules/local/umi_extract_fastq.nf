@@ -17,6 +17,7 @@ process UMI_EXTRACT_FASTQS {
 
     script:
     def args = task.ext.args ?: ''
+    def umi_base_to_keep = task.ext.umi_base_to_keep ?: ''
 
     """
     mkdir umi_fastq
