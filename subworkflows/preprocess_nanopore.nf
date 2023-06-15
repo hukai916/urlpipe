@@ -68,8 +68,8 @@ workflow PREPROCESS_NANOPORE {
       // 
       // MODULE: CUTADAPT: AP03: 2 versions; and AP04: 2 versions
       // 1_preprocess_nanopore/1g_cutadapt_AP03
-      // CUTADAPT_FASTQS_AP03 ( UMI_EXTRACT_FASTQS.out.reads )
-      // CUTADAPT_FASTQS_AP04 ( CUTADAPT_FASTQS_AP03.out.reads )
+      CUTADAPT_FASTQS_AP03 ( UMI_EXTRACT_FASTQS.out.reads )
+      CUTADAPT_FASTQS_AP04 ( CUTADAPT_FASTQS_AP03.out.reads )
       
       // MODULE: GET_SOLID_READS: 200bp 5' and 200bp 3' all mapped and in the right direction
       // GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_AP04.out.reads, file(params.ref) )
