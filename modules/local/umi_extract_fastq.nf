@@ -10,8 +10,8 @@ process UMI_EXTRACT_FASTQS {
     path reads
 
     output:
-    path "umi_fastq/*.fastq.gz",    emit: reads
-    path  "versions.yml",           emit: versions
+    path "umi_fastq_umi_to_keep/*.fastq.gz", emit: reads
+    path  "versions.yml",                    emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -21,10 +21,12 @@ process UMI_EXTRACT_FASTQS {
     def umi_base_to_keep = task.ext.umi_base_to_keep ?: ''
 
     """
-    mkdir umi_fastq
+    mkdir umi_fastq umi_fastq_umi_to_keep
     for x in *.fastq.gz; do
         file_name=\${x%.fastq.gz}
         umi_tools extract $args -I \$x -L log_\${file_name}.txt -S umi_fastq/\$x
+
+        umi_base_to_keep.py umi_fastq/\$x $umi_base_to_keep umi_fastq_umi_to_keep/\$x
     done
 
     cat <<-END_VERSIONS > versions.yml
