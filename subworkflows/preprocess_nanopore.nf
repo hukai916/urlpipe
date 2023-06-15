@@ -58,7 +58,7 @@ workflow PREPROCESS_NANOPORE {
       // 
       // MODULE: CUTADAPT: AP02: AP02 is right after sample index
       // 1_preprocess_nanopore/1e_cutadapt_AP02
-      CUTADAPT_FASTQS_AP02 ( DEMULTIPLEX.out.reads )
+      CUTADAPT_FASTQS_AP02 ( DEMULTIPLEX.out.reads.flatten() )
 
       // 
       // MODULE: UMI_EXTRACT_FASTQ
