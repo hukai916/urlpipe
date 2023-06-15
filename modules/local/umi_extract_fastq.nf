@@ -1,7 +1,7 @@
 process UMI_EXTRACT_FASTQS {
     label 'process_low'
 
-    container "hukai916/urlpipe:0.3"
+    container "hukai916/umi_tools:0.1"
     
     // ref: awk array: https://stackoverflow.com/questions/39703124/how-to-access-last-index-of-array-from-split-function-inside-awk
     // ref: let awk access bash variables: https://stackoverflow.com/questions/19075671/how-do-i-use-shell-variables-in-an-awk-script

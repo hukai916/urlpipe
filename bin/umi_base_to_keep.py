@@ -26,6 +26,7 @@ _open_out = partial(gzip.open, mode='wt') if encoding == 'gzip' else open
 
 with _open(fastq) as f_in, _open_out(fastq_out) as f_out:
     for record in SeqIO.parse(f_in, "fastq"):
+        # UMI_tools append UMI to the seq name
         print(dir(record))
         print(record.id)
         print(record.name)
