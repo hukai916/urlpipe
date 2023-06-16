@@ -31,13 +31,13 @@ process GET_FULL_LENGTH_READS {
     ref_end=\$(get_fasta_range.py $ref $ref_end_range)
 
     # step2: obtain location in the read of ref_start and ref_start, as well as the read length
-    scutls barcode -l $ref_start -nproc $task.cpus \\
+    scutls barcode -l \$ref_start -nproc $task.cpus \\
         --input $reads \\
         -p 0 \\
         -e $allowed_error \\ 
         -o read_ref_start_pos.txt
 
-    scutls barcode -l $ref_end -nproc $task.cpus \\
+    scutls barcode -l \$ref_end -nproc $task.cpus \\
     --input $reads \\
     -p -1 \\
     -e $allowed_error \\ 
