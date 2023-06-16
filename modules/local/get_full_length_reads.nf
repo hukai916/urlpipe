@@ -25,7 +25,7 @@ process GET_FULL_LENGTH_READS {
 
 
     """
-    mkdir full_length_reads
+    mkdir full_length_reads partial_length_reads
 
     # step1: obtain bases from ref start and end
     ref_start=\$(get_fasta_range.py $ref $ref_start_range)
