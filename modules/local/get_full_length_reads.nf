@@ -34,17 +34,15 @@ process GET_FULL_LENGTH_READS {
     scutls barcode -l \$ref_start -nproc $task.cpus \\
         --input $reads \\
         -p 0 \\
-        -e $allowed_error \\ 
-        -o read_ref_start_pos.txt
+        -e $allowed_error > ref_start_in_range.txt
 
     scutls barcode -l \$ref_end -nproc $task.cpus \\
     --input $reads \\
     -p -1 \\
-    -e $allowed_error \\ 
-    -o read_ref_end_pos.txt
+    -e $allowed_error > ref_end_in_range.txt
     
     # step3: obtain read length
-
+    get_full_length_reads.py $reads ref_start_in_range.txt ref_end_in_range.txt read_start_range read_end_range
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
