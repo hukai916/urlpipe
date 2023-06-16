@@ -2,17 +2,13 @@ include { ADAPTOR_COUNT_WF                     } from '../subworkflows/adaptor_c
 include { STAT_ADAPTOR                         } from '../modules/local/stat_adaptor'
 include { GET_VALID_NANOPORE_READS             } from '../modules/local/get_valid_nanopore_reads'
 include { STAT_ADAPTOR as STAT_VALID_READS     } from '../modules/local/stat_adaptor'
-
-// to process forward reads:
 include { CUTADAPT as CUTADAPT_NANOPORE_AP01   } from '../modules/nf-core/modules/cutadapt/main'
-include { CUTADAPT as CUTADAPT_NANOPORE_AP01_RC   } from '../modules/nf-core/modules/cutadapt/main'
-
 include { DEMULTIPLEX                          } from '../modules/local/demultiplex'
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP02 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { UMI_EXTRACT_FASTQS                   } from '../modules/local/umi_extract_fastq'                   
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP03 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP04 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
-include { GET_SOLID_READS                } from '../modules/local/get_solid_reads'
+include { GET_FULL_LENGTH_READS                } from '../modules/local/get_full_length_reads'
 
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
 
@@ -59,6 +55,7 @@ workflow PREPROCESS_NANOPORE {
       // MODULE: CUTADAPT: AP02: AP02 is right after sample index
       // 1_preprocess_nanopore/1e_cutadapt_AP02
       CUTADAPT_FASTQS_AP02 ( DEMULTIPLEX.out.reads.flatten() )
+      // flatten to spit split output fastq file individually to leverage pipeline parallelism
 
       // 
       // MODULE: UMI_EXTRACT_FASTQ
@@ -67,10 +64,16 @@ workflow PREPROCESS_NANOPORE {
 
       // 
       // MODULE: CUTADAPT: AP03: 2 versions; and AP04: 2 versions
-      // 1_preprocess_nanopore/1g_cutadapt_AP03
+      // 1_preprocess_nanopore/1g_cutadapt_ap03
+      // 1_preprocess_nanopore/1g_cutadapt_ap04
       CUTADAPT_FASTQS_AP03 ( UMI_EXTRACT_FASTQS.out.reads )
       CUTADAPT_FASTQS_AP04 ( CUTADAPT_FASTQS_AP03.out.reads )
       
+      // MODULE: GET_FULL_LENGTH_READS: start of ref fasta must appear in the beginning of the read and end of ref fasta must appear in the end of the read
+      // 1_preprocess_nanopore/1h_full_length_read
+      GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_AP04.out.reads, file(params.ref) )
+      // STAT_FULL_LENGTH_READS
+
       // MODULE: GET_SOLID_READS: 200bp 5' and 200bp 3' all mapped and in the right direction
       // GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_AP04.out.reads, file(params.ref) )
 
