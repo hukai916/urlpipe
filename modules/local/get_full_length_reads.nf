@@ -52,7 +52,7 @@ process GET_FULL_LENGTH_READS {
     percent_full_length_reads=\$(echo "scale=2; \$count_full_length_reads / (\$count_full_length_reads + \$count_partial_length_reads)" | bc)
     percent_partial_length_reads=\$(echo "scale=2; \$count_partial_length_reads / (\$count_full_length_reads + \$count_partial_length_reads)" | bc)
     
-    reads_tem=$reads
+    reads_tem="$reads"
     filename=\${\$reads_tem%.fastq.gz}
 
     echo \$filename,\$count_full_length_reads,\$count_partial_length_reads,\$percent_full_length_reads,\$percent_partial_length_reads > \${filename}_stat.csv
