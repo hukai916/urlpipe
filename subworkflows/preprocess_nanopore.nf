@@ -9,6 +9,7 @@ include { UMI_EXTRACT_FASTQS                   } from '../modules/local/umi_extr
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP03 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP04 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { GET_FULL_LENGTH_READS                } from '../modules/local/get_full_length_reads'
+include { STAT as STAT_FULL_LENGTH             } from '../modules/local/stat'
 
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
 
@@ -72,7 +73,9 @@ workflow PREPROCESS_NANOPORE {
       // MODULE: GET_FULL_LENGTH_READS: start of ref fasta must appear in the beginning of the read and end of ref fasta must appear in the end of the read
       // 1_preprocess_nanopore/1h_full_length_read
       GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_AP04.out.reads, file(params.ref) )
-      // STAT_FULL_LENGTH_READS
+      STAT_FULL_LENGTH ( GET_FULL_LENGTH_READS.out.stat.collect() )
+
+      
 
       // MODULE: GET_SOLID_READS: 200bp 5' and 200bp 3' all mapped and in the right direction
       // GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_AP04.out.reads, file(params.ref) )

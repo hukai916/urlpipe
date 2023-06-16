@@ -8,9 +8,10 @@ process GET_FULL_LENGTH_READS {
     path ref
 
     output:
-    path "full_length_reads/*.fastq.gz", emit: reads
+    path "full_length_reads/*.fastq.gz",    emit: reads
     path "partial_length_reads/*.fastq.gz", emit: reads_partial_length
-    path  "versions.yml",                emit: versions
+    path "*_stat.csv",                      emit: stat
+    path  "versions.yml",                   emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -44,6 +45,16 @@ process GET_FULL_LENGTH_READS {
     
     # step3: obtain read length
     get_full_length_reads.py $reads ref_start_in_range.txt ref_end_in_range.txt $read_start_range $read_end_range full_length_reads/$reads partial_length_reads/$reads
+
+    # step4: get some stats
+    count_full_length_reads=\$(expr \$(zcat full_length_reads/*.fastq.gz | wc -l) / 4)
+    count_partial_length_reads=\$(expr \$(zcat partial_length_reads/*.fastq.gz | wc -l) / 4)
+    percent_full_length_reads=\$(echo "scale=2; \$count_full_length_reads / (\$count_full_length_reads + \$count_partial_length_reads)" | bc)
+    percent_partial_length_reads=\$(echo "scale=2; \$count_partial_length_reads / (\$count_full_length_reads + \$count_partial_length_reads)" | bc)
+    
+    filename=\${$reads%.fastq.gz}
+
+    echo \$filename,\$count_full_length_reads,\$count_partial_length_reads,\$percent_full_length_reads,\$percent_partial_length_reads > \${filename}_stat.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
