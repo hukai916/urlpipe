@@ -1,7 +1,7 @@
 process GET_FULL_LENGTH_READS {
     label 'process_cpu'
 
-    container "hukai916/scutls:0.4"
+    container "hukai916/scutls:0.6"
 
     input:
     path reads
