@@ -20,7 +20,7 @@ process STAT {
 
     """
     (echo -e "$header" && cat *.csv | sort -n) > ${outfile}.txt
-    mv ${outfile}.txt ${outfile}.csv
+    mv ${outfile}.txt ${outfile}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

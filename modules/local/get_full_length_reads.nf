@@ -10,7 +10,7 @@ process GET_FULL_LENGTH_READS {
     output:
     path "full_length_reads/*.fastq.gz",    emit: reads
     path "partial_length_reads/*.fastq.gz", emit: reads_partial_length
-    path "*_stat.csv",                      emit: stat
+    path "stat/*_stat.csv",                 emit: stat
     path  "versions.yml",                   emit: versions
 
     when:
@@ -55,7 +55,7 @@ process GET_FULL_LENGTH_READS {
     reads_tem=$reads
     filename=\${reads_tem%.fastq.gz}
 
-    echo \$filename,\$count_full_length_reads,\$count_partial_length_reads,\$percent_full_length_reads,\$percent_partial_length_reads > \${filename}_stat.csv
+    echo \$filename,\$count_full_length_reads,\$count_partial_length_reads,\$percent_full_length_reads,\$percent_partial_length_reads > stat/\${filename}_stat.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
