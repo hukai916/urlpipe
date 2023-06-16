@@ -8,8 +8,8 @@ process GET_FULL_LENGTH_READS {
     path ref
 
     output:
-    path "full_length_reads/*.fastq.gz", emit: reads
-    path  "versions.yml",                emit: versions
+    path "full_length_reads/full_length_*.fastq.gz", emit: reads
+    path  "versions.yml",                            emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -20,7 +20,7 @@ process GET_FULL_LENGTH_READS {
     def ref_end_range = task.ext.ref_end_range ?: '-50:' 
     def read_start_range = task.ext.read_start_range ?: '0:250'
     def read_end_range = task.ext.read_end_range ?: '-150:'
-    def allowed_error = task.ext.allowed_error ?: '5'
+    def allowed_error = task.ext.allowed_error ?: '3'
 
 
     """
@@ -42,7 +42,7 @@ process GET_FULL_LENGTH_READS {
     -e $allowed_error > ref_end_in_range.txt
     
     # step3: obtain read length
-    get_full_length_reads.py $reads ref_start_in_range.txt ref_end_in_range.txt read_start_range read_end_range
+    get_full_length_reads.py $reads ref_start_in_range.txt ref_end_in_range.txt $read_start_range $read_end_range full_length_reads/full_length_$read full_length_reads/partial_length_$read
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
