@@ -49,8 +49,6 @@ workflow CLASSIFY_READ_NANOPORE {
       //   CLASSIFY_ALLELE ()
 
     emit:
-      reads_indel_5p_or_3p      = CLASSIFY_INDEL_NANOPORE.out.reads_indel_5p_or_3p
-      reads_indel_5p_or_3p_pure = CLASSIFY_INDEL_NANOPORE.out.reads_indel_5p_or_3p_pure
       reads_no_indel            = CLASSIFY_INDEL_NANOPORE.out.reads_no_indel
       versions      = ch_versions
 }
