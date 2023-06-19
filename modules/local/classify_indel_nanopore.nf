@@ -39,13 +39,13 @@ process CLASSIFY_INDEL_NANOPORE {
     scutls barcode -l $repeat_flanking_left -nproc $task.cpus \\
         --input $reads \\
         -p 0 \\
-        -e $allowed_mismatch
+        -e $allowed_mismatch \\
         -m > repeat_flanking_left.txt
     
     scutls barcode -l $repeat_flanking_right -nproc $task.cpus \\
         --input $reads \\
         -p -1 \\
-        -e $allowed_mismatch
+        -e $allowed_mismatch \\
         -m > repeat_flanking_right.txt
     
     classify_indel_nanopore_location_info.py $reads $prefix \\
