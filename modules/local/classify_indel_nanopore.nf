@@ -2,7 +2,8 @@ process CLASSIFY_INDEL_NANOPORE {
     tag "$meta.id"
     label 'process_medium'
 
-    container "hukai916/urlpipe:0.2"
+    container "hukai916/urlpipe:0.3"
+    // container "hukai916/scutls:0.7"
 
     input:
     tuple val(meta), path(reads)
@@ -10,11 +11,10 @@ process CLASSIFY_INDEL_NANOPORE {
 
     output:
     tuple val(meta), path("no_indel/*.fastq.gz"),         emit: reads_no_indel
-    tuple val(meta), path("indel_5p/*.fastq.gz"),         emit: reads_indel_5p
-    tuple val(meta), path("indel_3p/*.fastq.gz"),         emit: reads_indel_3p
-    tuple val(meta), path("indel_5p_and_3p/*.fastq.gz"),  emit: reads_indel_5p_3p
-    tuple val(meta), path("indel_5p_or_3p/*.fastq.gz"),   emit: reads_indel_5p_or_3p
-    path "indel_5p_or_3p/*.fastq.gz",                     emit: reads_indel_5p_or_3p_pure
+    tuple val(meta), path("indel_5p_only/*.fastq.gz"),    emit: reads_indel_5p_only
+    tuple val(meta), path("indel_3p_only/*.fastq.gz"),    emit: reads_indel_3p_only
+    tuple val(meta), path("indel_5p_and_3p/*.fastq.gz"),  emit: reads_indel_5p_and_3p
+    tuple val(meta), path("undetermined/*.fastq.gz"),     emit: reads_undetermined
     path "stat/*.csv",                                    emit: stat
     path "*/*.bam",                                       emit: bam
     path "*/*.bai",                                       emit: bam_index
@@ -24,29 +24,52 @@ process CLASSIFY_INDEL_NANOPORE {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
-    def indel_cutoff = task.ext.indel_cutoff ?: 0.5
+    def repeat_flanking_left  = task.ext.repeat_flanking_left ?: ''
+    def repeat_flanking_right = task.ext.repeat_flanking_right ?: ''
+    def allowed_mismatch = task.ext.allowed_mismatch ?: ''
+    
+
+    // def args = task.ext.args ?: ''
+    // def indel_cutoff = task.ext.indel_cutoff ?: 0.5
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p no_indel indel_5p indel_3p indel_5p_3p stat
+    mkdir -p no_indel indel_5p_only indel_3p_only indel_5p_and_3p stat
 
-    classify_indel_nanopore.py ${prefix}.fastq.gz no_indel indel_5p indel_3p indel_5p_and_3p indel_5p_or_3p stat ${prefix} $args $indel_cutoff
-    gzip */*.fastq
+    scutls barcode -l \$repeat_flanking_left -nproc $task.cpus \\
+        --input $reads \\
+        -p 0 \\
+        -e $allowed_mismatch
+        -m > repeat_flanking_left.txt
+    
+    scutls barcode -l \$repeat_flanking_right -nproc $task.cpus \\
+        --input $reads \\
+        -p -1 \\
+        -e $allowed_mismatch
+        -m > repeat_flanking_right.txt
+    
+    classify_indel_nanopore_location_info.py $reads $prefix \\
+        repeat_flanking_left.txt repeat_flanking_right.txt \\
+        no_indel/${prefix}.fastq.gz \\
+        indel_5p_only/${prefix}.fastq.gz \\
+        indel_3p_only/${prefix}.fastq.gz \\
+        indel_5p_and_3p/${prefix}.fastq.gz \\
+        undetermined/${prefix}.fastq.gz \\
+        stat/${prefix}.csv
 
     # Add bam files and indices:
     bwa index $ref
     bwa mem -t $task.cpus $ref no_indel/*.fastq.gz | samtools view -bS | samtools sort -o no_indel/${prefix}.bam
-    bwa mem -t $task.cpus $ref indel_5p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p/${prefix}.bam
-    bwa mem -t $task.cpus $ref indel_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_3p/${prefix}.bam
+    bwa mem -t $task.cpus $ref indel_5p_only/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_only/${prefix}.bam
+    bwa mem -t $task.cpus $ref indel_3p_only/*.fastq.gz | samtools view -bS | samtools sort -o indel_3p_only/${prefix}.bam
     bwa mem -t $task.cpus $ref indel_5p_and_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_and_3p/${prefix}.bam
-    bwa mem -t $task.cpus $ref indel_5p_or_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_or_3p/${prefix}.bam
-    
+    bwa mem -t $task.cpus $ref undetermined/*.fastq.gz | samtools view -bS | samtools sort -o undetermined/${prefix}.bam
+
     samtools index no_indel/*.bam
-    samtools index indel_5p/*.bam
-    samtools index indel_3p/*.bam
+    samtools index indel_5p_only/*.bam
+    samtools index indel_3p_only/*.bam
     samtools index indel_5p_and_3p/*.bam
-    samtools index indel_5p_or_3p/*.bam
+    samtools index undetermined/*.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
