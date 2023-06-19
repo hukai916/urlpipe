@@ -34,7 +34,7 @@ process CLASSIFY_INDEL_NANOPORE {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p no_indel indel_5p_only indel_3p_only indel_5p_and_3p stat
+    mkdir -p no_indel indel_5p_only indel_3p_only indel_5p_and_3p  undetermined stat
 
     scutls barcode -l $repeat_flanking_left -nproc $task.cpus \\
         --input $reads \\
