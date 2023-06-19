@@ -36,13 +36,13 @@ process CLASSIFY_INDEL_NANOPORE {
     """
     mkdir -p no_indel indel_5p_only indel_3p_only indel_5p_and_3p stat
 
-    scutls barcode -l \$repeat_flanking_left -nproc $task.cpus \\
+    scutls barcode -l $repeat_flanking_left -nproc $task.cpus \\
         --input $reads \\
         -p 0 \\
         -e $allowed_mismatch
         -m > repeat_flanking_left.txt
     
-    scutls barcode -l \$repeat_flanking_right -nproc $task.cpus \\
+    scutls barcode -l $repeat_flanking_right -nproc $task.cpus \\
         --input $reads \\
         -p -1 \\
         -e $allowed_mismatch
