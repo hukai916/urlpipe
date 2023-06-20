@@ -5,6 +5,7 @@ include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI as PLOT_REPEAT_LENGTH_DISTRIBU
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as REPEAT_LENGTH_DISTRIBUTION_NANOPORE_UMI_CORRECT } from '../modules/local/repeat_length_distribution_default_umi_correct'
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as STAT_REPEAT_LENGTH_DISTRIBUTION_NANOPORE_UMI_CORRECT } from '../modules/local/stat_repeat_length_distribution_default_umi_correct'
 include { REPEAT_LENGTH_FRACTION_NANOPORE } from '../modules/local/repeat_length_fraction_nanopore'
+include { REPEAT_LENGTH_FRACTION } from '../modules/local/repeat_length_fraction'
 
 // include non-repeat_stat_merge specific modules as XXX_MERGE in order not to be overwritten by other config files.
 include { CLASSIFY_MERGE } from '../modules/local/classify_merge'
@@ -44,7 +45,7 @@ workflow REPEAT_STAT_NANOPORE {
       STAT_REPEAT_LENGTH_DISTRIBUTION_NANOPORE (REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.repeat_length_count_merge_pure.collect())
 
       //  REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.raw_repeat_length_per_read_merge.view()
-      // fraction:
+      // fraction: for testing only
       // REPEAT_LENGTH_FRACTION_NANOPORE (
       //   // just to obtain the sample meta info:
       //   // REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.umi_readcount_readlength_corrected,
@@ -82,7 +83,7 @@ workflow REPEAT_STAT_NANOPORE {
       //
       //  MODULE: obtain fraction above and below for each sample at each cutoff
       // 4_repeat_statistics/4c_repeat_length_fraction
-      REPEAT_LENGTH_FRACTION_NANOPORE (
+      REPEAT_LENGTH_FRACTION (
         // just to obtain the sample meta info:
         REPEAT_LENGTH_DISTRIBUTION_NANOPORE_UMI_CORRECT.out.umi_readcount_readlength_corrected,
         // master table for umi_0:
