@@ -104,4 +104,4 @@ with open(out_stat, "w") as f:
     res.append(str(indel_5p_and_3p_count / total_count))
     res.append(str(undetermined_count / total_count))
     
-    f.write(",".join(res))
+    f.write(",".join(res) + "\n")
