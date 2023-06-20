@@ -66,7 +66,7 @@ workflow REPEAT_STAT_MERGE {
 
       //
       //  MODULE: obtain fraction above and below for each sample at each cutoff
-      // test_not_publish/4c
+      // 4_repeat_statistics/4c_repeat_length_fraction
       REPEAT_LENGTH_FRACTION_MERGE (
         // just to obtain the sample meta info:
         REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.umi_readcount_readlength_corrected,
