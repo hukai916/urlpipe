@@ -4,18 +4,13 @@ include { REPEAT_LENGTH_DISTRIBUTION_PER_UMI as REPEAT_LENGTH_DISTRIBUTION_PER_U
 include { PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI as PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI_NANOPORE } from '../modules/local/plot_repeat_length_distribution_per_umi'
 include { REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as REPEAT_LENGTH_DISTRIBUTION_NANOPORE_UMI_CORRECT } from '../modules/local/repeat_length_distribution_default_umi_correct'
 include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as STAT_REPEAT_LENGTH_DISTRIBUTION_NANOPORE_UMI_CORRECT } from '../modules/local/stat_repeat_length_distribution_default_umi_correct'
-
+include { REPEAT_LENGTH_FRACTION_NANOPORE } from '../modules/local/repeat_length_fraction_nanopore'
 
 // include non-repeat_stat_merge specific modules as XXX_MERGE in order not to be overwritten by other config files.
 include { CLASSIFY_MERGE } from '../modules/local/classify_merge'
 include { STAT_CSV_MERGE } from '../modules/local/stat_csv_merge'
 include { FASTQC_SINGLE as FASTQC_SINGLE_MERGE } from '../modules/local/fastqc_single'
 include { FASTQC as FASTQC_MERGE } from '../modules/nf-core/modules/fastqc/main'
-
-
-
-
-include { REPEAT_LENGTH_FRACTION_NANOPORE } from '../modules/local/repeat_length_fraction_nanopore'
 
 workflow REPEAT_STAT_NANOPORE {
     take:
@@ -50,17 +45,17 @@ workflow REPEAT_STAT_NANOPORE {
 
       //  REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.raw_repeat_length_per_read_merge.view()
       // fraction:
-      REPEAT_LENGTH_FRACTION_NANOPORE (
-        // just to obtain the sample meta info:
-        // REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.umi_readcount_readlength_corrected,
-        REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.raw_repeat_length_per_read_merge,
-        // master table for umi_0:
-        STAT_REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.csv,
-        // master table for umi_x:
-        // STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.csv,
-        params.allele_number,
-        params.umi_cutoffs,
-      ) 
+      // REPEAT_LENGTH_FRACTION_NANOPORE (
+      //   // just to obtain the sample meta info:
+      //   // REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.umi_readcount_readlength_corrected,
+      //   REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.raw_repeat_length_per_read_merge,
+      //   // master table for umi_0:
+      //   STAT_REPEAT_LENGTH_DISTRIBUTION_NANOPORE.out.csv,
+      //   // master table for umi_x:
+      //   // STAT_REPEAT_LENGTH_DISTRIBUTION_MERGE_UMI_CORRECT.out.csv,
+      //   params.allele_number,
+      //   params.umi_cutoffs,
+      // ) 
 
       //
       // MODULE: repeat length count distribution per umi group
