@@ -100,6 +100,6 @@ workflow REPEAT_STAT_NANOPORE {
 
     emit:
       csv      = stat_table
-      csv_frac = REPEAT_LENGTH_FRACTION_NANOPORE.out.csv.collect()
+      csv_frac = REPEAT_LENGTH_FRACTION.out.csv.collect()
       versions = ch_versions
 }
