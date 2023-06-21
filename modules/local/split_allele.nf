@@ -7,11 +7,11 @@ process SPLIT_ALLELE {
     path reads
 
     output:
-    path "allele_1/*.fastq.gz",     emit: reads_allele2
+    path "allele_1/*.fastq.gz",     emit: reads_allele1
     path "allele_2/*.fastq.gz",     emit: reads_allele2
     path "undetermined/*.fastq.gz", emit: reads_undetermined
     path "stat/*_stat.csv",         emit: stat
-    path "versions.yml",           emit: versions
+    path "versions.yml",            emit: versions
 
     when:
     task.ext.when == null || task.ext.when
