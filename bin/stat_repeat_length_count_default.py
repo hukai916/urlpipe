@@ -21,12 +21,12 @@ xlim   = sys.argv[-1]
 # prefix = "repeat_length_count_"
 # suffix = ".csv"
 
-prefix = "repeat_length_count_default_"
-suffix = "_umi_100.csv"
-outfile_csv = "test.csv"
-xlim = 500
-outfile_html = "test.html"
-csv = ['repeat_length_count_default_hs_BC01_umi_100.csv', 'repeat_length_count_default_hs_BC13_umi_100.csv', 'repeat_length_count_default_hs_BC02_umi_100.csv', 'repeat_length_count_default_hs_BC14_umi_100.csv', 'repeat_length_count_default_hs_BC03_umi_100.csv', 'repeat_length_count_default_hs_BC15_umi_100.csv', 'repeat_length_count_default_hs_BC04_umi_100.csv', 'repeat_length_count_default_hs_BC16_umi_100.csv', 'repeat_length_count_default_hs_BC05_umi_100.csv', 'repeat_length_count_default_hs_BC17_umi_100.csv', 'repeat_length_count_default_hs_BC06_umi_100.csv', 'repeat_length_count_default_hs_BC18_umi_100.csv', 'repeat_length_count_default_hs_BC07_umi_100.csv', 'repeat_length_count_default_hs_BC19_umi_100.csv', 'repeat_length_count_default_hs_BC08_umi_100.csv', 'repeat_length_count_default_hs_BC20_umi_100.csv', 'repeat_length_count_default_hs_BC09_umi_100.csv', 'repeat_length_count_default_hs_BC21_umi_100.csv', 'repeat_length_count_default_hs_BC10_umi_100.csv', 'repeat_length_count_default_hs_BC22_umi_100.csv', 'repeat_length_count_default_hs_BC11_umi_100.csv', 'repeat_length_count_default_hs_BC23_umi_100.csv', 'repeat_length_count_default_hs_BC12_umi_100.csv']
+# prefix = "repeat_length_count_default_"
+# suffix = "_umi_100.csv"
+# outfile_csv = "test.csv"
+# xlim = 500
+# outfile_html = "test.html"
+# csv = ['repeat_length_count_default_hs_BC01_umi_100.csv', 'repeat_length_count_default_hs_BC13_umi_100.csv', 'repeat_length_count_default_hs_BC02_umi_100.csv', 'repeat_length_count_default_hs_BC14_umi_100.csv', 'repeat_length_count_default_hs_BC03_umi_100.csv', 'repeat_length_count_default_hs_BC15_umi_100.csv', 'repeat_length_count_default_hs_BC04_umi_100.csv', 'repeat_length_count_default_hs_BC16_umi_100.csv', 'repeat_length_count_default_hs_BC05_umi_100.csv', 'repeat_length_count_default_hs_BC17_umi_100.csv', 'repeat_length_count_default_hs_BC06_umi_100.csv', 'repeat_length_count_default_hs_BC18_umi_100.csv', 'repeat_length_count_default_hs_BC07_umi_100.csv', 'repeat_length_count_default_hs_BC19_umi_100.csv', 'repeat_length_count_default_hs_BC08_umi_100.csv', 'repeat_length_count_default_hs_BC20_umi_100.csv', 'repeat_length_count_default_hs_BC09_umi_100.csv', 'repeat_length_count_default_hs_BC21_umi_100.csv', 'repeat_length_count_default_hs_BC10_umi_100.csv', 'repeat_length_count_default_hs_BC22_umi_100.csv', 'repeat_length_count_default_hs_BC11_umi_100.csv', 'repeat_length_count_default_hs_BC23_umi_100.csv', 'repeat_length_count_default_hs_BC12_umi_100.csv']
 
 sample_names = [get_sample_name(x, prefix, suffix) for x in csv]
 

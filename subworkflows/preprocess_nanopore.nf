@@ -10,6 +10,11 @@ include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP03 } from '../modules/nf-core/mod
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP04 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { GET_FULL_LENGTH_READS                } from '../modules/local/get_full_length_reads'
 include { STAT as STAT_FULL_LENGTH             } from '../modules/local/stat'
+include { SPLIT_ALLELE                         } from '../modules/local/split_allele'
+// include { STAT as STAT_SPLIT_ALLELE             } from '../modules/local/stat'
+
+
+
 
 include { CUTADAPT as CUTADAPT_NANOPORE_3END   } from '../modules/nf-core/modules/cutadapt/main'
 
@@ -70,15 +75,19 @@ workflow PREPROCESS_NANOPORE {
       CUTADAPT_FASTQS_AP03 ( UMI_EXTRACT_FASTQS.out.reads )
       CUTADAPT_FASTQS_AP04 ( CUTADAPT_FASTQS_AP03.out.reads )
       
+      // 
       // MODULE: GET_FULL_LENGTH_READS: start of ref fasta must appear in the beginning of the read and end of ref fasta must appear in the end of the read
       // 1_preprocess_nanopore/1h_full_length_read
       GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_AP04.out.reads, file(params.ref) )
       STAT_FULL_LENGTH ( GET_FULL_LENGTH_READS.out.stat.collect() )
 
-      
-      // MODULE: GET_SOLID_READS: 200bp 5' and 200bp 3' all mapped and in the right direction
-      // GET_FULL_LENGTH_READS ( CUTADAPT_FASTQS_AP04.out.reads, file(params.ref) )
+      // 
+      // MODULE: SPIT_ALLELE: split sample according to allele SNP information
+      // 1_preprocess_nanopore/1i_split_allele
+      if (params.allele_number == 2) {
+        SPLIT_ALLELE ( GET_FULL_LENGTH_READS.out.reads )
 
+      } 
 
 
 

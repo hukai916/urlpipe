@@ -1,0 +1,23 @@
+Hi. I viewed the heterozygous SNP in the hs_BC10 reads using IGV. It is at base 189 of the trimmed reference sequence. Based on the frequency of the two alleles, I infer that:
+the SNP sequence at the mutant HTT allele is CGTCGGCGGGG G ATCCTTTCCG
+the SNP sequence at the wildtype allele is CGTCGGCGGGG C ATCCTTTCCG.
+ 
+Below is the information David included in the summary sheet. I have also attached an image from IGV.
+ 
+Mike
+ 
+SNP name
+SNP position
+Flanking Sequences (+/-10bps)
+SNP position in read
+Major Allele
+Minor Allele
+SNP1
+rs2857935
+5'Flank
+CGTCGGCGGGGGATCCTTTCCG
+189 (296 before trimming)
+G
+C
+ 
+ 
