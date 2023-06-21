@@ -9,7 +9,7 @@ process SPLIT_ALLELE {
     output:
     path "split_allele/snp1_*.fastq.gz", emit: reads_allele1
     path "split_allele/snp2_*.fastq.gz", emit: reads_allele2
-    path "undetermined/*.fastq.gz",      emit: reads_undetermined
+    path "split_allele/undetermined_*.fastq.gz", emit: reads_undetermined
     path "stat/*_stat.csv",              emit: stat
     path "versions.yml",                 emit: versions
 
