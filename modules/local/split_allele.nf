@@ -1,7 +1,7 @@
 process SPLIT_ALLELE {
     label 'process_cpu'
 
-    container "hukai916/scutls:0.6"
+    container "hukai916/scutls:0.8"
 
     input:
     path reads
@@ -24,38 +24,32 @@ process SPLIT_ALLELE {
     def snp_2 = task.ext.snp_2 ?: ''
     def allowed_error = task.ext.allowed_error ?: '3'
 
-
     """
-    mkdir full_length_reads partial_length_reads stat
+    mkdir split_allele stat
 
-    # step1: obtain bases from ref start and end
-    ref_start=\$(get_fasta_range.py $ref $ref_start_range)
-    ref_end=\$(get_fasta_range.py $ref $ref_end_range)
+    # step1: obtain SNP information from each read
+    snp1="($snp_left_flanking){e<=$allowed_error}($snp_1)($snp_right_flanking){e<=$allowed_error}"
+    snp2="($snp_left_flanking){e<=$allowed_error}($snp_2)($snp_right_flanking){e<=$allowed_error}"
 
-    # step2: obtain location in the read of ref_start and ref_start, as well as the read length
-    scutls barcode -l \$ref_start -nproc $task.cpus \\
-        --input $reads \\
-        -p 0 \\
-        -e $allowed_error > ref_start_in_range.txt
+    scutls barcode --locate "\$snp1" -i $reads -nproc $task.cpus > snp1.csv
+    scutls barcode --locate "\$snp2" -i $reads -nproc $task.cpus > snp2.csv
 
-    scutls barcode -l \$ref_end -nproc $task.cpus \\
-    --input $reads \\
-    -p -1 \\
-    -e $allowed_error > ref_end_in_range.txt
-    
-    # step3: obtain read length
-    get_full_length_reads.py $reads ref_start_in_range.txt ref_end_in_range.txt $read_start_range $read_end_range full_length_reads/$reads partial_length_reads/$reads
+    # step2: split reads into snp1, snp2, undetermined reads
+    split_allele.py $reads snp1.csv snp2.csv split_allele/snp1_$reads split_allele/snp2_$reads split_allele/undetermined_$reads
 
-    # step4: get some stats
-    count_full_length_reads=\$(expr \$(zcat full_length_reads/*.fastq.gz | wc -l) / 4)
-    count_partial_length_reads=\$(expr \$(zcat partial_length_reads/*.fastq.gz | wc -l) / 4)
-    percent_full_length_reads=\$(echo "scale=2; \$count_full_length_reads / (\$count_full_length_reads + \$count_partial_length_reads)" | bc)
-    percent_partial_length_reads=\$(echo "scale=2; \$count_partial_length_reads / (\$count_full_length_reads + \$count_partial_length_reads)" | bc)
-    
+    # step3: obtain some statistics
+    snp1_reads=\$(expr \$(zcat split_alleles/snp1_*.fastq.gz | wc -l) / 4)
+    snp2_reads=\$(expr \$(zcat split_alleles/snp2_*.fastq.gz | wc -l) / 4)
+    undetermined_reads=\$(expr \$(zcat split_alleles/undetermined_*.fastq.gz | wc -l) / 4)
+
+    percent_snp1_reads=\$(echo "scale=2; \$snp1_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
+    percent_snp2_reads=\$(echo "scale=2; \$snp2_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
+    percent_undetermined_reads=\$(echo "scale=2; \$undetermined_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
+
     reads_tem=$reads
     filename=\${reads_tem%.fastq.gz}
 
-    echo \$filename,\$count_full_length_reads,\$count_partial_length_reads,\$percent_full_length_reads,\$percent_partial_length_reads > stat/\${filename}_stat.csv
+    echo \$filename,\$snp1_reads,\$snp2_reads,\$undetermined_reads,\$percent_snp1_reads,\$percent_snp2_reads,\$percent_undetermined_reads > stat/\${filename}_stat.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
