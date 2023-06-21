@@ -20,7 +20,7 @@ start_allele_2 = sys.argv[7]
 end_allele_2   = sys.argv[8]
 
 # allele_number = 2
-# sample_name = "hs_BC08"
+# sample_name = "hs_BC22"
 # repeat_length_count_table = "repeat_length_count_default_umi_30.csv"
 # outfile = "test.csv"
 # start_allele_1 = 50
@@ -36,10 +36,11 @@ if df.empty or df[sample_name].sum() == 0:
     empty = 1
     _total_count = 0
 else:
-    if allele_number == 1:
-        bins = [min(df["repeat_length"]) - 1, int(start_allele_1), int(end_allele_1), max(df["repeat_length"]) + 1]
+    if allele_number == 1:        
+        bins = [min(list(df["repeat_length"]) + [int(start_allele_1)]) - 1, int(start_allele_1), int(end_allele_1), max(list(df["repeat_length"]) + [int(end_allele_1)]) + 1]
     elif allele_number == 2:
-        bins = [min(df["repeat_length"]) - 1, int(start_allele_1), int(end_allele_1), int(start_allele_2), int(end_allele_2), max(df["repeat_length"]) + 1]
+        # print(df["repeat_length"] + int(start_allele_1))
+        bins = [min(list(df["repeat_length"]) + [int(start_allele_1)]) - 1, int(start_allele_1), int(end_allele_1), int(start_allele_2), int(end_allele_2), max(list(df["repeat_length"]) + [int(end_allele_2)]) + 1]
     df["bin"] = pd.cut(df["repeat_length"], bins = bins)
 
  # 2. calculate count, fraction, mean, std:
