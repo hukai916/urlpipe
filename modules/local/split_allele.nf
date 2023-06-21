@@ -53,7 +53,7 @@ process SPLIT_ALLELE {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        UMI-tools: \$( umi_tools --version | sed -e "s/UMI-tools //g" )
+        scutls: \$( scutls --version | sed -e "s/scutls //g" )
     END_VERSIONS
 
     """
