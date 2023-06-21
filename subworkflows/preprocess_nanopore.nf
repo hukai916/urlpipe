@@ -11,7 +11,7 @@ include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP04 } from '../modules/nf-core/mod
 include { GET_FULL_LENGTH_READS                } from '../modules/local/get_full_length_reads'
 include { STAT as STAT_FULL_LENGTH             } from '../modules/local/stat'
 include { SPLIT_ALLELE                         } from '../modules/local/split_allele'
-// include { STAT as STAT_SPLIT_ALLELE             } from '../modules/local/stat'
+include { STAT as STAT_SPLIT_ALLELE            } from '../modules/local/stat'
 
 
 
