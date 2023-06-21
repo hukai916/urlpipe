@@ -86,7 +86,7 @@ workflow PREPROCESS_NANOPORE {
       // 1_preprocess_nanopore/1i_split_allele
       if (params.allele_number == 2) {
         SPLIT_ALLELE ( GET_FULL_LENGTH_READS.out.reads )
-
+        STAT_SPLIT_ALLELE ( SPLIT_ALLELE.out.stat.collect() )
       } 
 
 
