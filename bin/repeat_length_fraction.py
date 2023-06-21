@@ -20,8 +20,8 @@ start_allele_2 = sys.argv[7]
 end_allele_2   = sys.argv[8]
 
 # allele_number = 2
-# sample_name = "hs_BC02"
-# repeat_length_count_table = "repeat_length_count_default_umi_10.csv"
+# sample_name = "hs_BC08"
+# repeat_length_count_table = "repeat_length_count_default_umi_30.csv"
 # outfile = "test.csv"
 # start_allele_1 = 50
 # end_allele_1 = 60
@@ -32,7 +32,7 @@ end_allele_2   = sys.argv[8]
 # 1. read in sample column into df and add bin:
 df = pd.read_csv(repeat_length_count_table)[["repeat_length", sample_name]]
 empty = 0
-if df.empty:
+if df.empty or df[sample_name].sum() == 0:
     empty = 1
     _total_count = 0
 else:
