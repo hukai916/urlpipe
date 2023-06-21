@@ -49,7 +49,7 @@ with _open(fastq) as f_in, _open_out(out_snp1) as f_out_snp1, _open_out(out_snp2
             SeqIO.write(record, f_out_undetermined, "fastq")
         elif record.id in snp1_dict:
             SeqIO.write(record, f_out_snp1, "fastq")
-        elif record.id in snp2.dict:
+        elif record.id in snp2_dict:
             SeqIO.write(record, f_out_snp2, "fastq")
         else:
             SeqIO.write(record, f_out_undetermined, "fastq")
