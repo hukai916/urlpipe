@@ -62,7 +62,8 @@ fig = go.Figure(data = bars)
 if df_res.empty:
     x_range = [0, min(int(xlim), 100 )]
 else:
-    x_range = [0, min(int(xlim), max(df["repeat_length"]) + 100 )]
+    # print(df_res)
+    x_range = [0, min(int(xlim), max(df_res["repeat_length"]) + 100 )]
     
 nbinsx  = x_range[1] - x_range[0] + 1
 x_ticks  = int(nbinsx / 5)
