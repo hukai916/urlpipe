@@ -7,12 +7,6 @@ include { STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT as STAT_REPEAT_LEN
 include { REPEAT_LENGTH_FRACTION_NANOPORE } from '../modules/local/repeat_length_fraction_nanopore'
 include { REPEAT_LENGTH_FRACTION } from '../modules/local/repeat_length_fraction'
 
-// include non-repeat_stat_merge specific modules as XXX_MERGE in order not to be overwritten by other config files.
-include { CLASSIFY_MERGE } from '../modules/local/classify_merge'
-include { STAT_CSV_MERGE } from '../modules/local/stat_csv_merge'
-include { FASTQC_SINGLE as FASTQC_SINGLE_MERGE } from '../modules/local/fastqc_single'
-include { FASTQC as FASTQC_MERGE } from '../modules/nf-core/modules/fastqc/main'
-
 workflow REPEAT_STAT_NANOPORE {
     take:
       reads 

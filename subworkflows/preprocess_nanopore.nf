@@ -48,7 +48,7 @@ workflow PREPROCESS_NANOPORE {
 // 
       // 
       // MODULE: CUTADAPT: AP01
-      // 1_preprocess_nanopore/1c_cutadapt_AP01
+      // 1_preprocess_nanopore/1c_cutadapt_ap01
       CUTADAPT_NANOPORE_AP01 ( GET_VALID_NANOPORE_READS.out.reads_valid_combine )
       // CUTADAPT_NANOPORE_AP01_RC ( GET_VALID_NANOPORE_READS.out.reads_valid_rc )
 
@@ -59,7 +59,7 @@ workflow PREPROCESS_NANOPORE {
 
       // 
       // MODULE: CUTADAPT: AP02: AP02 is right after sample index
-      // 1_preprocess_nanopore/1e_cutadapt_AP02
+      // 1_preprocess_nanopore/1e_cutadapt_ap02
       CUTADAPT_FASTQS_AP02 ( DEMULTIPLEX.out.reads.flatten() )
       // flatten to spit split output fastq file individually to leverage pipeline parallelism
 
