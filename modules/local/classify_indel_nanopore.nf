@@ -2,7 +2,7 @@ process CLASSIFY_INDEL_NANOPORE {
     tag "$meta.id"
     label 'process_medium'
 
-    container "hukai916/urlpipe:0.3"
+    container "hukai916/urlpipe:0.4"
     // container "hukai916/scutls:0.7"
 
     input:
@@ -16,8 +16,8 @@ process CLASSIFY_INDEL_NANOPORE {
     tuple val(meta), path("indel_5p_and_3p/*.fastq.gz"),  emit: reads_indel_5p_and_3p
     tuple val(meta), path("undetermined/*.fastq.gz"),     emit: reads_undetermined
     path "stat/*.csv",                                    emit: stat
-    path "*/*.bam",                                       emit: bam
-    path "*/*.bai",                                       emit: bam_index
+    path "*/bwa/*.bam",                                   emit: bam_bwa
+    path "*/bwa/*.bai",                                   emit: bam_index_bwa
     path  "versions.yml",                                 emit: versions
 
     when:
@@ -34,7 +34,7 @@ process CLASSIFY_INDEL_NANOPORE {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p no_indel indel_5p_only indel_3p_only indel_5p_and_3p  undetermined stat
+    mkdir -p no_indel indel_5p_only indel_3p_only indel_5p_and_3p undetermined stat bwa minimap2
 
     scutls barcode -l $repeat_flanking_left -nproc $task.cpus \\
         --input $reads \\
@@ -57,19 +57,32 @@ process CLASSIFY_INDEL_NANOPORE {
         undetermined/${prefix}.fastq.gz \\
         stat/${prefix}.csv
 
-    # Add bam files and indices:
+    # Add bam files and indices using bwa:
     bwa index $ref
-    bwa mem -t $task.cpus $ref no_indel/*.fastq.gz | samtools view -bS | samtools sort -o no_indel/${prefix}.bam
-    bwa mem -t $task.cpus $ref indel_5p_only/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_only/${prefix}.bam
-    bwa mem -t $task.cpus $ref indel_3p_only/*.fastq.gz | samtools view -bS | samtools sort -o indel_3p_only/${prefix}.bam
-    bwa mem -t $task.cpus $ref indel_5p_and_3p/*.fastq.gz | samtools view -bS | samtools sort -o indel_5p_and_3p/${prefix}.bam
-    bwa mem -t $task.cpus $ref undetermined/*.fastq.gz | samtools view -bS | samtools sort -o undetermined/${prefix}.bam
+    bwa mem -t $task.cpus $ref no_indel/*.fastq.gz | samtools view -F 2048 -bS | samtools sort -o no_indel/bwa/${prefix}.bam
+    bwa mem -t $task.cpus $ref indel_5p_only/*.fastq.gz | samtools view -F 2048 -bS | samtools sort -o indel_5p_only/bwa/${prefix}.bam
+    bwa mem -t $task.cpus $ref indel_3p_only/*.fastq.gz | samtools view -F 2048 -bS | samtools sort -o indel_3p_only/bwa/${prefix}.bam
+    bwa mem -t $task.cpus $ref indel_5p_and_3p/*.fastq.gz | samtools view -F 2048 -bS | samtools sort -o indel_5p_and_3p/bwa/${prefix}.bam
+    bwa mem -t $task.cpus $ref undetermined/*.fastq.gz | samtools view -F 2048 -bS | samtools sort -o undetermined/bwa/${prefix}.bam
 
-    samtools index no_indel/*.bam
-    samtools index indel_5p_only/*.bam
-    samtools index indel_3p_only/*.bam
-    samtools index indel_5p_and_3p/*.bam
-    samtools index undetermined/*.bam
+    samtools index no_indel/bwa/*.bam
+    samtools index indel_5p_only/bwa/*.bam
+    samtools index indel_3p_only/bwa/*.bam
+    samtools index indel_5p_and_3p/bwa/*.bam
+    samtools index undetermined/bwa/*.bam
+
+    # Add bam files using minimap2
+    minimap2 $ref no_indel/*.fastq.gz -a | samtools view -F 2048 -bS | samtools sort -o no_indel/minimap2/${prefix}.bam
+    minimap2 $ref indel_5p_only/*.fastq.gz -a | samtools view -F 2048 -bS | samtools sort -o indel_5p_only/minimap2/${prefix}.bam
+    minimap2 $ref indel_3p_only/*.fastq.gz -a | samtools view -F 2048 -bS | samtools sort -o indel_3p_only/minimap2/${prefix}.bam
+    minimap2 $ref indel_5p_and_3p/*.fastq.gz -a | samtools view -F 2048 -bS | samtools sort -o indel_5p_and_3p/minimap2/${prefix}.bam
+    minimap2 $ref undetermined/*.fastq.gz -a | samtools view -F 2048 -bS | samtools sort -o undetermined/minimap2/${prefix}.bam
+    
+    samtools index no_indel/minimap2/*.bam
+    samtools index indel_5p_only/minimap2/*.bam
+    samtools index indel_3p_only/minimap2/*.bam
+    samtools index indel_5p_and_3p/minimap2/*.bam
+    samtools index undetermined/minimap2/*.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
