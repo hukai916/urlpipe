@@ -18,6 +18,9 @@ process CLASSIFY_INDEL_NANOPORE {
     path "stat/*.csv",                                    emit: stat
     path "*/bwa/*.bam",                                   emit: bam_bwa
     path "*/bwa/*.bai",                                   emit: bam_index_bwa
+    path "*/minimap2/*.bam",                              emit: bam_minimap2
+    path "*/minimap2/*.bai",                              emit: bam_index_minimap2
+    
     path  "versions.yml",                                 emit: versions
 
     when:
@@ -34,7 +37,7 @@ process CLASSIFY_INDEL_NANOPORE {
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
-    mkdir -p no_indel indel_5p_only indel_3p_only indel_5p_and_3p undetermined stat bwa minimap2
+    mkdir -p no_indel/bwa indel_5p_only/bwa indel_3p_only/bwa indel_5p_and_3p/bwa undetermined/bwa no_indel/minimap2 indel_5p_only/minimap2 indel_3p_only/minimap2 indel_5p_and_3p/minimap2 undetermined/minimap2 stat
 
     scutls barcode -l $repeat_flanking_left -nproc $task.cpus \\
         --input $reads \\

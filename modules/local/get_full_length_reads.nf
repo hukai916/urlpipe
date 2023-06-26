@@ -1,7 +1,7 @@
 process GET_FULL_LENGTH_READS {
     label 'process_cpu'
 
-    container "hukai916/scutls:0.6"
+    container "hukai916/urlpipe:0.5"
 
     input:
     path reads
@@ -11,7 +11,13 @@ process GET_FULL_LENGTH_READS {
     path "full_length_reads/*.fastq.gz",    emit: reads
     path "partial_length_reads/*.fastq.gz", emit: reads_partial_length
     path "stat/*_stat.csv",                 emit: stat
+    path "*/bwa/*.bam",                     emit: bam_bwa
+    path "*/bwa/*.bai",                     emit: bam_index_bwa
+    path "*/minimap2/*.bam",                emit: bam_minimap2
+    path "*/minimap2/*.bai",                emit: bam_index_minimap2
+    
     path  "versions.yml",                   emit: versions
+
 
     when:
     task.ext.when == null || task.ext.when
@@ -26,7 +32,7 @@ process GET_FULL_LENGTH_READS {
 
 
     """
-    mkdir full_length_reads partial_length_reads stat
+    mkdir -p full_length_reads/bwa full_length_reads/minimap2 partial_length_reads/bwa partial_length_reads/minimap2 stat
 
     # step1: obtain bases from ref start and end
     ref_start=\$(get_fasta_range.py $ref $ref_start_range)
@@ -56,6 +62,22 @@ process GET_FULL_LENGTH_READS {
     filename=\${reads_tem%.fastq.gz}
 
     echo \$filename,\$count_full_length_reads,\$count_partial_length_reads,\$percent_full_length_reads,\$percent_partial_length_reads > stat/\${filename}_stat.csv
+
+    # step5: add bam files
+    ## Add bam files and indices using bwa:
+    bwa index $ref
+    bwa mem -t $task.cpus $ref full_length_reads/$reads | samtools view -F 2048 -bS | samtools sort -o full_length_reads/bwa/\${filename}.bam
+    bwa mem -t $task.cpus $ref partial_length_reads/$reads | samtools view -F 2048 -bS | samtools sort -o partial_length_reads/bwa/\${filename}.bam
+
+    samtools index full_length_reads/bwa/*.bam
+    samtools index partial_length_reads/bwa/*.bam
+
+    ## Add bam files using minimap2
+    minimap2 $ref full_length_reads/$reads -a | samtools view -F 2048 -bS | samtools sort -o full_length_reads/minimap2/\${filename}.bam
+    minimap2 $ref partial_length_reads/$reads -a | samtools view -F 2048 -bS | samtools sort -o partial_length_reads/minimap2/\${filename}.bam
+
+    samtools index full_length_reads/minimap2/*.bam
+    samtools index partial_length_reads/minimap2/*.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
