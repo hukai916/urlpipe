@@ -1,7 +1,7 @@
 process GET_HIGH_QUALITY_READS {
     label 'process_medium'
 
-    container "hukai916/urlpipe:0.6"
+    container "hukai916/urlpipe:0.7"
 
     input:
     path reads
