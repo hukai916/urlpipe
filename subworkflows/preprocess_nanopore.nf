@@ -100,7 +100,7 @@ workflow PREPROCESS_NANOPORE {
       // MODULE: SPIT_ALLELE: split sample according to allele SNP information
       // 1_preprocess_nanopore/1j_split_allele
       if (params.allele_number == 2) {
-        SPLIT_ALLELE ( GET_FULL_LENGTH_READS.out.reads )
+        SPLIT_ALLELE ( GET_HIGH_QUALITY_READS.out.reads )
         STAT_SPLIT_ALLELE ( SPLIT_ALLELE.out.stat.collect() )
       } 
 
