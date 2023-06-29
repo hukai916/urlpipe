@@ -10,6 +10,8 @@ include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP03 } from '../modules/nf-core/mod
 include { CUTADAPT_FASTQS as CUTADAPT_FASTQS_AP04 } from '../modules/nf-core/modules/cutadapt_fastqs/main'
 include { GET_FULL_LENGTH_READS                } from '../modules/local/get_full_length_reads'
 include { STAT as STAT_FULL_LENGTH             } from '../modules/local/stat'
+include { GET_HIGH_QUALITY                     } from '../modules/local/get_high_quality_reads'
+include { STAT as STAT_HIGH_QUALITY_READ       } from '../modules/local/stat'
 include { SPLIT_ALLELE                         } from '../modules/local/split_allele'
 include { STAT as STAT_SPLIT_ALLELE            } from '../modules/local/stat'
 
@@ -84,7 +86,7 @@ workflow PREPROCESS_NANOPORE {
       // 
       // MODULE: GET_HIGH_QUALITY_READS: mean quality of reads must be above 25 by default
       GET_HIGH_QUALITY_READS ( GET_FULL_LENGTH_READS.out.reads )
-      // STAT_GET_HIGH_QUALITY_READ ( GET_HIGH_QUALITY_READS.out.reads )
+      STAT_HIGH_QUALITY ( GET_HIGH_QUALITY_READS.out.stat )
 
 
       // 
