@@ -82,12 +82,18 @@ workflow PREPROCESS_NANOPORE {
       STAT_FULL_LENGTH ( GET_FULL_LENGTH_READS.out.stat.collect() )
 
       // 
+      // MODULE: GET_HIGH_QUALITY_READS: mean quality of reads must be above 25 by default
+      GET_HIGH_QUALITY_READS ( GET_FULL_LENGTH_READS.out.reads )
+      // STAT_GET_HIGH_QUALITY_READ ( GET_HIGH_QUALITY_READS.out.reads )
+
+
+      // 
       // MODULE: SPIT_ALLELE: split sample according to allele SNP information
       // 1_preprocess_nanopore/1i_split_allele
-      if (params.allele_number == 2) {
-        SPLIT_ALLELE ( GET_FULL_LENGTH_READS.out.reads )
-        STAT_SPLIT_ALLELE ( SPLIT_ALLELE.out.stat.collect() )
-      } 
+      // if (params.allele_number == 2) {
+      //   SPLIT_ALLELE ( GET_FULL_LENGTH_READS.out.reads )
+      //   STAT_SPLIT_ALLELE ( SPLIT_ALLELE.out.stat.collect() )
+      // } 
 
 
 
