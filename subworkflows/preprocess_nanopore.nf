@@ -51,7 +51,14 @@ workflow PREPROCESS_NANOPORE {
       // 
       // MODULE: CUTADAPT: AP01
       // 1_preprocess_nanopore/1c_cutadapt_ap01
-      CUTADAPT_NANOPORE_AP01 ( GET_VALID_NANOPORE_READS.out.reads_valid_combine )
+      // depending on the filter_reads argument, choose to keep which reads to be used for downstream analysis
+      if (params.filter_reads == "forward_only") {
+        CUTADAPT_NANOPORE_AP01 ( GET_VALID_NANOPORE_READS.out.reads_valid )
+      } else if (params.filter_reads == "reverse_only") {
+        CUTADAPT_NANOPORE_AP01 ( GET_VALID_NANOPORE_READS.out.reads_valid_rc_rc )
+      } else if (params.filter_reads == "both_forward_reverse") {
+        CUTADAPT_NANOPORE_AP01 ( GET_VALID_NANOPORE_READS.out.reads_valid_combine )
+      }
       // CUTADAPT_NANOPORE_AP01_RC ( GET_VALID_NANOPORE_READS.out.reads_valid_rc )
 
       // 

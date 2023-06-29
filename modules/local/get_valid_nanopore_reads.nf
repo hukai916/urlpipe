@@ -10,6 +10,7 @@ process GET_VALID_NANOPORE_READS {
     tuple val(meta), path("*_valid.fastq.gz"), emit: reads_valid 
     tuple val(meta), path("*_invalid.fastq.gz"), emit: reads_invalid
     tuple val(meta), path("*_valid_rc.fastq.gz"), emit: reads_valid_rc
+    tuple val(meta), path("*_valid_rc_rc.fastq.gz"), emit: reads_valid_rc_rc
     tuple val(meta), path("*_invalid_rc.fastq.gz"), emit: reads_invalid_rc
     tuple val(meta), path("*_valid_combine.fastq.gz"), emit: reads_valid_combine
 
