@@ -40,6 +40,7 @@ process SPLIT_ALLELE {
     # step3: obtain some statistics
     touch test1.txt
     snp1_reads=\$(expr \$(zcat split_allele/snp1_*.fastq.gz | wc -l) / 4)
+    touch test11.txt
     snp2_reads=\$(expr \$(zcat split_allele/snp2_*.fastq.gz | wc -l) / 4)
     undetermined_reads=\$(expr \$(zcat split_allele/undetermined_*.fastq.gz | wc -l) / 4)
     touch test2.txt
