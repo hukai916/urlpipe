@@ -42,6 +42,7 @@ process SPLIT_ALLELE {
     snp1_reads=\$(expr \$(zcat split_allele/snp1_*.fastq.gz | wc -l) / 4)
     touch test11.txt
     snp2_reads=\$(expr \$(zcat split_allele/snp2_*.fastq.gz | wc -l) / 4)
+    touch test111.txt
     undetermined_reads=\$(expr \$(zcat split_allele/undetermined_*.fastq.gz | wc -l) / 4)
     touch test2.txt
     percent_snp1_reads=\$(echo "scale=2; \$snp1_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
