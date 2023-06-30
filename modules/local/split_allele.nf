@@ -38,14 +38,15 @@ process SPLIT_ALLELE {
     split_allele.py $reads snp1.csv snp2.csv split_allele/snp1_$reads split_allele/snp2_$reads split_allele/undetermined_$reads
 
     # step3: obtain some statistics
+    touch test1.txt
     snp1_reads=\$(expr \$(zcat split_allele/snp1_*.fastq.gz | wc -l) / 4)
     snp2_reads=\$(expr \$(zcat split_allele/snp2_*.fastq.gz | wc -l) / 4)
     undetermined_reads=\$(expr \$(zcat split_allele/undetermined_*.fastq.gz | wc -l) / 4)
-
+    touch test2.txt
     percent_snp1_reads=\$(echo "scale=2; \$snp1_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
     percent_snp2_reads=\$(echo "scale=2; \$snp2_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
     percent_undetermined_reads=\$(echo "scale=2; \$undetermined_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
-
+    touch test3.txt
     reads_tem=$reads
     filename=\${reads_tem%.fastq.gz}
 
