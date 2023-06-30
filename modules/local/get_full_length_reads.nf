@@ -53,10 +53,14 @@ process GET_FULL_LENGTH_READS {
     get_full_length_reads.py $reads ref_start_in_range.txt ref_end_in_range.txt $read_start_range $read_end_range full_length_reads/$reads partial_length_reads/$reads
 
     # step4: get some stats
-    count_full_length_reads=\$(expr \$(zcat full_length_reads/*.fastq.gz | wc -l) / 4)
-    count_partial_length_reads=\$(expr \$(zcat partial_length_reads/*.fastq.gz | wc -l) / 4)
-    percent_full_length_reads=\$(echo "scale=2; \$count_full_length_reads / (\$count_full_length_reads + \$count_partial_length_reads)" | bc)
-    percent_partial_length_reads=\$(echo "scale=2; \$count_partial_length_reads / (\$count_full_length_reads + \$count_partial_length_reads)" | bc)
+    # count_full_length_reads=\$(expr \$(zcat full_length_reads/*.fastq.gz | wc -l) / 4)
+    # above implementation, somehow, fails when submitted using Nextflow when the fastq is empty. However, when testing in the same env, it does work.
+    count_full_length_reads=\$(get_fastq_count.py full_length_reads/*.fastq.gz)
+    count_partial_length_reads=\$(get_fastq_count.py partial_length_reads/*.fastq.gz)
+    
+    percent_full_length_reads=\$(echo "scale=2; \$count_full_length_reads / (\$count_full_length_reads + \$count_partial_length_reads) + 0.01" | bc)
+    percent_partial_length_reads=\$(echo "scale=2; \$count_partial_length_reads / (\$count_full_length_reads + \$count_partial_length_reads) + 0.01" | bc)
+    # add 0.01 to avoid dividing by zero error.
     
     reads_tem=$reads
     filename=\${reads_tem%.fastq.gz}

@@ -38,17 +38,13 @@ process SPLIT_ALLELE {
     split_allele.py $reads snp1.csv snp2.csv split_allele/snp1_$reads split_allele/snp2_$reads split_allele/undetermined_$reads
 
     # step3: obtain some statistics
-    touch test1.txt
     snp1_reads=\$(get_fastq_count.py split_allele/snp1_*.fastq.gz)
-    touch test2.txt
     snp2_reads=\$(get_fastq_count.py split_allele/snp2_*.fastq.gz)
     undetermined_reads=\$(get_fastq_count.py split_allele/undetermined_*.fastq.gz)
-    
-    touch test.txt
 
-    percent_snp1_reads=\$(echo "scale=2; \$snp1_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
-    percent_snp2_reads=\$(echo "scale=2; \$snp2_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
-    percent_undetermined_reads=\$(echo "scale=2; \$undetermined_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads)" | bc)
+    percent_snp1_reads=\$(echo "scale=2; \$snp1_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads) + 0.01" | bc)
+    percent_snp2_reads=\$(echo "scale=2; \$snp2_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads) + 0.01" | bc)
+    percent_undetermined_reads=\$(echo "scale=2; \$undetermined_reads / (\$snp1_reads + \$snp2_reads + \$undetermined_reads) + 0.01" | bc)
     touch test3.txt
     reads_tem=$reads
     filename=\${reads_tem%.fastq.gz}
