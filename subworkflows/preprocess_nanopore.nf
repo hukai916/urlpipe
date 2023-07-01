@@ -94,7 +94,7 @@ workflow PREPROCESS_NANOPORE {
       // MODULE: GET_HIGH_QUALITY_READS: mean quality of reads must be above 25 by default
       // 1_preprocess_nanopore/1i_high_quality_read
       GET_HIGH_QUALITY_READS ( GET_FULL_LENGTH_READS.out.reads )
-      STAT_HIGH_QUALITY ( GET_HIGH_QUALITY_READS.out.stat )
+      STAT_HIGH_QUALITY ( GET_HIGH_QUALITY_READS.out.stat.collect() )
 
       // 
       // MODULE: SPIT_ALLELE: split sample according to allele SNP information
