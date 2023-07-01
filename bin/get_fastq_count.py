@@ -21,7 +21,7 @@ _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
 
 count = 0
 with _open(fastq) as f:
-    for record in SeqIO.parse(f, "fasta"):
+    for record in SeqIO.parse(f, "fastq"):
         count += 1
 
 print(count)
