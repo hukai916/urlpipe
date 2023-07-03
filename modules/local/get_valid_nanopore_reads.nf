@@ -21,19 +21,22 @@ process GET_VALID_NANOPORE_READS {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
+    def check_adapters = task.ext.check_adapters ?: ''
+    def allowed_error = task.ext.allowed_error ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
     # using original barcode:
-    scutls barcode -c $args -nproc $task.cpus \\
+    scutls barcode -c $check_adapters -nproc $task.cpus \\
         --input $reads \\
+        -e $allowed_error \\
         -o ${prefix}_valid.fastq.gz \\
         -o2 ${prefix}_invalid.fastq.gz 
 
     # using rc of barcode:
-    scutls barcode -rcb -c $args -nproc $task.cpus \\
+    scutls barcode -rcb -c $check_adapters -nproc $task.cpus \\
     --input $reads \\
+    -e $allowed_error \\
     -o ${prefix}_valid_rc.fastq.gz \\
     -o2 ${prefix}_invalid_rc.fastq.gz 
 
