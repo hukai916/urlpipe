@@ -29,6 +29,7 @@ workflow CLASSIFY_READ_NANOPORE {
       ch_versions = ch_versions.mix(CLASSIFY_INDEL_NANOPORE.out.versions)
       STAT_INDEL ( CLASSIFY_INDEL_NANOPORE.out.stat.collect() )
       ch_versions = ch_versions.mix(STAT_INDEL.out.versions)
+      // QC_STAT_INDEL (CLASSIFY_INDEL_NANOPORE.out.stat.collect(), )
 
       //
       // MODULE: classify_readthrough
