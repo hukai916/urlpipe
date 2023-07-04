@@ -16,6 +16,7 @@ process CLASSIFY_INDEL_NANOPORE {
     tuple val(meta), path("indel_5p_and_3p/*.fastq.gz"),  emit: reads_indel_5p_and_3p
     tuple val(meta), path("undetermined/*.fastq.gz"),     emit: reads_undetermined
     path "stat/*.csv",                                    emit: stat
+    path "stat/*.html",                                   emit: qc_plot
     path "*/bwa/*.bam",                                   emit: bam_bwa
     path "*/bwa/*.bai",                                   emit: bam_index_bwa
     path "*/minimap2/*.bam",                              emit: bam_minimap2
@@ -86,6 +87,15 @@ process CLASSIFY_INDEL_NANOPORE {
     samtools index indel_3p_only/minimap2/*.bam
     samtools index indel_5p_and_3p/minimap2/*.bam
     samtools index undetermined/minimap2/*.bam
+
+    # Add read_quality plot
+    touch stat/qc_plot.html
+    # plot_qc.py no_indel/${prefix}.fastq.gz \\
+        indel_5p_only/${prefix}.fastq.gz \\
+        indel_3p_only/${prefix}.fastq.gz \\
+        indel_5p_and_3p/${prefix}.fastq.gz \\
+        undetermined/${prefix}.fastq.gz \\ 
+        stat/qc_plot.html
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
