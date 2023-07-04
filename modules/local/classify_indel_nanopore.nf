@@ -91,11 +91,11 @@ process CLASSIFY_INDEL_NANOPORE {
     # Add read_quality plot
     touch stat/qc_plot.html
     # plot_qc.py no_indel/${prefix}.fastq.gz \\
-        indel_5p_only/${prefix}.fastq.gz \\
-        indel_3p_only/${prefix}.fastq.gz \\
-        indel_5p_and_3p/${prefix}.fastq.gz \\
-        undetermined/${prefix}.fastq.gz \\ 
-        stat/qc_plot.html
+    #    indel_5p_only/${prefix}.fastq.gz \\
+    #    indel_3p_only/${prefix}.fastq.gz \\
+    #    indel_5p_and_3p/${prefix}.fastq.gz \\
+    #    undetermined/${prefix}.fastq.gz \\ 
+    #    stat/qc_plot.html
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
