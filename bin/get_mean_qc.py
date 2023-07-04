@@ -28,7 +28,7 @@ with _open(fastq) as f:
         mean_quality = sum(record.letter_annotations["phred_quality"]) / len(record)
         mean_qualities.append(mean_quality)
 
-with open("", "w") as f:
+with open(outfile, "w") as f:
     res = ",".join([str(x) for x in mean_qualities])
     f.write(sample_name + "," + res + "\n")
     
