@@ -2,6 +2,8 @@ include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
 include { STAT as STAT_LOCUS          } from '../modules/local/stat'
 include { CLASSIFY_INDEL_NANOPORE     } from '../modules/local/classify_indel_nanopore'
 include { STAT as STAT_INDEL          } from '../modules/local/stat'
+include { STAT_QC_INDEL               } from '../modules/local/stat_qc_indel'
+
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { STAT as STAT_READTHROUGH    } from '../modules/local/stat'
 include { FASTQC as FASTQC_READTHROUGH} from '../modules/nf-core/modules/fastqc/main'
@@ -29,7 +31,7 @@ workflow CLASSIFY_READ_NANOPORE {
       ch_versions = ch_versions.mix(CLASSIFY_INDEL_NANOPORE.out.versions)
       STAT_INDEL ( CLASSIFY_INDEL_NANOPORE.out.stat.collect() )
       ch_versions = ch_versions.mix(STAT_INDEL.out.versions)
-      // QC_STAT_INDEL (CLASSIFY_INDEL_NANOPORE.out.stat.collect(), )
+      // STAT_QC_INDEL ( CLASSIFY_INDEL_NANOPORE.out.reads_no_indel, CLASSIFY_INDEL_NANOPORE.out.mean_qc, CLASSIFY_INDEL_NANOPORE.out.per_site_qc )
 
       //
       // MODULE: classify_readthrough
