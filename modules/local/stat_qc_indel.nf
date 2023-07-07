@@ -1,7 +1,7 @@
 process STAT_QC_INDEL {
     label 'process_low'
 
-    container "hukai916/miniconda3_bio:0.3"
+    container "hukai916/bioinfo:0.1"
 
     input:
     tuple val(meta), path(no_indel_fastq) // just be obtain meta
