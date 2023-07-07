@@ -103,11 +103,11 @@ process CLASSIFY_INDEL_NANOPORE {
     samtools mpileup indel_5p_and_3p/minimap2/${prefix}.bam -o stat/per_site_qc/per_site_qc_indel_5p_and_3p_${prefix}.txt
     samtools mpileup undetermined/minimap2/${prefix}.bam -o stat/per_site_qc/per_site_qc_undetermined_${prefix}.txt
 
-    cat stat/per_site_qc/per_site_qc_no_indel_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc_no_indel_${prefix}.csv
-    cat stat/per_site_qc/per_site_qc_indel_5p_only_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc_indel_5p_only_${prefix}.csv
-    cat stat/per_site_qc/per_site_qc_indel_3p_only_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc_indel_3p_only_${prefix}.csv
-    cat stat/per_site_qc/per_site_qc_indel_5p_and_3p_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc_indel_5p_and_3p_${prefix}.csv
-    cat stat/per_site_qc/per_site_qc_undetermined_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc_undetermined_${prefix}.csv
+    cat stat/per_site_qc/per_site_qc_no_indel_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc/per_site_qc_no_indel_${prefix}.csv
+    cat stat/per_site_qc/per_site_qc_indel_5p_only_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc/per_site_qc_indel_5p_only_${prefix}.csv
+    cat stat/per_site_qc/per_site_qc_indel_3p_only_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc/per_site_qc_indel_3p_only_${prefix}.csv
+    cat stat/per_site_qc/per_site_qc_indel_5p_and_3p_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc/per_site_qc_indel_5p_and_3p_${prefix}.csv
+    cat stat/per_site_qc/per_site_qc_undetermined_${prefix}.txt | awk 'BEGIN {OFS=","} {print "${prefix}",\$2,\$6}' > stat/per_site_qc/per_site_qc_undetermined_${prefix}.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
