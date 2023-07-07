@@ -30,7 +30,7 @@ for csv in per_site_csv:
     qs = []
     
     basename = os.path.basename(csv)
-    sample_name = os.path.splitext(basename)[0].replace("per_site_qc_", "")
+    sample_name = "plot_" + os.path.splitext(basename)[0]
 
     with open(csv, "r") as f:
         for line in f:
