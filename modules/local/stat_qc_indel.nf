@@ -18,13 +18,14 @@ process STAT_QC_INDEL {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def per_site_range_to_display = task.ext.per_site_range_to_display ?: '1000:1200'
 
     """
     # Step1: obtain mean read quality distribution per read category
-    plot_mean_qc.py $mean_qc plot_mean_qc.html
+    plot_mean_qc.py $mean_qc plot_mean_qc_${prefix}.html
 
     # Step2: obtain per mapped site read quality distribution per read 
-    plot_per_site_qc.py $per_site_qc plot_per_site_qc.html
+    plot_per_site_qc.py $per_site_qc $per_site_range_to_display
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -1,5 +1,12 @@
 import plotly.graph_objects as go
+import plotly.offline as pyo
 import numpy as np
+import sys
+import os
+
+per_site_csv = sys.argv[1:-1]
+per_site_range_to_display = sys.argv[-1]
+range_start, range_end = [int(x) for x in per_site_range_to_display.split(":")]
 
 def convert_to_phred(quality_string, offset = 33):
     phred_scores = []
@@ -8,68 +15,32 @@ def convert_to_phred(quality_string, offset = 33):
         phred_scores.append(phred_score)
     return phred_scores
 
-# def add_scatter_trace(fig, x_values, y_values, trace_name = "test_trace"):
-#     x = []
-#     y = []
-#     for i in range(len(x_values)):
-#         x = x + [x_values[i]] * len(y_values[i])
-#         y = y + list(y_values[i])
-#     fig.add_trace(go.Scatter(x = x, y = y, mode = 'markers', marker = dict(size=3), name = trace_name))
-#     return(fig)
-
-test_csv = "per_site_qc_indel_5p_only_hs_snp1_BC10.csv"
-
-sn = []
-pos = []
-qs = []
-
-with open(test_csv, "r") as f:
-    for line in f:
-        tem = line.strip().split(",")
-        sn.append(tem[0])
-        pos.append(int(tem[1]))
-        qs.append(convert_to_phred(",".join(tem[2:])))
-
-
-
-# x_values = []
-# y_values = []
-# for i, v in enumerate(pos):
-#     x_values += [i] * len(qs[i])
-#     y_values += qs[i]
-
-# # Generate random data for demonstration
-# x_values = np.linspace(0, 10, 10)
-# y_values = np.random.randn(10, 35)  # 1000 x-values with 200 y-values each
-
-# print(x_values)
-
-
-# # Create a scatter plot for each x-value and y-values
-fig = go.Figure()
-
-for i, v in enumerate(pos):
-    print(i)
-    if i > 1000 and i < 1200:
-        fig.add_trace(go.Box(x = v * np.ones_like(qs[i]), y = qs[i]))
-    # if i > 100:
-    #     break
+for csv in per_site_csv:
+    sn = []
+    pos = []
+    qs = []
     
-# go.Box(x =np.ones_like(data_1), y=data_1, name='Group 1')
+    basename = os.path.basename(csv)
+    sample_name = os.path.splitext(basename)[0].replace("per_site_qc_", "")
 
+    with open(csv, "r") as f:
+        for line in f:
+            tem = line.strip().split(",")
+            sn.append(tem[0])
+            pos.append(int(tem[1]))
+            qs.append(convert_to_phred(",".join(tem[2:])))
 
-# print(x_values[1:100])
-# print(y_values[1:100])
+    fig = go.Figure()
 
-# fig.add_trace(go.Scatter(x = x_values[1:1000], y = y_values[1:1000], mode = 'markers', marker = dict(size = 3), name = "running"))
-# add_scatter_trace(fig, x_values, y_values, "running")
-# print(x_values)
-    
-fig.update_layout(
-    title='Scatter Plot2',
-    xaxis=dict(title='X'),
-    yaxis=dict(title='Y'),
-    showlegend = False
-)
+    for i, v in enumerate(pos):
+        if i >= range_start and i <= range_end:
+            fig.add_trace(go.Box(x = v * np.ones_like(qs[i]), y = qs[i]))
 
-fig.show()
+    fig.update_layout(
+        title='Read quality per mapped site',
+        xaxis=dict(title = 'Coordinate in reference'),
+        yaxis=dict(title = 'Per base quality'),
+        showlegend = False
+    )
+
+    pyo.plot(fig, filename = sample_name + ".html")

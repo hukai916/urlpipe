@@ -7,42 +7,49 @@ Usage:
     python plot_per_site_qc.py per_site_*.csv outfile.html
 """
 
-import sys
-import os
-import plotly.graph_objs as go
+import plotly.graph_objects as go
 import plotly.offline as pyo
 import numpy as np
+import sys
+import os
 
-per_site_qc_csv = sys.argv[1:-1]
-out_html = sys.argv[-1]
+per_site_csv = sys.argv[1:-1]
+per_site_range_to_display = sys.argv[-1]
+range_start, range_end = [int(x) for x in per_site_range_to_display.split(":")]
 
-qc_list = []
-sn_list = [] # sample name
+def convert_to_phred(quality_string, offset = 33):
+    phred_scores = []
+    for char in quality_string:
+        phred_score = ord(char) - offset
+        phred_scores.append(phred_score)
+    return phred_scores
 
-for file in per_site_qc_csv:
-    with open(file, "r") as f:
+for csv in per_site_csv:
+    sn = []
+    pos = []
+    qs = []
+    
+    basename = os.path.basename(csv)
+    sample_name = os.path.splitext(basename)[0].replace("per_site_qc_", "")
+
+    with open(csv, "r") as f:
         for line in f:
             tem = line.strip().split(",")
-            if len(tem) > 1:
-                qc_list.append([float(x) if x != "" else 0 for x in tem[1:]])
-            else:
-                qc_list.append([np.nan])
-            basename = os.path.basename(file)
-            sample_name = os.path.splitext(basename)[0].replace("mean_qc_", "")
-            sn_list.append(sample_name)
-            break # only one line
+            sn.append(tem[0])
+            pos.append(int(tem[1]))
+            qs.append(convert_to_phred(",".join(tem[2:])))
 
-# Create the box plot
-fig = go.Figure()
-for i, lst in enumerate(qc_list):
-    name = sn_list[i]
-    fig.add_trace(go.Box(y = lst, name = name))
+    fig = go.Figure()
 
-# Update the layout
-fig.update_layout(
-    title='Mean read quality distribution per category',
-    xaxis = dict(title = 'Read category'),
-    yaxis = dict(title = 'Read mean quality')
-)
+    for i, v in enumerate(pos):
+        if i >= range_start and i <= range_end:
+            fig.add_trace(go.Box(x = v * np.ones_like(qs[i]), y = qs[i]))
 
-pyo.plot(fig, filename = out_html)
+    fig.update_layout(
+        title='Read quality per mapped site',
+        xaxis=dict(title = 'Coordinate in reference'),
+        yaxis=dict(title = 'Per base quality'),
+        showlegend = False
+    )
+
+    pyo.plot(fig, filename = sample_name + ".html")
