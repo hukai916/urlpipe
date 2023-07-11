@@ -11,6 +11,12 @@ def _open(filename):
     _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
     return(_open(filename))
 
+def _open_out(filename):
+    encoding = guess_type(filename)[1]  # uses file extension
+    _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
+    return(_open(filename))
+
+
 def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
     """
     csv:

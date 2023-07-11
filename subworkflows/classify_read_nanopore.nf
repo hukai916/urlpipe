@@ -1,5 +1,5 @@
 include { QC_FLANKING_READS } from '../modules/local/qc_flanking_reads'
-// include { GET_HIGH_QUALITY_FLANKING_READS } from '../modules/local/get_high_quality_flanking_reads'
+include { GET_HIGH_QUALITY_FLANKING_READS } from '../modules/local/get_high_quality_flanking_reads'
 
 include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
 include { STAT as STAT_LOCUS          } from '../modules/local/stat'
@@ -33,20 +33,20 @@ workflow CLASSIFY_READ_NANOPORE {
       QC_FLANKING_READS ( reads, file(params.ref) )
       ch_versions = ch_versions.mix( QC_FLANKING_READS.out.versions )
 
-      // // MODULE: get high quality flanking reads
-      // GET_HIGH_QUALITY_FLANKING_READS (reads, QC_FLANKING_READS.out.read_id_mean_qc )
-      // ch_versions = ch_versions.mix( GET_HIGH_QUALITY_FLANKING_READS.out.versions )
+      // MODULE: get high quality flanking reads
+      // 3_read_category/3a_high_quality_flanking_read
+      GET_HIGH_QUALITY_FLANKING_READS (reads, QC_FLANKING_READS.out.read_id_mean_qc )
+      ch_versions = ch_versions.mix( GET_HIGH_QUALITY_FLANKING_READS.out.versions )
 
-
-      // //
-      // // MODULE: classify INDEL and stat: no need to perform read through
-      // // 3_read_category/3b_classify_indel
-      // CLASSIFY_INDEL_NANOPORE ( GET_HIGH_QUALITY_FLANKING_READS.out.reads, file(params.ref) )
-      // ch_versions = ch_versions.mix(CLASSIFY_INDEL_NANOPORE.out.versions)
-      // STAT_INDEL ( CLASSIFY_INDEL_NANOPORE.out.stat_indel.collect() )
-      // ch_versions = ch_versions.mix( STAT_INDEL.out.versions )
-      // // 3_read_category/3b_classify_indel/qc
-      // STAT_QC_INDEL ( CLASSIFY_INDEL_NANOPORE.out.reads_no_indel, CLASSIFY_INDEL_NANOPORE.out.mean_qc, CLASSIFY_INDEL_NANOPORE.out.per_site_qc )
+      //
+      // MODULE: classify INDEL and stat: no need to perform read through
+      // 3_read_category/3b_classify_indel
+      CLASSIFY_INDEL_NANOPORE ( GET_HIGH_QUALITY_FLANKING_READS.out.reads, file(params.ref) )
+      ch_versions = ch_versions.mix(CLASSIFY_INDEL_NANOPORE.out.versions)
+      STAT_INDEL ( CLASSIFY_INDEL_NANOPORE.out.stat_indel.collect() )
+      ch_versions = ch_versions.mix( STAT_INDEL.out.versions )
+      // 3_read_category/3b_classify_indel/qc
+      STAT_QC_INDEL ( CLASSIFY_INDEL_NANOPORE.out.reads_no_indel, CLASSIFY_INDEL_NANOPORE.out.mean_qc, CLASSIFY_INDEL_NANOPORE.out.per_site_qc )
 
       //
       // MODULE: classify_readthrough
@@ -67,6 +67,6 @@ workflow CLASSIFY_READ_NANOPORE {
       //   CLASSIFY_ALLELE ()
 
     emit:
-      // reads_no_indel            = CLASSIFY_INDEL_NANOPORE.out.reads_no_indel
+      reads_no_indel            = CLASSIFY_INDEL_NANOPORE.out.reads_no_indel
       versions      = ch_versions
 }
