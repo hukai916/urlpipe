@@ -1,7 +1,15 @@
+from mimetypes import guess_type
+from functools import partial
+import gzip
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
 from Bio.Seq import Seq
+
+def _open(filename):
+    encoding = guess_type(filename)[1]  # uses file extension
+    _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
+    return(_open(filename))
 
 def plot_repeat_dist(csv, output_file, sample_name, N, bin_number = 250):
     """
