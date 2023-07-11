@@ -32,13 +32,13 @@ process QC_FLANKING_READS {
     samtools index minimap2/*.bam
 
     # Step2: parse out mean read quality for left_flanking_coordinates for each mapped read
-    IFS=':' read -r left_s left_e <<< "\$left_flanking_coordinates"
+    IFS=':' read -r left_s left_e <<< "$left_flanking_coordinates"
     scutls bam --input minimap2/${prefix}.bam -lpir \$left_s -o left_start.txt
     scutls bam --input minimap2/${prefix}.bam -lpir \$left_e -o left_end.txt
     get_fastq_mean_qc_by_range.py $reads left_start.txt left_end.txt left_flanking_qc.txt
 
     # Step3: parse out mean read quality for right_flanking_coordinates for each mapped read
-    IFS=':' read -r right_s right_e <<< "\$right_flanking_coordinates"
+    IFS=':' read -r right_s right_e <<< "$right_flanking_coordinates"
     scutls bam --input minimap2/${prefix}.bam -lpir \$right_s -o right_start.txt
     scutls bam --input minimap2/${prefix}.bam -lpir \$right_e -o right_end.txt
     get_fastq_mean_qc_by_range.py $reads right_start.txt right_end.txt right_flanking_qc.txt
