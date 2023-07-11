@@ -1,4 +1,6 @@
 include { QC_FLANKING_READS } from '../modules/local/qc_flanking_reads'
+// include { GET_HIGH_QUALITY_FLANKING_READS } from '../modules/local/get_high_quality_flanking_reads'
+
 include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
 include { STAT as STAT_LOCUS          } from '../modules/local/stat'
 include { CLASSIFY_INDEL_NANOPORE     } from '../modules/local/classify_indel_nanopore'
@@ -65,6 +67,6 @@ workflow CLASSIFY_READ_NANOPORE {
       //   CLASSIFY_ALLELE ()
 
     emit:
-      reads_no_indel            = CLASSIFY_INDEL_NANOPORE.out.reads_no_indel
+      // reads_no_indel            = CLASSIFY_INDEL_NANOPORE.out.reads_no_indel
       versions      = ch_versions
 }
