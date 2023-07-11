@@ -4,7 +4,7 @@
 Obtain mean read quality by range.
 
 Usage:
-    python get_mean_qc_by_range.py sample.fastq.gz start_pos.txt end_pos.txt
+    python get_fastq_mean_qc_by_range.py sample.fastq.gz start_pos.txt end_pos.txt
 """
 
 import sys
