@@ -32,7 +32,6 @@ process QC_FLANKING_READS {
     samtools index minimap2/*.bam
 
     # Step2: parse out mean read quality for left_flanking_coordinates for each mapped read
-    functions to implement:
     IFS=':' read -r left_s left_e <<< "\$left_flanking_coordinates"
     scutls bam --input minimap2/${prefix}.bam -lpir \$left_s -o left_start.txt
     scutls bam --input minimap2/${prefix}.bam -lpir \$left_e -o left_end.txt
