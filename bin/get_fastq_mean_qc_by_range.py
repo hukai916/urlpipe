@@ -32,7 +32,7 @@ with open(end_pos, "r") as f:
 with _open(reads) as f, open(outfile, "w") as f_out:
     for record in SeqIO.parse(f, "fastq"):
         if record.id in range_dict:
-            if len(range_dict[record.id] != 2):
+            if len(range_dict[record.id]) != 2:
                 print(record.id, range_dict[record.id])
             # if len(range_dict[record.id])
             # if range_dict[record.id][0] == "NA" or range_dict[record.id][1] == "NA":
