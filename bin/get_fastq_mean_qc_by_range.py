@@ -32,9 +32,11 @@ with open(end_pos, "r") as f:
 with _open(reads) as f, open(outfile, "w") as f_out:
     for record in SeqIO.parse(f, "fastq"):
         if record.id in range_dict:
-            if range_dict[record.id][0] == "NA" or range_dict[record.id][0] == "":
-                f_out.write(record.id + ",NA\n")
-            else:
-                qc_score = [str(x) for x in record.letter_annotations["phred_quality"][int(range_dict[record.id][0]):int(range_dict[record.id][1])]]
-                f_out.write(record.id + "," + ",".join(qc_score) + "\n")
+            print(record.id, range_dict[record.id])
+            # if len(range_dict[record.id])
+            # if range_dict[record.id][0] == "NA" or range_dict[record.id][1] == "NA":
+            #     f_out.write(record.id + ",NA\n")
+            # else:
+            #     qc_score = [str(x) for x in record.letter_annotations["phred_quality"][int(range_dict[record.id][0]):int(range_dict[record.id][1])]]
+            #     f_out.write(record.id + "," + ",".join(qc_score) + "\n")
 
