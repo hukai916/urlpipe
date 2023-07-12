@@ -37,7 +37,7 @@ process GET_HIGH_QUALITY_FLANKING_READS {
     reads_tem=$reads
     filename=\${reads_tem%.fastq.gz}
 
-    echo \$filename,\$count_high_quality_flanking_reads,\$count_low_quality_flanking_reads,\$percent_high_quality_flanking_reads,\$percent_low_quality_flanking_reads > stat/\${filename}_stat.csv
+    echo \$filename,\$count_high_quality_reads,\$count_low_quality_reads,\$percent_high_quality_reads,\$percent_low_quality_reads > stat/\${filename}_stat.csv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
