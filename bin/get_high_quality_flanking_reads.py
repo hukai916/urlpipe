@@ -32,7 +32,7 @@ with open(read_id_mean_qc, "r") as f:
         read_id_mean_qc_dict[tem[0]] = float(tem[1])
 
 # step2: filter reads based on mean_qc
-with _open(fastq) as f_in, _open_out(out_pass_name) as f_out_pass, _open_out(not_pass_name) as f_out_not_pass:
+with _open(fastq) as f_in, _open_out(out_pass_name) as f_out_pass, _open_out(out_not_pass_name) as f_out_not_pass:
     for record in SeqIO.parse(f_in, "fastq"):
         if record.id in read_id_mean_qc_dict:
             if read_id_mean_qc_dict[record.id] >= mean_qc_cutoff:
