@@ -36,7 +36,7 @@ workflow CLASSIFY_READ_NANOPORE {
       // MODULE: get high quality flanking reads
       // 3_read_category/3a_high_quality_flanking_read
       reads.view()
-      QC_FLANKING_READS.out.read_id_mean_qc.view()
+      // QC_FLANKING_READS.out.read_id_mean_qc.view()
       GET_HIGH_QUALITY_FLANKING_READS (reads, QC_FLANKING_READS.out.read_id_mean_qc )
       ch_versions = ch_versions.mix( GET_HIGH_QUALITY_FLANKING_READS.out.versions )
 
