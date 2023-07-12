@@ -12,8 +12,8 @@ process QC_FLANKING_READS {
     tuple val(meta), path(reads),                         emit: reads_input
     tuple val(meta), path("stat/read_id_mean_qc_*.csv"),  emit: read_id_mean_qc 
     path "stat/*",                                        emit: stat_all
-    path "*/minimap2/*.bam",                              emit: bam_minimap2
-    path "*/minimap2/*.bai",                              emit: bam_index_minimap2
+    path "minimap2/*.bam",                                emit: bam_minimap2
+    path "minimap2/*.bai",                                emit: bam_index_minimap2
     path  "versions.yml",                                 emit: versions
 
     when:
