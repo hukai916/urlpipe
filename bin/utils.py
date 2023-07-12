@@ -13,7 +13,7 @@ def _open(filename):
 
 def _open_out(filename):
     encoding = guess_type(filename)[1]  # uses file extension
-    _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
+    _open = partial(gzip.open, mode='wt') if encoding == 'gzip' else open
     return(_open(filename))
 
 
