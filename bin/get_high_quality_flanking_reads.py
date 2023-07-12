@@ -24,9 +24,6 @@ mean_qc_cutoff = int(sys.argv[3])
 out_pass_name = sys.argv[4]
 out_not_pass_name = sys.argv[5]
 
-_open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
-_open_out = partial(gzip.open, mode='wt') if encoding_out == 'gzip' else open
-
 # step1: read in read_id_mean_qc
 read_id_mean_qc_dict = {}
 with open(read_id_mean_qc, "r") as f:
