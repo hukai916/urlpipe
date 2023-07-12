@@ -19,6 +19,13 @@ outcsv  = sys.argv[4]
 sample_name = sys.argv[5]
 out_read_id_mean_qc = sys.argv[6]
 
+# left_flanking_qc = "left_flanking_qc.txt"
+# right_flanking_qc = "right_flanking_qc.txt"
+# outhtml = "stat/flanking_qc_hs_snp1_BC20.html"
+# outcsv  = "stat/flanking_qc_hs_snp1_BC20.csv"
+# sample_name = "test_run"
+# out_read_id_mean_qc = "test_qc_score.txt"
+
 left_c, right_c = 0, 0
 left_na, right_na = 0, 0
 left_mean, right_mean = [], []
@@ -44,7 +51,7 @@ with open(right_flanking_qc, "r") as f:
             if tem[1] == "NA" or tem[1] == "":
                 right_na += 1
             else:
-                _right_mean = np.mean([int(x) for x in tem[2:]])
+                _right_mean = np.mean([int(x) for x in tem[1:]])
                 right_mean.append(_right_mean)
                 if tem[0] in read_id_mean_qc:
                     read_id_mean_qc[tem[0]].append(_right_mean)

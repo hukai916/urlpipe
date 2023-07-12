@@ -45,7 +45,7 @@ process QC_FLANKING_READS {
 
     # Step4: plot mean quality distribution for left_flanking_qc.txt and right_flanking_qc.txt
     # also output read_id_mean_qc_*.csv
-    plot_mean_qc_flanking.py left_flanking_qc.txt right_flanking_qc.txt stat/flanking_qc_${prefix}.html $prefix stat/read_id_mean_qc_${prefix}.csv
+    plot_mean_qc_flanking.py left_flanking_qc.txt right_flanking_qc.txt stat/flanking_qc_${prefix}.html $prefix stat/read_id_mean_qc_${prefix}.csv ${prefix} stat/read_id_mean_qc_${prefix}.csv"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
