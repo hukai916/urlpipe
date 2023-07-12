@@ -58,8 +58,8 @@ process GET_FULL_LENGTH_READS {
     count_full_length_reads=\$(get_fastq_count.py full_length_reads/*.fastq.gz)
     count_partial_length_reads=\$(get_fastq_count.py partial_length_reads/*.fastq.gz)
     
-    percent_full_length_reads=\$(echo "scale=2; \$count_full_length_reads / (\$count_full_length_reads + \$count_partial_length_reads) + 0.01" | bc)
-    percent_partial_length_reads=\$(echo "scale=2; \$count_partial_length_reads / (\$count_full_length_reads + \$count_partial_length_reads) + 0.01" | bc)
+    percent_full_length_reads=\$(echo "scale=2; \$count_full_length_reads / (\$count_full_length_reads + \$count_partial_length_reads + 0.001)" | bc)
+    percent_partial_length_reads=\$(echo "scale=2; \$count_partial_length_reads / (\$count_full_length_reads + \$count_partial_length_reads + 0.001)" | bc)
     # add 0.01 to avoid dividing by zero error.
     
     reads_tem=$reads

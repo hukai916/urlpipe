@@ -31,8 +31,8 @@ process GET_HIGH_QUALITY_FLANKING_READS {
     # step2: obtain some statistics
     count_high_quality_reads=\$(get_fastq_count.py high_quality/$reads)
     count_low_quality_reads=\$(get_fastq_count.py low_quality/$reads)
-    percent_high_quality_reads=\$(echo "scale=2; \$count_high_quality_reads / (\$count_high_quality_reads + \$count_low_quality_reads) + 0.01" | bc)
-    percent_low_quality_reads=\$(echo "scale=2; \$count_low_quality_reads / (\$count_high_quality_reads + \$count_low_quality_reads) + 0.01" | bc)
+    percent_high_quality_reads=\$(echo "scale=2; \$count_high_quality_reads / (\$count_high_quality_reads + \$count_low_quality_reads + 0.001)" | bc)
+    percent_low_quality_reads=\$(echo "scale=2; \$count_low_quality_reads / (\$count_high_quality_reads + \$count_low_quality_reads + 0.001)" | bc)
 
     reads_tem=$reads
     filename=\${reads_tem%.fastq.gz}
