@@ -2,7 +2,7 @@ process QC_FLANKING_READS {
     tag "$meta.id"
     label 'process_medium'
 
-    container "hukai916/urlpipe:0.8"
+    container "hukai916/urlpipe:0.9"
 
     input:
     tuple val(meta), path(reads)
