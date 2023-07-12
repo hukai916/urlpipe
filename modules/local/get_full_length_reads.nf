@@ -85,7 +85,7 @@ process GET_FULL_LENGTH_READS {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        UMI-tools: \$( umi_tools --version | sed -e "s/UMI-tools //g" )
+        python: \$( python --version | sed -e "s/python //g" )
     END_VERSIONS
 
     """
