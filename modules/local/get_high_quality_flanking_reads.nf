@@ -4,7 +4,7 @@ process GET_HIGH_QUALITY_FLANKING_READS {
     container "hukai916/urlpipe:0.9"
 
     input:
-    path reads
+    tuple val(meta), path(reads)
     path read_id_mean_qc
 
     output:
