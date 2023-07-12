@@ -26,7 +26,7 @@ process GET_HIGH_QUALITY_FLANKING_READS {
     mkdir -p high_quality low_quality stat
 
     # step1: filter reads based on mean quality score
-    get_high_quality_flanking_reads.py $reads $mean_quality_cutoff mean_qc_cutoff high_quality/${reads} low_quality/${reads}
+    get_high_quality_flanking_reads.py $reads $read_id_mean_qc $mean_quality_cutoff high_quality/${reads} low_quality/${reads}
 
     # step2: obtain some statistics
     count_high_quality_reads=\$(get_fastq_count.py high_quality/$reads)
