@@ -5,7 +5,7 @@ process GET_HIGH_QUALITY_FLANKING_READS {
 
     input:
     tuple val(meta), path(reads)
-    path read_id_mean_qc
+    tuple val(meta), path(read_id_mean_qc)
 
     output:
     path "high_quality/*.fastq.gz",           emit: reads
