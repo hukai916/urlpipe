@@ -8,11 +8,11 @@ process GET_HIGH_QUALITY_FLANKING_READS {
     tuple val(meta), path(read_id_mean_qc)
 
     output:
-    path "high_quality/*.fastq.gz", emit: reads
-    path "low_quality/*.fastq.gz",  emit: reads_low_quality_flanking
-    path "stat/*_stat.csv",         emit: stat
+    tuple val(meta), path("high_quality/*.fastq.gz"), emit: reads
+    tuple val(meta), path("low_quality/*.fastq.gz"),  emit: reads_low_quality_flanking
+    path "stat/*_stat.csv",                           emit: stat
 
-    path  "versions.yml",           emit: versions
+    path  "versions.yml",                             emit: versions
 
 
     when:
