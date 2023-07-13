@@ -1,7 +1,7 @@
 process GET_HIGH_QUALITY_FLANKING_READS {
     label 'process_medium'
 
-    container "hukai916/urlpipe:0.9"
+    container "hukai916/urlpipe:1.0"
 
     input:
     tuple val(meta), path(reads)

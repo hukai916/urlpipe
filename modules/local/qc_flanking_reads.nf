@@ -2,7 +2,7 @@ process QC_FLANKING_READS {
     tag "$meta.id"
     label 'process_medium'
 
-    container "hukai916/urlpipe:0.9"
+    container "hukai916/urlpipe:1.0"
 
     input:
     tuple val(meta), path(reads)
@@ -35,13 +35,15 @@ process QC_FLANKING_READS {
     IFS=':' read -r left_s left_e <<< "$left_flanking_coordinates"
     scutls bam --input minimap2/${prefix}.bam -lpir \$left_s -o left_start.txt
     scutls bam --input minimap2/${prefix}.bam -lpir \$left_e -o left_end.txt
-    get_fastq_mean_qc_by_range.py $reads left_start.txt left_end.txt left_flanking_qc.txt
+    get_fastq_qc_by_range.py $reads left_start.txt left_end.txt left_flanking_qc.txt
+    get_fastq_seq_by_range.py $reads left_start.txt left_end.txt left_flanking_seq.txt
 
     # Step3: parse out mean read quality for right_flanking_coordinates for each mapped read
     IFS=':' read -r right_s right_e <<< "$right_flanking_coordinates"
     scutls bam --input minimap2/${prefix}.bam -lpir \$right_s -o right_start.txt
     scutls bam --input minimap2/${prefix}.bam -lpir \$right_e -o right_end.txt
-    get_fastq_mean_qc_by_range.py $reads right_start.txt right_end.txt right_flanking_qc.txt
+    get_fastq_qc_by_range.py $reads right_start.txt right_end.txt right_flanking_qc.txt
+    get_fastq_seq_by_range.py $reads right_start.txt right_end.txt right_flanking_seq.txt
 
     # Step4: plot mean quality distribution for left_flanking_qc.txt and right_flanking_qc.txt
     # also output read_id_mean_qc_*.csv
