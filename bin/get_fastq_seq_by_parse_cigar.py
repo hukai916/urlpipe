@@ -12,9 +12,19 @@ from utils import _open
 from Bio import SeqIO
 
 reads = sys.argv[1]
-start_pos = sys.argv[2]
-end_pos = sys.argv[3]
-outfile = sys.argv[4]
+parse_cigar = sys.argv[2]
+indel_length_cutoff = int(sys.argv[3])
+ref_start, ref_end = str(sys.argv[4]).strip().split(":")
+out_pass_reads = sys.argv[5]
+out_not_pass_reads = sys.argv[6]
+
+# Step1: figure out which reads to keep using indel_length_cutoff and ref_range
+filter_fastq = {}
+with open(parse_cigar, "r") as f:
+    for line in f:
+        tem = line.strip().split(",")
+
+
 
 range_dict = {}
 

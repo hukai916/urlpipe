@@ -10,6 +10,7 @@ include { STAT as STAT_INDEL          } from '../modules/local/stat'
 include { STAT_QC_INDEL               } from '../modules/local/stat_qc_indel'
 
 include { PARSE_CIGAR as PARSE_CIGAR_INDEL_5P_ONLY } from '../modules/local/parse_cigar'
+include { FILTER_BY_INDEL_LENGTH      } from '../modules/local/filter_by_indel_length'
 
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { STAT as STAT_READTHROUGH    } from '../modules/local/stat'
@@ -63,7 +64,7 @@ workflow CLASSIFY_READ_NANOPORE {
       // 
       // MODULE: filter indel reads by indel length according to parse_cigar result
       // 3_read_category/3b_classify_indel/indel_5p_only/filter_by_indel_length
-      // FILTER_BY_INDEL_LENGTH ( PARSE_CIGAR_INDEL_5P_ONLY.out.read, PARSE_CIGAR_INDEL_5P_ONLY.out.parse_cigar )
+      FILTER_BY_INDEL_LENGTH ( PARSE_CIGAR_INDEL_5P_ONLY.out.read, PARSE_CIGAR_INDEL_5P_ONLY.out.parse_cigar )
 
 
       //
