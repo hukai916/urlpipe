@@ -59,12 +59,12 @@ workflow CLASSIFY_READ_NANOPORE {
       // 
       // MODULE: parse CIGAR from bam and output the ref pos for each CIGAR tuple for each read
       // 3_read_category/3b_classify_indel/indel_5p_only/parse_cigar
-      PARSE_CIGAR_INDEL_5P_ONLY ( CLASSIFY_INDEL_NANOPORE.out.reads_indel_5p_only, CLASSIFY_INDEL_NANOPORE.out.bam_minimap2_indel_5p_only )
+      // PARSE_CIGAR_INDEL_5P_ONLY ( CLASSIFY_INDEL_NANOPORE.out.reads_indel_5p_only, CLASSIFY_INDEL_NANOPORE.out.bam_minimap2_indel_5p_only )
 
-      // 
-      // MODULE: filter indel reads by indel length according to parse_cigar result
-      // 3_read_category/3b_classify_indel/indel_5p_only/filter_by_indel_length
-      FILTER_BY_INDEL_LENGTH ( PARSE_CIGAR_INDEL_5P_ONLY.out.read, PARSE_CIGAR_INDEL_5P_ONLY.out.parse_cigar )
+      // // 
+      // // MODULE: filter indel reads by indel length according to parse_cigar result
+      // // 3_read_category/3b_classify_indel/indel_5p_only/filter_by_indel_length
+      // FILTER_BY_INDEL_LENGTH ( PARSE_CIGAR_INDEL_5P_ONLY.out.read, PARSE_CIGAR_INDEL_5P_ONLY.out.parse_cigar )
 
 
       //
