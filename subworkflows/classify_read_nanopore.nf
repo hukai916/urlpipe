@@ -4,11 +4,12 @@ include { STAT as STAT_HIGH_QUALITY_FLANKING_READS } from '../modules/local/stat
 
 include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
 include { STAT as STAT_LOCUS          } from '../modules/local/stat'
+
 include { CLASSIFY_INDEL_NANOPORE     } from '../modules/local/classify_indel_nanopore'
 include { STAT as STAT_INDEL          } from '../modules/local/stat'
 include { STAT_QC_INDEL               } from '../modules/local/stat_qc_indel'
 
-include { PARSE_CIGAR as PARSE_CIGAR_INDEL_5P_ONLY } from '../module/local/parse_cigar'
+include { PARSE_CIGAR as PARSE_CIGAR_INDEL_5P_ONLY } from '../modules/local/parse_cigar'
 
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { STAT as STAT_READTHROUGH    } from '../modules/local/stat'
