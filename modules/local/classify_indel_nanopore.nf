@@ -20,7 +20,9 @@ process CLASSIFY_INDEL_NANOPORE {
     path "stat/per_site_qc/per_site_qc*.csv",             emit: per_site_qc
     path "*/bwa/*.bam",                                   emit: bam_bwa
     path "*/bwa/*.bai",                                   emit: bam_index_bwa
-    path "*/minimap2/*.bam",                              emit: bam_minimap2
+    path "indel_5p_only/minimap2/*.bam",                  emit: bam_minimap2_indel_5p_only
+    path "indel_3p_only/minimap2/*.bam",                  emit: bam_minimap2_indel_3p_only
+    path "indel_5p_and_3p/minimap2/*.bam",                emit: bam_minimap2_indel_5p_and_3p
     path "*/minimap2/*.bai",                              emit: bam_index_minimap2
     
     path  "versions.yml",                                 emit: versions
