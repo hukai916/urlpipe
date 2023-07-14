@@ -2,7 +2,7 @@ process FILTER_BY_INDEL_LENGTH {
     tag "$meta.id"
     label 'process_medium'
 
-    container "hukai916/urlpipe:1.0"
+    container "hukai916/urlpipe:1.1"
 
     input:
     tuple val(meta), path(reads_input)
