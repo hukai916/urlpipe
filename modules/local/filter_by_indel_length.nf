@@ -18,11 +18,14 @@ process FILTER_BY_INDEL_LENGTH {
 
     script:
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def indel_length_cutoff = task.ext.indel_length_cutoff ?: 10
 
     """
     touch stat.csv
 
-    # step1: filter fastq reads
+    # step1: filter fastq reads by indel length
+
+
 
     # step2: provide BAM files for filtered fastq reads
 
