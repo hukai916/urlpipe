@@ -8,13 +8,13 @@ Usage:
 """
 
 import sys
-from utils import _open
+from utils import _open, _open_out
 from Bio import SeqIO
 
 reads = sys.argv[1]
 parse_cigar = sys.argv[2]
 indel_length_cutoff = int(sys.argv[3])
-ref_start, ref_end = str(sys.argv[4]).strip().split(":")
+ref_start, ref_end = [int(x) for x in str(sys.argv[4]).strip().split(":")]
 out_pass_reads = sys.argv[5]
 out_not_pass_reads = sys.argv[6]
 
@@ -23,33 +23,14 @@ filter_fastq = {}
 with open(parse_cigar, "r") as f:
     for line in f:
         tem = line.strip().split(",")
+        read_id, cigar_1, cigar_2, ref_pos = tem[0], tem[1], int(tem[2]), int(tem[3])
+        if cigar_1 in ["D", "I"] and cigar_2 >= indel_length_cutoff and ref_pos >= ref_start and ref_pos < ref_end:
+            filter_fastq.append(read_id)
 
-
-
-range_dict = {}
-
-with open(start_pos, "r") as f:
-    for line in f:
-        tem = line.strip().split(",")
-        if tem[0] not in range_dict:
-            range_dict[tem[0]] = [tem[1]]
-with open(end_pos, "r") as f:
-    for line in f:
-        tem = line.strip().split(",")
-        if tem[0] in range_dict:
-            range_dict[tem[0]].append(tem[1])
-
-with _open(reads) as f, open(outfile, "w") as f_out:
+# Step2: output to corresponding fastq files
+with _open(reads) as f, _open_out(out_pass_reads) as f_out_pass, _open_out(out_not_pass_reads) as f_out_not_pass:
     for record in SeqIO.parse(f, "fastq"):
-        if record.id in range_dict:
-            if len(range_dict[record.id]) != 2: # only start exist, but not end
-                f_out.write(record.id + ",NA\n")
-                # print(record.id, range_dict[record.id])
-            elif range_dict[record.id][0] == "NA" or range_dict[record.id][1] == "NA":
-                f_out.write(record.id + ",NA\n")
-            else:
-                # qc_score = [str(x) for x in record.letter_annotations["phred_quality"][int(range_dict[record.id][0]):int(range_dict[record.id][1])]]
-                seq = [str(x) for x in record.seq[int(range_dict[record.id][0]):int(range_dict[record.id][1])]]
-                
-                f_out.write(record.id + "," + "".join(seq) + "\n")
-
+        if record.id in filter_fastq:
+            SeqIO.write(record, f_out_pass)
+        else:
+            SeqIO.write(record, f_out_not_pass)
