@@ -16,7 +16,6 @@ process FILTER_BY_INDEL_LENGTH {
     path "*/bwa/*.bai",                   emit: bam_index_bwa
     path "*/minimap2/*.bam",              emit: bam_minimap2
     path "*/minimap2/*.bai",              emit: bam_index_minimap2
-    path "stat/*_stat.csv",               emit: stat
     path  "versions.yml",                 emit: versions
 
     when:
