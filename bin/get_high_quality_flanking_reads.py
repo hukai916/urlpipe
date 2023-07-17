@@ -40,7 +40,7 @@ read_id_mean_qc_extend_dict = {}
 with open(read_id_mean_qc_extend, "r") as f:
     for line in f:
         tem = line.strip().split(",")
-        read_id_mean_qc_extend_dict[tem[0]] = float(tem[1])
+        read_id_mean_qc_extend_dict[tem[0]] = [float(tem[1]), float(tem[2])]
 
 # step2: filter reads based on mean_qc
 with _open(fastq) as f_in, _open_out(out_pass_name) as f_out_pass, _open_out(out_not_pass_name) as f_out_not_pass:
