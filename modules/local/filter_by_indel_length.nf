@@ -7,6 +7,7 @@ process FILTER_BY_INDEL_LENGTH {
     input:
     tuple val(meta), path(reads)
     path parse_cigar
+    path ref
 
     output:
     tuple val(meta), path("indel_pass_filter/*.fastq.gz"), emit: reads_indel_pass_filter
