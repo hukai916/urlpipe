@@ -5,7 +5,7 @@ process FILTER_BY_INDEL_LENGTH {
     container "hukai916/urlpipe:1.1"
 
     input:
-    tuple val(meta), path(reads_input)
+    tuple val(meta), path(reads)
     path parse_cigar
 
     output:
