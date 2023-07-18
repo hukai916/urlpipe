@@ -19,7 +19,7 @@ out_pass_reads = sys.argv[5]
 out_not_pass_reads = sys.argv[6]
 
 # Step1: figure out which reads to keep using indel_length_cutoff and ref_range
-filter_fastq = {}
+filter_fastq = []
 with open(parse_cigar, "r") as f:
     for line in f:
         tem = line.strip().split(",")
