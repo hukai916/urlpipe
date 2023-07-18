@@ -31,7 +31,7 @@ process FILTER_BY_INDEL_LENGTH {
     mkdir -p indel_pass_filter/minimap2 indel_not_pass_filter/minimap2 stat
 
     # step1: filter fastq reads by indel length
-    get_fastq_by_parse_cigar.py $reads $parse_cigar $indel_length_cutoff $ref_range indel_pass_filter/$reads indel_not_pass_filter/$reads
+    get_fastq_seq_by_parse_cigar.py $reads $parse_cigar $indel_length_cutoff $ref_range indel_pass_filter/$reads indel_not_pass_filter/$reads
 
     # step2: provive stats
     count_indel_pass_filter_reads=\$(get_fastq_count.py indel_pass_filter/$reads)
