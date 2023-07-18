@@ -31,6 +31,6 @@ with open(parse_cigar, "r") as f:
 with _open(reads) as f, _open_out(out_pass_reads) as f_out_pass, _open_out(out_not_pass_reads) as f_out_not_pass:
     for record in SeqIO.parse(f, "fastq"):
         if record.id in filter_fastq:
-            SeqIO.write(record, f_out_pass)
+            SeqIO.write(record, f_out_pass, "fastq")
         else:
-            SeqIO.write(record, f_out_not_pass)
+            SeqIO.write(record, f_out_not_pass, "fastq")
