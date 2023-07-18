@@ -13,8 +13,6 @@ process FILTER_BY_INDEL_LENGTH {
     tuple val(meta), path("indel_pass_filter/*.fastq.gz"), emit: reads_indel_pass_filter
     tuple val(meta), path("indel_not_pass_filter/*.fastq.gz"), emit: reads_indel_not_pass_filter
     path "stat/*_stat.csv",               emit: stat
-    path "*/bwa/*.bam",                   emit: bam_bwa
-    path "*/bwa/*.bai",                   emit: bam_index_bwa
     path "*/minimap2/*.bam",              emit: bam_minimap2
     path "*/minimap2/*.bai",              emit: bam_index_minimap2
     path  "versions.yml",                 emit: versions
