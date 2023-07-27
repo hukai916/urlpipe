@@ -31,7 +31,7 @@ process FILTER_BY_INDEL_LENGTH {
     # step1: filter fastq reads by indel length
     get_fastq_seq_by_parse_cigar.py $reads $parse_cigar $indel_length_cutoff $ref_range indel_pass_filter/$reads indel_not_pass_filter/$reads
 
-    # step2: provive stats
+    # step2: calculate stats
     count_indel_pass_filter_reads=\$(get_fastq_count.py indel_pass_filter/$reads)
     count_indel_not_pass_filter_reads=\$(get_fastq_count.py indel_not_pass_filter/$reads)
     percent_indel_pass_filter_reads=\$(echo "scale=2; \$count_indel_pass_filter_reads / (\$count_indel_pass_filter_reads + \$count_indel_not_pass_filter_reads + 0.001)" | bc)

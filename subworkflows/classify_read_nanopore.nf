@@ -1,6 +1,6 @@
 include { QC_FLANKING_READS } from '../modules/local/qc_flanking_reads'
 include { GET_HIGH_QUALITY_FLANKING_READS } from '../modules/local/get_high_quality_flanking_reads'
-include { STAT as STAT_HIGH_QUALITY_FLANKING_READS } from '../modules/local/stat'
+include { STAT as STAT_FILTER_BY_INDEL_LENGTH_INDEL_5P_ONLY } from '../modules/local/stat'
 
 include { CLASSIFY_LOCUS              } from '../modules/local/classify_locus'
 include { STAT as STAT_LOCUS          } from '../modules/local/stat'
@@ -11,6 +11,7 @@ include { STAT_QC_INDEL               } from '../modules/local/stat_qc_indel'
 
 include { PARSE_CIGAR as PARSE_CIGAR_INDEL_5P_ONLY } from '../modules/local/parse_cigar'
 include { FILTER_BY_INDEL_LENGTH as FILTER_BY_INDEL_LENGTH_INDEL_5P_ONLY  } from '../modules/local/filter_by_indel_length'
+include { STAT as STAT_HIGH_QUALITY_FLANKING_READS }
 
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { STAT as STAT_READTHROUGH    } from '../modules/local/stat'
@@ -65,7 +66,8 @@ workflow CLASSIFY_READ_NANOPORE {
       // MODULE: filter indel reads by indel length according to parse_cigar result
       // 3_read_category/3b_classify_indel/indel_5p_only/filter_by_indel_length
       FILTER_BY_INDEL_LENGTH_INDEL_5P_ONLY ( PARSE_CIGAR_INDEL_5P_ONLY.out.reads_input, PARSE_CIGAR_INDEL_5P_ONLY.out.parse_cigar, file(params.ref) )
-
+      // 3_read_category/3b_classify_indel/indel_5p_only/filter_by_indel_length/filter_by_indel_length_indel_5p_only.csv
+      STAT_FILTER_BY_INDEL_LENGTH_INDEL_5P_ONLY ( FILTER_BY_INDEL_LENGTH_INDEL_5P_ONLY.out.stat.collect() )
 
       //
       // MODULE: classify_readthrough
