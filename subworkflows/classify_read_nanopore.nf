@@ -11,7 +11,7 @@ include { STAT_QC_INDEL               } from '../modules/local/stat_qc_indel'
 
 include { PARSE_CIGAR as PARSE_CIGAR_INDEL_5P_ONLY } from '../modules/local/parse_cigar'
 include { FILTER_BY_INDEL_LENGTH as FILTER_BY_INDEL_LENGTH_INDEL_5P_ONLY  } from '../modules/local/filter_by_indel_length'
-include { STAT as STAT_HIGH_QUALITY_FLANKING_READS }
+include { STAT as STAT_HIGH_QUALITY_FLANKING_READS } from '../modules/local/stat'
 
 include { CLASSIFY_READTHROUGH        } from '../modules/local/classify_readthrough'
 include { STAT as STAT_READTHROUGH    } from '../modules/local/stat'
