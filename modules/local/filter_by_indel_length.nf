@@ -34,13 +34,13 @@ process FILTER_BY_INDEL_LENGTH {
     # step2: calculate stats
     count_indel_above_length_cutoff=\$(get_fastq_count.py indel_above_length_cutoff/$reads)
     count_indel_below_length_cutoff=\$(get_fastq_count.py indel_below_length_cutoff/$reads)
-    percent_indel_above_length_cutoff=\$(echo "scale=2; \$count_indel_above_length_cutoff / (\$count_indel_above_length_cutoff + \$count_indel_below_length_cutoff_reads + 0.001)" | bc)
-    percent_indel_below_length_cutoff=\$(echo "scale=2; \$count_indel_below_length_cutoff / (\$count_indel_above_length_cutoff + \$count_indel_below_length_cutoff_reads + 0.001)" | bc)
+    percent_indel_above_length_cutoff=\$(echo "scale=2; \$count_indel_above_length_cutoff / (\$count_indel_above_length_cutoff + \$count_indel_below_length_cutoff + 0.001)" | bc)
+    percent_indel_below_length_cutoff=\$(echo "scale=2; \$count_indel_below_length_cutoff / (\$count_indel_above_length_cutoff + \$count_indel_below_length_cutoff + 0.001)" | bc)
 
     reads_tem=$reads
     filename=\${reads_tem%.fastq.gz}
 
-    echo \$filename,\$count_indel_above_length_cutoff,\$count_indel_below_length_cutoff,\$percent_indel_above_length_cutoff_reads,\$percent_indel_below_length_cutoff_reads > stat/\${filename}_stat.csv
+    echo \$filename,\$count_indel_above_length_cutoff,\$count_indel_below_length_cutoff,\$percent_indel_above_length_cutoff,\$percent_indel_below_length_cutoff > stat/\${filename}_stat.csv
 
     # step3: add BAM files
     minimap2 $ref indel_above_length_cutoff/$reads -a | samtools view -F 2048 -bS | samtools sort -o indel_above_length_cutoff/minimap2/\${filename}.bam
