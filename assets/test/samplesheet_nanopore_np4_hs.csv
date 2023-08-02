@@ -1,0 +1,5 @@
+sample,fastq_1,fastq_2,start_allele_1,end_allele_1,start_allele_2,end_allele_2
+hs_snp1_BC11,/home/kai.hu-umw/pi/michael.brodsky-umw/urlpipe_np4_hs/results_nanopore_preprocess_NP4_hs/1_preprocess_nanopore/1j_split_allele/split_allele/snp1_nanopore_sample_BC11.fastq.gz,,50,60,140,155
+hs_snp1_BC21,/home/kai.hu-umw/pi/michael.brodsky-umw/urlpipe_np4_hs/results_nanopore_preprocess_NP4_hs/1_preprocess_nanopore/1j_split_allele/split_allele/snp1_nanopore_sample_BC21.fastq.gz,,50,60,140,155
+hs_snp2_BC11,/home/kai.hu-umw/pi/michael.brodsky-umw/urlpipe_np4_hs/results_nanopore_preprocess_NP4_hs/1_preprocess_nanopore/1j_split_allele/split_allele/snp2_nanopore_sample_BC11.fastq.gz,,50,60,140,155
+hs_snp2_BC21,/home/kai.hu-umw/pi/michael.brodsky-umw/urlpipe_np4_hs/results_nanopore_preprocess_NP4_hs/1_preprocess_nanopore/1j_split_allele/split_allele/snp2_nanopore_sample_BC21.fastq.gz,,50,60,140,155

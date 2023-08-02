@@ -1,0 +1,3 @@
+sample,fastq_1,fastq_2,start_allele_1,end_allele_1,start_allele_2,end_allele_2
+mm_BC02,/home/kai.hu-umw/pi/michael.brodsky-umw/urlpipe_np4_mm/results_nanopore_preprocess_np4_mm/1_preprocess_nanopore/1i_high_quality_read/high_quality/nanopore_sample_BC02.fastq.gz,,50,60,140,155
+mm_BC08,/home/kai.hu-umw/pi/michael.brodsky-umw/urlpipe_np4_mm/results_nanopore_preprocess_np4_mm/1_preprocess_nanopore/1i_high_quality_read/high_quality/nanopore_sample_BC08.fastq.gz,,50,60,140,155
