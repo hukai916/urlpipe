@@ -1,16 +1,16 @@
 ## Introduction
 
-<!-- TODO nf-core: Write a 1-2 sentence summary of what data the pipeline is for and what it does -->
+URLpipe is a Nextflow-powered workflow designed to streamline the accurate analysis of repeat lengths, e.g., the CAG repeats at the Huntington disease gene (HTT). This pipeline leverages **U**nique **M**olecular **I**dentifier (UMIs) to enhance the reliability of repeat length inferrence. Meanwhile, it accomodates data from both Next-Generation Sequencing (NGS) and third-generation sequencing (Nanopore) platforms.
 
-**test/urlpipe** is a bioinformatics best-practice analysis pipeline for UMI-based Repeat Length analysis pipeline..
+Huntington's disease, a neurodegenerative disorder caused by an expanded CAG repeat in the HTT gene, presents unique challengs in accurately measuring repeat length due to sequencing errors and potential PCR artifacts (e.g. polymerage slippage). URLpipe tackles these difficulties by integrating multiple modules, including data preprocessing, quality control, read classification, repeat length inference, and more, into a comprehensive analysis workflow.
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner. It uses Docker/Singularity containers making installation trivial and results highly reproducible. The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementation of this pipeline uses one container per process which makes it much easier to maintain and update software dependencies. Where possible, these processes have been submitted to and installed from [nf-core/modules](https://github.com/nf-core/modules) in order to make them available to all nf-core pipelines, and to everyone within the Nextflow community!
 
-<!-- TODO nf-core: Add full-sized test dataset and amend the paragraph below if applicable -->
+## Pipeline Overview
 
-On release, automated continuous integration tests run the pipeline on a full-sized dataset on the AWS cloud infrastructure. This ensures that the pipeline runs on AWS, has sensible resource allocation defaults set to run on real-world datasets, and permits the persistent storage of results to benchmark between pipeline releases and other analysis sources.
+The major modules encompassed in URLpipe are outline below.
 
-## Pipeline summary
+
 
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 
