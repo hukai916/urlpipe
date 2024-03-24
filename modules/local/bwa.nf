@@ -1,6 +1,6 @@
 process BWA {
     label 'process_medium'
-    container "hukai916/miniconda3_bio:0.4"
+    container "hukai916/miniconda3_bwa:0.1"
 
     input:
     path ref 
