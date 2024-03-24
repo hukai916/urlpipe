@@ -16,7 +16,7 @@ process BWA {
 
     """
     bwa index $ref
-    bwa mem $args -t $task.cpus $ref $reads | samtools view -F 256 | samtools sort -o ${prefix}.bam
+    bwa mem $args -t $task.cpus $ref ${prefix}_1.fastq.gz | samtools view -F 256 | samtools sort -o ${prefix}.bam
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
