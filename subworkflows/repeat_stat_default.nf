@@ -22,28 +22,38 @@ workflow REPEAT_STAT_DEFAULT {
 
       if (length_mode == "distance_count") {
         REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads )
+        REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default.set( {repeat_length_per_read_default} )
+        REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default_pure.set( {repeat_length_count_default_pure} )
         ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.versions)
       } else if (length_mode == "reference_align") {
         PREP_REF () // prepare references of varying repeat length
         BWA (PREP_REF.out.ref, reads)
         BWA_LENGTH (BWA.out.bam_reads)
+
+        BWA_LENGTH.out.repeat_length_per_read_default.set( {repeat_length_per_read_default} )
+        BWA_LENGTH.out.repeat_length_count_default_pure.set( {repeat_length_count_default_pure} )
+        ch_versions = ch_versions.mix(BWA_LENGTH.out.versions)
       }
 
       // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_default_umi_0.csv|html
-      if (length_mode == "distance_count") {
-        STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default_pure.collect())
-      } else if (length_mode == "reference_align") {
-        STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT (BWA_LENGTH.out.repeat_length_count_default_pure.collect())
-      }
+      // if (length_mode == "distance_count") {
+      //   STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default_pure.collect())
+      // } else if (length_mode == "reference_align") {
+      //   STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT (BWA_LENGTH.out.repeat_length_count_default_pure.collect())
+      // }
+
+      STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT (repeat_length_count_default_pure.collect())
 
       //
       // MODULE: repeat length count distribution per umi group
       // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/csv
-      if (length_mode == "distance_count") {
-        REPEAT_LENGTH_DISTRIBUTION_PER_UMI ( REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default, params.umi_cutoffs )
-      } else if (length_mode == "reference_align") {
-        REPEAT_LENGTH_DISTRIBUTION_PER_UMI ( BWA_LENGTH.out.repeat_length_per_read_default, params.umi_cutoffs )
-      }
+      // if (length_mode == "distance_count") {
+      //   REPEAT_LENGTH_DISTRIBUTION_PER_UMI ( REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default, params.umi_cutoffs )
+      // } else if (length_mode == "reference_align") {
+      //   REPEAT_LENGTH_DISTRIBUTION_PER_UMI ( BWA_LENGTH.out.repeat_length_per_read_default, params.umi_cutoffs )
+      // }
+
+      REPEAT_LENGTH_DISTRIBUTION_PER_UMI ( repeat_length_per_read_default, params.umi_cutoffs )
 
       // 4_repeat_statistics/4b_repeat_length_distribution_per_umi/html
       PLOT_REPEAT_LENGTH_DISTRIBUTION_PER_UMI (
@@ -53,17 +63,22 @@ workflow REPEAT_STAT_DEFAULT {
       //
       // MODULE: repeat length count per umi group corrected
       // test_not_publish
-      if (length_mode == "distance_count") {
+      // if (length_mode == "distance_count") {
+      //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (
+      //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default,
+      //   params.umi_correction_method,
+      //   params.umi_cutoffs)
+      // } else if (length_mode == "reference_align") {
+      //   REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (
+      //   BWA_LENGTH.out.repeat_length_per_read_default,
+      //   params.umi_correction_method,
+      //   params.umi_cutoffs)
+      // }
         REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (
-        REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default,
+          repeat_length_per_read_default,
         params.umi_correction_method,
         params.umi_cutoffs)
-      } else if (length_mode == "reference_align") {
-        REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (
-        BWA_LENGTH.out.repeat_length_per_read_default,
-        params.umi_correction_method,
-        params.umi_cutoffs)
-      }
+
 
       // 4_repeat_statistics/4a_repeat_length_distribution/repeat_length_count_default_umi_x.csv|html
       STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT (REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.repeat_length_count_default_umi_correct.collect(),
