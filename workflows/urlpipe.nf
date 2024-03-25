@@ -150,6 +150,7 @@ workflow URLPIPE {
       // 6_summary
       if (params.mode == "default") {
           REPEAT_STAT_DEFAULT.out.csv_frac.set( {csv_frac} )
+          REPEAT_STAT_DEFAULT.out.repeat_length_per_read.set( {repeat_length_per_read} )
           GET_SUMMARY (
             csv_frac,
             INDEL_STAT.out.csv,
