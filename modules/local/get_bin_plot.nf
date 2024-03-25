@@ -15,7 +15,6 @@ process GET_BIN_PLOT {
 
     script:
       def args = task.ext.args ?: ''
-      def prefix = "${meta.id}"
 
       """
       touch test.html
