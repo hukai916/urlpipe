@@ -21,7 +21,7 @@ process BWA_LENGTH {
     # 1. output repeat_length_per_read_default_xxx.csv:
     samtools index $bam
         #repeat_length_per_read_bwa.py $bam $reads raw_repeat_length_per_read_bwa.csv
-    repeat_length_per_read_bwa.py $bam $reads raw_repeat_length_per_read_default_${prefix}.csv
+    repeat_length_per_read_bwa.py $bam ${prefix}_1.fastq.gz raw_repeat_length_per_read_default_${prefix}.csv
     
     # 2. output repeat_length_count_xxx.csv and diagnosis_repeat_length_count_xxx.csv:
         #repeat_length_distribution_default.py raw_repeat_length_per_read_default.csv repeat_length_per_read_default.csv repeat_length_count_default.csv diagnosis_repeat_length_count_default.csv
