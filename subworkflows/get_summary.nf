@@ -18,7 +18,7 @@ workflow GET_SUMMARY {
 
       // MODULE: get_bin_plot
       // 6_summary/6b_bin_plot
-      stat_repeat_length_count_default.view()
+      stat_repeat_length_distribution.view()
       GET_BIN_PLOT (stat_repeat_length_distribution)
 
     emit:
