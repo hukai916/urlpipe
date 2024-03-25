@@ -1,6 +1,6 @@
 process BWA_LENGTH {
     label 'process_medium'
-    container "hukai916/miniconda3_bwa:0.2"
+    container "hukai916/miniconda3_bwa:0.3"
 
     input:
     tuple val(meta), path(bam), path(reads)
