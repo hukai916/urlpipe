@@ -15,9 +15,15 @@ process GET_BIN_PLOT {
 
     script:
       def args = task.ext.args ?: ''
+      def bins = task.ext.bins ?: ''
+      def use_ratio = task.ext.use_ratio ?: ''
+      def use_repeat_unit_bp = task.ext.use_repeat_unit_bp ?: ''
+      def repeat_unit_bp = task.ext.repeat_unit_bp ?: ''
 
       """
-      touch test.html
+      for x in *.csv; do
+        filename="\${x%.csv}".html
+        get_bin_plot.py $bins $use_ratio $use_repeat_unit_bp $repeat_unit_bp \$x \$filename
 
       cat <<-END_VERSIONS > versions.yml
       "${task.process}":
