@@ -16,8 +16,6 @@ input_csv = sys.argv[5]
 output_html = sys.argv[6]
 
 df = pd.read_csv(input_csv)
-bins = [(0,140), (140,145), (145,150), (150,155), (155,1000)]
-
 # %%
 if use_repeat_unit_bp.lower() == "yes":
     top_labels = [str(round(x[0]/repeat_unit_bp)) + "-" + str(round(x[1]/repeat_unit_bp)) for x in bins]
@@ -108,13 +106,13 @@ for i, (yd, xd) in enumerate(zip(y_data, x_data)):
 fig.update_layout(annotations=annotations)
 
 # Update x, y-axis title, and plot title
-if use_ratio:
+if use_ratio.lower() == "yes":
     stat = "Ratio"
-else:
+elif use_ratio.lower() == "no":
     stat = "Read count"
-if use_repeat_unit_bp:
+if use_repeat_unit_bp.lower() == "yes":
     unit = "repeat unit"
-else:
+elif use_repeat_unit_bp.lower() == "no":
     unit = "base pair"
     
 fig.update_layout(xaxis_title = stat,
