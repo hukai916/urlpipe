@@ -15,8 +15,8 @@ process GET_BIN_PLOT {
 
     script:
       def bins = task.ext.bins ?: ''
-      def use_ratio = task.ext.use_ratio ?: ''
-      def use_repeat_unit_bp = task.ext.use_repeat_unit_bp ?: ''
+      def use_ratio = task.ext.use_ratio ?: false
+      def use_repeat_unit_bp = task.ext.use_repeat_unit_bp ?: false
       def repeat_unit_bp = task.ext.repeat_unit_bp ?: ''
 
       """
