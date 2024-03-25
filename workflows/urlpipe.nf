@@ -155,6 +155,7 @@ workflow URLPIPE {
             INDEL_STAT.out.csv,
             params.umi_cutoffs,
             params.allele_number,
+            repeat_length_per_read,
             ch_versions = ch_versions
           )
           ch_version = GET_SUMMARY.out.versions
@@ -165,6 +166,7 @@ workflow URLPIPE {
             INDEL_STAT.out.csv,
             params.umi_cutoffs,
             params.allele_number,
+            Channel.empty(),
             ch_versions = ch_versions
           )
           ch_version = GET_SUMMARY.out.versions

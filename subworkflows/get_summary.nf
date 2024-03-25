@@ -6,6 +6,7 @@ workflow GET_SUMMARY {
       indel_csv
       umi_cutoffs
       allele_number
+      repeat_length_per_read
       ch_version
 
     main:
