@@ -84,6 +84,6 @@ workflow REPEAT_STAT_DEFAULT {
       csv_frac = REPEAT_LENGTH_FRACTION.out.csv.collect()
       stat_repeat_length_distribution = STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.csv.mix(
         STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.csv
-      )
+      ).collect()
       versions = ch_versions
 }
