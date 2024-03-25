@@ -3,7 +3,6 @@ import sys
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
-import os
 import matplotlib.pyplot as plt
 
 
@@ -18,7 +17,7 @@ df = pd.read_csv(input_csv)
 bins = [(0,140), (140,145), (145,150), (150,155), (155,1000)]
 
 # %%
-if use_repeat_unit_bp:
+if use_repeat_unit_bp.lower() == "yes":
     top_labels = [str(round(x[0]/repeat_unit_bp)) + "-" + str(round(x[1]/repeat_unit_bp)) for x in bins]
 else:
     top_labels = [str(x[0]) + "-" + str(x[1]) for x in bins]
@@ -49,7 +48,7 @@ for s in y_data:
     x_data.append(res)
     
 # %%
-if use_ratio: # convert to ratio if specified
+if use_ratio.lower() == "yes": # convert to ratio if specified
     # x_data_ratio = x_data.copy() # direct assign create a link that would be updated when updating x_data_ratio
     x_data_ratio = []
     for x in x_data:
