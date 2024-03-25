@@ -82,6 +82,8 @@ workflow REPEAT_STAT_DEFAULT {
     emit:
       csv      = stat_table
       csv_frac = REPEAT_LENGTH_FRACTION.out.csv.collect()
-      repeat_length_per_read = repeat_length_per_read_default.collect()
+      stat_repeat_length_distribution = STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT_UMI_CORRECT.out.csv.mix(
+        STAT_REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.csv
+      )
       versions = ch_versions
 }

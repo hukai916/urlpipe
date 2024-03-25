@@ -147,16 +147,16 @@ workflow URLPIPE {
 
       // 
       // SUBWORKFLOW: obtain summary table
-      // 6_summary
+      // 6_summary: master table and plots
       if (params.mode == "default") {
           REPEAT_STAT_DEFAULT.out.csv_frac.set( {csv_frac} )
-          REPEAT_STAT_DEFAULT.out.repeat_length_per_read.set( {repeat_length_per_read} )
+          REPEAT_STAT_DEFAULT.out.stat_repeat_length_distribution.set( {stat_repeat_length_distribution} )
           GET_SUMMARY (
             csv_frac,
             INDEL_STAT.out.csv,
             params.umi_cutoffs,
             params.allele_number,
-            repeat_length_per_read,
+            stat_repeat_length_distribution,
             ch_versions = ch_versions
           )
           ch_version = GET_SUMMARY.out.versions
