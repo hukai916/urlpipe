@@ -22,6 +22,7 @@ process GET_BIN_PLOT {
       """
       for x in *.csv; do
         filename="\${x%.csv}".html
+        echo $use_ratio > test.log
         get_bin_plot.py "$bins" $use_ratio $use_repeat_unit_bp $repeat_unit_bp \$x \$filename
 
       cat <<-END_VERSIONS > versions.yml
