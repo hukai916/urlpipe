@@ -4,12 +4,14 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
+import ast
 
 
 bins = sys.argv[1]
+bins = ast.literal_eval(bins)
 use_ratio = sys.argv[2]
 use_repeat_unit_bp = sys.argv[3]
-repeat_unit_bp = sys.argv[4]
+repeat_unit_bp = int(sys.argv[4])
 input_csv = sys.argv[5]
 output_html = sys.argv[6]
 
