@@ -47,7 +47,7 @@ workflow PREPROCESS_QC {
 
         //
         // MODULE: READ_PER_UMI: use after cutadapt reads
-        // 2_qc_and_umi/read_per_umi_cutadapt
+        // 2_qc_and_umi/2b_read_per_umi_cutadapt
         READ_PER_UMI ( CUTADAPT.out.reads )
         ch_versions = ch_versions.mix(READ_PER_UMI.out.versions)
       } else {

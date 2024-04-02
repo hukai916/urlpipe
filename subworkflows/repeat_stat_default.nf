@@ -19,6 +19,7 @@ workflow REPEAT_STAT_DEFAULT {
       //
       // MODULE: repeat length distribution determined with R1/R2 reads
       // not published
+      // 4_repeat_statistics/tmp
 
       if (length_mode == "distance_count") {
         REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads )
