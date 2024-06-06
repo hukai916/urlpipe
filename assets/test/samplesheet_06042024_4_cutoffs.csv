@@ -1,4 +1,4 @@
-﻿sample,fastq_1,fastq_2,start_allele_1,end_allele_1,start_allele_2,end_allele_2
+sample,fastq_1,fastq_2,start_allele_1,end_allele_1,start_allele_2,end_allele_2
 DI1-1,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz_dataset_2024_0604/DI1-1_R1_001.fastq.gz,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz_dataset_2024_0604/DI1-1_R2_001.fastq.gz,151,156,189,190
 DI1-2,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz_dataset_2024_0604/DI1-2_R1_001.fastq.gz,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz_dataset_2024_0604/DI1-2_R2_001.fastq.gz,151,156,189,190
 DI1-3,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz_dataset_2024_0604/DI1-3_R1_001.fastq.gz,/home/kai.hu-umw/pi/michael.brodsky-umw/genewiz_dataset_2024_0604/DI1-3_R2_001.fastq.gz,151,156,189,190
