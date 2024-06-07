@@ -153,10 +153,10 @@ for res, out_file in zip(_res, _out_file):
 # print some stats:
 res = Counter(r_match.values())
 with open(os.path.join(indel_stat_dir, sample_name + ".csv"), "w") as f:
-    p2 = str(res[2]/(sum([res[2], res[1], res[0]])))
-    p_5p = str(count_5p/(sum([res[2], res[1], res[0]])))
-    p_3p = str(count_3p/(sum([res[2], res[1], res[0]])))
-    p0 = str(res[0]/(sum([res[2], res[1], res[0]])))
+    p2 = str(res[2]/(sum([res[2], res[1], res[0]]) + 0.1)) # plus 0.1 to solve zero-division error
+    p_5p = str(count_5p/(sum([res[2], res[1], res[0]]) + 0.1))
+    p_3p = str(count_3p/(sum([res[2], res[1], res[0]]) + 0.1))
+    p0 = str(res[0]/(sum([res[2], res[1], res[0]]) + 0.1))
     res = ",".join([sample_name, str(res[2]), str(count_5p), str(count_3p), str(res[0]), p2, p_5p, p_3p, p0]) + "\n"
 
     f.write(res)
