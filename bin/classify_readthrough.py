@@ -103,7 +103,7 @@ with open(stat_outfile, "w", newline = '') as f:
     writer = csv.writer(f)
     count_through = len(r_readthrough_set)
     count_non_through = len(r_non_readthrough_set)
-    p_count_through = count_through/(sum([count_through, count_non_through]))
-    p_count_non_through = count_non_through/(sum([count_through, count_non_through]))
+    p_count_through = count_through/(sum([count_through, count_non_through]) + 0.1)
+    p_count_non_through = count_non_through/(sum([count_through, count_non_through]) + 0.1)
 
     writer.writerow([sample_name, count_through, count_non_through, p_count_through, p_count_non_through])
