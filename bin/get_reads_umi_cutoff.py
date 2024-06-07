@@ -23,8 +23,11 @@ out_fastq1 = sys.argv[5]
 out_fastq2 = sys.argv[6]
 
 # read in reads per umi df:
-reads_per_umi = pd.read_csv(umi_table, header = None)
-reads_per_umi.columns = ["umi", "reads"]
+try:
+    reads_per_umi = pd.read_csv(umi_table, header = None)
+    reads_per_umi.columns = ["umi", "reads"]
+except pd.errors.EmptyDataError:
+    reads_per_umi = pd.DataFrame(pd.DataFrame({'umi': [0], 'reads': [0]}))
 
 # calculate the average read quality for each read (R1 + R2), save to dict avg_quality:
 encoding = guess_type(in_fastq1)[1]  # uses file extension
