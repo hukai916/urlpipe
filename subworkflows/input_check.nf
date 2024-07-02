@@ -42,6 +42,7 @@ def create_fastq_channel(LinkedHashMap row, allele_number, mode) {
     // add path(s) of the fastq file(s) to the meta map
     def fastq_meta = []
     if (!file(row.fastq_1).exists()) {
+        log.info  row.fastq_1
         exit 1, "ERROR: Please check input samplesheet -> Read 1 FastQ file does not exist!\n${row.fastq_1}"
     }
     if (meta.single_end) {
