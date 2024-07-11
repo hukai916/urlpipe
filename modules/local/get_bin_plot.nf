@@ -26,23 +26,23 @@ process GET_BIN_PLOT {
         # using ratio: without indel, with indel
 
       # Use raw count:
-      for x in *.csv; do
+      for x in master_table_repeat_bin_*.csv; do
         filename="\${x%.csv}".count.withoutIndel.html
         get_bin_plot.py "$repeat_bins" "no" $use_repeat_unit_bp $repeat_unit_bp \$x "no" \$filename
       done
 
-      for x in *.csv; do
+      for x in master_table_repeat_bin_*.csv; do
         filename="\${x%.csv}".count.withIndel.html
         get_bin_plot.py "$repeat_bins" "no" $use_repeat_unit_bp $repeat_unit_bp \$x "yes" \$filename
       done
 
       # Use count ratio:
-      for x in *.csv; do
+      for x in master_table_repeat_bin_*.csv; do
         filename="\${x%.csv}".ratio.withoutIndel.html
         get_bin_plot.py "$repeat_bins" "yes" $use_repeat_unit_bp $repeat_unit_bp \$x "no" \$filename
       done
 
-      for x in *.csv; do
+      for x in master_table_repeat_bin_*.csv; do
         filename="\${x%.csv}".ratio.withIndel.html
         get_bin_plot.py "$repeat_bins" "yes" $use_repeat_unit_bp $repeat_unit_bp \$x "yes" \$filename
       done

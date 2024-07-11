@@ -147,7 +147,7 @@ else:
     xaxis = dict(range = [0, upper])
 
 fig.update_layout(xaxis_title = stat,
-                  yaxis_title = "sample id",
+                #   yaxis_title = "sample id",
                   title = "Repeat Length Distribution",
                   xaxis = xaxis)
 
