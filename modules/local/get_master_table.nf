@@ -42,7 +42,7 @@ process GET_MASTER_TABLE {
       # master table 2: total counts, indel counts, repeat bin counts/fraction 
       for i in "\${umi_cutoffs_array[@]}"
       do
-        get_master_table_repeat_bin.py repeat_length_count_*_umi_\${i}.csv read_count_umi_cutoff_\${i}.csv $repeat_bins master_table_repeat_bin_umi_\${i}.csv
+        get_master_table_repeat_bin.py repeat_length_count_*_umi_\${i}.csv read_count_umi_cutoff_\${i}.csv "$repeat_bins" master_table_repeat_bin_umi_\${i}.csv
       done
 
       cat <<-END_VERSIONS > versions.yml
