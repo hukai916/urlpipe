@@ -22,11 +22,11 @@ process GET_BIN_PLOT {
 
       """
       # Use raw count:
-      // for x in *.csv; do
-      //   filename="\${x%.csv}".html
-      //   get_bin_plot.py "$repeat_bins" $use_ratio $use_repeat_unit_bp $repeat_unit_bp \$x \$filename
-      // done
-
+      # for x in *.csv; do
+      #   filename="\${x%.csv}".html
+      #   get_bin_plot.py "$repeat_bins" $use_ratio $use_repeat_unit_bp $repeat_unit_bp \$x \$filename
+      # done
+      toch test.csv
       # Use ratio:
 
 
