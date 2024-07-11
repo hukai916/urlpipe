@@ -16,15 +16,19 @@ process GET_BIN_PLOT {
 
     script:
       // def bins = task.ext.bins ?: ''
-      def use_ratio = task.ext.use_ratio ?: 'no'
+      // def use_ratio = task.ext.use_ratio ?: 'no'
       def use_repeat_unit_bp = task.ext.use_repeat_unit_bp ?: 'no'
       def repeat_unit_bp = task.ext.repeat_unit_bp ?: ''
 
       """
-      for x in *.csv; do
-        filename="\${x%.csv}".html
-        get_bin_plot.py "$repeat_bins" $use_ratio $use_repeat_unit_bp $repeat_unit_bp \$x \$filename
-      done
+      # Use raw count:
+      // for x in *.csv; do
+      //   filename="\${x%.csv}".html
+      //   get_bin_plot.py "$repeat_bins" $use_ratio $use_repeat_unit_bp $repeat_unit_bp \$x \$filename
+      // done
+
+      # Use ratio:
+
 
       cat <<-END_VERSIONS > versions.yml
       "${task.process}":
