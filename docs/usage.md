@@ -4,17 +4,17 @@
 
 ## Table of Contents
 
-[Introduction](#introduction)  
-[Samplesheet input](#samplesheet-input)
-[Running the pipeline](#running-the-pipeline)  
-[Nextflow-level arguments](#nextflow-level-arguments)
+[Introduction](#introduction) 
+[Samplesheet input](#samplesheet-input) 
+[Running the pipeline](#running-the-pipeline)   
+[Nextflow-level arguments](#nextflow-level-arguments) 
 [Pipeline-level arguments](#pipeline-level-arguments)  
 [Module-level arguments](#module-level-arguments) 
-[Custom configuration](#custom-configuration)
-[Example study1](#example-study1)
-[Running in the background](#running-in-the-background)  
-[Nextflow memory requirements](#nextflow-memory-requirements)  
-[Version control](#version-control)
+[Custom configuration](#custom-configuration) 
+[Example study1](#example-study1) 
+[Running in the background](#running-in-the-background) 
+[Nextflow memory requirements](#nextflow-memory-requirements) 
+[Version control](#version-control) 
 
 ## Introduction
 
@@ -46,15 +46,15 @@ You will need to create a samplesheet with information about the samples you wou
 
 An example samplesheet with six samples, as used in the [Quick Start](https://github.com/hukai916/URLpipe/blob/main/docs/README.md#quick-start) section, is provided as below. You can also find this file at [`assets/samplesheet_dataset1.csv`](../assets/samplesheet_dataset1.csv).
 
-```console
-sample,fastq_1,fastq_2,start_allele_1,end_allele_1,start_allele_2,end_allele_2
-D103_10uM_R1,/replace_with_full_path/DI1-13_R1_001.fastq.gz,/replace_with_full_path/DI1-13_R2_001.fastq.gz,51,60,138,154
-D103_10uM_R2,/replace_with_full_path/DI2-13_R1_001.fastq.gz,/replace_with_full_path/DI2-13_R2_001.fastq.gz,51,60,138,154
-No_E_R1,/replace_with_full_path/DI1-19_R1_001.fastq.gz,/replace_with_full_path/DI1-19_R2_001.fastq.gz,51,60,138,154
-No_E_R2,/replace_with_full_path/DI2-18_R1_001.fastq.gz,/replace_with_full_path/DI2-18_R2_001.fastq.gz,51,60,138,154
-noINH_DMSO_R1,/replace_with_full_path/DI1-16_R1_001.fastq.gz,/replace_with_full_path/DI1-16_R2_001.fastq.gz,51,60,138,154
-noINH_DMSO_R2,/replace_with_full_path/DI2-16_R1_001.fastq.gz,/replace_with_full_path/DI2-16_R2_001.fastq.gz,51,60,138,154
-```
+| sample         | fastq_1                                      | fastq_2                                      | start_allele_1 | end_allele_1 | start_allele_2 | end_allele_2 |
+|----------------|----------------------------------------------|----------------------------------------------|----------------|--------------|----------------|--------------|
+| D103_10uM_R1   | /replace_with_full_path/DI1-13_R1_001.fastq.gz | /replace_with_full_path/DI1-13_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+| D103_10uM_R2   | /replace_with_full_path/DI2-13_R1_001.fastq.gz | /replace_with_full_path/DI2-13_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+| No_E_R1        | /replace_with_full_path/DI1-19_R1_001.fastq.gz | /replace_with_full_path/DI1-19_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+| No_E_R2        | /replace_with_full_path/DI2-18_R1_001.fastq.gz | /replace_with_full_path/DI2-18_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+| noINH_DMSO_R1  | /replace_with_full_path/DI1-16_R1_001.fastq.gz | /replace_with_full_path/DI1-16_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+| noINH_DMSO_R2  | /replace_with_full_path/DI2-16_R1_001.fastq.gz | /replace_with_full_path/DI2-16_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+
 
 | Column    | Description                                                                                                                                                                            |
 | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -70,12 +70,12 @@ noINH_DMSO_R2,/replace_with_full_path/DI2-16_R1_001.fastq.gz,/replace_with_full_
 
 The "sample" identifiers in the `sample` column must be the same for the same sample sequenced multiple times (across different runs or lanes) to increase sequencing depth. The pipeline will concatenate these reads before performing any downstream analysis. Below is an example of a sample sequenced across three lanes:
 
-```console
-sample,fastq_1,fastq_2,start_allele_1,end_allele_1,start_allele_2,end_allele_2
-D103_10uM_R1,/replace_with_full_path/DI1-13_L001_R1_001.fastq.gz,/replace_with_full_path/DI1-13_L001_R2_001.fastq.gz,51,60,138,154
-D103_10uM_R1,/replace_with_full_path/DI1-13_L002_R1_001.fastq.gz,/replace_with_full_path/DI1-13_L002_R2_001.fastq.gz,51,60,138,154
-D103_10uM_R1,/replace_with_full_path/DI1-13_L003_R1_001.fastq.gz,/replace_with_full_path/DI1-13_L003_R2_001.fastq.gz,51,60,138,154
-```
+| sample         | fastq_1                                      | fastq_2                                      | start_allele_1 | end_allele_1 | start_allele_2 | end_allele_2 |
+|----------------|----------------------------------------------|----------------------------------------------|----------------|--------------|----------------|--------------|
+| D103_10uM_R1   | /replace_with_full_path/DI1-13_L001_R1_001.fastq.gz | /replace_with_full_path/DI1-13_L001_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+| D103_10uM_R1   | /replace_with_full_path/DI1-13_L002_R1_001.fastq.gz | /replace_with_full_path/DI1-13_L002_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+| D103_10uM_R1   | /replace_with_full_path/DI1-13_L003_R1_001.fastq.gz | /replace_with_full_path/DI1-13_L003_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+``
 
 ## Running the pipeline
 
