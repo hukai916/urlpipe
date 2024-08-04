@@ -26,9 +26,9 @@ process CUTADAPT {
     """
     cutadapt \\
         --cores $task.cpus \\
-        $args \\
         $trimmed \\
         $reads \\
+        $args \\
         > ${prefix}.cutadapt.log
 
     cat <<-END_VERSIONS > versions.yml
