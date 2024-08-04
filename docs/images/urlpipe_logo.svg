@@ -28,8 +28,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.66049434"
-     inkscape:cx="521.57903"
-     inkscape:cy="309.61658"
+     inkscape:cx="479.18654"
+     inkscape:cy="252.08392"
      inkscape:window-width="1029"
      inkscape:window-height="779"
      inkscape:window-x="61"
@@ -775,7 +775,10 @@
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:8.29028px;line-height:1;font-family:Charter;-inkscape-font-specification:'Charter, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke:#000000;stroke-width:0.150051;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.8"
        x="6.4461102"
        y="122.01882"
-       id="text12135"><tspan
+       id="text12135"
+       inkscape:export-filename="../../../../../Downloads/test.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
          sodipodi:role="line"
          x="6.4461102"
          y="122.01882"
