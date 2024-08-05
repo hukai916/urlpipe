@@ -37,7 +37,7 @@ process CLASSIFY_INDEL {
 
     R1_tem=\$(get_seq.py $ref start $ref_repeat_start no)
     end_tem=\$(($ref_repeat_end + $ref_after_repeat_bp_to_check))
-    R2_tem=\$(get_seq.py $ref start $end_tem no)
+    R2_tem=\$(get_seq.py $ref start \$end_tem no)
     echo ">ref1\n"\$R1_tem > ref1.fa
     echo ">ref2\n"\$R2_tem > ref2.fa
 
