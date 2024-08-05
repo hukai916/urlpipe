@@ -44,7 +44,7 @@ process CLASSIFY_INDEL {
     echo ">ref2\n"\$R2_tem > ref2.fa
 
     R1=\$(get_seq.py ref1.fa end $ref_before_repeat_bp_to_check no)
-    R2=\$(get_seq.py ref2.fa start $ref_after_repeat_bp_to_check no)
+    R2=\$(get_seq.py ref2.fa end $ref_after_repeat_bp_to_check no)
 
     classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz no_indel indel_5p indel_3p indel_5p_and_3p indel_5p_or_3p stat ${prefix} \$R1 \$R2 $m $indel_cutoff
 

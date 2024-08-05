@@ -33,11 +33,11 @@ workflow CLASSIFY_READ {
       //
       // MODULE: classify_readthrough
       // 3_read_category/3c_classify_readthrough
-      CLASSIFY_READTHROUGH ( CLASSIFY_INDEL.out.reads_no_indel )
+      CLASSIFY_READTHROUGH ( CLASSIFY_INDEL.out.reads_no_indel, file(params.ref), params.ref_repeat_start, params.ref_repeat_end )
       ch_versions = ch_versions.mix(CLASSIFY_READTHROUGH.out.versions)
       STAT_READTHROUGH ( CLASSIFY_READTHROUGH.out.stat.collect() )
       ch_versions = ch_versions.mix(STAT_READTHROUGH.out.versions)
-      FASTQC_READTHROUGH ( reads )
+      FASTQC_READTHROUGH ( CLASSIFY_READTHROUGH.out.reads_through )
       ch_versions = ch_versions.mix(FASTQC_READTHROUGH.out.versions)
       // 2_qc_and_umi/2c_read_per_umi_readthrough
       READ_PER_UMI_READTHROUGH ( CLASSIFY_READTHROUGH.out.reads_through )
