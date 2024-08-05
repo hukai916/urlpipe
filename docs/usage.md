@@ -409,18 +409,6 @@ nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
 All custom configurations used in this example are saved under [sample_dataset1.config](../conf/sample_dataset1.config) file below.
 
 ```
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Nextflow config file for running minimal tests
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Defines input files and everything required to run a fast and simple pipeline test.
-
-    Use as follows:
-        nextflow run urlpipe -profile <docker/singularity>
-
-----------------------------------------------------------------------------------------
-*/
-
 params {
     config_profile_name        = 'Sample dataset1'
     config_profile_description = 'Configuration using a minimal test dataset1: 6 samples from HQ50 (human cell line): '
@@ -429,7 +417,6 @@ params {
     outdir = "./results_dataset1"
     allele_number = 2
     length_mode = "reference_align"
-    ref = "assets/IlluminaHsQ50FibTrim_Ref.fa"
 
     max_memory                 = "16.GB"
     max_cpus                   = 16
@@ -457,15 +444,15 @@ process {
     }
 
     withName: PREP_REF {
-        ext.reference = "assets/IlluminaMmQ50Trim_Ref.fa"
-        ext.repeat_start = 73 // start position of repeat in ref, 1-based coordinate
-        ext.repeat_end = 234 // end position of repeat in ref, 1-based coordinate
+        ext.reference = "assets/IlluminaHsQ50FibTrim_Ref.fa"
+        ext.repeat_start = 69 // start position of repeat in ref, 1-based coordinate
+        ext.repeat_end = 218 // end position of repeat in ref, 1-based coordinate
         ext.repeat_unit = "CAG"
         ext.repeat_range = "0:150" // range of number of repeat units (e.g. "CAG") when it comes to prep_ref
     }
 
     withName: BWA {
-        ext.reference = "assets/IlluminaMmQ50Trim_Ref.fa"
+        ext.reference = "assets/IlluminaHsQ50FibTrim_Ref.fa"
         ext.args = "" // bwa options
     }
 
@@ -474,7 +461,6 @@ process {
         // first 20nt flanking repeat region from R1, R2, and allowed mismatch (including INDELs)
         // R2 flanking nt: same direction as R1
     }
-
 }
 ```
 
