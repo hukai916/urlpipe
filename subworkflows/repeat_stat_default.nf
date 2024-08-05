@@ -22,13 +22,13 @@ workflow REPEAT_STAT_DEFAULT {
       // 4_repeat_statistics/tmp
 
       if (length_mode == "distance_count") {
-        REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads, params.ref, params.ref_repeat_start, params.ref_repeat_end )
+        REPEAT_LENGTH_DISTRIBUTION_DEFAULT ( reads, file(params.ref), params.ref_repeat_start, params.ref_repeat_end )
 
         REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_per_read_default.set( {repeat_length_per_read_default} )
         REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.repeat_length_count_default_pure.set( {repeat_length_count_default_pure} )
         // ch_versions = ch_versions.mix(REPEAT_LENGTH_DISTRIBUTION_DEFAULT.out.versions)
       } else if (length_mode == "reference_align") {
-        PREP_REF (params.ref, params.ref_repeat_start, params.ref_repeat_end, params.ref_repeat_unit) // prepare references of varying repeat length
+        PREP_REF (file(params.ref), params.ref_repeat_start, params.ref_repeat_end, params.ref_repeat_unit) // prepare references of varying repeat length
         BWA (PREP_REF.out.ref, reads)
         BWA_LENGTH (BWA.out.bam_reads)
 
