@@ -17,7 +17,7 @@ workflow CLASSIFY_READ {
       //
       // MODULE: classify locus and stat
       // 3_read_category/3a_classify_locus
-      CLASSIFY_LOCUS ( reads )
+      CLASSIFY_LOCUS ( reads, file(params.ref) )
       ch_versions = ch_versions.mix(CLASSIFY_LOCUS.out.versions)
       STAT_LOCUS ( CLASSIFY_LOCUS.out.stat.collect() )
       ch_versions = ch_versions.mix(STAT_LOCUS.out.versions)
