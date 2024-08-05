@@ -3,16 +3,20 @@ process PREP_REF {
     container "hukai916/miniconda3_bio:0.4"
 
     input:
+    path reference 
+    val repeat_start
+    val repeat_end 
+    val repeat_unit
 
     output:
     path "*.fasta",       emit: ref
     path  "versions.yml", emit: versions
 
     script:
-    def reference = file(task.ext.reference) ?: ''
-    def repeat_start = task.ext.repeat_start ?: ''
-    def repeat_end = task.ext.repeat_end ?: ''
-    def repeat_unit = task.ext.repeat_unit ?: ''
+    // def reference = file(task.ext.reference) ?: ''
+    // def repeat_start = task.ext.repeat_start ?: ''
+    // def repeat_end = task.ext.repeat_end ?: ''
+    // def repeat_unit = task.ext.repeat_unit ?: ''
     def repeat_range = task.ext.repeat_range ?: ''
 
     """
