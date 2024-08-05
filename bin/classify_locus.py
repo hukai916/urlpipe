@@ -38,13 +38,15 @@ _open = partial(gzip.open, mode='rt') if encoding == 'gzip' else open
 
 with _open(r1) as f:
     for record in SeqIO.parse(f, 'fastq'):
-        if regex.search("(" + r1_flanking + ")" + "{e<=" + str(error) + "}", str(record.seq[:len(r1_flanking)])):
+        # if regex.search("(" + r1_flanking + ")" + "{e<=" + str(error) + "}", str(record.seq[:len(r1_flanking)])):
+        if regex.search("(" + r1_flanking + ")" + "{e<=" + str(error) + "}", str(record.seq[:])):
             r1_match[record.name] = 1
         else:
             r1_match[record.name] = 0
 with _open(r2) as f:
     for record in SeqIO.parse(f, 'fastq'):
-        if regex.search("(" + r2_flanking + ")" + "{e<=" + str(error) + "}", str(record.seq[:len(r2_flanking)])):
+        # if regex.search("(" + r2_flanking + ")" + "{e<=" + str(error) + "}", str(record.seq[:len(r2_flanking)])):
+        if regex.search("(" + r2_flanking + ")" + "{e<=" + str(error) + "}", str(record.seq[:])):
             r2_match[record.name] = 1
         else:
             r2_match[record.name] = 0
