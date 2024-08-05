@@ -35,7 +35,9 @@ process CLASSIFY_INDEL {
     """
     mkdir -p no_indel indel_5p indel_3p indel_5p_3p stat
 
-    R1_tem=\$(get_seq.py $ref start $ref_repeat_start no)
+    start_tem=\$(($ref_repeat_start - 1))
+    R1_tem=\$(get_seq.py $ref start \$start_tem no)
+
     end_tem=\$(($ref_repeat_end + $ref_after_repeat_bp_to_check))
     R2_tem=\$(get_seq.py $ref start \$end_tem no)
     echo ">ref1\n"\$R1_tem > ref1.fa

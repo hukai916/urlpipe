@@ -23,9 +23,9 @@ process CLASSIFY_LOCUS {
 
     script:
     def args = task.ext.args ?: ''
-    def ref_start_bp_to_check = task.ref_start_bp_to_check ?: 10
-    def ref_end_bp_to_check = task.ref_end_bp_to_check ?: 10
-    def m = task.m ?: 1
+    def ref_start_bp_to_check = task.ext.ref_start_bp_to_check ?: 10
+    def ref_end_bp_to_check = task.ext.ref_end_bp_to_check ?: 10
+    def m = task.ext.m ?: 1
     def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
