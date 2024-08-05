@@ -26,11 +26,11 @@ process CLASSIFY_INDEL {
     task.ext.when == null || task.ext.when
 
     script:
-    def ref_before_repeat_bp_to_check = task.ref_before_repeat_bp_to_check ?: 20
-    def ref_after_repeat_bp_to_check = task.ref_after_repeat_bp_to_check ?: 20
-    def m = task.m ?: 1
-    def indel_cutoff = task.indel_cutoff ?: 0.5
-    def prefix = task.prefix ?: "${meta.id}"
+    def ref_before_repeat_bp_to_check = task.ext.ref_before_repeat_bp_to_check ?: 20
+    def ref_after_repeat_bp_to_check = task.ext.ref_after_repeat_bp_to_check ?: 20
+    def m = task.ext.m ?: 1
+    def indel_cutoff = task.ext.indel_cutoff ?: 0.5
+    def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
     mkdir -p no_indel indel_5p indel_3p indel_5p_3p stat
