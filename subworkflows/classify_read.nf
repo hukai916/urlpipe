@@ -25,7 +25,7 @@ workflow CLASSIFY_READ {
       //
       // MODULE: classify INDEL and stat
       // 3_read_category/3b_classify_indel
-      CLASSIFY_INDEL ( CLASSIFY_LOCUS.out.reads_locus, file(params.ref))
+      CLASSIFY_INDEL ( CLASSIFY_LOCUS.out.reads_locus, file(params.ref), params.ref_repeat_start, params.ref_repeat_end)
       ch_versions = ch_versions.mix(CLASSIFY_INDEL.out.versions)
       STAT_INDEL ( CLASSIFY_INDEL.out.stat.collect() )
       ch_versions = ch_versions.mix(STAT_INDEL.out.versions)

@@ -7,6 +7,8 @@ process CLASSIFY_INDEL {
     input:
     tuple val(meta), path(reads)
     path ref
+    val ref_repeat_start
+    val ref_repeat_end
 
     output:
     tuple val(meta), path("no_indel/*.fastq.gz"),         emit: reads_no_indel
@@ -24,14 +26,25 @@ process CLASSIFY_INDEL {
     task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
-    def indel_cutoff = task.ext.indel_cutoff ?: 0.5
-    def prefix = task.ext.prefix ?: "${meta.id}"
+    def ref_before_repeat_bp_to_check = task.ref_before_repeat_bp_to_check ?: 20
+    def ref_after_repeat_bp_to_check = task.ref_after_repeat_bp_to_check ?: 20
+    def m = task.m ?: 1
+    def indel_cutoff = task.indel_cutoff ?: 0.5
+    def prefix = task.prefix ?: "${meta.id}"
 
     """
     mkdir -p no_indel indel_5p indel_3p indel_5p_3p stat
 
-    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz no_indel indel_5p indel_3p indel_5p_and_3p indel_5p_or_3p stat ${prefix} $args $indel_cutoff
+    R1_tem=\$(get_seq.py $ref start $ref_repeat_start no)
+    end_tem=\$(($ref_repeat_end + $ref_after_repeat_bp_to_check))
+    R2_tem=\$(get_seq.py $ref start $end_tem no)
+    echo ">ref1\n"\$R1_tem > ref1.fa
+    echo ">ref2\n"\$R2_tem > ref2.fa
+
+    R1=\$(get_seq.py ref1.fa end $ref_before_repeat_bp_to_check no)
+    R2=\$(get_seq.py ref2.fa start $ref_after_repeat_bp_to_check no)
+
+    classify_indel.py ${prefix}_1.fastq.gz ${prefix}_2.fastq.gz no_indel indel_5p indel_3p indel_5p_and_3p indel_5p_or_3p stat ${prefix} \$R1 \$R2 $m $indel_cutoff
 
     gzip */*.fastq
 
