@@ -40,8 +40,15 @@ This subfolder contains intermediate files produced during the preprocessing ste
 
 This subfolder contains intermediate files generated during the QC and UMI processing steps.
 * `2a_fastqc/`: Contains FastQC reports for sequencing data at each preprocessing step.
+  * `fastq_raw/`
+  * `fastq_cutadapt/`
+  * `fastq_readthrough/`
 * `2b_read_per_umi_cutadapt/`: Contains distribution of the number of reads per UMI for fastq files after trimming.
-* `2b_read_per_umi_readthrough/`: Contains distribution of the number of reads per UMI for readthrough fastq files.
+  * `stat/` ([Example](https://github.com/hukai916/URLpipe_example/blob/main/results_dataset1/2_qc_and_umi/2b_read_per_umi_cutadapt/stat/D103_10uM_R1_read_per_umi.csv)): Contains statistical summary of read count per UMI.
+  * `plot/` ([Example](https://github.com/hukai916/URLpipe_example/blob/main/results_dataset1/2_qc_and_umi/2b_read_per_umi_cutadapt/plot/D103_10uM_R1_read_per_umi.png)): Contains bin plot visualizing the read count per UMI summary.
+* `2c_read_per_umi_readthrough/`: Contains distribution of the number of reads per UMI for readthrough fastq files.
+  * `stat/` ([Example](https://github.com/hukai916/URLpipe_example/blob/main/results_dataset1/2_qc_and_umi/2c_read_per_umi_readthrough/stat/D103_10uM_R1_read_per_umi.csv)): Contains statistical summary of read count per UMI.
+  * `plot/` ([Example](https://github.com/hukai916/URLpipe_example/blob/main/results_dataset1/2_qc_and_umi/2c_read_per_umi_readthrough/plot/D103_10uM_R1_read_per_umi.png)): Contains bin plot visualizing the read count per UMI summary.
 </details>
 
 <details markdown="1">
