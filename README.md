@@ -2,7 +2,7 @@
 
 ## Table of Contents
 [Introduction](#introduction)  
-[Pipeline summary](#pipeline-summary) 
+[Pipeline summary](#pipeline-summary)   
 [Quick Start](#quick-start)  
 [Documentation](#documentation)  
 [Credits](#credits)  
@@ -30,24 +30,24 @@ URLpipe supports sequencing reads from both Illumina and Nanopore platforms. The
 
 The Illumina branch of the pipeline is structured into eight distinct sub-workflows, each with a specific role in processing data:
   - **INPUT_CHECK**:
-    - Purpose: validate the input files and configurations to ensure they meet the requirements for analysis
+    - Validate the input files and configurations to ensure they meet the requirements for analysis.
   - **PREPROCESS_QC**: 
-    - Purpose: perform preprocessing and quality control on the raw data
+    - Perform preprocessing and quality control on the raw data.
     - Result folder: `1_preprocess` and `2_qc_and_umi`
   - **CLASSIFY_READ**:
-    - Purpose: categorize reads into different classes to facilitate downstream analysis
+    - Categorize reads into different classes to facilitate downstream analysis.
     - Result folder: `3_read_category`
   - **REPEAT_STAT_DEFAULT** and **REPEAT_STAT_MERGE**:
-    - Purpose: determine repeat lengths by leveraging UMI
+    - Determine repeat lengths by leveraging UMI.
     - Result folder: `4_repeat_statistics`
   - **INDEL_STAT**:
-    - Purpose: analyze patterns of insertions and deletions around the repeat region
+    - Analyze patterns of insertions and deletions around the repeat region.
     - Result folder: `5_indel_statistics`
   - **GET_SUMMARY**:
-    - Purpose: generate tables and plots summarizing the editng outcome
+    - Generate tables and plots summarizing the editng outcome.
     - Result folder: `6_summary`
 
-Selected sub-workflow and their functionalities are summarized below. Refer to [output - Result folders](https://github.com/hukai916/URLpipe/blob/main/docs/output.md#result-folders) documentation for more details.
+Selected sub-workflows and their functionalities are summarized below. Refer to [output - Results](./docs/output.md#results) for more details.
 
 #### PREPROCESS_QC:
 
@@ -55,11 +55,11 @@ Selected sub-workflow and their functionalities are summarized below. Refer to [
   <img src="docs/images/diag_preprocess.svg" width="500" style="display: block; margin: 20px auto">
 </p>
 
-1. Merge fastq files from different lanes (if any) that belong to the same library (`1a_lane_merge`)
-2. Extract UMI from each read and append it to the read name (`1b_umi_extract`)
-3. Trim adapter sequences (`1c_cutadapt`)
-4. Quality control using FastQC (`2a_fastqc`)
-5. Quality control by plotting read count per UMI (`2b_read_per_umi_cutadapt`)
+1. Merge fastq files from different lanes (if any) that belong to the same library (`1a_lane_merge`).
+2. Extract UMI from each read and append it to the read name (`1b_umi_extract`).
+3. Trim adapter sequences (`1c_cutadapt`).
+4. Quality control using FastQC (`2a_fastqc`).
+5. Quality control by plotting read count per UMI (`2b_read_per_umi_cutadapt`).
 
 #### CLASSIFY_READ:
 
@@ -67,9 +67,9 @@ Selected sub-workflow and their functionalities are summarized below. Refer to [
   <img src="docs/images/diag_classify.svg" width="500" style="display: block; margin: 20px auto">
 </p>
 
-1. Determine if read is mapped to the predefined target region (on-locus) (`3a_classify_locus`)
-2. Classify on-locus reads based on the presence of INDELs around the repeat region (non-indel) (`3b_classify_indel`)
-3. Classify non-indel reads For each non-indel read, determine if it covers the entire repeat region (readthrough) (`3c_classify_readthrough`)
+1. Determine if read is mapped to the predefined target region (on-locus) (`3a_classify_locus`).
+2. Classify on-locus reads based on the presence of INDELs around the repeat region (non-indel) (`3b_classify_indel`).
+3. Classify non-indel reads For each non-indel read, determine if it covers the entire repeat region (readthrough) (`3c_classify_readthrough`).
 
 The readthrough reads will be used towards determining the repeat lengths.
 
@@ -81,9 +81,9 @@ In URLpipe, repeat length determination can be performed in two modes: DEFAULT m
   <img src="docs/images/diag_repeat_stat.svg" width="500" style="display: block; margin: 20px auto">
 </p>
 
-1. Figure out repeat length distribution (`4a_repeat_length_distribution`)
-2. Perform UMI correction to refine repeat length measurements (`4a_repeat_length_distribution`)
-3. Plot the repeat length distribution per UMI (`4b_4a_repeat_length_distribution_per_umi`)
+1. Figure out repeat length distribution (`4a_repeat_length_distribution`).
+2. Perform UMI correction to refine repeat length measurements (`4a_repeat_length_distribution`).
+3. Plot the repeat length distribution per UMI (`4b_4a_repeat_length_distribution_per_umi`).
 
 #### INDEL_STAT:
 
@@ -91,10 +91,10 @@ Gather statistic information for reads containing INDELs.
 
 #### GET_SUMMARY:
 
-Obtain summary statistics from CLASSIFY_READ, REPEAT_STAT_DEFAULT/MERGE, and INDEL_STAT results.
+Obtain summary statistics from `CLASSIFY_READ`, `REPEAT_STAT_DEFAULT/MERGE`, and INDEL_STAT results.
 
-1. Generate master statistic tables (`6a_master_table`)
-2. Generate summary plots (`6b_bin_plot`)
+1. Generate master statistic tables (`6a_master_table`).
+2. Generate summary plots (`6b_bin_plot`).
 
 ### Nanopore reads
 
@@ -123,11 +123,11 @@ cd URLpipe
   unzip sample_dataset1.zip
   ```
 
-5. Edit the `replace_with_full_path` in the assets/samplesheet_dataset1.csv to use the actual **full path**.
+5. Edit the `replace_with_full_path` in the "assets/samplesheet_dataset1.csv" file to use the actual **full path**.
 
 6. Test the pipeline with this minimal dataset1:
 
-  * At least 2GB memory is recommended for dataset1.
+  * At least 8GB memory is recommended for dataset1.
   * By default, the local executor (your local computer) will be used (`-profile local`) meaning that all jobs will be executed on your local computer. Nextflow supports many other [executors](https://www.nextflow.io/docs/latest/executor.html) including SLURM, LSF, *etc.*. You can create a [profile](https://www.nextflow.io/docs/latest/config.html?highlight=profile#config-profiles) file to config which executor to use. Multiple profiles can be supplied with comma, e.g. `-profile docker,lsf`.
   * Please check [nf-core/configs](https://github.com/nf-core/configs#documentation) to see what other custom config files can be supplied.
 
@@ -142,12 +142,18 @@ By executing the above command:
   - The configurations specified via `-c conf/sample_dataset1.config` will be applied, which includes:
     - `input  = "./assets/samplesheet_dataset1.csv"`: input samplesheet file path
     - `outdir = "./results_dataset1"`: output directory path
-    - `allele_number = 2`: 
+    - `ref = "./assets/IlluminaHsQ50FibTrim_Ref.fa"`: reference file path
+    - `ref_repeat_start = 69`: 1-based repeat start coordinate in reference
+    - `ref_repeat_end = 218`: 1-based repeat end coordinate in reference
+    - `ref_repeat_unit = "CAG"`: repeat unit in reference
     - `length_mode = "reference_align"`: repeat length determination method
-    - `ref = "assets/IlluminaHsQ50FibTrim_Ref.fa"`: target reference fasta file
-    - `max_memory                 = "16.GB"`: maximum memory to use, do not exceed what your system has
-    - `max_cpus                   = 16`: maximum number of cpu to use, do not exceed what your system has
-    - `max_time                   = "240.h"`: maximum running time
+    - `umi_cutoffs = "1,3,5,7,10,30,100"`: UMI cutoffs for correction
+    - `umi_correction_method = "least_distance"`: UMI correction method
+    - `repeat_bins = "[(0,50), (51,60), (61,137), (138,154), (155,1000)]"`: number and range of bins to plot
+    - `allele_number = 2`: number of alleles in reference
+    - `max_memory = "16.GB"`: maximum memory to use, do not exceed what your system has
+    - `max_cpus = 16`: maximum number of cpu to use, do not exceed what your system has
+    - `max_time = "240.h"`: maximum running time
     - other module-specific configurations
 
 Detailed explanations, refer to [usage](docs/usage.md).
