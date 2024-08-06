@@ -1,8 +1,8 @@
-# ![URLpipe](docs/images/urlpipe_logo.png)
+# ![URLpipe](docs/images/urlpipe_logo.svg)
 
 ## Table of Contents
 [Introduction](#introduction)  
-[Pipeline summary](#pipeline-summary)
+[Pipeline summary](#pipeline-summary) 
 [Quick Start](#quick-start)  
 [Documentation](#documentation)  
 [Credits](#credits)  
@@ -52,7 +52,7 @@ Selected sub-workflow and their functionalities are summarized below. Refer to [
 #### PREPROCESS_QC:
 
 <p align="center">
-  <img src="docs/images/diag_preprocess_1.png" width="500" style="display: block; margin: 20px auto">
+  <img src="docs/images/diag_preprocess.svg" width="500" style="display: block; margin: 20px auto">
 </p>
 
 1. Merge fastq files from different lanes (if any) that belong to the same library (`1a_lane_merge`)
@@ -64,7 +64,7 @@ Selected sub-workflow and their functionalities are summarized below. Refer to [
 #### CLASSIFY_READ:
 
 <p align="center">
-  <img src="docs/images/diag_preprocess_3.png" width="500" style="display: block; margin: 20px auto">
+  <img src="docs/images/diag_classify.svg" width="500" style="display: block; margin: 20px auto">
 </p>
 
 1. Determine if read is mapped to the predefined target region (on-locus) (`3a_classify_locus`)
@@ -78,7 +78,7 @@ The readthrough reads will be used towards determining the repeat lengths.
 In URLpipe, repeat length determination can be performed in two modes: DEFAULT mode, which uses only R1 reads, and MERGE mode, which merges R1 and R2 reads. For UMI correction, four methods are currently available: "mode", "mean", and "least distance", and "square distance".
 
 <p align="center">
-  <img src="docs/images/diag_preprocess_4.png" width="500" style="display: block; margin: 20px auto">
+  <img src="docs/images/diag_repeat_stat.svg" width="500" style="display: block; margin: 20px auto">
 </p>
 
 1. Figure out repeat length distribution (`4a_repeat_length_distribution`)

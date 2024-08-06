@@ -400,23 +400,29 @@ process {
 
 ## Example study1
 
-The same dateset1 used in [Quick Start](../README.md#quick-start) will be leveraged here, which consists of a subset of CRISPR editing experiment using HQ50 cell line. The goal is to evaluate the editing outcome, specifically the fraction of repeat contractions with different DNA damage repair inhibitors. The command line being used is as follows.
+For demonstration, we will use the same dateset1 from the [Quick Start](../README.md#quick-start), which includes a subset of CRISPR editing experiments performed with the HQ50 cell line. The goal is to evaluate the editing outcome, specifically focusing on the fraction of repeat contractions in response to different DNA damage repair inhibitors. The command line used for this analysis is as follows.
 
 ```bash
 nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
 ```
 
-All custom configurations used in this example are saved under [sample_dataset1.config](../conf/sample_dataset1.config) file below.
+### Custom configurations
+
+All custom configurations used in this example are saved in the [sample_dataset1.config](../conf/sample_dataset1.config) file, which is showed below.
 
 ```
 params {
     config_profile_name        = 'Sample dataset1'
-    config_profile_description = 'Configuration using a minimal test dataset1: 6 samples from HQ50 (human cell line): '
+    config_profile_description = 'Configuration using a minimal test dataset1: 6 samples from HQ50 (human cell line)'
 
     input  = "./assets/samplesheet_dataset1.csv"
     outdir = "./results_dataset1"
+    ref = "./assets/IlluminaHsQ50FibTrim_Ref.fa"
     allele_number = 2
     length_mode = "reference_align"
+    ref_repeat_start = 69
+    ref_repeat_end = 218
+    ref_repeat_unit = "CAG"
 
     max_memory                 = "16.GB"
     max_cpus                   = 16
@@ -429,47 +435,55 @@ process {
     }
 
     withName: CLASSIFY_LOCUS {
-        ext.args = 'TCTCTCCGGGGACTGCCGTG CGGCTGAGGCAGCAGCGGCT 2' // first 20nt from R1, R2, and allowed mismatch (including INDELs)
-        // R2 from 5' -> 3' as R1
+        ext.ref_start_bp_to_check = 20 // number of base pair to examine from ref start
+        ext.ref_end_bp_to_check = 20 // number of base pair to examine from ref end
+        ext.m = 2 // allowed mismatches (including INDELs)
     }
 
     withName: CLASSIFY_INDEL {
-        ext.args = 'TCGAGTCCCTCAAGTCCTTC CCGCCACCGCCGCCGCCGCC 2' // first 20nt flanking repeat region from target genome, and allowed mismatch (substitution only)
-        // R2 flanking nt : same direction as R1
+        ext.ref_before_repeat_bp_to_check = 20 // number of base pair to examine from ref_repeat_start site
+        ext.ref_after_repeat_bp_to_check = 20 // number of base pair to examine from ref_repeat_end site
+        ext.m = 2 // allowed mismatches (substitutions only)
+        ext.indel_cutoff = 0.5 // if > 0.5 reads from the same UMI group are indel, all reads in that group will be treated as indel.
     }
 
     withName: CLASSIFY_READTHROUGH {
-        ext.args = 'TCGAGTCCCTCAAGTCCTTC CCGCCACCGCCGCCGCCGCC 2' // first 20nt flanking repeat region from target genome, and allowed mismatch (including INDELs)
-        // R2 flanking nt : same direction as R1
+        ext.ref_before_repeat_bp_to_check = 20 // number of base pair to examine from ref_repeat_start site
+        ext.ref_after_repeat_bp_to_check = 20 // number of base pair to examine from ref_repeat_end site
+        ext.m = 2 // allowed mismatches (including INDELs)
     }
 
     withName: PREP_REF {
-        ext.reference = "assets/IlluminaHsQ50FibTrim_Ref.fa"
-        ext.repeat_start = 69 // start position of repeat in ref, 1-based coordinate
-        ext.repeat_end = 218 // end position of repeat in ref, 1-based coordinate
-        ext.repeat_unit = "CAG"
         ext.repeat_range = "0:150" // range of number of repeat units (e.g. "CAG") when it comes to prep_ref
     }
 
-    withName: BWA {
-        ext.reference = "assets/IlluminaHsQ50FibTrim_Ref.fa"
-        ext.args = "" // bwa options
-    }
-
     withName: REPEAT_LENGTH_DISTRIBUTION_DEFAULT {
-        ext.args = 'TCGAGTCCCTCAAGTCCTTC CCGCCACCGCCGCCGCCGCC 2'
-        // first 20nt flanking repeat region from R1, R2, and allowed mismatch (including INDELs)
-        // R2 flanking nt: same direction as R1
+        ext.ref_before_repeat_bp_to_check = 20 // number of base pair to examine from ref_repeat_start site
+        ext.ref_after_repeat_bp_to_check = 20 // number of base pair to examine from ref_repeat_end site
+        ext.m = 2 // allowed mismatches (including INDELs)
     }
 }
 ```
 
-The following diagram illustrates how the `ext.args` strings are determined for each modules.
+The `params` scope defines pipeline-level parameters, while the `process` scope manages module-specific parameters. For example, the `CLASSIFY_LOCUS` module categorizes reads into on-target and off-target categories by scanning sequences from both ends of the target reference (amplicon) against each read. The query sequences to scan are specified by `ext.ref_start_bp_to_check = 20` and `ext.ref_end_bp_to_check = 20`, meaning the first 20 bp and the last 20 bp of the reference are leveraged (see diagram below). Similarly, for modules like `CLASSIFY_INDEL`, and `CLASSIFY_READTHROUGH`, the repeat-flanking fragments to scan are defined by `ext.ref_before_repeat_bp_to_check` and `ext.ref_after_repeat_bp_to_check`, respectively. For a detailed explanation of how the modules work together and streamline the analysis, refer to the [Pipeline Summary](../README.md#pipeline-summary) section.
 
+<p align="center">
+  <img src="../docs/images/dataset1_config.svg" width="500" style="display: block; margin: 20px auto">
+</p>
 
-The custom configuration files used in this example will be explained in detail.
+### Output
 
+The output of running the above command will be saved under the ["./results_dataset1"](https://github.com/hukai916/URLpipe_example) directory per pipeline-level argument `outdir = "./results_dataset1"`. The results are organized into seven sub-folders for easy navigation:
 
+- `0_pipeline_info`
+- `1_preprocess`
+- `2_qc_and_umi`
+- `3_read_category`
+- `4_repeat_statistics`
+- `5_indel_statistics`
+- `6_summary`
+
+For detailed descriptions of each result folder, refer to [output](output.md) section.
 
 ## Running in the background
 Nextflow handles job submissions and supervises the running jobs. The Nextflow process must run until the pipeline is finished.

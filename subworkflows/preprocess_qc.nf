@@ -41,7 +41,7 @@ workflow PREPROCESS_QC {
 
         //
         // MODULE: FastQC
-        // 2_qc_and_umi/2a_fastqc/02_after_cutadapt
+        // 2_qc_and_umi/2a_fastqc/fastq_cutadapt
         FASTQC_CUTADAPT ( CUTADAPT.out.reads )
         ch_versions = ch_versions.mix(FASTQC_CUTADAPT.out.versions)
 
