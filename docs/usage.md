@@ -10,7 +10,7 @@
 [Nextflow-level arguments](#nextflow-level-arguments)   
 [Pipeline-level arguments](#pipeline-level-arguments)   
 [Module-level arguments](#module-level-arguments)   
-[Custom configuration](#custom-configuration)   
+[Custom configurations](#custom-configurations)   
 [Example study1](#example-study1)   
 [Running in the background](#running-in-the-background)   
 [Nextflow memory requirements](#nextflow-memory-requirements)   
@@ -228,13 +228,22 @@ Below is an overview of key module parameters by subworkflow. Refer to [Module-s
 - "conf/preprocess_nanopore.config": # todo
 
 - "classify_read.config"
-  - module `CLASSIFY_LOCUS`  
-    - `ext.args = 'TCTCTCCGGGGACTGCCGTG CGGCTGAGGCAGCAGCGGCT 2'`: Define the nucleotide sequences for identifying on-locus reads (reads that map to the target reference region). Provide sequences from the 5'end of the expected R1 and R2 reads, along with the allowed number of mismatches (INDELs are permitted).
+  - module `CLASSIFY_LOCUS` 
+    - Define the nucleotide sequences for identifying on-locus reads (reads that map to the target reference region).  
+    - `ext.ref_start_bp_to_check = 20`: Number of base pair to examine from ref start.
+    - `ext.ref_end_bp_to_check = 20`: Number of base pair to examine from ref end.
+    - `ext.m = 2`: Number of allowed mismatches (INDELs are permitted).
   - module `CLASSIFY_INDEL`
-    - `ext.args = 'TCGAGTCCCTCAAGTCCTTC CCGCCACCGCCGCCGCCGCC 2'`: Define the nucleotide sequences for detecting non-indel reads. Supply sequences flanking the repeat region (both from 5' to 3' directions) on the target reference, along with teh allowed number of mismatches (only substitutions are allowed, not INDELs).
+    - Define the nucleotide sequences for detecting non-indel reads. 
+    - `ext.ref_before_repeat_bp_to_check = 20`: Number of base pair to examine from ref repeat start site.
+    - `ext.ref_after_repeat_bp_to_check = 20`: Number of base pair to examine from ref repeat end site.
+    - `ext.m = 2`: Number of allowed mismatches (substitutions only).
     - `ext.indel_cutoff = 0.5`: Set the fraction cutoff for reads with INDELs within a UMI group. Defaults to 0.5, which means that if more than 50% of reads in a UMI group contain INDELs, the UMI group will be classfied as having INDELs.
   - module `CLASSIFY_READTHROUGH`
-    - `ext.args = 'TCGAGTCCCTCAAGTCCTTC CCGCCACCGCCGCCGCCGCC 2'`: Define the nucleotide sequences for identifying readthrough reads. Supply sequences flanking the repeat region (both from 5' to 3' directions) on the target reference, with teh allowed number of mismatches (INDELs are permitted). This can be identical to the sequences used in `CLASSIFY_INDEL`.
+    - Define the nucleotide sequences for identifying readthrough reads. INDELs are permitted. This can be identical to the sequences used in `CLASSIFY_INDEL`.
+    - `ext.ref_before_repeat_bp_to_check = 20`: Number of base pair to examine from ref repeat start site.
+    - `ext.ref_after_repeat_bp_to_check = 20`: Number of base pair to examine from ref repeat end site.
+    - `ext.m = 2`: Number of allowed mismatches (INDELs are permitted).
   - module `READ_PER_UMI_READTHROUGH`
     - `ext.args = "500"`: Specify the X-axis range for plotting. Choose "auto" for automatic scaling or a positive number for a fixed range.
 
@@ -265,60 +274,51 @@ Below is an overview of key module parameters by subworkflow. Refer to [Module-s
     - `ext.use_repeat_unit_bp = "no"`: Set to "yes" to use the length of "repeat units" for plotting. If "no", the plot will use the length of repeat base pairs. The length of "repeat unit" is defined by "repeat_unit_bp" below.
     - `ext.repeat_unit_bp = 3`: Number of base pairs in the repeat unit.
 
-### Resource requests
+## Custom configurations
 
-Whilst the default requirements set within the pipeline will hopefully work for most people and with most input data, you may find that you want to customise the compute resources that the pipeline requests. Each step in the pipeline has a default set of requirements for number of CPUs, memory and time. For most of the steps in the pipeline, if the job exits with any of the error codes specified [here](https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L18) it will automatically be resubmitted with higher requests (2 x original, then 3 x original). If it still fails after the third attempt then the pipeline execution is stopped.
-
-For example, if the nf-core/rnaseq pipeline is failing after multiple re-submissions of the `STAR_ALIGN` process due to an exit code of `137` this would indicate that there is an out of memory issue:
-
-```console
-[62/149eb0] NOTE: Process `NFCORE_RNASEQ:RNASEQ:ALIGN_STAR:STAR_ALIGN (WT_REP1)` terminated with an error exit status (137) -- Execution is retried (1)
-Error executing process > 'NFCORE_RNASEQ:RNASEQ:ALIGN_STAR:STAR_ALIGN (WT_REP1)'
-
-Caused by:
-    Process `NFCORE_RNASEQ:RNASEQ:ALIGN_STAR:STAR_ALIGN (WT_REP1)` terminated with an error exit status (137)
-
-Command executed:
-    STAR \
-        --genomeDir star \
-        --readFilesIn WT_REP1_trimmed.fq.gz  \
-        --runThreadN 2 \
-        --outFileNamePrefix WT_REP1. \
-        <TRUNCATED>
-
-Command exit status:
-    137
-
-Command output:
-    (empty)
-
-Command error:
-    .command.sh: line 9:  30 Killed    STAR --genomeDir star --readFilesIn WT_REP1_trimmed.fq.gz --runThreadN 2 --outFileNamePrefix WT_REP1. <TRUNCATED>
-Work dir:
-    /home/pipelinetest/work/9d/172ca5881234073e8d76f2a19c88fb
-
-Tip: you can replicate the issue by changing to the process work dir and entering the command `bash .command.run`
-```
-
-To bypass this error you would need to find exactly which resources are set by the `STAR_ALIGN` process. The quickest way is to search for `process STAR_ALIGN` in the [nf-core/rnaseq Github repo](https://github.com/nf-core/rnaseq/search?q=process+STAR_ALIGN).
-We have standardised the structure of Nextflow DSL2 pipelines such that all module files will be present in the `modules/` directory and so, based on the search results, the file we want is `modules/nf-core/software/star/align/main.nf`.
-If you click on the link to that file you will notice that there is a `label` directive at the top of the module that is set to [`label process_high`](https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/modules/nf-core/software/star/align/main.nf#L9).
-The [Nextflow `label`](https://www.nextflow.io/docs/latest/process.html#label) directive allows us to organise workflow processes in separate groups which can be referenced in a configuration file to select and configure subset of processes having similar computing requirements.
-The default values for the `process_high` label are set in the pipeline's [`base.config`](https://github.com/nf-core/rnaseq/blob/4c27ef5610c87db00c3c5a3eed10b1d161abf575/conf/base.config#L33-L37) which in this case is defined as 72GB.
-Providing you haven't set any other standard nf-core parameters to **cap** the [maximum resources](https://nf-co.re/usage/configuration#max-resources) used by the pipeline then we can try and bypass the `STAR_ALIGN` process failure by creating a custom config file that sets at least 72GB of memory, in this case increased to 100GB.
-The custom config below can then be provided to the pipeline via the [`-c`](#-c) parameter as highlighted in previous sections.
+The Nextflow engine provides flexibility in managing computational resource requests and module-specific options. These configurations can be saved into a centralized configuration file and passed to URLpipe with the `-c` flag. Below is the configuration file and command line used in [Quick start](../README.md#quick-start)
 
 ```nextflow
+nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
+```
+
+### Resource requests
+While the default requirements set within the pipeline are designed to work for most users and input data, you may need to customize these resources based on your specific needs. Each pipeline step has default settings for CPUs, memory, and time. If a job exits with one of the error codes specified [here](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/conf/base.config#L18), it will automatically be resubmitted with increased resource requests. If it fails after the second attempt, the pipeline execution will stop (`maxRetries = 1`). For example, if the `UMI_EXTRACT` process fails repeatedly with exit code `137`, it likely indicates an out-of-memory issue. To address this, you need to determine the resource settings for the `UMI_EXTRACT` module.
+
+To find the resource settings:
+
+1. Search for `proecess UMI_EXTRACT` in the [hukai916/URLpipe GitHub repo](https://github.com/hukai916/URLpipe/search?q=process+UMI_EXTRACT). The relevant file will be `modules/local/umi_extract.nf`, as all module files are stored in the `modules/` directory.
+2. In `modules/local/umi_extract.nf`, locate the `label` directive, which is set to [`label process_low`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/modules/local/umi_extract.nf#L3). The [Nextflow `label`](https://www.nextflow.io/docs/latest/process.html#label) directive organizes workflow processes into groups that can be references in configuration files. 
+
+The default values for the `process_low` label are defined in the pipeline's [`base.config`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/conf/base.config#L34-L38) and are set to 12GB providing you haven't set any other standard Nextflow parameters to __cap__ the [maximum resources](https://nf-co.re/usage/configuration#max-resources) used by the pipeline then we can try and bypass the `UMI_EXTRACT` process failure by creating a custom config file to increase the memory allocation. For example, you can set the memory to 20GB in your custom config file:
+```nextflow
 process {
-    withName: 'NFCORE_RNASEQ:RNASEQ:ALIGN_STAR:STAR_ALIGN' {
-        memory = 100.GB
+    withName: UMI_EXTRACT {
+        memory = 20.GB
     }
 }
 ```
 
-> **NB:** We specify the full process name i.e. `NFCORE_RNASEQ:RNASEQ:ALIGN_STAR:STAR_ALIGN` in the config file because this takes priority over the short name (`STAR_ALIGN`) and allows existing configuration using the full process name to be correctly overridden.
->
-> If you get a warning suggesting that the process selector isn't recognised check that the process name has been specified correctly.
+This custom config can then be provided to the pipeline via the [`-c`](#-c) parameter as described in previous section.
+
+### Module-specific options
+For maximum flexibility, we have implemented and are using Nextflow DSL2 modules so that it is possible for both developers and users to modify module-specific arguments. Each module typically wraps around one or more tool, enabling customization of their behavior (e.g., adding extra command-line arguments to the `CUTADAPT` module).
+
+The command-line arguments passed to Cutadapt in the `CUTADAPT` module consist of:
+
+* Core arguments: These are determined automatically within the pipeline scope, as defined in the [`cutadapt/main.nf`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/modules/nf-core/modules/cutadapt/main.nf#L28-L30) section of the module file.
+
+* Other arguments: These are data-specific and intended to be customized by the user via the [`ext.args`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/conf/preprocess_qc.config#L42) string. For example, by default, the `ext.args` options in `CUTADAPT` module are set to `-g GTAGGCTCCAAGTCTTCAGGGTCTGT -G CGGCTGAGGCAGCAGCGGCTGT`, which specifies the adapter sequences to trim. Users can directly modify `ext.args` in configuration files such as [preprocess_qc.config](../conf/preprocess_qc.config) to suit their data needs. Alternatively, these parameters can be overridden using a custom config file with the [-c](#-c) flag. For example, to add an additional, non-mandatory parameter (e.g., `--minimum-length` to discard reads shorter than a specified length) to the `CUTADAPT` module, you can either:
+- Directly update the default value in `CUTADAPT` module's [`ext.args`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/conf/preprocess_qc.config#L42) from `-g GTAGGCTCCAAGTCTTCAGGGTCTGT -G CGGCTGAGGCAGCAGCGGCTGT` to `-g GTAGGCTCCAAGTCTTCAGGGTCTGT -G CGGCTGAGGCAGCAGCGGCTGT --minimum-length 15`, or
+- Save the updated configuration in a separate file (e.g., "test.config") and include it using the [-c](#-c) flag.
+
+```nextflow
+# Save below into "test.config" and pass it to URLpipe using "-c test.config".
+process {
+  withName: CUTADAPT {
+    ext.args = "-g GTAGGCTCCAAGTCTTCAGGGTCTGT -G CGGCTGAGGCAGCAGCGGCTGT -- minimum-length 15"
+  }
+```
 
 ### Updating containers
 
@@ -359,54 +359,6 @@ The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementatio
      ```
 
 > **NB:** If you wish to periodically update individual tool-specific results (e.g. Pangolin) generated by the pipeline then you must ensure to keep the `work/` directory otherwise the `-resume` ability of the pipeline will be compromised and it will restart from scratch.
-
-## Custom configuration
-
-The Nextflow engine provides flexibility in managing computational resource requests and module-specific options. These configurations can be saved into a centralized configuration file and passed to URLpipe with the `-c` flag. Below is the configuration file and command line used in [Quick start](../README.md#quick-start)
-
-```nextflow
-nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
-```
-
-### Resource requests
-While the default requirements set within the pipeline are designed to work for most users and input data, you may need to customize these resources based on your specific needs. Each pipeline step has default settings for CPUs, memory, and time. If a job exits with one of the error codes specified [here](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/conf/base.config#L18), it will automatically be resubmitted with increased resource requests. If it fails after the second attempt, the pipeline execution will stop (`maxRetries = 1`). For example, if the `UMI_EXTRACT` process fails repeatedly with exit code `137`, it likely indicates an out-of-memory issue. To address this, you need to determine the resource settings for the `UMI_EXTRACT` module.
-
-To find the resource settings:
-
-1. Search for `proecess UMI_EXTRACT` in the [hukai916/URLpipe GitHub repo](https://github.com/hukai916/URLpipe/search?q=process+UMI_EXTRACT). The relevant file will be `modules/local/umi_extract.nf`, as all module files are stored in the `modules/` directory.
-2. In `modules/local/umi_extract.nf`, locate the `label` directive, which is set to [`label process_low`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/modules/local/umi_extract.nf#L3). The [Nextflow `label`](https://www.nextflow.io/docs/latest/process.html#label) directive organizes workflow processes into groups that can be references in configuration files. 
-
-The default values for the `process_low` label are defined in the pipeline's [`base.config`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/conf/base.config#L34-L38) and are set to 12GB providing you haven't set any other standard Nextflow parameters to __cap__ the [maximum resources](https://nf-co.re/usage/configuration#max-resources) used by the pipeline then we can try and bypass the `UMI_EXTRACT` process failure by creating a custom config file to increase the memory allocation. For example, you can set the memory to 20GB in your custom config file:
-```nextflow
-process {
-    withName: UMI_EXTRACT {
-        memory = 20.GB
-    }
-}
-```
-
-This custom config can then be provided to the pipeline via the [`-c`](#-c) parameter as described in previous section.
-
-> **NB:** We specify just the process name i.e. `UMI_EXTRACT` in the config file and not the full task name string that is printed to screen in the error message or on the terminal whilst the pipeline is running.
-
-### Module-specific options
-For maximum flexibility, we have implemented and are using Nextflow DSL2 modules in a way where it is possible for both developers and users to modify module-specific arguments. Each module typically wraps around one or more tool, enabling customization of their behavior (e.g., adding extra command-line arguments to the `CUTADAPT` module).
-
-The command-line arguments passed to Cutadapt in the `CUTADAPT` module consist of:
-
-* Core arguments: These are determined automatically within the pipeline scope, as defined in the [`cutadapt/main.nf`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/modules/nf-core/modules/cutadapt/main.nf#L28-L30) section of the module file.
-
-* Other arguments: These are data-specific and intended to be customized by the user via the [`ext.args`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/conf/preprocess_qc.config#L42) string. For example, by default, the `ext.args` options in `CUTADAPT` module are set to `-g GTAGGCTCCAAGTCTTCAGGGTCTGT -G CGGCTGAGGCAGCAGCGGCTGT`, which specifies the adapter sequences to trim. Users can directly modify `ext.args` in configuration files such as [preprocess_qc.config](../conf/preprocess_qc.config) to suit their data needs. Alternatively, these parameters can be overridden using a custom config file with the [-c](#-c) flag. For example, to add an additional, non-mandatory parameter (e.g., `--minimum-length` to discard reads shorter than a specified length) to the `CUTADAPT` module, you can either:
-- Directly update the default value in `CUTADAPT` module's [`ext.args`](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/conf/preprocess_qc.config#L42) from `-g GTAGGCTCCAAGTCTTCAGGGTCTGT -G CGGCTGAGGCAGCAGCGGCTGT` to `-g GTAGGCTCCAAGTCTTCAGGGTCTGT -G CGGCTGAGGCAGCAGCGGCTGT --minimum-length 15`, or
-- Save the updated configuration in a separate file (e.g., "test.config") and include it using the [-c](#-c) flag.
-
-```nextflow
-# Save below into "test.config" and pass it to URLpipe using "-c test.config".
-process {
-  withName: CUTADAPT {
-    ext.args = "-g GTAGGCTCCAAGTCTTCAGGGTCTGT -G CGGCTGAGGCAGCAGCGGCTGT -- minimum-length 15"
-  }
-```
 
 ## Example study1
 
@@ -475,7 +427,7 @@ process {
 }
 ```
 
-The `params` scope defines pipeline-level parameters, while the `process` scope manages module-specific parameters. For example, the `CLASSIFY_LOCUS` module categorizes reads into on-target and off-target categories by scanning sequences from both ends of the target reference (amplicon) against each read. The query sequences to scan are specified by `ext.ref_start_bp_to_check = 20` and `ext.ref_end_bp_to_check = 20`, meaning the first 20 bp and the last 20 bp of the reference are leveraged (see diagram below). Similarly, for modules like `CLASSIFY_INDEL`, and `CLASSIFY_READTHROUGH`, the repeat-flanking fragments to scan are defined by `ext.ref_before_repeat_bp_to_check` and `ext.ref_after_repeat_bp_to_check`, respectively. For a detailed explanation of how the modules work together and streamline the analysis, refer to the [Pipeline Summary](../README.md#pipeline-summary) section.
+The `params` scope defines pipeline-level parameters, while the `process` scope manages module-specific parameters. For example, the `CLASSIFY_LOCUS` module categorizes reads into on-target and off-target categories by scanning sequences from both ends of the target reference (amplicon) against each read. The query sequences to scan are specified by `ext.ref_start_bp_to_check = 20` and `ext.ref_end_bp_to_check = 20`, meaning the first 20 bp and the last 20 bp of the reference are leveraged (see diagram below). Similarly, for modules like `CLASSIFY_INDEL`, and `CLASSIFY_READTHROUGH`, the repeat-flanking fragments to scan are defined by `ext.ref_before_repeat_bp_to_check` and `ext.ref_after_repeat_bp_to_check`, respectively. For a detailed explanation of how the modules work together and streamline the analysis, refer to the [Pipeline summary](../README.md#pipeline-summary) section.
 
 <p align="center">
   <img src="../docs/images/dataset1_config.svg" width="500" style="display: block; margin: 20px auto">
