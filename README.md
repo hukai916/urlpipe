@@ -132,7 +132,7 @@ cd URLpipe
   * Please check [nf-core/configs](https://github.com/nf-core/configs#documentation) to see what other custom configurations can be supplied.
 
   * **Example command for run URLpipe with Docker and local executor:**
-  ```bash
+  ```nextflow
   nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
   ```
 
@@ -159,7 +159,7 @@ By executing the above command:
 Detailed explanations, refer to [usage](docs/usage.md).
 
  * **Example command for running URLpipe with Singularity and LSF executor:**
-```bash
+```nextflow
 nextflow run main.nf -c conf/sample_dataset1.config -profile singularity,local
 ```
 
@@ -168,7 +168,7 @@ Like the first example, the above command directs the pipeline to use Singularit
 
 7. Run your own analysis:
   * Typical commands:
-```bash
+```nextflow
 # Supply configurations through command flags
 nextflow run main.nf -profile <singularity/docker/lsf/local> --input <path_to_input_samplesheet_file> --outdir <path_to_result_dir> --allele_number <1/2> --length_mode <reference_align/distance_count> --ref <path_to_ref_file> ...
 
@@ -177,7 +177,7 @@ nextflow run main.nf -profile <singularity/docker/lsf/local> -c test.config
 ```
 
   * For help: # todo
-```bash
+```nextflow
 nextflow run main.nf --help
 ```
 

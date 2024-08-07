@@ -40,7 +40,7 @@ Refer to [output](output.md) for example commands and results.
 
 To begin, You must create a samplesheet containing information about your samples. This should be a comma-separated file with seven columns and a header row, as shown in the examples below. Use the command line flag (`--input`) to specify the file's location, or include `input = "path_to_samplesheet_file"` in a custom configuration file and pass it in using [`-c`](#-c) flag.
 
-```bash
+```nextflow
 --input '[path to samplesheet file]'
 ```
 
@@ -82,7 +82,7 @@ The "sample" identifiers in the `sample` column must be the same for the same sa
 
 The typical command for running URLpipe is as follows:
 
-```bash
+```nextflow
 # Supply configurations through command flags
 nextflow run main.nf -profile <singularity/docker/lsf/local> --input <path_to_input_samplesheet_file> --outdir <path_to_result_dir> --allele_number <1/2> --length_mode <reference_align/distance_count> --ref <path_to_ref_file> ...
 
@@ -364,7 +364,7 @@ The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementatio
 
 The Nextflow engine provides flexibility in managing computational resource requests and module-specific options. These configurations can be saved into a centralized configuration file and passed to URLpipe with the `-c` flag. Below is the configuration file and command line used in [Quick start](../README.md#quick-start)
 
-```bash
+```nextflow
 nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
 ```
 
@@ -412,7 +412,7 @@ process {
 
 For demonstration, we will use the same dateset1 from the [Quick start](../README.md#quick-start), which includes a subset of CRISPR editing experiments performed with the HQ50 cell line. The goal is to evaluate the editing outcome, specifically focusing on the fraction of repeat contractions in response to different DNA damage repair inhibitors. The command line used for this analysis is as follows.
 
-```bash
+```nextflow
 nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
 ```
 
