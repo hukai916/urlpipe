@@ -3,7 +3,7 @@
 ## Table of Contents
 [Introduction](#introduction)  
 [Pipeline summary](#pipeline-summary)   
-[Quick Start](#quick-start)  
+[Quick start](#quick-start)  
 [Documentation](#documentation)  
 [Credits](#credits)  
 [Bug report/Support](#bug-reportsupport)  
@@ -100,7 +100,7 @@ Obtain summary statistics from `CLASSIFY_READ`, `REPEAT_STAT_DEFAULT/MERGE`, and
 
 The setup for the Nanopore branch is quite similar to that of the Illumina branch, with the main difference being the inclusinog of an optional `PREPROCESS_NANOPORE` sub-workflow specifically designed for pre-processing Nanopore data. 
 
-## Quick Start
+## Quick start
 
 1. Install [`nextflow`](https://nf-co.re/usage/installation)(>=23.10.0).
 
@@ -129,7 +129,7 @@ cd URLpipe
 
   * At least 8GB memory is recommended for dataset1.
   * By default, the local executor (your local computer) will be used (`-profile local`) meaning that all jobs will be executed on your local computer. Nextflow supports many other [executors](https://www.nextflow.io/docs/latest/executor.html) including SLURM, LSF, *etc.*. You can create a [profile](https://www.nextflow.io/docs/latest/config.html?highlight=profile#config-profiles) file to config which executor to use. Multiple profiles can be supplied with comma, e.g. `-profile docker,lsf`.
-  * Please check [nf-core/configs](https://github.com/nf-core/configs#documentation) to see what other custom config files can be supplied.
+  * Please check [nf-core/configs](https://github.com/nf-core/configs#documentation) to see what other custom configurations can be supplied.
 
   * **Example command for run URLpipe with Docker and local executor:**
   ```bash

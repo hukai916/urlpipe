@@ -4,17 +4,17 @@
 
 ## Table of Contents
 
-[Introduction](#introduction) 
-[Samplesheet input](#samplesheet-input) 
+[Introduction](#introduction)   
+[Samplesheet input](#samplesheet-input)   
 [Running the pipeline](#running-the-pipeline)   
-[Nextflow-level arguments](#nextflow-level-arguments) 
-[Pipeline-level arguments](#pipeline-level-arguments)  
-[Module-level arguments](#module-level-arguments) 
-[Custom configuration](#custom-configuration) 
-[Example study1](#example-study1) 
-[Running in the background](#running-in-the-background) 
-[Nextflow memory requirements](#nextflow-memory-requirements) 
-[Version control](#version-control) 
+[Nextflow-level arguments](#nextflow-level-arguments)   
+[Pipeline-level arguments](#pipeline-level-arguments)   
+[Module-level arguments](#module-level-arguments)   
+[Custom configuration](#custom-configuration)   
+[Example study1](#example-study1)   
+[Running in the background](#running-in-the-background)   
+[Nextflow memory requirements](#nextflow-memory-requirements)   
+[Version control](#version-control)   
 
 ## Introduction
 
@@ -22,13 +22,15 @@ To use URLpipe, first install Nextflow and other necessary dependencies as outli
 
 ULRpipe, like all Nextflow-powered pipelines, can be configured at three levels:
 
-  - **Nextflow level**: configured with a single dash ("-"), the [Nextflow-level arguments](#nextflow-level-arguments) control the overal behavior of Nextflow engine.
-  - **Pipeline level**: configured with a double dash ("--"), the [Pipeline-level arguments](#pipeline-level-arguments) define parameters in the `params` scope that control the behavior of URLpipe workflow. 
-  - **Module level**: configured in the `process` scope, the [Module-level arguments](#module-level-arguments) allow fine-tuning of each individual module in URLpipe workflow.
+  - **Nextflow level**: Configured with a single dash (`-`), the [Nextflow-level arguments](#nextflow-level-arguments) control the overal behavior of Nextflow engine.
+  - **Pipeline level**: Configured with a double dash (`--`), the [Pipeline-level arguments](#pipeline-level-arguments) define parameters in the `params` scope that control the behavior of URLpipe workflow. 
+  - **Module level**: Configured in the `process` scope, the [Module-level arguments](#module-level-arguments) allow fine-tuning of each individual module in URLpipe workflow.
+
+These arguments can be passed with command line flags or stored in a separate configuration file and passed in with [`-c`](#-c) flag.
   
 You can also use the following command (#todo) to view all parameters.
 ```bash
-cd scATACpipe
+cd URLpipe
 nextflow run main.nf --help
 ```
 
@@ -36,7 +38,7 @@ Refer to [output](output.md) for example commands and results.
 
 ## Samplesheet input
 
-You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter (`--input`) to specify its location. It has to be a comma-separated file with seven columns, and a header row as shown in the examples below.
+You will first need to create a samplesheet with information about the samples. It has to be a comma-separated file with seven columns, and a header row as shown in the examples below. Use this parameter (`--input`) in command line to specify its location via command or include `input = "path_to_samplesheet"` in configuration file..
 
 ```bash
 --input '[path to samplesheet file]'
@@ -53,7 +55,7 @@ An example samplesheet with six samples, as used in the [Quick Start](https://gi
 | No_E_R1        | /replace_with_full_path/DI1-19_R1_001.fastq.gz | /replace_with_full_path/DI1-19_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
 | No_E_R2        | /replace_with_full_path/DI2-18_R1_001.fastq.gz | /replace_with_full_path/DI2-18_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
 | noINH_DMSO_R1  | /replace_with_full_path/DI1-16_R1_001.fastq.gz | /replace_with_full_path/DI1-16_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
-| noINH_DMSO_R2  | /replace_with_full_path/DI2-16_R1_001.fastq.gz | /replace_with_full_path/DI2-16_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
+| noINH_DMSO_R2  | /replace_with_full_path/DI2-16_R1_001.fastq.gz | /replace_with_full_path/DI2-16_R2_001.fastq.gz | 51             | 60           | 138            | 154          |f
 
 
 | Column    | Description                                                                                                                                                                            |
@@ -103,7 +105,7 @@ For more about flag arguments, see the [Nextflow-level arguments](#nextflow-leve
 
 > **NB:** These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen).
 
-### `-profile`
+### -profile
 
 Use this parameter to choose a configuration profile. Profiles can give configuration presets for different compute environments.
 
@@ -132,13 +134,13 @@ If `-profile` is not specified, the pipeline will run locally and expect all sof
   - A profile with a complete configuration for automated testing
   - Includes links to test data so needs no other parameters
 
-### `-resume`
+### -resume
 
 Specify this when restarting a pipeline. Nextflow will use cached results from any pipeline steps where the inputs are the same, continuing from where it got to previously. For input to be considered the same, not only the names must be identical but the files' contents as well. For more info about this parameter, see [this blog post](https://www.nextflow.io/blog/2019/demystifying-nextflow-resume.html).
 
 You can also supply a run name to resume a specific run: `-resume [run-name]`. Use the `nextflow log` command to show previous run names.
 
-### `-c`
+### -c
 
 Specify the path to a specific config file. See the [nf-core website documentation](https://nf-co.re/usage/configuration) for more information.
 
@@ -207,7 +209,7 @@ Below are module-level parameters that must be configured based on the pipeline-
 
 Refer to [Module-level parameters](#module-level-parameters) below for details.
 
-## Module-level parameters
+## Module-level arguments
 
 The module-level parameters, specified within the `process` scope, fine-tune the behavior of individual modules in URLpipe and must be adjusted to fit your specific data. These parameters are organized by sub-workflows for convenient access, as outlined in the "conf/modules.config" file. Also note that, some module-level arguments should be used in conjunction with pipeline-level arguments.
 
@@ -356,7 +358,11 @@ The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementatio
 
 ## Custom configuration
 
-The Nextflow engine provides flexibility in managing computational resource requests and module-specific options. These configurations can be saved into a centralized configuration file and passed to URLpipe with the `-c` flag.
+The Nextflow engine provides flexibility in managing computational resource requests and module-specific options. These configurations can be saved into a centralized configuration file and passed to URLpipe with the `-c` flag. Below is the configuration file and command line used in [Quick Start](../README.md#quick-start)
+
+```bash
+nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
+```
 
 ### Resource requests
 While the default requirements set within the pipeline are designed to work for most users and input data, you may need to customize these resources based on your specific needs. Each pipeline step has default settings for CPUs, memory, and time. If a job exits with one of the error codes specified [here](https://github.com/hukai916/urlpipe/blob/b8122b6811b510d2c3b798f4322f1dd281cec672/conf/base.config#L18), it will automatically be resubmitted with increased resource requests. If it fails after the second attempt, the pipeline execution will stop (`maxRetries = 1`). For example, if the `UMI_EXTRACT` process fails repeatedly with exit code `137`, it likely indicates an out-of-memory issue. To address this, you need to determine the resource settings for the `UMI_EXTRACT` module.
