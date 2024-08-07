@@ -18,7 +18,7 @@
 
 ## Introduction
 
-To use URLpipe, first install Nextflow and other necessary dependencies as outlined in the [Quick Start](../README.md#quick-start) section. You will need to provide the appropriate configurations and supply an input samplesheet CSV file containing the sequencing data information. The format for the samplesheet is detailed in the [Samplesheet input](#samplesheet-input) section. 
+To use URLpipe, first install Nextflow and other necessary dependencies as outlined in the [Quick start](../README.md#quick-start) section. You will need to provide the appropriate configurations and supply an input samplesheet CSV file containing the sequencing data information. The format for the samplesheet is detailed in the [Samplesheet input](#samplesheet-input) section. 
 
 ULRpipe, like all Nextflow-powered pipelines, can be configured at three levels:
 
@@ -38,7 +38,7 @@ Refer to [output](output.md) for example commands and results.
 
 ## Samplesheet input
 
-You will first need to create a samplesheet with information about the samples. It has to be a comma-separated file with seven columns, and a header row as shown in the examples below. Use this parameter (`--input`) in command line to specify its location via command or include `input = "path_to_samplesheet"` in configuration file..
+To begin, You must create a samplesheet containing information about your samples. This should be a comma-separated file with seven columns and a header row, as shown in the examples below. Use the command line flag (`--input`) to specify the file's location, or include `input = "path_to_samplesheet_file"` in a custom configuration file and pass it in using [`-c`](#-c) flag.
 
 ```bash
 --input '[path to samplesheet file]'
@@ -46,7 +46,7 @@ You will first need to create a samplesheet with information about the samples. 
 
 ### Samplesheet example
 
-An example samplesheet with six samples, as used in the [Quick Start](https://github.com/hukai916/URLpipe/blob/main/docs/README.md#quick-start) section, is provided as below. You can also find this file at [`assets/samplesheet_dataset1.csv`](../assets/samplesheet_dataset1.csv).
+An example samplesheet with six samples, as used in the [Quick start](https://github.com/hukai916/URLpipe/blob/main/docs/README.md#quick-start) section, is provided as below. You can also find this file at [`assets/samplesheet_dataset1.csv`](../assets/samplesheet_dataset1.csv).
 
 | sample         | fastq_1                                      | fastq_2                                      | start_allele_1 | end_allele_1 | start_allele_2 | end_allele_2 |
 |----------------|----------------------------------------------|----------------------------------------------|----------------|--------------|----------------|--------------|
@@ -77,7 +77,6 @@ The "sample" identifiers in the `sample` column must be the same for the same sa
 | D103_10uM_R1   | /replace_with_full_path/DI1-13_L001_R1_001.fastq.gz | /replace_with_full_path/DI1-13_L001_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
 | D103_10uM_R1   | /replace_with_full_path/DI1-13_L002_R1_001.fastq.gz | /replace_with_full_path/DI1-13_L002_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
 | D103_10uM_R1   | /replace_with_full_path/DI1-13_L003_R1_001.fastq.gz | /replace_with_full_path/DI1-13_L003_R2_001.fastq.gz | 51             | 60           | 138            | 154          |
-``
 
 ## Running the pipeline
 
@@ -103,7 +102,7 @@ For more about flag arguments, see the [Nextflow-level arguments](#nextflow-leve
 
 ## Nextflow-level arguments
 
-> **NB:** These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen).
+> **NB:** These options are part of Nextflow and use a _single_ hyphen whereas pipeline-level parameters use a double-hyphen.
 
 ### -profile
 
@@ -111,7 +110,7 @@ Use this parameter to choose a configuration profile. Profiles can give configur
 
 Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, Podman, Shifter, Charliecloud, Conda) - see below. When using Biocontainers, most of these software packaging methods pull Docker containers from quay.io e.g [FastQC](https://quay.io/repository/biocontainers/fastqc) except for Singularity which directly downloads Singularity images via https hosted by the [Galaxy project](https://depot.galaxyproject.org/singularity/) and Conda which downloads and installs software locally from [Bioconda](https://bioconda.github.io/).
 
-> We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
+> We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported is if specific pipeline developers implement it.
 
 Note that multiple profiles can be loaded, for example: `-profile test,docker` - the order of arguments is important!
 They are loaded in sequence, so later profiles can overwrite earlier profiles.
@@ -146,7 +145,7 @@ Specify the path to a specific config file. See the [nf-core website documentati
 
 ## Pipeline-level arguments
 
-> **NB:** These options are part of URLpipe workflow and use a _double_ hyphen (Nextflow parameters use a single-hyphen).
+> **NB:** These options are part of URLpipe workflow and use a _double_ hyphen (Nextflow-level parameters use a single-hyphen).
 
 **Pipeline parameters** should be provided either through command-line flags, configured in "nextflow.confg" file, or specified in a custom configuration file. The details of these parameters are described below. Note that some pipeline parameters need to be used in conjunction with [Module-level arguments](#module-level-arguments) to achieve the desired results as detailed further below.
 
@@ -156,25 +155,30 @@ Specify the path to a specific config file. See the [nf-core website documentati
 --input_nanopore_preprocess [string] Path to the input samplesheet CSV file. For preprocessing Nanopore reads. Defaults to null.
 ```
 
-### Allele number
+### Ouptut directory
 ```
---allele_number             [int: 1|2] Number of alleles in the target genome for plotting purposes. Defaults to 1. If set to 1, provide "start_allele_1" and "end_allele_1" in the input samplesheet. If set to 2, provide "start_allele_1", "end_allele_1", "start_allele_2" and "end_allele_2".
+--outdir                    [string] Path to the output directory.
 ```
 
-### Repeat length determination method
+### Reference information
+```
+--ref                       [string] Path to the reference fasta file.
+--ref_repeat_start          [int] 1-based repeat region start coordinate on the reference sequence.
+ref_repeat_end              [int] 1-based repeat region end coordinate on the reference sequence.
+ref_repeat_unit             [string] Repeat unit (e.g. "CAG").
+```
+
+### Repeat length determination
 ```
 --length_mode               [string: distance_count|reference_align] Method used to determine repeat length. Defaults to "distance_count". For details, refer to the manuscript. 
-```
-
-### UMI correction parameters
-```
 --umi_cutoffs               [string] UMI group read count cutoffs for UMI correction. Defaults to "1,3,5,7,10,30,100" with "0" (no correction) added automatically. The default means that reads will be collapsed at 8 UMI group levels: 0 (no correction), 1 (UMI groups with at least 1 read collapse into a single read each), 3 (UMI groups with at least 3 reads collapse into a signle read each), etc.
 --umi_correction_method     [string: least_distance|mode|mean|least_absolute] Method for UMI correction. Details see the manuscript.
 ```
 
-### Repeat bins to plot
+### Plotting
 ```
 --repeat_bins               [string] Ranges of repeat length (per-bp) bins for plotting purposes. Defaults to "[(0,50), (51,60), (61,137), (138,154), (155,1000)]", which means that repeat lengths falling into each range will be counted and plotted.
+--allele_number             [int: 1|2] Number of alleles in the target genome for plotting purposes. Defaults to 1. If set to 1, provide "start_allele_1" and "end_allele_1" in the input samplesheet. If set to 2, provide "start_allele_1", "end_allele_1", "start_allele_2" and "end_allele_2".
 ```
 
 ### Running mode
@@ -358,7 +362,7 @@ The [Nextflow DSL2](https://www.nextflow.io/docs/latest/dsl2.html) implementatio
 
 ## Custom configuration
 
-The Nextflow engine provides flexibility in managing computational resource requests and module-specific options. These configurations can be saved into a centralized configuration file and passed to URLpipe with the `-c` flag. Below is the configuration file and command line used in [Quick Start](../README.md#quick-start)
+The Nextflow engine provides flexibility in managing computational resource requests and module-specific options. These configurations can be saved into a centralized configuration file and passed to URLpipe with the `-c` flag. Below is the configuration file and command line used in [Quick start](../README.md#quick-start)
 
 ```bash
 nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
@@ -406,7 +410,7 @@ process {
 
 ## Example study1
 
-For demonstration, we will use the same dateset1 from the [Quick Start](../README.md#quick-start), which includes a subset of CRISPR editing experiments performed with the HQ50 cell line. The goal is to evaluate the editing outcome, specifically focusing on the fraction of repeat contractions in response to different DNA damage repair inhibitors. The command line used for this analysis is as follows.
+For demonstration, we will use the same dateset1 from the [Quick start](../README.md#quick-start), which includes a subset of CRISPR editing experiments performed with the HQ50 cell line. The goal is to evaluate the editing outcome, specifically focusing on the fraction of repeat contractions in response to different DNA damage repair inhibitors. The command line used for this analysis is as follows.
 
 ```bash
 nextflow run main.nf -c conf/sample_dataset1.config -profile docker,local
