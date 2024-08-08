@@ -9,7 +9,7 @@
    id="svg5"
    xml:space="preserve"
    inkscape:version="1.2 (dc2aeda, 2022-05-15)"
-   sodipodi:docname="dataset1_config_ink.svg"
+   sodipodi:docname="diag_dataset1_config.svg"
    inkscape:export-filename="urlpipe_logo.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
@@ -28,9 +28,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.58169508"
-     inkscape:cx="673.89258"
-     inkscape:cy="328.35072"
-     inkscape:window-width="1032"
+     inkscape:cx="313.73826"
+     inkscape:cy="328.35073"
+     inkscape:window-width="1234"
      inkscape:window-height="782"
      inkscape:window-x="58"
      inkscape:window-y="415"
@@ -96,66 +96,66 @@
        style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:17.9172px;line-height:1;font-family:monospace;-inkscape-font-specification:'monospace, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;white-space:pre;shape-inside:url(#rect9088);display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.13386;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.8;stroke-dasharray:none;stroke-opacity:1"
        x="-168.29132"
        y="0"
-       inkscape:export-filename="../../../../../Downloads/test.svg"
+       inkscape:export-filename="../../../../../Downloads/diag.svg"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96"><tspan
          x="139.7793"
          y="935.48713"
-         id="tspan26081"><tspan
+         id="tspan26540"><tspan
    style="fill:#ff0000;stroke:#ff0000"
-   id="tspan26079">Pipeline-level (params):</tspan>
+   id="tspan26538">Pipeline-level (params):</tspan>
 </tspan><tspan
          x="139.7793"
          y="953.4043"
-         id="tspan26083">  length_mode = &quot;reference_align&quot;
+         id="tspan26542">  length_mode = &quot;reference_align&quot;
 </tspan><tspan
          x="139.7793"
          y="971.32148"
-         id="tspan26085">  ref = &quot;./assets/IlluminaHsQ50FibTrim_Ref.fa&quot; 
+         id="tspan26544">  ref = &quot;./assets/IlluminaHsQ50FibTrim_Ref.fa&quot; 
 </tspan><tspan
          x="139.7793"
          y="989.23865"
-         id="tspan26089">  ref_repeat_start = <tspan
+         id="tspan26548">  ref_repeat_start = <tspan
    style="fill:#ff6600;stroke:#ff6600"
-   id="tspan26087">69</tspan>
+   id="tspan26546">69</tspan>
 </tspan><tspan
          x="139.7793"
          y="1007.1558"
-         id="tspan26093">  ref_repeat_end = <tspan
+         id="tspan26552">  ref_repeat_end = <tspan
    style="fill:#ff6600;stroke:#ff6600"
-   id="tspan26091">218</tspan>
+   id="tspan26550">218</tspan>
 </tspan><tspan
          x="139.7793"
          y="1025.073"
-         id="tspan26097">  ref_repeat_unit = &quot;<tspan
+         id="tspan26556">  ref_repeat_unit = &quot;<tspan
    style="fill:#ff6600;stroke:#ff6600"
-   id="tspan26095">CAG</tspan>&quot;
+   id="tspan26554">CAG</tspan>&quot;
 </tspan><tspan
          x="139.7793"
          y="1042.9902"
-         id="tspan26099">
+         id="tspan26558">
 </tspan><tspan
          x="139.7793"
          y="1060.9074"
-         id="tspan26103"><tspan
+         id="tspan26562"><tspan
    style="fill:#ff0000;stroke:#ff0000"
-   id="tspan26101">Module-level (process):</tspan>
+   id="tspan26560">Module-level (process):</tspan>
 </tspan><tspan
          x="139.7793"
          y="1078.8247"
-         id="tspan26105">  ext.ref_start_bp_to_check = 20
+         id="tspan26564">  ext.ref_start_bp_to_check = 20
 </tspan><tspan
          x="139.7793"
          y="1096.7419"
-         id="tspan26107">  ext.ref_end_bp_to_check = 20
+         id="tspan26566">  ext.ref_end_bp_to_check = 20
 </tspan><tspan
          x="139.7793"
          y="1114.6591"
-         id="tspan26109">  ext.ref_before_repeat_bp_to_check = 20
+         id="tspan26568">  ext.ref_before_repeat_bp_to_check = 20
 </tspan><tspan
          x="139.7793"
          y="1132.5764"
-         id="tspan26111">  ext.ref_after_repeat_bp_to_check = 20
+         id="tspan26570">  ext.ref_after_repeat_bp_to_check = 20
 </tspan></text><rect
        style="fill:#93d2a1;fill-opacity:0.165803;stroke:#000000;stroke-width:0.051;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.8;stroke-opacity:1"
        id="rect816"
@@ -179,137 +179,137 @@
        y="0"><tspan
          x="214.6543"
          y="675.97185"
-         id="tspan26117"><tspan
+         id="tspan26576"><tspan
            style="font-weight:bold;font-family:monospace;-inkscape-font-specification:'monospace, Bold'"
-           id="tspan26113">&gt;IlluminaHsQ50FibTrim_Ref</tspan><tspan
+           id="tspan26572">&gt;IlluminaHsQ50FibTrim_Ref</tspan><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26115">
+           id="tspan26574">
 </tspan></tspan><tspan
          x="214.6543"
          y="684.18041"
-         id="tspan26121"><tspan
+         id="tspan26580"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26119">CCGGGCGGGA GACCGCCATG GCGACCCTGG AAAAGCTGAT GAAGGCCTTC 
+           id="tspan26578">CCGGGCGGGA GACCGCCATG GCGACCCTGG AAAAGCTGAT GAAGGCCTTC 
 </tspan></tspan><tspan
          x="214.6543"
          y="692.38897"
-         id="tspan26125"><tspan
+         id="tspan26584"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26123">1        1          2          3          4          5
+           id="tspan26582">1        1          2          3          4          5
 </tspan></tspan><tspan
          x="214.6543"
          y="700.59752"
-         id="tspan26129"><tspan
+         id="tspan26588"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26127">         0          0          0          0          0
+           id="tspan26586">         0          0          0          0          0
 </tspan></tspan><tspan
          x="214.6543"
          y="708.80608"
-         id="tspan26133"><tspan
+         id="tspan26592"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26131">
+           id="tspan26590">
 </tspan></tspan><tspan
          x="214.6543"
          y="717.01464"
-         id="tspan26137"><tspan
+         id="tspan26596"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26135">
+           id="tspan26594">
 </tspan></tspan><tspan
          x="214.6543"
          y="725.2232"
-         id="tspan26145"><tspan
+         id="tspan26604"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26139">GAGTCCCTCA AGTCCTTC</tspan><tspan
+           id="tspan26598">GAGTCCCTCA AGTCCTTC</tspan><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal';fill:#ff6600;stroke:#ff6600"
-           id="tspan26141">CA GCAGCAGCAG ...CAG</tspan><tspan
+           id="tspan26600">CA GCAGCAGCAG ...CAG</tspan><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26143">CCGC CACCGCCGCC 
+           id="tspan26602">CCGC CACCGCCGCC 
 </tspan></tspan><tspan
          x="214.6543"
          y="733.43175"
-         id="tspan26157"><tspan
+         id="tspan26616"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26147">         6         </tspan><tspan
+           id="tspan26606">         6         </tspan><tspan
            style="font-weight:bold;font-family:monospace;-inkscape-font-specification:'monospace, Bold';fill:#ff6600;stroke:#ff6600"
-           id="tspan26149">6</tspan><tspan
+           id="tspan26608">6</tspan><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26151">                  </tspan><tspan
+           id="tspan26610">                  </tspan><tspan
            style="fill:#ff6600;stroke:#ff6600"
-           id="tspan26153">2</tspan><tspan
+           id="tspan26612">2</tspan><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26155">              2
+           id="tspan26614">              2
 </tspan></tspan><tspan
          x="214.6543"
          y="741.64031"
-         id="tspan26169"><tspan
+         id="tspan26628"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26159">         0         </tspan><tspan
+           id="tspan26618">         0         </tspan><tspan
            style="font-style:italic;font-weight:bold;font-family:monospace;-inkscape-font-specification:'monospace, Bold Italic';fill:#ff6600;stroke:#ff6600"
-           id="tspan26161">9</tspan><tspan
+           id="tspan26620">9</tspan><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26163">                  </tspan><tspan
+           id="tspan26622">                  </tspan><tspan
            style="fill:#ff6600;stroke:#ff6600"
-           id="tspan26165">1</tspan><tspan
+           id="tspan26624">1</tspan><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26167">              3
+           id="tspan26626">              3
 </tspan></tspan><tspan
          x="214.6543"
          y="749.84887"
-         id="tspan26177"><tspan
+         id="tspan26636"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26171">                                      </tspan><tspan
+           id="tspan26630">                                      </tspan><tspan
            style="fill:#ff6600;stroke:#ff6600"
-           id="tspan26173">8</tspan><tspan
+           id="tspan26632">8</tspan><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26175">              2
+           id="tspan26634">              2
 </tspan></tspan><tspan
          x="214.6543"
          y="758.05742"
-         id="tspan26181"><tspan
+         id="tspan26640"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26179">  
+           id="tspan26638">  
 </tspan></tspan><tspan
          x="214.6543"
          y="766.26598"
-         id="tspan26185"><tspan
+         id="tspan26644"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26183">GCCGCCGCCG CCGCCTCCTC AGCTTCCTCA GCCGCCGCCG CAGGC 
+           id="tspan26642">GCCGCCGCCG CCGCCTCCTC AGCTTCCTCA GCCGCCGCCG CAGGC 
 </tspan></tspan><tspan
          x="214.6543"
          y="774.47454"
-         id="tspan26189"><tspan
+         id="tspan26648"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26187">         2          2          2          2     2
+           id="tspan26646">         2          2          2          2     2
 </tspan></tspan><tspan
          x="214.6543"
          y="782.6831"
-         id="tspan26193"><tspan
+         id="tspan26652"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26191">         4          5          6          7     7
+           id="tspan26650">         4          5          6          7     7
 </tspan></tspan><tspan
          x="214.6543"
          y="790.89165"
-         id="tspan26197"><tspan
+         id="tspan26656"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26195">         2          2          2          2     7
+           id="tspan26654">         2          2          2          2     7
 </tspan></tspan><tspan
          x="214.6543"
          y="799.10021"
-         id="tspan26201"><tspan
+         id="tspan26660"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26199">
+           id="tspan26658">
 </tspan></tspan><tspan
          x="214.6543"
          y="807.30877"
-         id="tspan26205"><tspan
+         id="tspan26664"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26203">
+           id="tspan26662">
 </tspan></tspan><tspan
          x="214.6543"
          y="815.51732"
-         id="tspan26209"><tspan
+         id="tspan26668"><tspan
            style="font-family:monospace;-inkscape-font-specification:'monospace, Normal'"
-           id="tspan26207">
+           id="tspan26666">
 </tspan></tspan></text><text
        xml:space="preserve"
        transform="scale(0.26458333)"
